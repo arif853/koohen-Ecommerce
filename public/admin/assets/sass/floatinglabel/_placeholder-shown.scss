@@ -1,0 +1,30 @@
+// stylelint-disable selector-no-vendor-prefix
+
+.floating-label {
+  // Move the label above when the input contains text
+
+  // There is no CSS selector for input with a value entered by the user
+  // [Detect if an input has text in it using CSS](https://stackoverflow.com/q/16952526)
+  //
+  // Hack:
+  // input with a placeholder not showing the placeholder => there is text from the user in it
+  //
+  // /!\ The placeholder value should be at least " "
+  // otherwise :placeholder-shown won't work, see https://codepen.io/tkrotoff/pen/KjgyZj
+  //
+  // Not supported by Edge <= 18/44:
+  // - https://web.archive.org/web/20190624214425/https://wpdev.uservoice.com/forums/257854-microsoft-edge-developer/suggestions/12435951--placeholder-shown-css-pseudo-class
+  // - https://caniuse.com/#search=placeholder-shown
+  // => use of mixin instead of Sass placeholder class
+  > input[placeholder]:not(:placeholder-shown),
+  > textarea[placeholder]:not(:placeholder-shown) {
+    @include label-above-input();
+  }
+
+  // If no placeholder and no value => always above
+  // Place an empty placeholder (<input placeholder=" ">) to get the label inside the input
+  > input:not([placeholder]):not([value]),
+  > textarea:not([placeholder]):empty {
+    @include label-above-input();
+  }
+}
