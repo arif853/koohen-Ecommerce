@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\FeatureCategoryController;
+use App\Models\Feature_category;
 use App\Models\Products;
 use App\Livewire\CartComponent;
 use App\Livewire\HomeComponent;
@@ -253,6 +255,17 @@ Route::controller(ZoneController::class)->middleware('auth')->group(function () 
     Route::post('/dashboard/zone/store', 'store')->name('zone.store');
     Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
     Route::delete('/dashboard/zone/destroy', 'destroy')->name('zone.destroy');
+});
+
+
+//Feature category
+Route::controller(FeatureCategoryController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/category_feature', 'index')->name('category_feature');
+    Route::post('/dashboard/category_feature/store', 'store')->name('category_feature.store');
+    Route::get('/dashboard/category_feature/edit', 'edit')->name('category_feature.edit');
+    Route::post('/dashboard/category_feature/update', 'update')->name('category_feature.update');
+    // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
+    Route::delete('/dashboard/category_feature/destroy', 'destroy')->name('category_feature.destroy');
 });
 
 

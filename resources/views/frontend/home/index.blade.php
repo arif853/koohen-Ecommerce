@@ -147,175 +147,45 @@
     </section>
     <!--Advertise-->
 
-    <!--Best Sale (OK)-->
+    <!--Category products (OK)-->
+    @if($cat_feature)
+
     <section class="section-padding">
         <div class="container pt-25 pb-25">
             <div class="heading-tab d-flex">
                 <div class="heading-tab-left wow fadeIn animated">
-                    <h3 class="section-title"><span>Premium</span> Panjabi</h3>
+                    <?php
+                    // Split the title into parts based on a delimiter (for example, a space)
+                    $titleParts = explode(' ', $cat_feature->title);
+                    ?>
+
+                    <h3 class="section-title">
+                        <span>{{ $titleParts[0] }}</span> {{ isset($titleParts[1]) ? $titleParts[1] : '' }}
+                    </h3>
+
                 </div>
                 <a href="#" class="view-more d-none d-md-flex">View More<i class="fi-rs-angle-double-small-right"></i></a>
             </div>
             <div class="row">
                 <div class="col-lg-3 d-none d-lg-flex">
                     <div class="banner-img style-2 wow fadeIn animated">
-                        <img src="{{asset('frontend/assets/imgs/banner/panjabi-1.jpg')}}" alt="">
-                        <div class="banner-text">
-                            <span>Woman Area</span>
-                            <h4 class="mt-5">Save 17% on <br>Clothing</h4>
-                            <a href="shop-grid-right.html" style="color: #FF8B13;">Shop Now <i class="fi-rs-arrow-right"></i></a>
-                        </div>
+                        <img src="{{asset('storage/'.$cat_feature->image)}}" alt="{{$cat_feature->title}}">
+
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-12">
-                        <div class="category-view">
-                            <div class="carausel-4-columns-cover arrow-center position-relative">
-                                <div class="slider-arrow slider-arrow-2 carausel-4-columns-arrow" id="carausel-4-columns-arrows"></div>
-                                <div class="carausel-4-columns carausel-arrow-center" id="carausel-4-columns">
-                                    <div class="product-cart-wrap">
-                                        <div class="product-img-action-wrap">
-                                            <div class="product-img product-img-zoom">
-                                                <a href="product-details.php">
-                                                    <img class="default-img" src="{{asset('frontend/assets/imgs/shop/panjabi-2.jpg')}}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="product-action-1">
-                                                <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">
-                                                <i class="fi-rs-eye"></i></a>
-                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
-                                            </div>
-                                            <div class="product-badges product-badges-position product-badges-mrg">
-                                                <span class="hot">Hot</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-wrap">
-                                            <h2><a href="shop-product-right.html">Colorful Pattern Shirts</a></h2>
-                                            <div class="product-price pt16">
-                                                <span>$238.85 </span>
-                                                <span class="old-price">$245.8</span>
-                                            </div>
-                                            <div class="product-action-1 show">
-                                                <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-cart-wrap">
-                                        <div class="product-img-action-wrap">
-                                            <div class="product-img product-img-zoom">
-                                                <a href="product-details.php">
-                                                    <img class="default-img" src="{{asset('frontend/assets/imgs/shop/panjabi-2.jpg')}}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="product-action-1">
-                                                <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">
-                                                <i class="fi-rs-eye"></i></a>
-                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
-                                            </div>
-                                            <div class="product-badges product-badges-position product-badges-mrg">
-                                                <span class="new">New</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-wrap">
-                                            <h2><a href="shop-product-right.html">Colorful Pattern Shirts</a></h2>
-                                            <div class="product-price pt16">
-                                                <span>$238.85 </span>
-                                                <span class="old-price">$245.8</span>
-                                            </div>
-                                            <div class="product-action-1 show">
-                                                <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-cart-wrap">
-                                        <div class="product-img-action-wrap">
-                                            <div class="product-img product-img-zoom">
-                                                <a href="product-details.php">
-                                                    <img class="default-img" src="{{asset('frontend/assets/imgs/shop/panjabi-2.jpg')}}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="product-action-1">
-                                                <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">
-                                                <i class="fi-rs-eye"></i></a>
-                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
-                                            </div>
-                                            <div class="product-badges product-badges-position product-badges-mrg">
-                                                <span class="best">Best Sell</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-wrap">
-                                            <h2><a href="shop-product-right.html">Colorful Pattern Shirts</a></h2>
-                                            <div class="product-price pt16">
-                                                <span>$238.85 </span>
-                                                <span class="old-price">$245.8</span>
-                                            </div>
-                                            <div class="product-action-1 show">
-                                                <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-cart-wrap">
-                                        <div class="product-img-action-wrap">
-                                            <div class="product-img product-img-zoom">
-                                                <a href="product-details.php">
-                                                    <img class="default-img" src="{{asset('frontend/assets/imgs/shop/panjabi-2.jpg')}}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="product-action-1">
-                                                <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">
-                                                <i class="fi-rs-eye"></i></a>
-                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
-                                            </div>
-                                            <div class="product-badges product-badges-position product-badges-mrg">
-                                                <span class="hot">-12%</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-wrap">
-                                            <h2><a href="shop-product-right.html">Colorful Pattern Shirts</a></h2>
-                                            <div class="product-price pt16">
-                                                <span>$238.85 </span>
-                                                <span class="old-price">$245.8</span>
-                                            </div>
-                                            <div class="product-action-1 show">
-                                                <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-cart-wrap">
-                                        <div class="product-img-action-wrap">
-                                            <div class="product-img product-img-zoom">
-                                                <a href="product-details.php">
-                                                    <img class="default-img" src="{{asset('frontend/assets/imgs/shop/panjabi-2.jpg')}}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="product-action-1">
-                                                <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">
-                                                <i class="fi-rs-eye"></i></a>
-                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
-                                            </div>
-                                            <div class="product-badges product-badges-position product-badges-mrg">
-                                                <span class="sale">Sale</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-wrap">
-                                            <h2><a href="shop-product-right.html">Colorful Pattern Shirts</a></h2>
-                                            <div class="product-price pt16">
-                                                <span>$238.85 </span>
-                                                <span class="old-price">$245.8</span>
-                                            </div>
-                                            <div class="product-action-1 show">
-                                                <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="category-view">
+                        @livewire('feature-category-component')
+
+                    </div>
                 </div>
                 <!--End Col-lg-9-->
             </div>
         </div>
     </section>
     <!--Best Sale (OK)-->
+
+    @endif
 
     <!--Campaign (OK)-->
     <section class="product-tabs section-padding position-relative wow fadeIn animated">

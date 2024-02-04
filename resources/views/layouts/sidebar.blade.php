@@ -97,6 +97,17 @@
                 <a class="menu-link" href="{{route('media.index')}}"> <i class="icon material-icons md-stars"></i>
                     <span class="text">Media</span> </a>
             </li> --}}
+            <li class="menu-item has-submenu">
+                <a class="menu-link" href="#"> <i class="icon material-icons md-person"></i>
+                    <span class="text">Feature item</span>
+                </a>
+               <div class="submenu">
+                    <a href="{{route('category_feature')}}">Category</a>
+                    <a href="page-account-register.html">Products</a>
+                    <a href="page-error-404.html">Campaign</a>
+                </div>
+            </li>
+
             <li class="menu-item">
                 <a class="menu-link"  href="{{route('zone.index')}}"> <i class="icon material-icons md-pie_chart"></i>
                     <span class="text">Zone</span>

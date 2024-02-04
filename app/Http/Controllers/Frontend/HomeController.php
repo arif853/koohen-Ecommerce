@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\Feature_category;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -47,8 +48,9 @@ class HomeController extends Controller
         }
 
         $categories = Category::with('children')->whereNull('parent_category')->get();
+        $cat_feature = Feature_category::where('status', 'Active')->first();
 
-        return view('frontend.home.index',compact('categories','groupedCategories'));
+        return view('frontend.home.index',compact('categories','groupedCategories','cat_feature'));
     }
 
     /**

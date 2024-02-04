@@ -3431,8 +3431,7 @@ table .product-thumbnail img {
 	background-color: #fff;
 	padding: 5px 5px;
 	overflow: hidden;
-	max-height: 300px;
-	width: 300px;
+	max-height: 100%;
 }
 
 .product-cart-wrap .product-img-action-wrap .product-img {
