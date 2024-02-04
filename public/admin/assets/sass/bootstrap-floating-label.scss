@@ -1,0 +1,244 @@
+// Other implementations:
+// - https://www.jquery-az.com/boots/demo.php?ex=52.0_3
+// - https://www.primefaces.org/primereact/showcase/#/inputtext
+// - https://getbootstrap.com/docs/5.0/forms/floating-labels/
+// - https://github.com/tonycorporated/bootstrap-float-label
+// - https://lusaxweb.github.io/vuesax/components/input.html#label-placeholder
+//   https://github.com/lusaxweb/vuesax/blob/v3.8.62/src/style/components/vsInput.styl#L138
+// - https://material-ui.com/components/text-fields/#outlined
+//   https://github.com/mui-org/material-ui/blob/v3.1.1/packages/material-ui/src/OutlinedInput/OutlinedInput.js
+// - https://eichefam.net/2017/11/01/css-only-floating-label/
+//   https://dev.to/peiche/css-only-floating-label-3cp
+//   https://codepen.io/peiche/pen/xOVpPo
+// - https://material-components.github.io/material-components-web-catalog/#/component/text-field
+// - https://djibe.github.io/material/docs/4.6/material/text-fields/
+// - https://stackoverflow.com/q/50686342
+// - https://github.com/exacti/floating-labels
+
+//  __________________________________
+// |_______________________________   |
+// |                               | <== label
+// |                               |  |
+// |_______________________________|  | <== input
+// |__________________________________|
+//
+//  __________________________________
+// | top: 0                        |  |
+// |                               |  |
+// |_______________________________|  |
+// |                                  |
+// |__________________________________|
+//
+//  _______________________________
+// | top: - label height (-17.4px) |
+// |                               |
+// |_______________________________|__
+// |                                  |
+// |                                  |
+// |                                  |
+// |                                  |
+// |__________________________________|
+//
+//  _______________________________
+// | top: - 17.4px * 3/5 (0.6)     |
+// |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _|__
+// |_______________________________|  |
+// |                                  |
+// |                                  |
+// |                                  |
+// |__________________________________|
+//
+// top: - label height * 3/5 (0.6)
+//
+$label-height-sm: $font-size-sm * $line-height-sm; // 17.4px
+$label-top-position-sm: $label-height-sm * 0.6; // 17.4px * 0.6 = 10.44px
+$label-height-md: $font-size-base * $line-height-sm; // 20px
+$label-top-position-md: $label-height-md * 0.6; // 20px * 0.6 = 12px
+$label-height-lg: $font-size-lg * $line-height-sm; // 25px
+$label-top-position-lg: $label-height-lg * 0.6; // 25px * 0.6 = 15px
+
+@mixin label-common {
+  // Breaks flexbox :-/
+  // ["An absolutely-positioned child of a flex container does not participate in flex layout"](https://stackoverflow.com/a/41033582)
+  position: absolute;
+
+  // Same z-index as .form-control:focus, https://github.com/twbs/bootstrap/blob/v5.0.0-beta3/scss/forms/_input-group.scss#L23
+  z-index: 3;
+
+  // Truncate the text label if larger than the input
+  max-width: calc(100% - #{$input-border-width * 2});
+  @include text-truncate();
+}
+
+// stylelint-disable declaration-no-important
+// Support for "right to left" languages
+[dir='rtl'] {
+  %label-inside-input-rtl {
+    right: 0;
+    left: auto !important;
+  }
+  %label-above-input-rtl {
+    right: $input-padding-x-sm;
+    left: auto !important;
+  }
+}
+// stylelint-enable declaration-no-important
+
+@mixin label-inside-input() {
+  + label {
+    @include label-common();
+
+    top: $input-border-width;
+    left: $input-border-width;
+
+    @include font-size($input-font-size);
+    padding: $input-padding-y $input-padding-x;
+
+    color: $input-placeholder-color;
+
+    // FIXME Why the label shouldn't be clickable?
+    //
+    // Material-UI uses "pointer-events: none" for TextField outlined variant,
+    // see https://github.com/mui-org/material-ui/blob/v4.9.7/packages/material-ui/src/InputLabel/InputLabel.js#L73
+    //
+    // Google does the same in ["Sign in"/"Create your Google Account"](https://accounts.google.com/signin/v2/identifier)
+    pointer-events: none;
+
+    transition: all $transition-fast;
+
+    @extend %label-inside-input-rtl;
+  }
+
+  &.form-control-sm + label {
+    @include font-size($input-font-size-sm);
+    padding: $input-padding-y-sm $input-padding-x-sm;
+  }
+  &.form-control-lg + label {
+    @include font-size($input-font-size-lg);
+    padding: $input-padding-y-lg $input-padding-x-lg;
+  }
+}
+
+// Taken from ["Sign in"/"Create your Google Account"](https://accounts.google.com/signin/v2/identifier)
+// https://github.com/twbs/bootstrap/blob/v5.0.0-beta3/scss/mixins/_transition.scss
+// https://github.com/twbs/bootstrap/blob/v5.0.0-beta3/scss/_variables.scss#L396
+$transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
+// If a browser does not support a CSS pseudo-element, we cannot group/merge it with other CSS pseudo-elements:
+// input:focus + label, input:-webkit-autofill + label { ... } // Does not work in Firefox
+// Instead we have to ungroup/unmerge them:
+// input:focus + label { ... } // Work in Firefox
+// input:-webkit-autofill + label { ... } // Does not work in Firefox
+//
+// Sass does not allow to clone a placeholder class
+// https://github.com/sass/sass/issues/2312
+// This is a hack:
+// - if we want to group (share CSS) => use a placeholder class
+// - if we want to ungroup (clone CSS) => use a mixin
+@mixin label-above-input {
+  + label {
+    @include label-common();
+
+    left: $input-padding-x-sm;
+
+    padding: 0 0.3rem;
+
+    // Instead of 1.5 https://github.com/twbs/bootstrap/blob/v5.0.0-beta3/scss/_variables.scss#L440
+    line-height: $line-height-sm;
+
+    color: inherit;
+
+    // Hack to hide the input border under the label
+    // [How to inherit grandparent CSS not parent?](https://stackoverflow.com/q/18543810)
+    // https://www.quora.com/How-can-I-use-inherit-proprety-in-css-to-come-from-the-root-parent-and-not-the-first-parent
+    background-color: $input-bg;
+
+    // Visible when the label is above an input with a different background color
+    border-radius: $border-radius;
+
+    @extend %label-above-input-rtl;
+  }
+
+  + label,
+  + label.label-sm {
+    top: -$label-top-position-sm;
+    font-size: $font-size-sm;
+    // https://stackoverflow.com/a/44156191
+    // [Safari bug with transition and translateY: “jumping” element](https://stackoverflow.com/q/57960955)
+    //transform: translateY(-55%);
+  }
+  + label.label-md {
+    top: -$label-top-position-md;
+    font-size: $font-size-base;
+  }
+  + label.label-lg {
+    top: -$label-top-position-lg;
+    font-size: $font-size-lg;
+  }
+}
+
+.floating-label {
+  position: relative;
+
+  // FIXME Cannot use min-height or margin-top: breaks input-group
+  //
+  // FIXME Cannot set correct margin-top when .label-md or .label-lg is used
+  // [Apply style to parent if it has child with CSS](https://stackoverflow.com/q/21252551)
+  //
+  // https://github.com/twbs/bootstrap/blob/v5.0.0-beta3/scss/_variables.scss#L722
+  //
+  // Should we also add the input focus border width ($input-btn-focus-width) to the height?
+  // => This is not what is done for inputs with Bootstrap v5.0.0-beta3
+  //
+  // min-height: calc(#{$input-height} + #{$label-top-position-sm});
+  // margin-top: $label-top-position-sm;
+  // &.form-control-sm {
+  //   margin-top: $label-top-position-sm;
+  // }
+  // &.form-control-lg {
+  //   margin-top: $label-top-position-sm;
+  // }
+
+  > select {
+    @include label-above-input();
+  }
+
+  // Initial state: the label is inside the input
+  > input,
+  > textarea {
+    @include label-inside-input();
+  }
+
+  // Initial state: hide the placeholder
+  > input::placeholder,
+  > textarea::placeholder {
+    color: transparent;
+
+    transition: color $transition-fast;
+  }
+  // Except if <label> is before <input> => not a floating label
+  //
+  // Instead of the 2 CSS statements we could have only one:
+  // "> :not(label) + input::placeholder" but it doesn't work, CSS is hard :-/
+  > label + input::placeholder,
+  > label + textarea::placeholder {
+    color: $input-placeholder-color;
+  }
+
+  // When the input is focused:
+  > input:focus,
+  > textarea:focus {
+    // - show the placeholder
+    // FYI IE hides the placeholder when the input is focused, see https://stackoverflow.com/a/24319798
+    &::placeholder {
+      color: $input-placeholder-color;
+    }
+
+    // - move the label above the input
+    @include label-above-input();
+  }
+}
+
+@import 'webkit-autofill';
+@import 'placeholder-shown';
+@import 'input-group';

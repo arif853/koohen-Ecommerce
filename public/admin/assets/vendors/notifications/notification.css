@@ -1,0 +1,65 @@
+.notifyjs-metro-base {
+	position: relative;
+    min-height: 60px;
+    min-width: 300px;
+    color:#444;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2);
+      -webkit-animation: dropdownOpen 0.3s ease-out;
+  -o-animation: dropdownOpen 0.3s ease-out;
+  animation: dropdownOpen 0.3s ease-out;
+}
+
+.notifyjs-metro-base .image {
+	display: table;
+	position: absolute;
+	height: auto;
+	width: auto;
+	left: 25px;
+	top: 54%;
+	font-size: 24px;
+	-moz-transform: translate(0%, -50%);
+	-ms-transform: translate(0%, -50%);
+	-o-transform: translate(0%, -50%);
+	-webkit-transform: translate(0%, -50%);
+	transform: translate(0, -50%);
+}
+
+.notifyjs-metro-base .text-wrapper {
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+    margin: 10px 10px 10px 15px;
+    clear: both;
+
+}
+
+.notifyjs-metro-base .title {
+    font-size: 15px;
+    line-height: 20px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.notifyjs-metro-base .text {
+	font-size: 16px;
+	font-weight: normal;
+	max-width: 100%;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.notifyjs-metro-cool {
+    color: #fafafa !important;
+    background-color: #4A525F;
+    border: 1px solid #4A525F;
+}
+.notifyjs-corner {
+	top: 70px !important;
+}
+
+.mynotify{
+    font-size: 16px;
+    line-height: 2;
+}
