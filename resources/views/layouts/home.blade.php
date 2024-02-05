@@ -11,6 +11,8 @@
     <meta property="og:type" content="">
     <meta property="og:url" content="">
     <meta property="og:image" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend/assets/imgs/favicon_128x128.ico')}}">
     <!--Font-->
@@ -37,8 +39,8 @@
                     <div class="col-xl-3 col-lg-4">
                         <div class="header-info">
                             <ul>
-                                <li><i class="fas fa-mobile-android-alt"></i> <a href="#">(+01) - 2345 - 6789</a></li>
-                                <li><i class="fas fa-envelope"></i><a  href="mail:">john@gmail.com</a></li>
+                                <li><i class="far fa-phone-alt"></i> <a href="tel:+880 9639 174 502">+880 9639 174 502</a></li>
+                                <li><i class="fal fa-envelope"></i><a  href="mailto:info@koohen.com">info@koohen.com</a></li>
                             </ul>
                         </div>
                     </div>
@@ -69,7 +71,7 @@
                         <div class="header-info header-info-right">
                             <ul>
                                 <li>
-                                    <a class="language-dropdown-active" href="#"> <i class="fi-rs-world"></i> Track My Order</a>
+                                    <a class="language-dropdown-active" href="{{route('trackorder')}}"> <i class="fi-rs-world"></i> Track My Order</a>
                                 </li>
                                 <li>
                                     <i class="fi-rs-user"></i>
@@ -113,7 +115,7 @@
             </div>
         </div>
         <!--Top Header-->
-        <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+        {{-- <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
             <div class="container">
                 <div class="header-wrap">
                     <div class="logo logo-width-1">
@@ -121,32 +123,36 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="header-bottom header-bottom-bg-color sticky-bar">
+        </div> --}}
+        <div class="header-bottom header-bottom-bg-color sticky-bar" style="padding-top: 10px; padding-bottom: 4px;">
             <div class="container">
                 <div class="header-wrap header-space-between position-relative">
                     <div class="logo logo-width-1 d-block d-lg-none">
                         <a href="index.html"><img src="{{asset('')}}frontend/assets/imgs/Kohen_Logo_Main.png" alt="logo"></a>
                     </div>
+                    <div class="logo logo-width-1 d-block d-sm-none">
+                        <a href="index.html"><img src="{{asset('')}}frontend/assets/imgs/Kohen_Logo_Main.png" alt="logo"></a>
+                    </div>
+
                     <div class="header-nav d-none d-lg-flex" id="header-nav">
                         <!--Catagory-->
-                        @include('frontend.include.catagory')
+                        {{-- @include('frontend.include.catagory') --}}
                         <!--Catagory-->
                         <!--Main Menu Bar-->
                         <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
                             <nav>
                                 <ul>
                                     <li>
-                                        <a class="active" href="{{('/')}}">Home</a>
+                                        <a class="{{ request()->is('/') ? 'active' : '' }}" href="{{('/')}}">Home</a>
                                     </li>
                                     <li>
-                                        <a href="{{route('shop')}}">Shop</a>
+                                        <a class="{{ request()->is('shop') ? 'active' : '' }}" href="{{route('shop')}}">Shop</a>
                                     </li>
                                     <li>
-                                        <a href="{{route('aboutus')}}">About Us</a>
+                                        <a class="{{ request()->is('aboutus') ? 'active' : '' }}" href="{{route('aboutus')}}">About Us</a>
                                     </li>
                                     <li>
-                                        <a href="{{route('contactus')}}">Contact Us</a>
+                                        <a class="{{ request()->is('contactus') ? 'active' : '' }}" href="{{route('contactus')}}">Contact Us</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -164,10 +170,10 @@
                             appearance: none;
                             background: transparent;
                             border: none;
-                            color: #fff;
+                            color: #333;
                             cursor: pointer;
                             display: inline-block;
-                            font-size: 24px;
+                            font-size: 22px;
                             font-weight: bold;
                             line-height: 50px;
                             width: 50px;
@@ -180,8 +186,8 @@
                         .header #form-open {
                             opacity: 1;
                             position: absolute;
-                            top: 0;
-                            right: 88px;
+                            top: 10px;
+                            right: 70px;
                             transition: all 0.4s ease;
                         }
                         .header #form-open.hidden {
@@ -201,7 +207,7 @@
                         opacity: 0;
                         width: 180px;
                         position: absolute;
-                        top: 0;
+                        top: 10px;
                         right: -216px;
                         transition-property: opacity, transform;
                         transition-duration: 0.4s;
@@ -244,7 +250,7 @@
                     <div class="hotline d-none d-lg-block">
                         <div class="header-action-2 header">
                             <span id="form-open" class="search-toggle">
-                                <i class="far fa-search"></i>
+                                <i class="fal fa-search"></i>
                               </span>
                               <div class="search-holder">
                                 <form id="search-form" class="search-form">
@@ -259,7 +265,8 @@
                               </div>
                             <div class="header-action-icon-2">
                                 <a href="wishlist.php">
-                                    <img class="svgInject" alt="Evara" src="{{asset('')}}frontend/assets/imgs/theme/icons/icon-heart.svg">
+                                    <i class="fal fa-heart"></i>
+                                    {{-- <img class="svgInject" alt="Evara" src="{{asset('')}}frontend/assets/imgs/theme/icons/icon-heart.svg"> --}}
                                     <span class="pro-count blue">4</span>
                                 </a>
                             </div>
@@ -523,7 +530,7 @@
                     </div>
                     <style>
                         .footer-list li a span{
-                            font-size: 20px;
+                            font-size: 17px;
                             margin-right: 8px
                         }
                     </style>
@@ -534,9 +541,9 @@
                                 <a href="https://wa.link/3qi05h"><span><i class="fab fa-whatsapp"></i></span> +880 1751218778</a>
 
                             </li>
-                            <li><a href="tel:+880 9639 174 502"><span><i class="fas fa-phone-office"></i></span> +880 9639 174 502</a></li>
-                            <li><a href="mailto:support@koohen.com"><span><i class="fas fa-envelope"></i></span> support@koohen.com</a></li>
-                            <li><a href="#"><span><i class="fas fa-map-marked"></i> </span> 522/B, North Shahjahanpur, Dhaka-1217</a></li>
+                            <li><a href="tel:+880 9639 174 502"><span><i class="fal fa-phone-alt"></i></span> +880 9639 174 502</a></li>
+                            <li><a href="mailto:support@koohen.com"><span><i class="fal fa-envelope"></i></span> support@koohen.com</a></li>
+                            <li><a href="#"><span><i class="fal fa-map-marker-alt"></i></span> 522/B, North Shahjahanpur, Dhaka-1217</a></li>
 
                         </ul>
                         <h5 class="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">Follow Us</h5>
@@ -577,7 +584,11 @@
                     <div class="footer-bottom"></div>
                 </div>
                 <div class="col-lg-6">
-                    <p class="float-md-left font-sm text-muted mb-0">&copy; 2022, <strong class="text-brand"><img width="40" src="{{asset('frontend/assets/imgs/Kohen_Logo_Main.png')}}" alt="logo"> </strong> - Your own shopping partner. </p>
+                    <p class="float-md-left font-sm text-muted mb-0 d-flex">&copy;
+                    <script>document.write(new Date().getFullYear())</script> ,
+                    <strong class="text-brand mr-10 ml-10">
+                        <img width="40" src="{{asset('frontend/assets/imgs/Kohen_Logo_Main.png')}}" alt="logo">
+                    </strong><span style="text-transform:uppercase"> - Your ultimate Lifestyle.</span> </p>
                 </div>
                 <div class="col-lg-6">
                     <p class="text-lg-end text-start font-sm text-muted mb-0">

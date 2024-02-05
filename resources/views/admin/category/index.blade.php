@@ -158,25 +158,25 @@
         e.preventDefault();
         const data = new FormData(this);
         console.log(data);
-        // $.ajax({
-        //     url: '/dashboard/category/update',
-        //     method: 'post',
-        //     data: data,
-        //     cache: false,
-        //     processData: false,
-        //     contentType: false,
-        //     success: function (res) {
-        //         if (res.status == 200) {
-        //             $("#categoryModalEdit").modal('hide');
-        //             location.reload();
-        //             $.Notification.autoHideNotify('success', 'top right', 'Success', res.message);
-        //         }
-        //         else{
-        //             $.Notification.autoHideNotify('danger', 'top right', 'Danger', res.message);
+        $.ajax({
+            url: '/dashboard/category/update',
+            method: 'post',
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                if (res.status == 200) {
+                    $("#categoryModalEdit").modal('hide');
+                    location.reload();
+                    $.Notification.autoHideNotify('success', 'top right', 'Success', res.message);
+                }
+                else{
+                    $.Notification.autoHideNotify('danger', 'top right', 'Danger', res.message);
 
-        //         }
-        //     }
-        // })
+                }
+            }
+        })
     });
 
     document.querySelectorAll('.delete_category').forEach(function (element) {

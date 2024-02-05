@@ -5288,10 +5288,12 @@ h6.post-title {
 }
 
 .header-info > ul > li a {
-  color: #414042;
+  color: #ffffff;
   font-weight: 300;
 }
-
+.header-info > ul > li:hover > a {
+	color: #ffffff !important;
+}
 .header-info > ul > li a i {
   font-size: 12px;
   margin-right: 5px;
@@ -5411,8 +5413,8 @@ h6.post-title {
 }
 
 .logo.logo-width-1 a img {
-  width: 120px;
-  min-width: 180px;
+  width: 130px;
+  min-width: 0;
 }
 
 .search-style-1 form {
@@ -5468,7 +5470,7 @@ h6.post-title {
 }
 
 .header-action-2 .header-action-icon-2 > a {
-  font-size: 30px;
+  font-size: 23px;
   color: #333;
   line-height: 1;
   display: inline-block;
@@ -5487,13 +5489,13 @@ h6.post-title {
   right: -11px;
   top: -5px;
   color: #ffffff;
-  height: 18px;
-  width: 18px;
+  height: 17px;
+  width: 17px;
   border-radius: 100%;
   font-weight: 500;
-  font-size: 11px;
+  font-size: 10px;
   text-align: center;
-  line-height: 18px;
+  line-height: 17px;
 }
 
 .cart-dropdown-wrap ul li {
@@ -6663,10 +6665,11 @@ h6.post-title {
 }
 
 .header-style-4 .header-top-ptb-1 {
-  background-color: #C7E8CA;
+  background-color: #046584;
   background-image: none;
   padding: 10px 0;
   border: 0;
+  color: #ffffff;
 }
 
 .header-style-4 .header-top-ptb-1 .language-dropdown a {
@@ -6713,7 +6716,7 @@ h6.post-title {
 }
 
 .header-style-4 .header-bottom-bg-color {
-  background-color: #046584;
+  background-color: transparent;
   /*border-top: 1px solid #FF8B13;*/
   /*border-bottom: 1px solid #FF8B13;*/
 }
@@ -6847,8 +6850,8 @@ span.fi-rs-apps {
 .main-menu > nav > ul > li > a {
   display: inline-block;
   font-size: 15px;
-  font-weight: 300;
-  color: #fff;
+  color: #088178;
+  font-weight: 400;
 }
 
 .main-menu > nav > ul > li > a i {
@@ -10321,12 +10324,15 @@ span.fi-rs-apps {
   position: relative;
 }
 
-.item-slick1 {
-  height: calc(100vh - 40px);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
+.slick1{
+    height: 700px;
+   }
+   .item-slick1 {
+     height: 700px;
+     background-size: cover;
+     background-repeat: no-repeat;
+     background-position: center center;
+   }
 
 .rs1-slick1 .item-slick1 {
   height: calc(100vh - 84px);
@@ -10576,3 +10582,96 @@ span.fi-rs-apps {
     transition: all 0.4s;
 }
 .p-r-15, .p-lr-15, .p-all-15 {padding-right: 15px;}
+.p-b-43{padding-bottom: 10px;}
+
+.header-top-ptb-1 #news-flash {
+	min-width: 400px;
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: 500;
+	color: #fff;
+}
+
+
+@media (min-width: 992px) {
+    .d-sm-none {
+        display: block !important;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 991px) {
+    .d-sm-none {
+      display: none !important;
+    }
+  }
+
+
+
+/* order Track */
+.order-tracking .steps .step {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+.order-tracking .steps .step .step-icon-wrap {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 80px;
+    text-align: center;
+}
+.order-tracking .steps .step .step-icon {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border: 1px solid #e1e7ec;
+    border-radius: 50%;
+    background-color: #f5f5f5;
+    color: #374250;
+    font-size: 22px;
+    line-height: 75px;
+    z-index: 5;
+}
+.order-tracking .steps .step.completed .step-icon {
+    border-color: #FF8B13;
+    background-color: #FF8B13;
+    color: #fff;
+}
+.order-tracking .steps .step .step-icon-wrap::before,
+.order-tracking .steps .step .step-icon-wrap::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    width: 50%;
+    height: 3px;
+    margin-top: -1px;
+    background-color: #e1e7ec;
+    content: '';
+    z-index: 1;
+}
+.order-tracking .steps .step .step-icon-wrap::after {
+    right: 0;
+}
+.order-tracking .steps .step.completed .step-icon-wrap::before,
+.order-tracking .steps .step.completed .step-icon-wrap::after {
+    background-color: #FF8B13;
+}
+.order-tracking .steps .step .step-title {
+    margin-top: 16px;
+    margin-bottom: 0;
+    color: #606975;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.order-tracking .steps .step .step-icon-wrap::before {
+    left: 0;
+}
+.steps .step:first-child .step-icon-wrap::before {
+    display: none
+}
+
+.steps .step:last-child .step-icon-wrap::after {
+    display: none
+}

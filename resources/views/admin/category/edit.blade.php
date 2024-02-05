@@ -32,17 +32,17 @@
                     </div>
                     <div class="col-md-8 mb-2">
                         <label for="category_icon" class="form-label">Category Icon</label>
-                        <input type="file" class="form-control" id="category_icon" name="category_icon">
+                        <input type="file" class="form-control" id="category_icon2" name="category_icon">
                         <small>(Please use svg icon image)</small>
                     </div>
                     <div class="col-md-4 mb-2">
-                        <div id="icon-preview">
+                        <div id="icon-preview2">
                             <img id="icon-image2" src="" alt=""  width="80px">
                         </div>
                     </div>
                     <div class="col-md-12 mb-2">
                       <label for="category_image" class="form-label">Category Image</label>
-                      <input type="file" class="form-control" id="category_image" name="category_image" >
+                      <input type="file" class="form-control" id="category_image2" name="category_image" >
                     </div>
                     <div class="col-12 mb-2">
                       <div class="form-check ml-20">
@@ -54,7 +54,7 @@
 
                     </div>
                     <div class="col-12 mb-4">
-                        <div id="image-preview">
+                        <div id="image-preview2">
                             <img id="output-image2" src="" alt=""  width="250px">
                         </div>
                     </div>
@@ -73,10 +73,10 @@
 
 
 <script>
-    document.getElementById('category_image').addEventListener('change', function (event) {
+    document.getElementById('category_image2').addEventListener('change', function (event) {
         const input = event.target;
-        const preview = document.getElementById('image-preview');
-        const outputImage = document.getElementById('output-image');
+        const preview = document.getElementById('image-preview2');
+        const outputImage = document.getElementById('output-image2');
 
         if (input.files && input.files[0]) {
             const reader = new FileReader();
@@ -90,10 +90,10 @@
         }
     });
 
-    document.getElementById('category_icon').addEventListener('change', function (event) {
+    document.getElementById('category_icon2').addEventListener('change', function (event) {
         const input = event.target;
-        const preview = document.getElementById('icon-preview');
-        const outputImage = document.getElementById('icon-image');
+        const preview = document.getElementById('icon-preview2');
+        const outputImage = document.getElementById('icon-image2');
 
         if (input.files && input.files[0]) {
             const reader = new FileReader();

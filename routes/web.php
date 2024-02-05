@@ -30,6 +30,7 @@ use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
 use App\Http\Controllers\Frontend\ShopController;
+use App\Http\Controllers\Frontend\TrackorderController;
 use Illuminate\Routing\Router;
 
 /*
@@ -109,6 +110,13 @@ Route::controller(CartController::class)->group(function () {
     Route::get('/qtydown/{id}','decreaseQuantity')->name('qtydown.cart');
     Route::get('/removecart/{id}', 'removecart')->name('remove.cart');
     // Route::get('/checkout', 'checkout')->name('checkout');
+});
+
+// Track order controller
+Route::controller(TrackorderController::class)->group(function () {
+    Route::get('/trackorder', 'index')->name('trackorder');
+    Route::post('/trackorder/order_details', 'order_details')->name('order_details');
+
 });
 
 // Frontend Route End

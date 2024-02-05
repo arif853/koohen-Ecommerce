@@ -80,11 +80,13 @@ class CategoryController extends Controller
             if ($request->hasFile('category_image')) {
                 $image = $request->file('category_image');
                 // create new manager instance with desired driver
+
                 $manager = new ImageManager(new Driver());
                 $imageName = $request->category_name . '_' . time() . '.' . $image->getClientOriginalExtension();
+
                 // read image from filesystem
                 $img = $manager->read($image);
-                $img = $img->resize(150, 150);
+                // $img = $img->resize(150, 150);
                 // Save the original image
                 $imagePath = 'category_image/' . $imageName;
                 Storage::disk('public')->put( $imagePath , (string)$img->encode());
@@ -152,37 +154,58 @@ class CategoryController extends Controller
         }
         else{
 
+            if($request->hasFile('category_icon'))
+            {
+                $iconImage = $request->file('category_icon');
+                // create new manager instance with desired driver
+                $manager = new ImageManager(new Driver());
+                $iconName = 'icon_' . time() . '.' . $iconImage->getClientOriginalExtension();
+                // read image from filesystem
+                $img = $manager->read($iconImage);
+
+                // $img = $img->resize(150, 150);
+                // Save the original image
+
+                $iconPath = 'category_image/icons/' . $iconName;
+                Storage::disk('public')->put( $iconPath , (string)$img->encode());
+                Storage::delete('public/'.$category->category_icon);
+
+                $cat_icon =  $iconPath;
+            }
+            else{
+                $cat_icon = $category->category_icon;
+            }
+
             if ($request->hasFile('category_image')) {
 
                 $image = $request->file('category_image');
                 // create new manager instance with desired driver
                 $manager = new ImageManager(new Driver());
-
                 $imageName = $request->category_name . '_' . time() . '.' . $image->getClientOriginalExtension();
-
                 // read image from filesystem
                 $img = $manager->read($image);
-                $img = $img->resize(200, 150);
+
+                // $img = $img->resize(200, 150);
                 // Save the original image
                 $imagePath = 'category_image/' . $imageName;
                 Storage::disk('public')->put( $imagePath , (string)$img->encode());
                 Storage::delete('public/category_image/'.$category->category_image);
 
-                $category->update([
-                    'category_name' => $request->category_name,
-                    'parent_category' => $request->parent_category,
-                    'category_image' => $imageName,
-                    'status' => $request->status ? 1 : 0,
-                ]);
-            }else{
-                $category_old_image = $category->category_image;
-                $category->update([
-                    'category_name' => $request->category_name,
-                    'parent_category' => $request->parent_category,
-                    'category_image' => $category_old_image,
-                    'status' => $request->status ? 1 : 0,
-                ]);
+                $cat_image = $imageName;
             }
+            else{
+                $cat_image = $category->category_image;
+            }
+
+
+            $category->update([
+                'category_name' => $request->category_name,
+                'parent_category' => $request->parent_category,
+                'category_icon' => $cat_icon,
+                'category_image' => $cat_image,
+                'status' => $request->status ? 1 : 0,
+            ]);
+
             Session::flash('success', 'Category Updated successfully.');
             return response()->json(['status'=> 200, 'message' => 'Category Updated Successfully!']);
         }

@@ -1,7 +1,8 @@
 <div>
     <div class="header-action-icon-2">
         <a class="mini-cart-icon" href="#">
-            <img alt="Evara" src="{{asset('')}}frontend/assets/imgs/theme/icons/icon-cart.svg">
+            <i class="fal fa-shopping-bag"></i>
+            {{-- <img alt="Evara" src="{{asset('')}}frontend/assets/imgs/theme/icons/icon-cart.svg"> --}}
             @if(Cart::count() > 0)
             <span class="pro-count blue">{{Cart::count()}}</span>
             @endif

@@ -32,7 +32,8 @@
 
                                 <tr>
                                     <th scope="row" class="text-center">
-                                        {{$order->created_at->setTimezone('Asia/Dhaka')->format('D, M j, Y, g:iA')}}
+                                        {{$order->created_at->setTimezone('Asia/Dhaka')->format('D, M j, Y')}} <br>
+                                       <span  style="color: gray ; font-size:12px;"> <small>Track id: {{$order->order_track_id}}</small></span>
                                     </th>
                                     <td >
                                         <ul>
@@ -60,18 +61,22 @@
                                     <td class="text-center">
                                         @foreach ($order->order_item as $key => $orderItem)
                                             @if($orderItem->product->color != null || $orderItem->product->size != null)
+                                            @if($orderItem->product->color != null )
                                             <ul class="list-filter color-filter">
                                                 <li class="active">
                                                     <a href="#" >
                                                         <span class="product-color-red" style="background: {{$orderItem->product->color->color_code}};"></span>
                                                     </a>
                                                  </li>
-                                            </ul>
+                                                </ul>
+                                            @endif
+                                            @if($orderItem->product->size != null)
                                             <ul class="list-filter size-filter font-small">
                                                 <li class="active">
                                                     <a  href="#" >{{$orderItem->product->size->size}}</a>
                                                 </li>
                                             </ul>
+                                            @endif
                                             {{-- <span> Color : {{ $orderItem->product->color->color_code }}</span> --}}
                                             {{-- <span> Size : {{ $orderItem->product->size->size }}</span> --}}
 

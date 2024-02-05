@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Models\Order;
 use App\Models\Customer;
-use App\Models\Orderstatus;
 use App\Models\shipping;
 use App\Models\order_items;
+use App\Models\Orderstatus;
 use App\Models\transactions;
 use Illuminate\Http\Request;
 use App\Models\Register_customer;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -24,8 +25,30 @@ class CheckoutController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+     public function generateCode()
+     {
+        do {
+            // Generate a 4-digit random number
+            $randomNumber = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
+
+            // Get the current year
+            $currentYear = date('y');
+            // Concatenate the components to create the final code
+            $generatedCode = 'K'.$currentYear.'-'.$randomNumber;
+            // Check if the generated code already exists in the database
+            $codeExists = DB::table('orders')->where('order_track_id', $generatedCode)->exists();
+
+        } while ($codeExists);
+
+         // Concatenate the components to create the final code
+
+         return $generatedCode;
+     }
+
     public function store(Request $request)
     {
+        $track_id = $this->generateCode();
 
         if (Auth::guard('customer')->check()) {
 
@@ -35,6 +58,7 @@ class CheckoutController extends Controller
             // order details store to order
             $order = new Order;
             $order->customer_id = $customer_id;
+            $order->order_track_id = $track_id;
             $order->subtotal = $request->subtotal;
             $order->discount = 0;
             $order->tax = $request->tax;
@@ -155,6 +179,7 @@ class CheckoutController extends Controller
                 // order details store to order
                 $order = new Order;
                 $order->customer_id = $customer_id;
+                $order->order_track_id = $track_id;
                 $order->subtotal = $request->subtotal;
                 $order->discount = 0;
                 $order->tax = $request->tax;
