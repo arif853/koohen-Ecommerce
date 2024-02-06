@@ -107,36 +107,67 @@
                                                     <img id="output-image" src="" alt="" width="150px">
                                                 </div>
                                             </div> --}}
+                                            <div class="col-lg-6 mb-4">
+                                                <label class="form-label">Product Thumbnail <small class="text-success">(Two Thumbnail Image only.)</small></label>
+                                                <input class="form-control" type="file" multiple name="product_thumbnail[]" id="imageInput3">
+                                                {{-- <span><small>(Add multiple image, use ctrl or cmd key to select multiple image.)</small></span> --}}
+                                                <div  class="row mt-4">
+                                                    @foreach ($products->product_thumbnail as $productImage)
+                                                    <div class="col-lg-3">
+                                                        <div class="overlay-bg">
+                                                            <div class="brand-overlay">
+                                                                <div class="action-icon">
+                                                                     <input type="hidden" name="productimage_id" value="{{$productImage->id}}" id="productimage_id">
+                                                                    <a class="delete_image" data-productimage-id="{{$productImage->id}}" href="#"><i class="fa-solid fa-times"></i></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <img src="{{asset('storage/product_images/thumbnail/'.$productImage->product_thumbnail)}}" alt="{{$products->slug}}">
+                                                        {{-- <button class="btn btn-danger btn-sm">Remove</button> --}}
+                                                        <button class="btn btn-danger btn-sm delete_thumb mb-2"  data-productimage-id="{{$productImage->id}}"><i class="fal fa-times"></i></button>
 
-                                            <div class="col-lg-12 mb-4">
+                                                    </div>
+                                                    @endforeach
+
+                                                </div>
+                                                <div id="imagePreview3" class="row mt-4">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-4">
                                                 <label class="form-label">Product images <small class="text-success">(Select product all images.)</small></label>
                                                 <input class="form-control" type="file" multiple name="product_image[]" id="imageInput2">
                                                 <span><small>(Add multiple image, use ctrl or cmd key to select multiple image.)</small></span>
+
+                                                <div id="" class="row mt-4">
+
+                                                    @foreach ($products->product_images as $productImage)
+                                                    <div class="col-lg-3">
+                                                        {{-- <div class="overlay-bg">
+                                                            <div class="brand-overlay">
+                                                                <div class="action-icon">
+                                                                    <a href="{{ route('brands.edit', $brand->id) }}"  data-bs-toggle="modal" data-bs-target="#brandmodify"><i class="fa-regular fa-pen-to-square"></i></a>
+                                                                    <input type="hidden" name="productimage_id" value="{{$productImage->id}}" id="productimage_id">
+                                                                    <a class="delete_image" data-productimage-id="{{$productImage->id}}" href="#"><i class="fa-solid fa-times"></i></a>
+                                                                </div>
+                                                            </div>
+                                                        </div> --}}
+
+                                                        <img src="{{asset('storage/product_images/'.$productImage->product_image)}}" alt="{{$products->slug}}">
+                                                        <button class="btn btn-danger btn-sm delete_image mb-2"  data-productimage-id="{{$productImage->id}}"><i class="fal fa-times"></i></button>
+
+                                                    </div>
+                                                    @endforeach
+
+                                                </div>
+                                                <div id="imagePreview2" class="row mt-4">
+
+                                                </div>
                                             </div>
 
                                         </div>
                                     {{-- <div class="col-3 mb-4"> --}}
-                                        <div id="imagePreview2" class="row">
-                                        <style>
 
-                                        </style>
-                                            @foreach ($products->product_images as $productImage)
-                                            <div class="col-lg-3">
-                                                <div class="overlay-bg">
-                                                    <div class="brand-overlay">
-                                                        <div class="action-icon">
-                                                                {{-- <a href="{{ route('brands.edit', $brand->id) }}"  data-bs-toggle="modal" data-bs-target="#brandmodify"><i class="fa-regular fa-pen-to-square"></i></a> --}}
-                                                                <input type="hidden" name="productimage_id" value="{{$productImage->id}}" id="productimage_id">
-                                                                <a class="delete_image" data-productimage-id="{{$productImage->id}}" href="#"><i class="fa-solid fa-times"></i></a>
-                                                        </div>
-                                                    </div>
-                                                    <img src="{{asset('storage/product_images/'.$productImage->product_image)}}" alt="{{$products->slug}}">
-                                                </div>
-
-                                            </div>
-                                            @endforeach
-
-                                        </div>
                                     {{-- </div> --}}
                                     {{-- </div> --}}
                                 {{-- </div> --}}
@@ -427,6 +458,7 @@
 
   <script>
     // Add a click event listener to the delete buttons
+    // deleteimage
     document.querySelectorAll('.delete_image').forEach(function(element) {
         element.addEventListener('click', function(e) {
             e.preventDefault();
@@ -467,6 +499,48 @@
         });
     });
 
+      // Add a click event listener to the delete buttons
+    //   Delete thumbnail
+    document.querySelectorAll('.delete_thumb').forEach(function(element) {
+        element.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Get the product image ID
+            var productImageId = element.getAttribute('data-productimage-id');
+                console.log(productImageId);
+            // Show SweetAlert confirmation
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms, redirect to the delete route with the product image ID
+                    // window.location.href = "{{ route('productsimage.destroy','') }}/" + productImageId;
+                    $.ajax({
+                    url: "{{ route('productsthumb.destroy', '') }}" + "/" + productImageId,
+                    method: 'DELETE',
+                    data: {_token: '{{ csrf_token() }}'},
+                    success: function (response) {
+                        // Handle success, e.g., show a success message
+                        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+                        // Optionally, you can refresh the page or update the UI
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error, e.g., show an error message
+                        Swal.fire('Error!', 'An error occurred while deleting the file.', 'error');
+                    }
+                });
+                }
+            });
+        });
+    });
+
     document.getElementById('imageInput2').addEventListener('change', function (event) {
         const input = event.target;
         const previewContainer = document.getElementById('imagePreview2');
@@ -480,81 +554,136 @@
                     imageDiv.className = 'col-lg-3 mb-4';
                     const image = document.createElement('img');
 
+                    const removeButton = document.createElement('button');
+
+                    // Set up the remove button
+                    removeButton.innerHTML = '<i class="fal fa-times"></i>';
+                    removeButton.className = 'btn btn-danger btn-sm';
+                    removeButton.addEventListener('click', function () {
+                        // Remove the corresponding imageDiv when the remove button is clicked
+                        previewContainer.removeChild(imageDiv);
+                    });
+
+                    // Set up the image
                     reader.onload = function (e) {
                         image.src = e.target.result;
                     };
 
                     reader.readAsDataURL(input.files[i]);
 
+                    // Append image and remove button to imageDiv
                     imageDiv.appendChild(image);
+                    imageDiv.appendChild(removeButton);
+
                     previewContainer.appendChild(imageDiv);
                 }
 
                 // previewContainer.style.display = 'block'; // Assuming you want a flex container
             }
     });
-// create tags
 
-const ul = document.querySelector("ul.tag-content"),
-    input = document.querySelector("input.tag-input"),
-    tagsArrayInput = document.getElementById("tagsArrayInput"),
-    tagNumb = document.querySelector(".tag-details span");
+    document.getElementById('imageInput3').addEventListener('change', function (event) {
+        const input = event.target;
+        const previewContainer = document.getElementById('imagePreview3');
+        previewContainer.innerHTML = ''; // Clear existing previews
 
-let maxTags = 10,
-    tags = [];
 
-countTags();
-createTag();
+            if (input.files && input.files.length > 0) {
+                for (let i = 0; i < input.files.length; i++) {
+                    const reader = new FileReader();
+                    const imageDiv = document.createElement('div');
+                    imageDiv.className = 'col-lg-3 mb-4';
+                    const image = document.createElement('img');
 
-function countTags() {
-    input.focus();
-    tagNumb.innerText = maxTags - tags.length;
-    // Update the hidden input field with the serialized JSON of the tags array
-    tagsArrayInput.value = tags;
-}
+                    const removeButton = document.createElement('button');
 
-function createTag() {
-    ul.querySelectorAll("li").forEach((li) => li.remove());
-    tags
-        .slice()
-        .reverse()
-        .forEach((tag) => {
-            let liTag = `<li>${tag} <i class="uit uit-multiply" onclick="remove(this, '${tag}')"></i></li>`;
-            ul.insertAdjacentHTML("afterbegin", liTag);
-        });
-    countTags();
-}
+                    // Set up the remove button
+                    removeButton.innerHTML = '<i class="fal fa-times"></i>';
+                    removeButton.className = 'btn btn-danger btn-sm';
+                    removeButton.addEventListener('click', function () {
+                        // Remove the corresponding imageDiv when the remove button is clicked
+                        previewContainer.removeChild(imageDiv);
+                    });
 
-function remove(element, tag) {
-    let index = tags.indexOf(tag);
-    tags = [...tags.slice(0, index), ...tags.slice(index + 1)];
-    element.parentElement.remove();
-    countTags();
-}
+                    // Set up the image
+                    reader.onload = function (e) {
+                        image.src = e.target.result;
+                    };
 
-function addTag(e) {
-    if (e.key == "Enter" || e.keyCode == 32) {
-        let tag = e.target.value.replace(/\s+/g, " ");
-        if (tag.length > 1 && !tags.includes(tag)) {
-            if (tags.length < 10) {
-                tag.split(",").forEach((tag) => {
-                    tags.push(tag);
-                    createTag();
-                });
+                    reader.readAsDataURL(input.files[i]);
+
+                    // Append image and remove button to imageDiv
+                    imageDiv.appendChild(image);
+                    imageDiv.appendChild(removeButton);
+
+                    previewContainer.appendChild(imageDiv);
+                }
+
+                // previewContainer.style.display = 'block'; // Assuming you want a flex container
             }
-        }
-        e.target.value = "";
-    }
-}
+    });
+    // create tags
 
-input.addEventListener("keyup", addTag);
+    const ul = document.querySelector("ul.tag-content"),
+        input = document.querySelector("input.tag-input"),
+        tagsArrayInput = document.getElementById("tagsArrayInput"),
+        tagNumb = document.querySelector(".tag-details span");
 
-const removeBtn = document.querySelector(".tag-details button");
-removeBtn.addEventListener("click", () => {
-    tags.length = 0;
-    ul.querySelectorAll("li").forEach((li) => li.remove());
+    let maxTags = 10,
+        tags = [];
+
     countTags();
-});
+    createTag();
+
+    function countTags() {
+        input.focus();
+        tagNumb.innerText = maxTags - tags.length;
+        // Update the hidden input field with the serialized JSON of the tags array
+        tagsArrayInput.value = tags;
+    }
+
+    function createTag() {
+        ul.querySelectorAll("li").forEach((li) => li.remove());
+        tags
+            .slice()
+            .reverse()
+            .forEach((tag) => {
+                let liTag = `<li>${tag} <i class="uit uit-multiply" onclick="remove(this, '${tag}')"></i></li>`;
+                ul.insertAdjacentHTML("afterbegin", liTag);
+            });
+        countTags();
+    }
+
+    function remove(element, tag) {
+        let index = tags.indexOf(tag);
+        tags = [...tags.slice(0, index), ...tags.slice(index + 1)];
+        element.parentElement.remove();
+        countTags();
+    }
+
+    function addTag(e) {
+        if (e.key == "Enter" || e.keyCode == 32) {
+            let tag = e.target.value.replace(/\s+/g, " ");
+            if (tag.length > 1 && !tags.includes(tag)) {
+                if (tags.length < 10) {
+                    tag.split(",").forEach((tag) => {
+                        tags.push(tag);
+                        createTag();
+                    });
+                }
+            }
+            e.target.value = "";
+        }
+    }
+
+    input.addEventListener("keyup", addTag);
+
+    const removeBtn = document.querySelector(".tag-details button");
+    removeBtn.addEventListener("click", () => {
+        tags.length = 0;
+        ul.querySelectorAll("li").forEach((li) => li.remove());
+        countTags();
+    });
 
 </script>
 @endsection

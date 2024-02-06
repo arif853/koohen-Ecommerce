@@ -36,6 +36,15 @@
                         </ul>
                     </div>
                 </div>
+                <style>
+                    .btn-delete {
+                        border-width: 2px;
+                        background-color: transparent;
+                        font-weight: 300;
+                        opacity: 0.5;
+                        padding: 2px 10px;
+                    }
+                </style>
                 <div class="card-body">
                     <form action="{{route('products.store')}}" method="POST" enctype="multipart/form-data" >
                         @csrf
@@ -102,17 +111,28 @@
                                                 </div>
                                             </div> --}}
 
-                                            <div class="col-lg-12 mb-4">
+                                            <div class="col-lg-6 mb-4">
+                                                <label class="form-label">Product Thumbnail <small class="text-success">(Two Thumbnail Image only.)</small></label>
+                                                <input class="form-control" type="file" multiple name="product_thumbnail[]" id="imageInput3">
+                                                {{-- <span><small>(Add multiple image, use ctrl or cmd key to select multiple image.)</small></span> --}}
+                                                <div id="imagePreview3" class="row mt-4">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-4">
                                                 <label class="form-label">Product images <small class="text-success">(Select product all images.)</small></label>
                                                 <input class="form-control" type="file" multiple name="product_image[]" id="imageInput2">
                                                 <span><small>(Add multiple image, use ctrl or cmd key to select multiple image.)</small></span>
-                                            </div>
 
+                                                <div id="imagePreview2" class="row mt-4">
+
+                                                </div>
+                                            </div>
                                         </div>
                                     {{-- <div class="col-3 mb-4"> --}}
-                                        <div id="imagePreview2" class="row">
+                                        {{-- <div id="imagePreview2" class="row">
 
-                                        </div>
+                                        </div> --}}
                                     {{-- </div> --}}
                                     {{-- </div> --}}
                                 {{-- </div> --}}
@@ -423,7 +443,8 @@
       </div>
     </div>
   </div>
-  <script src="{{asset('admin/assets/js/script.js')}}"></script>
+
+
   <script>
     // document.getElementById('imageInput').addEventListener('change', function (event) {
     //     const input = event.target;
@@ -442,32 +463,91 @@
     //     }
     // });
     document.getElementById('imageInput2').addEventListener('change', function (event) {
+    const input = event.target;
+    const previewContainer = document.getElementById('imagePreview2');
+    previewContainer.innerHTML = ''; // Clear existing previews
+
+    if (input.files && input.files.length > 0) {
+        for (let i = 0; i < input.files.length; i++) {
+            const reader = new FileReader();
+            const imageDiv = document.createElement('div');
+            imageDiv.className = 'col-lg-3 mb-4';
+
+            const image = document.createElement('img');
+            const removeButton = document.createElement('button');
+
+            // Set up the remove button
+            removeButton.innerHTML = '<i class="fa-solid fa-times"></i>';
+            removeButton.className = 'btn btn-danger btn-delete';
+            removeButton.addEventListener('click', function () {
+                // Remove the corresponding imageDiv when the remove button is clicked
+                previewContainer.removeChild(imageDiv);
+            });
+
+            // Set up the image
+            reader.onload = function (e) {
+                image.src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[i]);
+
+            // Append image and remove button to imageDiv
+            imageDiv.appendChild(image);
+            imageDiv.appendChild(removeButton);
+
+            // Append imageDiv to previewContainer
+            previewContainer.appendChild(imageDiv);
+        }
+
+        // previewContainer.style.display = 'block'; // Assuming you want a flex container
+    }
+});
+
+
+    document.getElementById('imageInput3').addEventListener('change', function (event) {
         const input = event.target;
-        const previewContainer = document.getElementById('imagePreview2');
+        const previewContainer = document.getElementById('imagePreview3');
         previewContainer.innerHTML = ''; // Clear existing previews
 
 
-            if (input.files && input.files.length > 0) {
-                for (let i = 0; i < input.files.length; i++) {
-                    const reader = new FileReader();
-                    const imageDiv = document.createElement('div');
-                    imageDiv.className = 'col-lg-3 mb-4';
-                    const image = document.createElement('img');
+        if (input.files && input.files.length > 0) {
+            for (let i = 0; i < input.files.length; i++) {
+                const reader = new FileReader();
+                const imageDiv = document.createElement('div');
+                imageDiv.className = 'col-lg-3 mb-4';
+                const image = document.createElement('img');
 
-                    reader.onload = function (e) {
-                        image.src = e.target.result;
-                    };
+                const removeButton = document.createElement('button');
 
-                    reader.readAsDataURL(input.files[i]);
+                // Set up the remove button
+                removeButton.innerHTML = '<i class="fa-solid fa-times"></i>';
+                removeButton.className = 'btn btn-danger btn-delete';
+                removeButton.addEventListener('click', function () {
+                    // Remove the corresponding imageDiv when the remove button is clicked
+                    previewContainer.removeChild(imageDiv);
+                });
 
-                    imageDiv.appendChild(image);
-                    previewContainer.appendChild(imageDiv);
-                }
+                // Set up the image
+                reader.onload = function (e) {
+                    image.src = e.target.result;
+                };
 
-                // previewContainer.style.display = 'block'; // Assuming you want a flex container
+                reader.readAsDataURL(input.files[i]);
+
+                // Append image and remove button to imageDiv
+                imageDiv.appendChild(image);
+                imageDiv.appendChild(removeButton);
+
+                // Append imageDiv to previewContainer
+                previewContainer.appendChild(imageDiv);
             }
+
+            // previewContainer.style.display = 'block'; // Assuming you want a flex container
+        }
     });
 
 
 </script>
+<script src="{{asset('admin/assets/js/script.js')}}"></script>
 @endsection
+

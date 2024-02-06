@@ -195,6 +195,7 @@ Route::controller(ProductController::class)->middleware('auth')->group(function 
     Route::patch('/dashboard/products/update/{id}', 'update')->name('products.update');
     Route::delete('/dashboard/products/destroy/{id}', 'destroy')->name('products.destroy');
     Route::delete('/dashboard/products/image_destroy/{id}', 'image_destroy')->name('productsimage.destroy');
+    Route::delete('/dashboard/products/thumb_destroy/{id}', 'thumb_destroy')->name('productsthumb.destroy');
 
     Route::get('/dashboard/products/{slug}', 'show')->name('products.show');
 

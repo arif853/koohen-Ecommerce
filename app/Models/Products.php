@@ -66,6 +66,11 @@ class Products extends Model
         return $this->hasMany(Product_image::class, 'product_id');
     }
 
+    public function product_thumbnail()
+    {
+        return $this->hasMany(Product_thumbnail::class, 'product_id');
+    }
+
     public function product_extras()
     {
         return $this->hasMany(Product_extra::class, 'product_id');

@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Color;
 use App\Models\Category;
 use App\Models\Products;
+use App\Models\Supplier;
 use App\Models\Product_tag;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
@@ -18,10 +19,10 @@ use Illuminate\Http\Response;
 use App\Models\products_color;
 use Illuminate\Validation\Rule;
 use App\Models\Product_overview;
+use App\Models\Product_thumbnail;
 use App\Http\Controllers\Controller;
 use Intervention\Image\ImageManager;
 use App\Models\Product_additionalinfo;
-use App\Models\Supplier;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -100,6 +101,7 @@ class ProductController extends Controller
             'info_value.*' => 'nullable|string',
 
             'product_image.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'product_thumnail.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
 
             'product_size.*' => 'nullable|exists:sizes,id',
             'product_color.*' => 'nullable|exists:colors,id',
@@ -152,23 +154,51 @@ class ProductController extends Controller
                 ]);
             }
 
-            $images = $request->file('product_image');
+            if($request->hasFile('product_thumbnail')){
+                $thumbnail = $request->file('product_thumbnail');
 
-            foreach ($images as $index => $image) {
-                $manager = new ImageManager(new Driver());
+                foreach ($thumbnail as $index => $image) {
+                    $manager = new ImageManager(new Driver());
 
-                $imageName = $product->slug.'_' .$index . '_' . time() . '.' . $image->getClientOriginalExtension();
+                    $imageName = $product->slug.'_' .$index . '_' . time() . '.' . $image->getClientOriginalExtension();
 
-                $img = $manager->read($image);
-                // $img = $img->resize(400, 600);
-                $imagePath = 'product_images/' . $imageName;
-                Storage::disk('public')->put($imagePath , (string)$img->encode());
+                    $img = $manager->read($image);
+                    // $encoded = $img->toWebp();
+                    // $img = $img->resize(400, 600);
 
-                Product_image::create([
-                    'product_id' => $product->id,
-                    'product_image' => $imageName,
-                ]);
+                    $imagePath = 'product_images/thumbnail/' . $imageName;
+                    // $imagePath2 = 'product_images/thumbnail/' . $encoded;
+
+                    Storage::disk('public')->put($imagePath , (string)$img->encode());
+                    // Storage::disk('public')->put($imagePath2 , (string)$encoded->encode());
+
+                    Product_thumbnail::create([
+                        'product_id' => $product->id,
+                        'product_thumbnail' => $imageName,
+                    ]);
+                }
             }
+
+            if($request->hasFile('product_image')){
+                $images = $request->file('product_image');
+
+                foreach ($images as $index => $image) {
+                    $manager = new ImageManager(new Driver());
+
+                    $imageName = $product->slug.'_' .$index . '_' . time() .  '.' . $image->getClientOriginalExtension();
+
+                    $img = $manager->read($image);
+                    // $img = $img->resize(400, 600);
+                    $imagePath = 'product_images/' . $imageName;
+                    Storage::disk('public')->put($imagePath , (string)$img->encode());
+
+                    Product_image::create([
+                        'product_id' => $product->id,
+                        'product_image' => $imageName,
+                    ]);
+                }
+            }
+
 
             // overview store here
             $featureNames = $request->input('featurename',[]);
@@ -329,6 +359,7 @@ class ProductController extends Controller
             'info_value.*' => 'nullable|string',
 
             'product_image.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'product_thumbnail.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
 
             'product_size.*' => 'nullable|exists:sizes,id',
             'product_color.*' => 'nullable|exists:colors,id',
@@ -410,6 +441,41 @@ class ProductController extends Controller
                 }
             }
 
+            $existingthumbs = $product->product_thumbnail;
+
+            if($request->hasFile('product_thumbnail')){
+                $thumbnail = $request->file('product_thumbnail');
+
+                foreach ($thumbnail as $index => $image) {
+                    $manager = new ImageManager(new Driver());
+
+                    $imageName = $product->slug.'_' .$index . '_' . time() . '.' . $image->getClientOriginalExtension();
+
+                    $img = $manager->read($image);
+                    // $encoded = $img->toWebp();
+                    // $img = $img->resize(400, 600);
+
+                    $imagePath = 'product_images/thumbnail/' . $imageName;
+
+                    // Check if an image with the same name already exists
+                    $existingthumb = $existingthumbs->where('product_thumbnail', $imageName)->first();
+
+                    if ($existingthumb) {
+                        // Update existing image
+                        $existingthumb->update([
+                            'product_thumbnail' => $imageName,
+                        ]);
+                    } else {
+
+                    Product_thumbnail::create([
+                        'product_id' => $product->id,
+                        'product_thumbnail' => $imageName,
+                    ]);
+
+                    Storage::disk('public')->put($imagePath , (string)$img->encode());
+                }
+            }
+        }
             // // Delete images that were removed
             // $removedImages = $existingImages->pluck('product_image')->diff($newImages->pluck('product_image'));
 
@@ -556,6 +622,20 @@ class ProductController extends Controller
 
             // Return a JSON response indicating success
             return response()->json(['message' => 'Product image deleted successfully'], Response::HTTP_OK);
+        } else {
+            // Return a JSON response indicating failure
+            return response()->json(['error' => 'Product image not found'], Response::HTTP_NOT_FOUND);
+        }
+    }
+    public function thumb_destroy($id){
+
+        $product_thumbnail = Product_thumbnail::findOrFail($id);
+        if ($product_thumbnail) {
+            Storage::delete('public/product_images/thumbnail' . $product_thumbnail->product_thumbnail);
+            $product_thumbnail->delete();
+
+            // Return a JSON response indicating success
+            return response()->json(['message' => 'Thumbnail image deleted successfully'], Response::HTTP_OK);
         } else {
             // Return a JSON response indicating failure
             return response()->json(['error' => 'Product image not found'], Response::HTTP_NOT_FOUND);

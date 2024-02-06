@@ -10603,6 +10603,10 @@ span.fi-rs-apps {
     .d-sm-none {
       display: none !important;
     }
+    .header-action-2 .header-action-icon-2 > a {
+        color: #333 !important;
+        fill: #333 !important;
+    }
   }
 
 

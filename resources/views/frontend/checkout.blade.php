@@ -363,11 +363,9 @@
                                 </div>
                             </div>
 
-                            {{-- @if($user->customer->billing_address == null) --}}
 
                             {{-- <button type="button" class="btn btn-fill-out btn-block mt-30" disabled>Place Order</button> --}}
 
-                            {{-- @else --}}
                             <button type="submit" class="btn btn-fill-out btn-block mt-30">Place Order</button>
                             {{-- @endif --}}
 

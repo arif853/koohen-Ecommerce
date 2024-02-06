@@ -115,6 +115,7 @@
     <script src="{{asset('admin/assets/js/custom-chart.js')}}" type="text/javascript"></script>
     <script src="{{asset('admin/assets/js/deleteConfirm.js')}}"></script>
     {{-- <script src="{{asset('admin/assets/js/script.js')}}"></script> --}}
+    @stack('product')
     @stack('varient')
     @stack('brand')
     @stack('category')
