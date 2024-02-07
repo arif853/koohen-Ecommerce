@@ -135,9 +135,7 @@
                     </div>
 
                     <div class="header-nav d-none d-lg-flex" id="header-nav">
-                        <!--Catagory-->
-                        {{-- @include('frontend.include.catagory') --}}
-                        <!--Catagory-->
+
                         <!--Main Menu Bar-->
                         <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
                             <nav>
@@ -558,12 +556,12 @@
                     <div class="col-lg-3  col-md-3">
                         <h5 class="widget-title wow fadeIn animated">Usefull Links</h5>
                         <ul class="footer-list wow fadeIn animated">
-                            <li><a href="#">Delivery Information</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Cancellation & Return</a></li>
+                            <li><a href="{{url('/delivery_information')}}">Delivery Information</a></li>
+                            <li><a href="{{url('/terms-and-condition')}}">Terms & Conditions</a></li>
+                            <li><a href="{{url('/privacy_and_policy')}}">Privacy Policy</a></li>
+                            <li><a href="{{url('/cancellation_and_return')}}">Cancellation & Return</a></li>
                             <li><a href="#">FAQS</a></li>
-                            <li><a href="#">Track My Order</a></li>
+                            <li><a href="{{route('trackorder')}}">Track My Order</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-3">

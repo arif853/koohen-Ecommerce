@@ -6,7 +6,7 @@
                 <span>
                     <i class="material-icons md-calendar_today"></i> <b>Wed, Aug 13, 2022, 4:34PM</b>
                 </span> <br>
-                <small class="text-muted">Order ID: 3453012</small> <br>
+                <small class="text-muted">Track ID: </small> <br>
             </div>
         </div>
     </header> <!-- card-header end// -->

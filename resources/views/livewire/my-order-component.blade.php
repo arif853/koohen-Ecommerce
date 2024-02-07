@@ -25,19 +25,21 @@
                             </thead>
                             <tbody>
                                 @foreach ($trackedProduct as $key => $item)
-                                {{$trackedOrder->status}}
+
                                 <tr>
-                                    <th scope="row" class="text-start">{{$trackedOrder->created_at->setTimezone('Asia/Dhaka')->format('M j, Y, g:iA')}}</th>
+                                    <th scope="row" class="text-start">{{$trackedOrder->created_at->setTimezone('Asia/Dhaka')->format('M j, Y, g:iA')}}
+                                        {{-- <p><small>{{$trackedOrder->order_track_id}}</small></p> --}}
+                                    </th>
                                     <td scope="row" class="text-center">
                                         <a href="#">
                                             <img height="80px" width="80px" src="{{asset('storage/product_images/'.$item->product_images->first()->product_image)}}" class="image-fluid" alt="ProductImage">
                                         <p>{{$item->product_name}}</p>
                                         </a>
-
+                                        <p><small>{{$item->color->color_name}}, {{$item->size->size_name}}</small></p>
                                     </td>
 
-                                    <td class="text-center">{{$item->quantity}}</td>
-                                    <td class="text-center">{{$item->price}}</td>
+                                    <td class="text-center">{{$item->quantity}} X {{$item->price}}</td>
+                                    <td class="text-center">{{$item->quantity * $item->price}}.00</td>
                                 </tr>
                                 @endforeach
 
@@ -51,18 +53,23 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2" style="border: none"></td>
-                                    <td class="text-end">Delivery Type :</td>
-                                    <td class="text-center">{{$trackedOrder->transaction->mood}}</td>
+                                    <td class="text-end">Payment Type :</td>
+                                    <td class="text-center">{{$trackedOrder->transaction->mode}}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" style="border: none"></td>
                                     <td class="text-end">Delivery Charge :</td>
-                                    <td class="text-center">500.00</td>
+                                    <td class="text-center">{{$trackedOrder->delivery_charge}}.00</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="border: none"></td>
+                                    <td class="text-end">Discount Charge :</td>
+                                    <td class="text-center">{{$trackedOrder->discount}}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" style="border: none"></td>
                                     <td class="text-end" style="font-size: 18px; font-weight:600 ">Grand Total :</td>
-                                    <td class="text-center" style="font-size: 18px; font-weight:600 ">500.00</td>
+                                    <td class="text-center" style="font-size: 18px; font-weight:600 ">{{$trackedOrder->total}}</td>
                                 </tr>
                             </tfoot>
                         </table>

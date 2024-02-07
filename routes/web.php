@@ -23,6 +23,7 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\ZoneController;
@@ -62,6 +63,21 @@ Route::get('/404', function () {
 
 Route::get('/dashboard/404', function () {
     return view('admin.error.404');
+});
+
+Route::get('/privacy_and_policy', function () {
+    return view('frontend.privacy-policy');
+});
+
+Route::get('/terms-and-condition', function () {
+    return view('frontend.terms-and-condition');
+});
+
+Route::get('/cancellation_and_return', function () {
+    return view('frontend.cancellation_and_return');
+});
+Route::get('/delivery_information', function () {
+    return view('frontend.delivery_information');
 });
 
 // Route::get('/', HomeComponent::class )->name('home');
@@ -275,6 +291,15 @@ Route::controller(FeatureCategoryController::class)->middleware('auth')->group(f
     Route::post('/dashboard/category_feature/update', 'update')->name('category_feature.update');
     // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
     Route::delete('/dashboard/category_feature/destroy', 'destroy')->name('category_feature.destroy');
+});
+
+//Slider category
+Route::controller(SliderController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/slider', 'index')->name('slider');
+    Route::post('/dashboard/slider/store', 'store')->name('slider.store');
+    Route::get('/dashboard/slider/edit', 'edit')->name('slider.edit');
+    Route::post('/dashboard/slider/update', 'update')->name('slider.update');
+    Route::delete('/dashboard/slider/destroy', 'destroy')->name('slider.destroy');
 });
 
 

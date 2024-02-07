@@ -100,8 +100,8 @@ class ProductController extends Controller
             'info_name.*' => 'nullable|string',
             'info_value.*' => 'nullable|string',
 
-            'product_image.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-            'product_thumnail.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'product_image.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:10240',
+            'product_thumnail.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
 
             'product_size.*' => 'nullable|exists:sizes,id',
             'product_color.*' => 'nullable|exists:colors,id',
@@ -358,8 +358,8 @@ class ProductController extends Controller
             'info_name.*' => 'nullable|string',
             'info_value.*' => 'nullable|string',
 
-            'product_image.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-            'product_thumbnail.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'product_image.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:10240',
+            'product_thumnail.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
 
             'product_size.*' => 'nullable|exists:sizes,id',
             'product_color.*' => 'nullable|exists:colors,id',

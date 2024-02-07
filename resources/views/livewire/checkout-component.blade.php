@@ -73,7 +73,7 @@
                     <th class="text-end">Total</th>
                     <td colspan="3" class="product-subtotal"><span
                         @php
-                            $total =  $total - $discount ;
+                            $total =  $total - $discount + $delivery_charge ;
                         @endphp
                             class="font-xl text-brand fw-900">৳{{$total}}</span>
                             <input type="hidden" name="total_amount" id="t_amount" value="{{$total}}">
