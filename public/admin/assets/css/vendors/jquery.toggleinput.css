@@ -1,0 +1,32 @@
+
+/* Btn group *****************************************************************************************************/
+
+.has-toggle-input{
+    margin-bottom: 20px;
+}
+.has-toggle-input label.form-check-label, .has-toggle-input.radio label.form-check-label {
+  display: inline;
+  /* float: left; */
+  padding: 5px 10px;
+  margin: auto auto auto -1px;
+  background: #f4f4f4;
+  color: #444;
+  border: 1px #d0d0d0 solid;
+  line-height: normal;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.has-toggle-input label.form-check-label.active {
+  background: #cb0928;
+  border-color: #cb0928;
+  color: white;
+  font-weight: bolder;
+}
+.has-toggle-input label.form-check-label:first-of-type {
+    margin-left: auto;
+ }
+
+    .has-toggle-input label.form-check-label:last-of-type {
+
+    }
