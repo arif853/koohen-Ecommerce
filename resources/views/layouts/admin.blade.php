@@ -73,6 +73,7 @@
     </main>
 
 
+
     {{-- Jquery  --}}
     <script src="{{asset('admin/assets/js/vendors/jquery-3.6.0.min.js')}}"></script>
     <script src="{{asset('admin/assets/js/vendors/bootstrap.bundle.min.js')}}"></script>
@@ -124,6 +125,8 @@
     @stack('order_status')
     @stack('supplier')
     @stack('zone')
+
+
     <script>
         $(document).ready(function() {
 

@@ -114,14 +114,14 @@
                                                 <div  class="row mt-4">
                                                     @foreach ($products->product_thumbnail as $productImage)
                                                     <div class="col-lg-3">
-                                                        <div class="overlay-bg">
+                                                        {{-- <div class="overlay-bg">
                                                             <div class="brand-overlay">
                                                                 <div class="action-icon">
                                                                      <input type="hidden" name="productimage_id" value="{{$productImage->id}}" id="productimage_id">
                                                                     <a class="delete_image" data-productimage-id="{{$productImage->id}}" href="#"><i class="fa-solid fa-times"></i></a>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </div> --}}
                                                         <img src="{{asset('storage/product_images/thumbnail/'.$productImage->product_thumbnail)}}" alt="{{$products->slug}}">
                                                         {{-- <button class="btn btn-danger btn-sm">Remove</button> --}}
                                                         <button class="btn btn-danger btn-sm delete_thumb mb-2"  data-productimage-id="{{$productImage->id}}"><i class="fal fa-times"></i></button>

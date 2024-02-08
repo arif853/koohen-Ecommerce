@@ -1,23 +1,22 @@
-
 @extends('layouts.admin')
-@section('title','Manage Slider')
+@section('title','Manage Ads')
 @section('content')
 
 <div class="content-header">
     <div>
-        <h2 class="content-title card-title">Manage Sliders</h2>
+        <h2 class="content-title card-title">Manage Ads Banner</h2>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="{{'/dashborad'}}">Dashborad</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Slider</li>
+              <li class="breadcrumb-item active" aria-current="page">Ads Banner</li>
             </ol>
         </nav>
     </div>
     <div>
         {{-- <a href="#" class="btn btn-primary btn-sm rounded">Add New category</a> --}}
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary btn-sm rounded" data-bs-toggle="modal" data-bs-target="#sliderModel">
-            New Slider
+        <button type="button" class="btn btn-primary btn-sm rounded" data-bs-toggle="modal" data-bs-target="#adsModal">
+            New Banner
         </button>
     </div>
 </div>
@@ -34,33 +33,33 @@
                     <thead>
                         <tr>
                             <th>#SN</th>
+                            <th>Header </th>
                             <th>Title</th>
-                            <th>Subtitle </th>
                             <th width=20% >Image</th>
                             <th>Shop Link</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($sliders as $key => $slider)
+                        @foreach ($allads as $key => $ads)
                         <tr >
                             <td >{{$key+1}}</td>
-                            <td >{{$slider->title}}</td>
-                            <td>{{$slider->subtitle}}</td>
+                            <td >{{$ads->header}}</td>
+                            <td>{{$ads->title}}</td>
                             <td>
-                                <img src="{{asset('storage/'.$slider->image)}}" alt="{{$slider->title}}" width="100%">
+                                <img src="{{asset('storage/'.$ads->image)}}" alt="{{$ads->title}}" width="100%">
                             </td>
 
                             <td>
-                                {{$slider->slider_url}}
+                               <a href="{{$ads->shop_url}}" target="__blank">{{$ads->shop_url}}</a>
                             </td>
                             <td>
 
-                                <form class="deleteForm" action="{{ route('slider.destroy', $slider->id) }}" method="post">
+                                <form class="deleteForm" action="{{ route('ads.destroy', $ads->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <a href="#"  class="btn btn-sm font-sm rounded btn-brand edit"
-                                    data-bs-toggle="modal" data-bs-target="#sliderEditModal" data-slider-id="{{ $slider->id}}">
+                                        data-bs-toggle="modal" data-bs-target="#adsEditModal" data-ads-id="{{ $ads->id}}">
                                         <i class="material-icons md-edit"></i> Edit
                                     </a>
                                     <a href="#" class="btn btn-sm font-sm btn-light rounded delete">
@@ -81,8 +80,8 @@
     </div>
 </div>
 
-@include('admin.slider.edit')
-@include('admin.slider.create')
+@include('admin.ads.edit')
+@include('admin.ads.create')
 
 @endsection
 @push('product')
@@ -91,7 +90,7 @@
     // Edit Category
     $(document).on('click', '.edit', function (e) {
         e.preventDefault();
-        var sliderId = $(this).data('slider-id');
+        var adsId = $(this).data('ads-id');
         // console.log(categoryId);
 
         $.ajaxSetup({
@@ -100,16 +99,28 @@
             }
         });
         $.ajax({
-            url: '/dashboard/slider/edit',
+            url: '/dashboard/ads/edit',
             method: 'GET',
             data: {
-                id: sliderId,
+                id: adsId,
             },
             success: function (response) {
-                $('#slider_id').val(response.id);
-                $('#slider_title').val(response.title);
-                $('#slider_sub_title').val(response.subtitle);
-                $('#slider_url').val(response.slider_url);
+                $('#ads_id').val(response.id);
+                $('#ads_header').val(response.header);
+                $('#ads_title').val(response.title);
+                $('#shop_url').val(response.shop_url);
+                $('#is_featured2').prop('checked', response.is_featured == 1);
+
+                var adsNoField = document.getElementById('adsNoField2');
+                var checkbox = document.getElementById('is_featured2');
+
+                if (response.is_featured == 1) {
+                    adsNoField.style.display = 'block';
+                } else {
+                    adsNoField.style.display = 'none';
+                }
+                $('#is_feature_no').val(response.is_feature_no);
+
 
                 const outputImage = document.getElementById('output-image2');
                 outputImage.src = "{{asset('storage')}}"+'/'+response.image
@@ -118,12 +129,12 @@
     });
 
     //Update Category
-    $("#sliderUpdateForm").submit(function (e) {
+    $("#adsUpdateForm").submit(function (e) {
         e.preventDefault();
         const data = new FormData(this);
         console.log(data);
         $.ajax({
-            url: '/dashboard/slider/update',
+            url: '/dashboard/ads/update',
             method: 'post',
             data: data,
             cache: false,

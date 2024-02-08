@@ -325,7 +325,8 @@ class ProductController extends Controller
             'brand',
             'category',
             'product_price',
-            'supplier'
+            'supplier',
+            'product_thumbnail'
         ])->findOrFail($id);
             // dd($products);
         // return response()->json($products, 200, [], JSON_PRETTY_PRINT);
@@ -358,8 +359,8 @@ class ProductController extends Controller
             'info_name.*' => 'nullable|string',
             'info_value.*' => 'nullable|string',
 
-            'product_image.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:10240',
-            'product_thumnail.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
+            'product_image.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:10240',
+            'product_thumnail.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
 
             'product_size.*' => 'nullable|exists:sizes,id',
             'product_color.*' => 'nullable|exists:colors,id',
@@ -447,29 +448,29 @@ class ProductController extends Controller
                 $thumbnail = $request->file('product_thumbnail');
 
                 foreach ($thumbnail as $index => $image) {
-                    $manager = new ImageManager(new Driver());
 
-                    $imageName = $product->slug.'_' .$index . '_' . time() . '.' . $image->getClientOriginalExtension();
+                    $manager = new ImageManager(new Driver());
+                    $thumbImage = $product->slug.'_' .$index . '_' . time() . '.' . $image->getClientOriginalExtension();
 
                     $img = $manager->read($image);
                     // $encoded = $img->toWebp();
                     // $img = $img->resize(400, 600);
 
-                    $imagePath = 'product_images/thumbnail/' . $imageName;
+                    $imagePath = 'product_images/thumbnail/' . $thumbImage;
 
                     // Check if an image with the same name already exists
-                    $existingthumb = $existingthumbs->where('product_thumbnail', $imageName)->first();
+                    $existingthumb = $existingthumbs->where('product_thumbnail', $thumbImage)->first();
 
                     if ($existingthumb) {
                         // Update existing image
                         $existingthumb->update([
-                            'product_thumbnail' => $imageName,
+                            'product_thumbnail' => $thumbImage,
                         ]);
                     } else {
 
                     Product_thumbnail::create([
                         'product_id' => $product->id,
-                        'product_thumbnail' => $imageName,
+                        'product_thumbnail' => $thumbImage,
                     ]);
 
                     Storage::disk('public')->put($imagePath , (string)$img->encode());

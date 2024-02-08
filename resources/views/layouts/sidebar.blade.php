@@ -117,8 +117,13 @@
         <hr>
         <ul class="menu-aside">
             <li class="menu-item">
-                <a class="menu-link" href="{{route('slider')}}"> <i class="icon material-icons md-local_offer"></i>
-                    <span class="text">Slider</span>
+                <a class="menu-link" href="{{route('slider')}}">
+                    <span class="text">Manage Slider</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="{{route('ads')}}"> 
+                    <span class="text">Manage Ads</span>
                 </a>
             </li>
             <li class="menu-item has-submenu">

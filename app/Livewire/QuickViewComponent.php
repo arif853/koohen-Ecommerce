@@ -2,16 +2,14 @@
 
 namespace App\Livewire;
 
-use App\Models\Size;
-use App\Models\Color;
 use Livewire\Component;
 use App\Models\Products;
+use Livewire\Attributes\On;
 use App\Models\Product_image;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
-use Livewire\Attributes\On;
 
-class ProductComponent extends Component
+class QuickViewComponent extends Component
 {
 
     public $slug;
@@ -78,7 +76,7 @@ class ProductComponent extends Component
         session()->forget('quantity');
         session()->forget('product_size');
         session()->forget('product_color');
-        
+
         Session::flash('success', 'Product added to cart.');
             // return response()->json( $item_data);
         return redirect()->route('checkout');
@@ -102,6 +100,6 @@ class ProductComponent extends Component
             'product_price'
         ])->where('slug', $this->slug)->first();
 
-        return view('livewire.product-component',['product'=>$product]);
+        return view('livewire.quick-view-component',['product'=>$product]);
     }
 }

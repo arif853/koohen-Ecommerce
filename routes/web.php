@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdsController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
 use App\Models\Feature_category;
 use App\Models\Products;
@@ -293,15 +294,23 @@ Route::controller(FeatureCategoryController::class)->middleware('auth')->group(f
     Route::delete('/dashboard/category_feature/destroy', 'destroy')->name('category_feature.destroy');
 });
 
-//Slider category
+//Slider
 Route::controller(SliderController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/slider', 'index')->name('slider');
     Route::post('/dashboard/slider/store', 'store')->name('slider.store');
     Route::get('/dashboard/slider/edit', 'edit')->name('slider.edit');
     Route::post('/dashboard/slider/update', 'update')->name('slider.update');
-    Route::delete('/dashboard/slider/destroy', 'destroy')->name('slider.destroy');
+    Route::delete('/dashboard/slider/destroy/{id}', 'destroy')->name('slider.destroy');
 });
 
+//ads route
+Route::controller(AdsController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/ads', 'index')->name('ads');
+    Route::post('/dashboard/ads/store', 'store')->name('ads.store');
+    Route::get('/dashboard/ads/edit', 'edit')->name('ads.edit');
+    Route::post('/dashboard/ads/update', 'update')->name('ads.update');
+    Route::delete('/dashboard/ads/destroy/{id}', 'destroy')->name('ads.destroy');
+});
 
 // reviews
 Route::get('/dashboard/reviews', function () {

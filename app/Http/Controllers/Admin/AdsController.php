@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Slider;
+use App\Models\Ads;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Intervention\Image\ImageManager;
@@ -11,16 +11,15 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Drivers\Gd\Driver;
 
-class SliderController extends Controller
+class AdsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $sliders = Slider::all();
-
-        return view('admin.slider.index',compact('sliders'));
+        $allads = Ads::all();
+        return view('admin.ads.index',compact('allads'));
     }
 
     /**
@@ -37,9 +36,9 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'slider_title' => 'required|string',
-            'slider_sub_title' => 'required|string',
-            'slider_image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'ads_header' => 'required|string',
+            'ads_title' => 'required|string',
+            'ads_image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
         ];
 
         $validator = Validator::make($request->all(),$rules);
@@ -50,29 +49,30 @@ class SliderController extends Controller
         }
         else{
 
-            if($request->hasFile('slider_image')){
+            if($request->hasFile('ads_image')){
 
-                $image = $request->file('slider_image');
+                $image = $request->file('ads_image');
 
                 $manager = new ImageManager(new Driver());
                 $imageName =  time() .  '.' . $image->getClientOriginalExtension();
 
                 $img = $manager->read($image);
-
-                $imagePath = 'slider/' . $imageName;
+                $imagePath = 'ads_banner/' . $imageName;
 
                 Storage::disk('public')->put($imagePath , (string)$img->encode());
-
             }
 
-            $slider = new Slider;
-            $slider->title = $request->slider_title;
-            $slider->subtitle = $request->slider_sub_title;
-            $slider->slider_url = $request->slider_url;
-            $slider->image = $imagePath;
-            $slider->save();
+            $ads = new Ads;
+            $ads->header = $request->ads_header;
+            $ads->title = $request->ads_title;
+            $ads->shop_url = $request->shop_url;
+            $ads->is_featured = $request->is_featured ? 1 : 0;
+            $ads->is_feature_no = $request->is_feature_no;
+            $ads->image = $imagePath;
+            $ads->save();
 
-            Session::flash('success', 'Slider added successfully.');
+            Session::flash('success', 'Ads-Banner has been added successfully.');
+
             return redirect()->back();
         }
     }
@@ -91,9 +91,9 @@ class SliderController extends Controller
     public function edit(Request $request)
     {
         $id = $request->id;
-        $slider = Slider::findOrFail($id);
+        $ads = Ads::findOrFail($id);
 
-        return response()->json($slider);
+        return response()->json($ads);
     }
 
     /**
@@ -102,13 +102,13 @@ class SliderController extends Controller
     public function update(Request $request)
     {
 
-        $id = $request->slider_id;
-        $slider = Slider::find($id);
+        $id = $request->ads_id;
+        $ads = Ads::find($id);
 
         $rules = [
-            'slider_title' => 'required|string',
-            'slider_sub_title' => 'required|string',
-            'slider_image' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+            'ads_header' => 'required|string',
+            'ads_title' => 'required|string',
+            'ads_image' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
         ];
 
         $validator = Validator::make($request->all(),$rules);
@@ -119,34 +119,36 @@ class SliderController extends Controller
         }
         else{
 
-            if($request->hasFile('slider_image')){
+            if($request->hasFile('ads_image')){
 
-                $image = $request->file('slider_image');
+                $image = $request->file('ads_image');
 
                 $manager = new ImageManager(new Driver());
                 $imageName =  time() .  '.' . $image->getClientOriginalExtension();
 
                 $img = $manager->read($image);
 
-                $imagePath = 'slider/' . $imageName;
+                $imagePath = 'ads_banner/' . $imageName;
 
                 Storage::disk('public')->put($imagePath , (string)$img->encode());
+                Storage::delete('public/'.$ads->image);
 
-                Storage::delete('public/'.$slider->image);
-
-                $sliderImage = $imagePath;
+                $ads_image = $imagePath;
             }
             else{
-                $sliderImage = $slider->image;
+                $ads_image = $ads->image;
             }
 
-            $slider->title = $request->slider_title;
-            $slider->subtitle = $request->slider_sub_title;
-            $slider->slider_url = $request->slider_url;
-            $slider->image = $sliderImage;
-            $slider->save();
 
-            Session::flash('success', 'Slider has been updated successfully.');
+            $ads->header = $request->ads_header;
+            $ads->title = $request->ads_title;
+            $ads->shop_url = $request->shop_url;
+            $ads->is_featured = $request->is_featured ? 1 : 0;
+            $ads->is_feature_no = $request->is_feature_no;
+            $ads->image = $ads_image;
+            $ads->save();
+
+            Session::flash('success', 'Ads-Banner has been updated successfully.');
 
             return response()->json(['status' => 200]);
         }
@@ -158,15 +160,16 @@ class SliderController extends Controller
     public function destroy(string $id)
     {
         try{
-            $slider = Slider::find($id);
+            $ads = Ads::find($id);
 
-            Storage::delete('public/'.$slider->image);
-            $slider->delete();
-            return redirect()->back()->with('success', 'Slider has been removed.');
+            Storage::delete('public/'.$ads->image);
+            $ads->delete();
+
+            return redirect()->back()->with('success', 'Ads-banner has been removed.');
 
             } catch (\Exception $e) {
                 // Log the exception or handle it in a way that makes sense for your application
-                return redirect()->back()->with('danger', 'This slider can not be removed.');
+                return redirect()->back()->with('danger', 'This Banner can not removed.');
             }
     }
 }
