@@ -10600,25 +10600,6 @@ span.fi-rs-apps {
 	color: #fff;
 }
 
-
-@media (min-width: 992px) {
-    .d-sm-none {
-        display: block !important;
-    }
-}
-
-@media (min-width: 320px) and (max-width: 991px) {
-    .d-sm-none {
-      display: none !important;
-    }
-    .header-action-2 .header-action-icon-2 > a {
-        color: #333 !important;
-        fill: #333 !important;
-    }
-  }
-
-
-
 /* order Track */
 .order-tracking .steps .step {
     display: block;
@@ -10687,3 +10668,34 @@ span.fi-rs-apps {
 .steps .step:last-child .step-icon-wrap::after {
     display: none
 }
+
+
+
+@media (min-width: 992px) {
+    .d-sm-none {
+        display: block !important;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 991px) {
+    .d-sm-none {
+      display: none !important;
+    }
+    .header-action-2 .header-action-icon-2 > a {
+        color: #333 !important;
+        fill: #333 !important;
+    }
+    .order-tracking .steps .step .step-icon-wrap::before,
+    .order-tracking .steps .step .step-icon-wrap::after {
+        display: none;
+
+    }
+    .search-menu {
+        width: 100% !important;
+    }
+    .table td {
+        display: block;
+        width: 100%;
+        text-align: center !important;
+      }
+  }

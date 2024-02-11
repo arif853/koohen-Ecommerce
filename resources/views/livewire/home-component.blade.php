@@ -1,6 +1,5 @@
 
 <div>
-
     <div class="text-center">
         <h3 class="section-title section-title-1 mb-20"><span>All Products</span> </h3>
     </div>
@@ -26,7 +25,8 @@
                             </a>
                         </div>
                         <div class="product-action-1">
-                            <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal" ><i class="fi-rs-eye"></i></a>
+                            <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal" wire:click="showQuickView('{{$product->slug}}')">
+                                <i class="fi-rs-eye"></i></a>
                             <a aria-label="Add To Wishlist" class="action-btn hover-up" href="#"><i class="fi-rs-heart"></i></a>
                         </div>
                         <div class="product-badges product-badges-position product-badges-mrg">
@@ -49,7 +49,7 @@
                         <div>
                             <div class="text-center">
                                 {{-- <a href="#"><button type="button" class="adto-cart-btn">Add To Cart</button></a> --}}
-                                <a href="#" wire:click.prevent="store({{$product->id}})" ><button type="button" class="adto-cart-btn">Add To Cart</button></a>
+                                <a href="#" wire:click.prevent="store({{$product->id}})" onclick="cartNotify()"><button type="button" class="adto-cart-btn">Add To Cart</button></a>
                             </div>
                         </div>
                     </div>
@@ -61,20 +61,17 @@
         <!--End product-grid-4-->
     </div>
     <!--End tab-content-->
-    <div class="row mt-30">
-        <div class="col-12 text-center">
-            <p class="wow fadeIn animated">
-                {{-- @if ($products->hasMorePages()) --}}
-                    {{-- <button>Load More</button> --}}
-                    <a class="btn btn-brand text-white btn-shadow-brand hover-up btn-lg" id="loadMoreBtn"  wire:click="loadMore">Load More</a>
-                {{-- @endif --}}
-            </p>
-        </div>
-    </div>
-    {{-- {{ $products->links() }} --}}
 
 
 
+
+<script>
+
+       function cartNotify(){
+           $.Notification.autoHideNotify('success', 'top right', 'Success', 'Product added to cart successfully');
+       }
+
+</script>
 
 </div>
 

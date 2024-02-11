@@ -71,6 +71,15 @@
                 </tr>
                 <tr>
                     <th class="text-end">Total</th>
+                    @if($deliveryCharge)
+                    <td colspan="3" class="product-subtotal">
+                        @php
+                            $total =  $total - $discount + $deliveryCharge ;
+                        @endphp
+                        <span class="font-xl text-brand fw-900">৳{{$total }}</span>
+                        <input type="hidden" name="total_amount" id="t_amount" value="{{$total }}">
+                    </td>
+                    @else
                     <td colspan="3" class="product-subtotal"><span
                         @php
                             $total =  $total - $discount + $delivery_charge ;
@@ -78,6 +87,8 @@
                             class="font-xl text-brand fw-900">৳{{$total}}</span>
                             <input type="hidden" name="total_amount" id="t_amount" value="{{$total}}">
                     </td>
+                    @endif
+
                 </tr>
 
             </tbody>

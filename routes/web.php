@@ -10,8 +10,6 @@ use App\Livewire\ShopComponent;
 use App\Livewire\ProductComponent;
 use App\Livewire\CheckoutComponent;
 use App\Livewire\PostOfficeSelector;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\MediaController;
@@ -34,6 +32,8 @@ use App\Http\Controllers\Frontend\CustomerDashboardController;
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Frontend\TrackorderController;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -159,7 +159,6 @@ Route::controller(BrandController::class)->middleware('auth')->group(function ()
     Route::get('/dashboard/brands/edit', 'edit')->name('brands.edit');
     Route::post('/dashboard/brands/update', 'update')->name('brands.update');
     Route::delete('/dashboard/brands/destroy/{id}', 'destroy')->name('brands.destroy');
-
 });
 
 //Category

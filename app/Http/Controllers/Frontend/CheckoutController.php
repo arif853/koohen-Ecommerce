@@ -26,25 +26,25 @@ class CheckoutController extends Controller
      * Store a newly created resource in storage.
      */
 
-     public function generateCode()
-     {
-        do {
-            // Generate a 4-digit random number
-            $randomNumber = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
+    public function generateCode()
+    {
+    do {
+        // Generate a 4-digit random number
+        $randomNumber = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
 
-            // Get the current year
-            $currentYear = date('y');
-            // Concatenate the components to create the final code
-            $generatedCode = 'K'.$currentYear.'-'.$randomNumber;
-            // Check if the generated code already exists in the database
-            $codeExists = DB::table('orders')->where('order_track_id', $generatedCode)->exists();
+        // Get the current year
+        $currentYear = date('y');
+        // Concatenate the components to create the final code
+        $generatedCode = 'K'.$currentYear.'-'.$randomNumber;
+        // Check if the generated code already exists in the database
+        $codeExists = DB::table('orders')->where('order_track_id', $generatedCode)->exists();
 
-        } while ($codeExists);
+    } while ($codeExists);
 
-         // Concatenate the components to create the final code
+        // Concatenate the components to create the final code
 
-         return $generatedCode;
-     }
+        return $generatedCode;
+    }
 
     public function store(Request $request)
     {

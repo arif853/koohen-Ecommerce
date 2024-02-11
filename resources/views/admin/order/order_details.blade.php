@@ -129,13 +129,15 @@
                                                 <img src="{{asset('storage/product_images/'. $product->product_images->first()->product_image)}}" width="40" height="40" class="img-xs" alt="Item">
                                             </div>
                                             <div class="info"> {{$product->product_name}},
+                                                <br>
                                                 @if ($product->color)
-                                                {{$color->color_name}}
+                                                {{$product->color->color_name}},
                                                 @endif
-
+                                            <br>
                                                 @if($product->size)
-                                                {{$size->size_name}}
+                                                {{$product->size->size_name}}
                                                 @endif
+                                            </div>
                                             </div>
                                         </a>
                                     </td>
@@ -156,8 +158,8 @@
                                                 <dd>৳{{$order->delivery_charge}}</dd>
                                             </dl>
                                             <dl class="dlist">
-                                                <dt>Tax :</dt>
-                                                <dd>৳{{$order->tax}}</dd>
+                                                <dt>Discount :</dt>
+                                                <dd>৳0</dd>
                                             </dl>
                                             <dl class="dlist">
                                                 <dt>Grand total:</dt>

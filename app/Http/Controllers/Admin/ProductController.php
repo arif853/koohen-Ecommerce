@@ -585,10 +585,10 @@ class ProductController extends Controller
                 );
             }
 
-            Session::flash('success', 'Product Updated successfully.');
+            Session::flash('success', 'Product has been Updated successfully.');
         }
 
-        return redirect()->back();
+        return redirect()->route('products.index');
     }
 
     /**
@@ -621,6 +621,8 @@ class ProductController extends Controller
             Storage::delete('public/product_images/' . $product_image->product_image);
             $product_image->delete();
 
+            Session::flash('success', 'Product image has been deleted successfully!!');
+
             // Return a JSON response indicating success
             return response()->json(['message' => 'Product image deleted successfully'], Response::HTTP_OK);
         } else {
@@ -628,12 +630,15 @@ class ProductController extends Controller
             return response()->json(['error' => 'Product image not found'], Response::HTTP_NOT_FOUND);
         }
     }
+
     public function thumb_destroy($id){
 
         $product_thumbnail = Product_thumbnail::findOrFail($id);
         if ($product_thumbnail) {
             Storage::delete('public/product_images/thumbnail' . $product_thumbnail->product_thumbnail);
             $product_thumbnail->delete();
+
+            Session::flash('success', 'Product thumbnail image has been deleted !!');
 
             // Return a JSON response indicating success
             return response()->json(['message' => 'Thumbnail image deleted successfully'], Response::HTTP_OK);

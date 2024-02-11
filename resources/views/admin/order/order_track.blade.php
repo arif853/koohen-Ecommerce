@@ -19,7 +19,7 @@
                         <i class="material-icons md-calendar_today"></i> <b>{{$order->created_at->setTimezone('Asia/Dhaka')->format('D, M j, Y, g:iA')}}</b>
                     </span> <br>
                     <small class="text-muted">Order ID: {{$order->id}}</small> <br>
-                    <small class="text-muted">Your order has been delivered</small>
+                    {{-- <small class="text-muted">Your order has been delivered</small> --}}
                 </div>
                 <div class="col-lg-6 col-md-6 ms-auto text-md-end">
                     <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200 mr-15">
@@ -39,7 +39,7 @@
                 <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between">
                     @php
                         $statusColumn = $order->orderStatus->status . '_date_time';
-                        $currentStatusTime = Carbon\Carbon::parse($order->orderStatus->$statusColumn)->setTimezone('Asia/Dhaka');
+                        $currentStatusTime = Carbon\Carbon::parse($order->orderStatus->created_at)->setTimezone('Asia/Dhaka');
                     @endphp
 
                     @if($order->orderStatus->status == 'pending')

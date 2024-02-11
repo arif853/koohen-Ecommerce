@@ -13,6 +13,13 @@ use function Laravel\Prompts\alert;
 
 class HomeComponent extends Component
 {
+    public $slug;
+
+    public function showQuickView($slug)
+    {
+        $this->slug = $slug;
+        $this->dispatch('showQuickViewModal', slug: $slug);
+    }
 
     use WithPagination;
     // public $products;
@@ -31,12 +38,14 @@ class HomeComponent extends Component
         $item_slug = $product->slug;
         $item_image = Product_image::where('product_id',$id)->select('product_image')->first();
         $data = Cart::add($id,$item_name,1,$item_price, ['image' => $item_image,'slug' => $item_slug]);
+
         Session::flash('success','Product added To cart.');
         // return redirect()->route('shop.cart');
-        $this->dispatch('cartRefresh')->to('cart-icon-component');
 
+        $this->dispatch('cartRefresh')->to('cart-icon-component');
+        // return response()->json(['message' => 'Product added to cart successfully']);
     }
-    
+
     public function render()
     {
         // $products = Products::all();
@@ -56,20 +65,5 @@ class HomeComponent extends Component
         // print_r($products);
         return view('livewire.home-component',['products'=> $products]);
     }
-    public function loadMore()
-    {
-        // $this->products = $this->products->concat(Products::with([
-        //     'overviews',
-        //     'product_infos',
-        //     'product_images',
-        //     'product_extras',
-        //     'tags',
-        //     'sizes',
-        //     'colors',
-        //     'brand',
-        //     'category',
-        //     'subcategory',
-        //     'product_price'
-        // ])->paginate(3));
-    }
+
 }

@@ -124,7 +124,7 @@
                                                         </div> --}}
                                                         <img src="{{asset('storage/product_images/thumbnail/'.$productImage->product_thumbnail)}}" alt="{{$products->slug}}">
                                                         {{-- <button class="btn btn-danger btn-sm">Remove</button> --}}
-                                                        <button class="btn btn-danger btn-sm delete_thumb mb-2"  data-productimage-id="{{$productImage->id}}"><i class="fal fa-times"></i></button>
+                                                        <button class="btn btn-danger btn-sm delete_thumb mb-2"  data-productimage-id="{{$productImage->id}}"><i class="fa fa-times"></i></button>
 
                                                     </div>
                                                     @endforeach
@@ -154,7 +154,7 @@
                                                         </div> --}}
 
                                                         <img src="{{asset('storage/product_images/'.$productImage->product_image)}}" alt="{{$products->slug}}">
-                                                        <button class="btn btn-danger btn-sm delete_image mb-2"  data-productimage-id="{{$productImage->id}}"><i class="fal fa-times"></i></button>
+                                                        <button class="btn btn-danger btn-sm delete_image mb-2"  data-productimage-id="{{$productImage->id}}"><i class="fa fa-times"></i></button>
 
                                                     </div>
                                                     @endforeach

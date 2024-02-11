@@ -17,6 +17,7 @@
         .search-container .track-btn{
             margin-top: 25px;
             border-radius: 50px;
+            float: right;
         }
         button.submit, button[type="submit"] {
             font-size: 15px;
@@ -32,9 +33,15 @@
             background-color: #FF8B13 !important;
             border: 1px solid #FF8B13;
         }
-        .card{
+        .tab{
             display: none;
         }
+
+        .search-menu{
+            margin: 30px auto;
+            width: 550px;
+        }
+
     </style>
     <section>
         <div class="container">
@@ -42,15 +49,22 @@
                 <form  id="ordertrackform">
                     {{-- @csrf --}}
                     <div class="row">
-                        <div class="col-lg-6 col-md-6">
-                            <div class="search-menu">
-                                <label for="form-label"> Track your order:  </label>
-                                <input type="text" class="form-control" name="" id="order_number" placeholder="Track id: K24-0000">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header text-center">
+                                    <h2>Start Tracking your order</h2>
+                                </div>
+                                <div class="card-body track_search">
+                                    <div class="search-menu">
+                                        {{-- <label for="form-label"> Track your order:  </label>  --}}
+                                        <input type="text" class="form-control " name="" id="order_number" placeholder="Track id: K24-0000">
+                                        <button class="btn btn-success track-btn" type="submit">Track</button>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
-                        <div class="col-lg-6">
-                            <button class="btn btn-success track-btn" type="submit">Track</button>
-                        </div>
+
                     </div>
                 </form>
             </div>
@@ -58,7 +72,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
 
-                    <div class="card">
+                    <div class="card tab">
                         <header class="card-header">
                             <div class="row align-items-center">
                                 <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
@@ -112,6 +126,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div >
+                            <h3 id="orderStatus"></h3>
+                        </div>
 
                         <div class="card-body text-primary">
 
@@ -129,7 +146,7 @@
                                 <tbody>
 
                                     <tr>
-                                        <th scope="row" class="text-start"></th>
+                                        <td scope="row" class="text-start"></td>
                                         <td scope="row" class="text-center">
                                             <a href="#">
                                                 <img height="80px" width="80px" src="" class="image-fluid" alt="ProductImage">
@@ -170,7 +187,6 @@
                         </div>
                     </div> <!-- card end// -->
 
-
                 </div>
             </div>
         </div>
@@ -179,6 +195,7 @@
 
 @endsection
 @push('dashboard')
+
 <script>
    $(document).ready(function () {
     // Attach a submit event listener to the form
@@ -201,17 +218,53 @@
                 data: { trackid: trackId },
                 success: function (response) {
 
-                    if (response && response.order) {
+                    if (response && response.order ) {
                         console.log(response.order); // Access order details
 
-                        $('.card').css('display', 'block');
-                        // Clear existing table content
+                        var orderStatus = response.order.order_status;
+                        var steps = $('.steps');
+                        steps.empty();
+
+                        var statusIcons = {
+                            pending: 'far fa-shopping-basket',
+                            confirmed: 'fas fa-shopping-bag',
+                            shipped: 'fad fa-truck-couch',
+                            delivered: 'fal fa-shipping-fast',
+                            completed: 'fas fa-badge-check',
+                            returned: 'fas fa-undo-alt',
+                            cancelled: 'fas fa-times-circle'
+                        };
+
+                        var currentStatusIndex = ['pending', 'confirmed', 'shipped', 'delivered', 'completed'].indexOf(orderStatus.status);
+
+                        // Iterate over all possible statuses and update the steps
+                        $.each(['pending', 'confirmed', 'shipped', 'delivered', 'completed'], function(index, stepStatus) {
+                            var iconClass = statusIcons[stepStatus];
+                            var date = orderStatus[stepStatus + '_date_time'];
+                            moment.locale('bn-bd');
+                            var formattedDate = date ?  moment.utc(date).tz('Asia/Dhaka').format('D MMM YYYY, h:mmA') : '';
+                            var isCompleted = index <= currentStatusIndex;
+
+                            steps.append(
+                                '<div class="step ' + (isCompleted ? 'completed' : '') + '">' +
+                                    '<div class="step-icon-wrap">' +
+                                        '<div class="step-icon"><i class="' + iconClass + '"></i></div>' +
+                                    '</div>' +
+                                    '<h4 class="step-title">' + stepStatus.replace(/^\w/, c => c.toUpperCase()) + '</h4>' +
+                                    '<small class="text-muted text-sm">' + formattedDate + '</small>' +
+                                '</div>'
+                            );
+                        });
+
+
                         $('#orderDetailsTable tbody').empty();
+                        $('.tab').css('display', 'block');
+                        // Clear existing table content
 
                         $.each(response.orderProducts, function (index, item) {
                             var baseUrl = '{{ url('products/') }}';
                             var row = '<tr>' +
-                                    '<th scope="row" class="text-start">' + response.order.created_at_formatted + '</th>' +
+                                    '<td scope="row" class="text-start">' + response.order.created_at_formatted + '</td>' +
                                     '<td scope="row" class="text-center">' +
                                         '<a href="' + baseUrl+'/' + item.slug + '">';
 
@@ -239,12 +292,17 @@
                                     '<td class="text-center">' + item.price + '</td>' +
                                     '</tr>';
 
+
                             $('#orderDetailsTable tbody').append(row);
 
-                            $('#subtotal').text(response.order.total);
+                            var subtotal = response.order.total;
+                            var deliveryCharge = response.order.delivery_charge;
+                            var total = parseFloat(deliveryCharge) + parseFloat(response.order.total);
+
+                            $('#subtotal').text(subtotal);
                             $('#d_type').text(response.order.transaction.mode);
-                            $('#d_charge').text(response.order.delivery_charge);
-                            $('#g_total').text(response.order.total);
+                            $('#d_charge').text(deliveryCharge);
+                            $('#g_total').text(total.toFixed(2));
                             $('#order_time').text(response.order.created_at_formatted);
                             $('#track_number').text('Track Number: '+ response.order.order_track_id);
 
@@ -252,10 +310,11 @@
                         });
                     }else {
                         // Handle the case where no data is returned
-                        console.log('No data found for the order');
+                       '<h4> No data found for the order. </h4>';
                     }
                 },
                 error: function (error) {
+                    $('#orderDetailsTable tbody').empty();
                     console.error('Error fetching order data:', error);
                 }
             });
@@ -263,5 +322,5 @@
     });
 
 
-  </script>
+</script>
 @endpush

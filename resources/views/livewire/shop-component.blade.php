@@ -247,7 +247,7 @@
                                     <div>
                                         <div class="text-center">
 
-                                            <a href="#" wire:click.prevent="store({{$product->id}})"><button type="button" class="adto-cart-btn">Add To Cart</button></a>
+                                            <a href="#" wire:click.prevent="store({{$product->id}})" onclick="cartNotify()"><button type="button" class="adto-cart-btn">Add To Cart</button></a>
                                         </div>
                                     </div>
                                 </div>
@@ -280,7 +280,13 @@
             </div>
         </div>
     </section>
+    <script>
 
+        function cartNotify(){
+            $.Notification.autoHideNotify('success', 'top right', 'Success', 'Product added to cart successfully');
+        }
+
+    </script>
 </div>
 
 @push('shop')

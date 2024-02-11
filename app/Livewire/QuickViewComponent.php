@@ -13,11 +13,20 @@ class QuickViewComponent extends Component
 {
 
     public $slug;
+    public $product;
 
-    public function mount($slug)
-    {
-        $this->slug= $slug;
-    }
+    // public function showQuickView($slug)
+    // {
+    //     $this->slug = $slug;
+    //     // $this->dispatch('showQuickViewModal')->to('quick-view-component');
+    // }
+    // public function mount($slug)
+    // {
+    //     $this->slug = $slug;
+    //     // $this->loadProduct();
+    // }
+
+
     public function store($id)
     {
         $product = Products::find($id);
@@ -27,7 +36,8 @@ class QuickViewComponent extends Component
         {
             $item_price = $offer_price;
         }
-        else{
+        else
+        {
             $item_price = $product->regular_price;
         }
         // $item_price = $product->regular_price;
@@ -84,9 +94,19 @@ class QuickViewComponent extends Component
 
     #[On('qtyRefresh')]
 
+    #[On('showQuickViewModal')]
+
+
     public function render()
     {
-        $product = Products::with([
+
+        return view('livewire.quick-view-component');
+    }
+
+    public function loadProduct()
+    {
+        $this->product = Products::with([
+
             'overviews',
             'product_infos',
             'product_images',
@@ -97,9 +117,10 @@ class QuickViewComponent extends Component
             'brand',
             'category',
             'subcategory',
-            'product_price'
+            'product_price',
+
         ])->where('slug', $this->slug)->first();
 
-        return view('livewire.quick-view-component',['product'=>$product]);
+        // $this->dispatch('quick-view-component', ['product' => $this->product]);
     }
 }
