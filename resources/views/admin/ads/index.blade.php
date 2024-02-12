@@ -87,7 +87,7 @@
 @push('product')
 <script>
 
-    // Edit Category
+    // Edit ads
     $(document).on('click', '.edit', function (e) {
         e.preventDefault();
         var adsId = $(this).data('ads-id');
@@ -128,7 +128,7 @@
         });
     });
 
-    //Update Category
+    //Update ads
     $("#adsUpdateForm").submit(function (e) {
         e.preventDefault();
         const data = new FormData(this);

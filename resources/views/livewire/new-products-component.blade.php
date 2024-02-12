@@ -21,8 +21,9 @@
                     </a>
                 </div>
                 <div class="product-action-1">
-                    <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                    <a aria-label="Quick view" class="action-btn hover-up quickview" data-bs-toggle="modal" data-bs-target="#quickViewModal" data-product-slug="{{$newproduct->slug}}">
+                        <i class="fi-rs-eye"></i></a>
+                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="#" wire:click.prevent="AddToWishlist({{$newproduct->id}})" onclick="wishNotify()"><i class="fi-rs-heart"></i></a>
                 </div>
                 <div class="product-badges product-badges-position product-badges-mrg">
                     <span class="hot">Hot</span>
@@ -58,6 +59,10 @@
             $.Notification.autoHideNotify('success', 'top right', 'Success', 'Product added to cart successfully');
         }
 
-    </script>
+        function wishNotify(){
+            $.Notification.autoHideNotify('success', 'bottom right', 'Success', 'Product added to wishlist successfully');
+        }
+
+ </script>
 
 </div>

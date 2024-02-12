@@ -97,6 +97,8 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/products/{slug}', 'products')->name('product.detail');
     Route::get('/checkout', 'checkout')->name('checkout');
     Route::get('/cart', 'cart')->name('cart');
+    Route::get('/wishlist', 'wishlist')->name('wishlist');
+    Route::get('/home/quickview', 'quickview')->name('quickview');
 });
 
 // Route::get('/shop', [ShopController::class, 'index'])->name('shop');
@@ -135,6 +137,8 @@ Route::controller(TrackorderController::class)->group(function () {
     Route::post('/trackorder/order_details', 'order_details')->name('order_details');
 
 });
+
+
 
 // Frontend Route End
 

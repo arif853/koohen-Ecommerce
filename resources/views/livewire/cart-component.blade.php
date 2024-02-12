@@ -17,7 +17,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        @if(Cart::count() > 0)
+                        @if(Cart::instance('cart')->count() > 0)
                         <div class="table-responsive">
                             <table class="table shopping-summery text-center clean">
                                 <thead>
@@ -31,11 +31,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        @foreach (Cart::content() as $item)
+                                        @foreach (Cart::instance('cart')->content() as $item)
                                         <tr>
                                             <td class="image product-thumbnail"><img src="{{asset('storage/product_images/'.$item->options->image->product_image)}}" alt="{{$item->options->slug}}"></td>
                                             <td class="product-des product-name">
-                                        {{-- <span>{{ Cart::content() }}</span> --}}
+                                        {{-- <span>{{ Cart::instance('cart')->content() }}</span> --}}
                                                 <h4 class="product-name"><a href="{{route('product.detail',['slug'=>$item->options->slug])}}">{{$item->name}}</a></h4>
                                             </td>
                                             <td class="price" data-title="Price"><span>৳{{$item->price}} </span></td>

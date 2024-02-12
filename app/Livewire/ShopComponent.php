@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Products;
 use Livewire\WithPagination;
 use App\Models\Product_image;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
@@ -17,9 +18,9 @@ class ShopComponent extends Component
 
     public function increaseQuantity($id)
     {
-        $item = Cart::get($id);
+        $item = Cart::instance('cart')->get($id);
         $qty = $item->qty + 1;
-        Cart::update($id, $qty);
+        Cart::instance('cart')->update($id, $qty);
         $this->dispatch('cartRefresh')->to('cart-icon-component');
     }
 
@@ -27,11 +28,11 @@ class ShopComponent extends Component
     {
         $item = Cart::get($id);
         $qty = $item->qty - 1;
-        Cart::update($id,$qty);
+        Cart::instance('cart')->update($id,$qty);
         $this->dispatch('cartRefresh')->to('cart-icon-component');
     }
     public function removecart($id){
-        Cart::remove($id);
+        Cart::instance('cart')->remove($id);
         Session::flash('success','Product removed from cart.');
         $this->dispatch('cartRefresh')->to('cart-icon-component');
     }
@@ -51,7 +52,7 @@ class ShopComponent extends Component
             // $item_price = $product->regular_price;
         $item_slug = $product->slug;
         $item_image = Product_image::where('product_id',$id)->select('product_image')->first();
-        $data = Cart::add($id,$item_name,1,$item_price, ['image' => $item_image,'slug' => $item_slug]);
+        $data = Cart::instance('cart')->add($id,$item_name,1,$item_price, ['image' => $item_image,'slug' => $item_slug]);
 
         Session::flash('success','Product added To cart.');
         // return response()->json($data);
@@ -59,6 +60,29 @@ class ShopComponent extends Component
         $this->dispatch('cartRefresh')->to('cart-icon-component');
             // print_r($offer_price);
     }
+
+    public function AddToWishlist($id){
+
+        $product = Products::find($id);
+
+        $item_name = $product->product_name;
+        $offer_price = $product->product_price->offer_price;
+        if($offer_price > 0)
+        {
+            $item_price = $offer_price;
+        }
+        else{
+            $item_price = $product->regular_price;
+        }
+        $item_slug = $product->slug;
+        $data = Cart::instance('wishlist')->add($id,$item_name,1,$item_price, ['slug' => $item_slug]);
+
+        Session::flash('success','Product added To wishlist.');
+        // return redirect()->route('shop.cart');
+
+        $this->dispatch('cartRefresh')->to('wishlist-icon-component');
+    }
+
     use WithPagination;
 
     public $selectedColors = [], $colorBadge = [];
@@ -118,7 +142,14 @@ class ShopComponent extends Component
         // if (!empty($this->priceRange)) {
         //     $this->products = $this->getFilteredProducts();
         // }
+
         $this->groupedCategories = $this->getGroupedCategories();
+
+        if(Auth::guard('customer')->check()){
+
+            Cart::instance('wishlist')->store(Auth::guard('customer')->user()->email);
+
+        }
 
         return view('livewire.shop-component', [
             'product_count' => $product_count,

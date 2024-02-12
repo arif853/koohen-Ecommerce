@@ -3,14 +3,14 @@
         <a class="mini-cart-icon" href="#">
             <i class="fal fa-shopping-bag"></i>
             {{-- <img alt="Evara" src="{{asset('')}}frontend/assets/imgs/theme/icons/icon-cart.svg"> --}}
-            @if(Cart::count() > 0)
+            @if(Cart::instance('cart')->count() > 0)
             <span class="pro-count blue">{{Cart::count()}}</span>
             @endif
         </a>
-        @if(Cart::count() > 0)
+        @if(Cart::instance('cart')->count() > 0)
         <div class="cart-dropdown-wrap cart-dropdown-hm2">
             <ul>
-                @foreach (Cart::content() as $item)
+                @foreach (Cart::instance('cart')->content() as $item)
                 <li>
                     <div class="shopping-cart-img">
                         <a href="{{route('cart')}}"><img alt="{{$item->options->slug}}" src="{{asset('storage/product_images/'.$item->options->image->product_image)}}"></a>
@@ -27,7 +27,7 @@
             </ul>
             <div class="shopping-cart-footer">
                 <div class="shopping-cart-total">
-                    <h4>Total <span>${{Cart::subtotal()}}</span></h4>
+                    <h4>Total <span>${{Cart::instance('cart')->subtotal()}}</span></h4>
                 </div>
                 <div class="shopping-cart-button">
                     <a href="{{route('cart')}}" class="outline">View cart</a>

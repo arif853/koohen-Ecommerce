@@ -106,12 +106,34 @@ class HomeController extends Controller
 
     }
 
+    public function wishlist(){
+        
+        return view('frontend.shop-wishlist');
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function quickview(Request $request)
     {
-        //
+        $slug = $request->slug;
+
+        $product = Products::with([
+            'overviews',
+            'product_infos',
+            'product_images',
+            'product_thumbnail',
+            'product_extras',
+            'tags',
+            'sizes',
+            'colors',
+            'brand',
+            'category',
+            'subcategory',
+            'product_price'
+        ])->where('slug', $slug)->first();
+
+        return response()->json( $product);
     }
 
     /**

@@ -260,12 +260,9 @@
                                   </button>
                                 </form>
                               </div>
-                            <div class="header-action-icon-2">
-                                <a href="wishlist.php">
-                                    <i class="fal fa-heart"></i>
-                                    <span class="pro-count blue">4</span>
-                                </a>
-                            </div>
+
+                            @livewire('wishlist-icon-component')
+
                             @livewire('cart-icon-component')
 
                         </div>
@@ -273,12 +270,13 @@
                     <p class="mobile-promotion">Happy <span class="text-brand">Mother's Day</span>. Big Sale Up to 40%</p>
                     <div class="header-action-right d-block d-lg-none">
                         <div class="header-action-2">
-                            <div class="header-action-icon-2">
+                            {{-- <div class="header-action-icon-2">
                                 <a href="wishlist.php">
                                     <i class="fal fa-heart"></i>
                                     <span class="pro-count white">4</span>
                                 </a>
-                            </div>
+                            </div> --}}
+                            @livewire('wishlist-icon-component')
                             @livewire('cart-icon-component')
                             <div class="header-action-icon-2 d-block d-lg-none">
                                 <div class="burger-icon burger-icon-white">
@@ -517,17 +515,8 @@
         </div>
     </footer>
 
-    <div class="modal fade custom-modal" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-body">
-                    @livewire('quick-view-component')
-
-                </div>
-            </div>
-        </div>
-    </div>
+    <livewire:quick-view-component />
+    {{-- @livewire('quick-view-component') --}}
 
 
     <!-- Preloader Start -->
@@ -590,7 +579,7 @@
     @stack('shop')
 
 <script>
-   var headerContainer = $('.header-wrap');
+    var headerContainer = $('.header-wrap');
     var topPanel = headerContainer.find('#header-nav');
     var searchHolder = headerContainer.find('.search-holder');
     var searchForm = headerContainer.find('#search-form');
@@ -598,22 +587,22 @@
     var closeToggle = searchForm.find('#form-close');
 
     function calculateAnimationProps () {
-    var vpWidth = $(window).outerWidth(true);
-    var width = 0;
+        var vpWidth = $(window).outerWidth(true);
+        var width = 0;
 
-    if (vpWidth < 1000) {
-        width = headerContainer.outerWidth(true) - 40; // Minus container side padding
-    } else {
-        width = topPanel.outerWidth(true);
-    }
+        if (vpWidth < 1000) {
+            width = headerContainer.outerWidth(true) - 40; // Minus container side padding
+        } else {
+            width = topPanel.outerWidth(true);
+        }
 
-    var right = width - openToggle.outerWidth(true);
+        var right = width - openToggle.outerWidth(true);
 
-    return {
-        formWidth: width,
-        formRight: right,
-        toggleRight: right / 2
-    };
+        return {
+            formWidth: width,
+            formRight: right,
+            toggleRight: right / 2
+        };
     }
 
     $(document).ready(function() {
@@ -658,6 +647,119 @@
 
             $(this).find('[name="qwrd"]')
             .val('This form has been disabled');
+        });
+    });
+
+
+    $(document).on('click', '.quickview', function (e) {
+
+        e.preventDefault();
+        var Slug = $(this).data('product-slug');
+        console.log(Slug);
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/home/quickview',
+            method: 'GET',
+            data: {
+                slug: Slug,
+            },
+            success: function (response) {
+                console.log(response);
+                $('#p_name').text(response.product_name);
+                $('#brand_name').text(response.brand.brand_name);
+
+                $('#product_price').empty();
+                if(response.product_price.offer_price > 0){
+                    var row = '<ins><span class="text-brand">৳'+response.product_price.offer_price +'</span></ins>'+
+                    '<ins><span class="old-price font-md ml-15">৳'+response.regular_price+'</span></ins>'+
+                    '<span class="save-price  font-md color3 ml-15">'+ response.product_price.percentage +'% Off</span>';
+                    $('#product_price').append(row);
+                }
+                else{
+                    var row = '<ins><span class="text-brand">৳'+ response.regular_price +'</span></ins>';
+                    $('#product_price').append(row);
+                }
+
+                $("#overview").empty();
+
+                $.each(response.overviews, function (index, overview) {
+                    var li = '<li><span>' + overview.overview_name + '</span>' + overview.overview_value + '</li>';
+                    $("#overview").append(li);
+                });
+
+                $("#color").empty();
+
+                $.each(response.colors, function(index, color){
+                    var li = $('<li><a href="#" data-color="'+color.color_name+'"><span class="'+color.color_code+'" style="background-color:'+color.color_code+'"></span></a></li>');
+
+                    li.find('a').click(function() {
+                        // Remove "active" class from all list items
+                        $("#color li").removeClass("active");
+
+                        // Add "active" class to the parent list item
+                        $(this).parent().addClass("active");
+                    });
+
+                    $("#color").append(li);
+                })
+
+                $("#size").empty();
+
+                $.each(response.sizes, function(index, size) {
+                    var li = $('<li><a href="#">' + size.size + '</a></li>');
+
+                    // Add a click event handler to the anchor tag inside the list item
+                    li.find('a').click(function() {
+                        // Remove "active" class from all list items
+                        $("#size li").removeClass("active");
+
+                        // Add "active" class to the parent list item
+                        $(this).parent().addClass("active");
+                    });
+
+                    // Append the list item to the #size element
+                    $("#size").append(li);
+                });
+
+                $("#product_sku").text(response.sku);
+                $("#stock").text(response.stock + ' Items In Stock');
+
+                $("#tags").empty();
+                $("#tags").html('Tags: ');
+                $.each(response.tags, function(index, tag){
+                    var a = '<a href="#" rel="tag">'+ tag.tag+'</a>,';
+                    $("#tags").append(a);
+                });
+
+                Livewire.dispatch('buyNow', response.product_id);
+
+                // $(".slider-nav-thumbnails div").empty();
+                // $.each(response.product_images, function(index, image){
+                //     var baseUrl = "{{ asset('storage/product_images/') }}";
+                //     var imageUrl = baseUrl + '/' + image.product_image;
+                //     var image_Div = '<img src="' + imageUrl + '" alt="'+response.slug+'">';
+                //     $(".slider-nav-thumbnails div").append(image_Div);
+                // });
+
+                // $("#slider_image").empty();
+                // $.each(response.product_images, function(index, image){
+                //     var baseUrl = "{{ asset('storage/product_images/') }}";
+                //     var imageUrl = baseUrl + '/' + image.product_image;
+                //     var image_Div = '<figure class="border-radius-10" >'+
+                //             '<img src="' + imageUrl + '" alt="'+response.slug+'">'+
+                //             '</figure>';
+                //     $("#slider_image").append(image_Div);
+                // });
+
+
+                // const outputImage = document.getElementById('output-image2');
+                // outputImage.src = "{{asset('storage')}}"+'/'+response.image
+            }
         });
     });
 </script>

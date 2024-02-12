@@ -2,7 +2,9 @@
 @extends('layouts.home')
 @section('title', 'Cart')
 @section('main')
+
     @livewire('cart-component')
+
     {{-- <main class="main">
         <div class="page-header breadcrumb-wrap">
             <div class="container">

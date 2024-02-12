@@ -1,5 +1,5 @@
 <div>
-    @if(Cart::count() > 0  )
+    @if(Cart::instance('cart')->count() > 0  )
     <div class="table-responsive order_table text-center">
         <table class="table">
             <thead>
@@ -14,7 +14,7 @@
                 $total = 0
                 @endphp
                 {{-- cart item --}}
-                @foreach (Cart::content() as $item)
+                @foreach (Cart::instance('cart')->content() as $item)
 
                 <tr>
                     <td class="image product-thumbnail">
@@ -49,7 +49,7 @@
 
                 <tr>
                     <th class="text-end">SubTotal</th>
-                    <td class="product-subtotal">{{Cart::count()}}</td>
+                    <td class="product-subtotal">{{Cart::instance('cart')->count()}}</td>
                     <td class="product-subtotal" colspan="1">৳{{$total}}</td>
                     <input type="hidden" name="subtotal" value="{{$total}}">
                 </tr>
