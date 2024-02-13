@@ -1,39 +1,40 @@
 <?php
 
-use App\Http\Controllers\Admin\AdsController;
-use App\Http\Controllers\Admin\FeatureCategoryController;
-use App\Models\Feature_category;
 use App\Models\Products;
+use Illuminate\Routing\Router;
 use App\Livewire\CartComponent;
 use App\Livewire\HomeComponent;
 use App\Livewire\ShopComponent;
+use App\Models\Feature_category;
 use App\Livewire\ProductComponent;
 use App\Livewire\CheckoutComponent;
 use App\Livewire\PostOfficeSelector;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\AdsController;
+use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\VarientController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\SliderController;
-use App\Http\Controllers\Admin\SubcategoryController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SupplierController;
-use App\Http\Controllers\Admin\ZoneController;
+use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\TrackorderController;
+use App\Http\Controllers\Admin\FeatureCategoryController;
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
-use App\Http\Controllers\Frontend\ShopController;
-use App\Http\Controllers\Frontend\TrackorderController;
-use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -277,7 +278,14 @@ Route::controller(SupplierController::class)->middleware('auth')->group(function
     Route::delete('/dashboard/supplier/destroy', 'destroy')->name('supplier.destroy');
 
 });
+Route::controller(SettingsController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/settings', 'index')->name('settings.index');
+   // Route::post('/dashboard/settings/store', 'store')->name('supplier.store');
+   // Route::get('/dashboard/supplier/edit', 'edit')->name('supplier.edit');
+    Route::post('/dashboard/settings/update', 'update')->name('settings.update');
+  //  Route::delete('/dashboard/supplier/destroy', 'destroy')->name('supplier.destroy');
 
+});
 //Zone
 Route::controller(ZoneController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/zone', 'index')->name('zone.index');

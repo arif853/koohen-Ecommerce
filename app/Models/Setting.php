@@ -14,6 +14,6 @@ class Setting extends Model
         'whatsapp_url',
         'email',
         'company_address',
-        'company_short_details',
+        'company_short_details'
     ];
 }
