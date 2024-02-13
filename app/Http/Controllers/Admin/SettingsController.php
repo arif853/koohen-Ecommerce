@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Order;
 use App\Models\Setting;
+use App\Models\District;
+use App\Models\Postcode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -22,9 +26,11 @@ class SettingsController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function invoicePage(Request $request)
     {
-        //
+        $orders = DB::table('orders')->join('customers','customers.id','=','orders.customer_id')->select('orders.*')->get();
+        dd($orders);
+        return view('admin.print',compact('orders'));
     }
 
     /**

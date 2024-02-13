@@ -229,6 +229,8 @@ Route::controller(OrderController::class)->middleware('auth')->group(function ()
     Route::post('/update-order-status', 'updateOrderStatus');
     Route::post('/update-one-order-status', 'updateOneOrderStatus');
 
+
+
     // Route::get('/dashboard/category/create', 'create')->name('category.create');
 });
 
@@ -277,7 +279,7 @@ Route::controller(SupplierController::class)->middleware('auth')->group(function
 Route::controller(SettingsController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/settings', 'index')->name('settings.index');
    // Route::post('/dashboard/settings/store', 'store')->name('supplier.store');
-   // Route::get('/dashboard/supplier/edit', 'edit')->name('supplier.edit');
+    Route::get('/dashboard/invoice/page', 'invoicePage')->name('invoice.printed');
     Route::post('/dashboard/settings/update', 'update')->name('settings.update');
   //  Route::delete('/dashboard/supplier/destroy', 'destroy')->name('supplier.destroy');
 
