@@ -104,7 +104,7 @@
                <div class="submenu">
                     <a href="{{route('category_feature')}}">Category</a>
                     <a href="page-account-register.html">Products</a>
-                    <a href="page-error-404.html">Campaign</a>
+                    <a href="{{route('campaign')}}">Campaign</a>
                 </div>
             </li>
 
@@ -122,7 +122,7 @@
                 </a>
             </li>
             <li class="menu-item">
-                <a class="menu-link" href="{{route('ads')}}"> 
+                <a class="menu-link" href="{{route('ads')}}">
                     <span class="text">Manage Ads</span>
                 </a>
             </li>

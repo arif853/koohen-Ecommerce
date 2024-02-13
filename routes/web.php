@@ -15,6 +15,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdsController;
 use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\OrderController;
@@ -321,6 +322,16 @@ Route::controller(AdsController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/ads/edit', 'edit')->name('ads.edit');
     Route::post('/dashboard/ads/update', 'update')->name('ads.update');
     Route::delete('/dashboard/ads/destroy/{id}', 'destroy')->name('ads.destroy');
+});
+
+//ads route
+Route::controller(CampaignController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/campaign', 'index')->name('campaign');
+    Route::get('/dashboard/campaign/create', 'create')->name('campaign.create');
+    Route::post('/dashboard/campaign/store', 'store')->name('campaign.store');
+    Route::get('/dashboard/campaign/edit', 'edit')->name('campaign.edit');
+    Route::post('/dashboard/campaign/update', 'update')->name('campaign.update');
+    Route::delete('/dashboard/campaign/destroy/{id}', 'destroy')->name('campaign.destroy');
 });
 
 // reviews
