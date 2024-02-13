@@ -516,7 +516,6 @@
     </footer>
 
     <livewire:quick-view-component />
-    {{-- @livewire('quick-view-component') --}}
 
 
     <!-- Preloader Start -->
@@ -738,23 +737,39 @@
 
                 Livewire.dispatch('buyNow', response.product_id);
 
-                // $(".slider-nav-thumbnails div").empty();
-                // $.each(response.product_images, function(index, image){
-                //     var baseUrl = "{{ asset('storage/product_images/') }}";
-                //     var imageUrl = baseUrl + '/' + image.product_image;
-                //     var image_Div = '<img src="' + imageUrl + '" alt="'+response.slug+'">';
-                //     $(".slider-nav-thumbnails div").append(image_Div);
-                // });
+                // $(".slider-nav-thumbnails").empty();
 
-                // $("#slider_image").empty();
                 // $.each(response.product_images, function(index, image){
                 //     var baseUrl = "{{ asset('storage/product_images/') }}";
                 //     var imageUrl = baseUrl + '/' + image.product_image;
-                //     var image_Div = '<figure class="border-radius-10" >'+
-                //             '<img src="' + imageUrl + '" alt="'+response.slug+'">'+
-                //             '</figure>';
-                //     $("#slider_image").append(image_Div);
+                //     var image_Div = '<div><img src="' + imageUrl + '" alt="'+response.slug+'"></div>';
+                //     $(".slider-nav-thumbnails").append(image_Div);
+
+
                 // });
+                //     $(".product-image-slider").slick();
+
+                //     // $('.slider-nav-thumbnails').slick();
+                //     $(".slider-nav-thumbnails").slick({
+                //         slidesToShow: 4,
+                //         slidesToScroll: 1,
+                //         asNavFor: '.product-image-slider',
+                //         dots: false,
+                //         centerMode: false,
+                //         focusOnSelect: true
+                //     });
+
+                $(".product-image-slider").empty();
+                if (response.product_thumbnail && response.product_thumbnail.length > 0) {
+                    var baseUrl = "{{ asset('storage/product_images/thumbnail/') }}";
+                    var imageUrl = baseUrl + '/' + response.product_thumbnail[0].product_thumbnail;
+
+                    var imageDiv = '<figure class="border-radius-10" >' +
+                                        '<img src="' + imageUrl + '" alt="' + response.slug + '">' +
+                                    '</figure>';
+
+                    $(".product-image-slider").append(imageDiv);
+                }
 
 
                 // const outputImage = document.getElementById('output-image2');

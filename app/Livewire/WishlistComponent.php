@@ -5,8 +5,10 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Products;
 use App\Models\Product_image;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\DB;
 
 class WishlistComponent extends Component
 {
@@ -35,13 +37,32 @@ class WishlistComponent extends Component
     }
 
     public function removewish($id){
-        Cart::instance('wishlist')->remove($id);
-        Session::flash('success','Product removed from wishlist.');
+
+        if(Auth::guard('customer')->check()){
+
+            $userEmail = Auth::guard('customer')->user()->email;
+
+            // Use parameter binding to avoid SQL injection
+            DB::delete('DELETE FROM shoppingcart WHERE identifier = ?', [$userEmail]);
+
+            // Destroy the entire wishlist for the authenticated customer
+            Cart::instance('wishlist')->destroy($userEmail);
+
+        }else{
+            Cart::instance('wishlist')->remove($id);
+            Session::flash('success','Product removed from wishlist.');
+        }
+
         $this->dispatch('cartRefresh')->to('wishlist-icon-component');
     }
 
     public function render()
     {
+        if(Auth::guard('customer')->check()){
+            Cart::instance('wishlist')->restore(Auth::guard('customer')->user()->email);
+            $this->dispatch('cartRefresh')->to('wishlist-icon-component');
+        }
+
         return view('livewire.wishlist-component');
     }
 }

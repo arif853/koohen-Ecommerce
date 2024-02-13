@@ -195,7 +195,8 @@
 
 @endsection
 @push('dashboard')
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
 <script>
    $(document).ready(function () {
     // Attach a submit event listener to the form
@@ -241,8 +242,7 @@
                         $.each(['pending', 'confirmed', 'shipped', 'delivered', 'completed'], function(index, stepStatus) {
                             var iconClass = statusIcons[stepStatus];
                             var date = orderStatus[stepStatus + '_date_time'];
-                            moment.locale('bn-bd');
-                            var formattedDate = date ?  moment.utc(date).tz('Asia/Dhaka').format('D MMM YYYY, h:mmA') : '';
+                            var formattedDate = date ?  moment.utc(date).tz('Asia/Dhaka').format('D MMM YYYY') : '';
                             var isCompleted = index <= currentStatusIndex;
 
                             steps.append(

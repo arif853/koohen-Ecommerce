@@ -12,25 +12,17 @@
                                 <figure class="border-radius-10">
                                     <img src="{{asset('')}}frontend/assets/imgs/shop/product-d-1.jpg" alt="product image">
                                 </figure>
-                                <figure class="border-radius-10">
-                                    <img src="{{asset('')}}frontend/assets/imgs/shop/product-d-1.jpg" alt="product image">
-                                </figure>
-                                <figure class="border-radius-10">
-                                    <img src="{{asset('')}}frontend/assets/imgs/shop/product-d-1.jpg" alt="product image">
-                                </figure>
-                                <figure class="border-radius-10">
-                                    <img src="{{asset('')}}frontend/assets/imgs/shop/product-d-1.jpg" alt="product image">
-                                </figure>
+                                
 
                             </div>
 
                             <!-- THUMBNAILS -->
                             <div class="slider-nav-thumbnails pl-15 pr-15" id="thumbnail_image">
 
+                                {{-- <div><img src="{{asset('')}}frontend/assets/imgs/shop/product-d-1.jpg" alt="product image"></div>
                                 <div><img src="{{asset('')}}frontend/assets/imgs/shop/product-d-1.jpg" alt="product image"></div>
                                 <div><img src="{{asset('')}}frontend/assets/imgs/shop/product-d-1.jpg" alt="product image"></div>
-                                <div><img src="{{asset('')}}frontend/assets/imgs/shop/product-d-1.jpg" alt="product image"></div>
-                                <div><img src="{{asset('')}}frontend/assets/imgs/shop/product-d-1.jpg" alt="product image"></div>
+                                <div><img src="{{asset('')}}frontend/assets/imgs/shop/product-d-1.jpg" alt="product image"></div> --}}
 
                             </div>
                         </div>

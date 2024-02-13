@@ -61,8 +61,8 @@
         $.Notification.autoHideNotify('success', 'top right', 'Success', 'Product added to cart successfully');
     }
 
-    function wishremove(){
-        $.Notification.autoHideNotify('danger', 'top right', 'Removed', 'Product remove from wishlist.');
-    }
+    // function wishremove(){
+    //     $.Notification.autoHideNotify('danger', 'top right', 'Removed', 'Product remove from wishlist.');
+    // }
 
 </script>
