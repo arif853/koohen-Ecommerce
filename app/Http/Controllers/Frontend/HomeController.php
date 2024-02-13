@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Models\Ads;
-use App\Models\Feature_category;
-use App\Models\Products;
 use App\Models\Slider;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Models\Setting;
 use App\Models\Category;
 use App\Models\Division;
+use App\Models\Products;
+use Illuminate\Http\Request;
+use App\Models\Feature_category;
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
