@@ -279,6 +279,7 @@ Route::controller(SupplierController::class)->middleware('auth')->group(function
     Route::delete('/dashboard/supplier/destroy', 'destroy')->name('supplier.destroy');
 
 });
+//setting
 Route::controller(SettingsController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/settings', 'index')->name('settings.index');
    // Route::post('/dashboard/settings/store', 'store')->name('supplier.store');
@@ -324,7 +325,7 @@ Route::controller(AdsController::class)->middleware('auth')->group(function () {
     Route::delete('/dashboard/ads/destroy/{id}', 'destroy')->name('ads.destroy');
 });
 
-//ads route
+//campaign route
 Route::controller(CampaignController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/campaign', 'index')->name('campaign');
     Route::get('/dashboard/campaign/create', 'create')->name('campaign.create');
@@ -332,6 +333,8 @@ Route::controller(CampaignController::class)->middleware('auth')->group(function
     Route::get('/dashboard/campaign/edit', 'edit')->name('campaign.edit');
     Route::post('/dashboard/campaign/update', 'update')->name('campaign.update');
     Route::delete('/dashboard/campaign/destroy/{id}', 'destroy')->name('campaign.destroy');
+    Route::delete('/dashboard/campaign/camp_item/delete', 'campItemRemove')->name('camp_item.delete');
+
 });
 
 // reviews

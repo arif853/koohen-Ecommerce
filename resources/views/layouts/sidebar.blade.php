@@ -1,7 +1,7 @@
 <aside class="navbar-aside" id="offcanvas_aside">
     <div class="aside-top">
         <a href="index.html" class="brand-wrap">
-            <img src="{{asset('admin/assets/imgs/theme/logo.svg')}}" class="logo" alt="Evara Dashboard">
+            <img src="{{asset('admin/assets/imgs/Kohen_Logo_Main.png')}}" class="logo" alt="Koohen">
         </a>
         <div>
             <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
@@ -97,6 +97,11 @@
                 <a class="menu-link" href="{{route('media.index')}}"> <i class="icon material-icons md-stars"></i>
                     <span class="text">Media</span> </a>
             </li> --}}
+
+            <li class="menu-item">
+                <a class="menu-link" href="{{route('campaign')}}"> <i class="icon material-icons md-stars"></i>
+                    <span class="text">Campaign</span> </a>
+            </li>
             <li class="menu-item has-submenu">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-person"></i>
                     <span class="text">Feature item</span>
@@ -104,7 +109,6 @@
                <div class="submenu">
                     <a href="{{route('category_feature')}}">Category</a>
                     <a href="page-account-register.html">Products</a>
-                    <a href="{{route('campaign')}}">Campaign</a>
                 </div>
             </li>
 

@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
+            $table->string('camp_name');
+            $table->string('image');
+            $table->string('camp_offer');
+            $table->string('slug');
+            $table->enum('status',['Draft','Published'])->default('Draft');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
             $table->timestamps();
         });
     }
