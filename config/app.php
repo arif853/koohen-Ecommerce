@@ -160,7 +160,7 @@ return [
          * Package Service Providers...
          */
         // Intervention\Image\ImageServiceProvider::class,
-
+        Barryvdh\DomPDF\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -169,7 +169,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class
+        Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
+        
 
     ])->toArray(),
 
@@ -189,6 +190,8 @@ return [
         // 'Image' => Intervention\Image\Facades\Image::class,
         // 'Example' => App\Facades\Example::class,
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
+       
     ])->toArray(),
 
 ];
+

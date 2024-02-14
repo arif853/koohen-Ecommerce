@@ -26,12 +26,7 @@ class SettingsController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function invoicePage(Request $request)
-    {
-        $orders = DB::table('orders')->join('customers','customers.id','=','orders.customer_id')->select('orders.*')->get();
-        dd($orders);
-        return view('admin.print',compact('orders'));
-    }
+   
 
     /**
      * Store a newly created resource in storage.

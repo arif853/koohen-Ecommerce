@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use PDF;
+use Carbon\Carbon;
 use App\Models\Size;
 use App\Models\Color;
 use App\Models\Order;
@@ -15,8 +16,9 @@ use App\Models\transactions;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Register_customer;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
+use App\Models\Products;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -419,5 +421,58 @@ class OrderController extends Controller
     public function destroy(string $id)
     {
         //
+          //$filename = 'Invoice_Sheet';
+
+        // $pdf= PDF::loadView('admin.order.invoice',['order'=>$order],[],
+        //     [
+        //         'mode'                 => '',
+        //         'format'               => 'A5',
+        //         'default_font_size'    => '12',
+        //         'default_font'         => 'sans-serif',
+        //         'margin_left'          => 5,
+        //         'margin_right'         => 5,
+        //         'margin_top'           => 10,
+        //         'margin_bottom'        => 21,
+        //         'margin_header'        => 0,
+        //         'margin_footer'        => 0,
+        //         'orientation'          => 'P',
+        //         'title'                => 'Laravel mPDF',
+        //         'author'               => '',
+        //         'watermark'            => '',
+        //         'show_watermark'       => false,
+        //         'watermark_font'       => 'sans-serif',
+        //         'display_mode'         => 'fullpage',
+        //         'watermark_text_alpha' => 0.1,
+        //         'custom_font_dir'      => '',
+        //         'custom_font_data' 	   => [],
+        //         'auto_language_detection'  => false,
+        //         'temp_dir'               => rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR),
+        //         'pdfa' 			=> false,
+        //         'pdfaauto' 		=> false,
+        //     ]
+        // );
+        // return $pdf->stream($filename.'.pdf');
+    }
+    public function orderInvocie($id){
+        $order = Order::with('customer', 'order_item','order_item.product')
+        ->where('id', $id)
+        ->first();
+
+        $data = [
+            'title' => 'Koohen Invoice Pdf',
+            'date' => date('m/d/Y'),
+            'order' => $order
+        ]; 
+            
+        $pdf = PDF::loadView('invoice', $data);
+     
+        return $pdf->download('Invoice_Sheet.pdf');
+      
+    }
+    public function invoicePage(Request $request)
+    {
+        $orders = DB::table('orders')->join('customers','customers.id','=','orders.customer_id')->select('orders.*','customers.firstName','customers.lastName','customers.phone','customers.billing_address')->get();
+        dd($orders);
+        return view('admin.order.invoice',compact('orders'));
     }
 }
