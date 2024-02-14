@@ -331,7 +331,7 @@ Route::controller(CampaignController::class)->middleware('auth')->group(function
     Route::get('/dashboard/campaign/create', 'create')->name('campaign.create');
     Route::post('/dashboard/campaign/store', 'store')->name('campaign.store');
     Route::get('/dashboard/campaign/edit', 'edit')->name('campaign.edit');
-    Route::post('/dashboard/campaign/update', 'update')->name('campaign.update');
+    Route::post('/dashboard/campaign/update/{id}', 'update')->name('campaign.update');
     Route::delete('/dashboard/campaign/destroy/{id}', 'destroy')->name('campaign.destroy');
     Route::delete('/dashboard/campaign/camp_item/delete', 'campItemRemove')->name('camp_item.delete');
 

@@ -164,6 +164,7 @@
                                 <img src="{{asset('frontend/assets/imgs/banner/Campaign.jpg')}}" alt="">
                             </div>
                         </div>
+
                         <div class="col-lg-3 col-md-4 col-12 col-sm-6">
                             <div class="product-cart-wrap mb-25">
                                 <div class="product-img-action-wrap">
@@ -195,6 +196,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="col-lg-3 col-md-4 col-12 col-sm-6">
                             <div class="product-cart-wrap mb-25">
                                 <div class="product-img-action-wrap">
@@ -400,5 +402,5 @@
     <!--All Products (OK)-->
 </main>
   <!-- Quick view -->
- 
+
 @endsection

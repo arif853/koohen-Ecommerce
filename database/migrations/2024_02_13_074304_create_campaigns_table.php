@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('camp_name');
             $table->string('image');
-            $table->string('camp_offer');
+            $table->string('camp_offer')->default(0);
             $table->string('slug');
             $table->enum('status',['Draft','Published'])->default('Draft');
             $table->dateTime('start_date');

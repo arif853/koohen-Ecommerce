@@ -140,9 +140,100 @@ class CampaignController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,string $id)
     {
-        //
+
+        $campaign = Campaign::find($id);
+
+        $rules = [
+            'camp_name' => 'required|string',
+            'camp_image' => 'mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            // 'camp_price' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|string',
+            'product.*' => 'nullable|string',
+            'status' => ['nullable', 'string', Rule::in(['Draft', 'Published'])],
+        ];
+        // $customMessages = [
+        //     'camp_name.required' => 'Please fill up first name field.',
+        //     'lname.required' => 'Please fill up last name field.',
+        //     'phone.required' => 'Please fill up phone field .',
+        //     'email.required' => 'Please fill up email field.',
+        //     'billing_address.required' => 'Please fill up billing address field.',
+        // ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        // Validate the request
+        if ($validator->fails()) {
+
+            // Session::flash('danger', $validator->messages()->toArray());
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        else{
+
+            if($request->hasFile('camp_image')){
+
+                $image = $request->file('camp_image');
+
+                $manager = new ImageManager(new Driver());
+
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+
+                $img = $manager->read($image);
+                // $encoded = $img->toWebp();
+                // $img = $img->resize(400, 600);
+
+                $imagePath = 'campaign/' . $imageName;
+
+                Storage::disk('public')->put($imagePath , (string)$img->encode());
+                // Storage::disk('public')->put($imagePath2 , (string)$encoded->encode());
+                $newImage = $imagePath;
+            }
+            else{
+                $newImage = $campaign->image;
+            }
+
+
+                $campaign->camp_name = $request->camp_name;
+                $campaign->image = $newImage;
+                $campaign->camp_offer = $request->camp_offer;
+                $campaign->status = $request->status;
+                $campaign->start_date = $request->start_date;
+                $campaign->end_date = $request->end_date;
+                $campaign->save();
+
+                // Save campaign products
+                $products = $request->input('product');
+                $regularPrices = $request->input('regular_price');
+                $stock = $request->input('stock');
+                $campaignPrices = $request->input('campaign_price');
+
+                foreach ($products as $key => $productId) {
+                    $existedProduct = Camp_product::where('product_id', $productId)->first();
+                    if(!$existedProduct){
+                        Camp_product::create([
+                            'campaign_id' => $campaign->id,
+                            'product_id' => $productId,
+                            'regular_price' => $regularPrices[$key],
+                            'camp_price' => $campaignPrices[$key],
+                            'camp_qty' => $stock[$key],
+                        ]);
+                    }
+                    else{
+                        $existedProduct->update([
+                            // 'product_id' => $productId,
+                            'regular_price' => $regularPrices[$key],
+                            'camp_price' => $campaignPrices[$key],
+                            'camp_qty' => $stock[$key],
+                        ]);
+                    }
+
+                }
+
+            return redirect()->route('campaign')->with('success','Campaign data has been updated successfully.');
+        }
+
     }
 
     /**

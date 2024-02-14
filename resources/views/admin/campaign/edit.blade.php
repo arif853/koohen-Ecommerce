@@ -61,7 +61,7 @@
                     <div class="card-header">
                         <h4>New Campaign</h4>
                     </div>
-                    <form action="{{route('campaign.edit')}}" method="POST" enctype="multipart/form-data" >
+                    <form action="{{route('campaign.update',$campaign->id)}}" method="POST" enctype="multipart/form-data" >
                         @csrf
                         @method('POST')
                         <div class="card-body ">
@@ -206,8 +206,9 @@
                     $.ajax({
                     url: "{{ url('/dashboard/campaign/camp_item/delete/') }}",
                     method: 'DELETE',
-                    data: {id : itemId,
-                        _token: '{{ csrf_token() }}'
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id : itemId,
                     },
                     success: function (response) {
                         // Handle success, e.g., show a success message
