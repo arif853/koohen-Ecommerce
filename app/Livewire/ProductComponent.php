@@ -35,11 +35,11 @@ class ProductComponent extends Component
         // $item_price = $product->regular_price;
         $item_slug = $product->slug;
         $item_image = Product_image::where('product_id',$id)->select('product_image')->first();
-        Cart::add($id,$item_name,1,$item_price, ['image' => $item_image,'slug' => $item_slug]);
+        Cart::instance('cart')->add($id,$item_name,1,$item_price, ['image' => $item_image,'slug' => $item_slug]);
 
         Session::flash('success','Product added To cart.');
         $this->dispatch('cartRefresh')->to('cart-icon-component');
-        
+
         return redirect()->route('cart');
 
     }
@@ -59,7 +59,7 @@ class ProductComponent extends Component
 
         $item_slug = $product->slug;
         $item_image = Product_image::where('product_id', $id)->select('product_image')->first();
-        $item_data = Cart::add($item_id,$item_name,$item_qty,$item_price,
+        $item_data = Cart::instance('cart')->add($item_id,$item_name,$item_qty,$item_price,
         ['image' => $item_image,
         'slug' => $item_slug,
         'size' => $item_size,
@@ -78,6 +78,7 @@ class ProductComponent extends Component
         session()->forget('quantity');
         session()->forget('product_size');
         session()->forget('product_color');
+
         Session::flash('success', 'Product added to cart.');
             // return response()->json( $item_data);
         return redirect()->route('checkout');

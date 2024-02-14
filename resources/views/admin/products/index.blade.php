@@ -46,6 +46,11 @@
         </form>
 
     </header>
+    <style>
+        .table tr td{
+            vertical-align: middle;
+        }
+    </style>
     <div class="card-body">
         <table id="datatable" class="table table-striped table-bordered" style="width:100%">
             <thead>

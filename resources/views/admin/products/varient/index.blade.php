@@ -190,7 +190,7 @@
                     if (res.status == 200) {
                         $("#colorEditModal").modal('hide');
                         location.reload();
-                        $.Notification.autoHideNotify('success', 'top right', 'Success', res.message);
+                        // $.Notification.autoHideNotify('success', 'top right', 'Success', res.message);
                     }
                     else{
                         $.Notification.autoHideNotify('danger', 'top right', 'Danger', res.message);
@@ -246,7 +246,7 @@
                         // alert('ok');
                         $("#sizeModalEdit").modal('hide');
                         location.reload();
-                        $.Notification.autoHideNotify('success', 'top right', 'Success', res.message);
+                        // $.Notification.autoHideNotify('success', 'top right', 'Success', res.message);
                     }
                     else{
                         $.Notification.autoHideNotify('danger', 'top right', 'Danger', res.message);

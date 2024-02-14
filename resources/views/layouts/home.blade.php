@@ -96,7 +96,6 @@
                                                 </li>
                                             </ul>
                                           </div>
-
                                         {{-- <form method="post" action="{{ route('customer.logout') }}">
                                             @csrf
                                             <button type="submit">Logout</button>
@@ -128,16 +127,14 @@
             <div class="container">
                 <div class="header-wrap header-space-between position-relative">
                     <div class="logo logo-width-1 d-block d-lg-none">
-                        <a href="index.html"><img src="{{asset('')}}frontend/assets/imgs/Kohen_Logo_Main.png" alt="logo"></a>
+                        <a href="{{route('home')}}"><img src="{{asset('')}}frontend/assets/imgs/Kohen_Logo_Main.png" alt="logo"></a>
                     </div>
                     <div class="logo logo-width-1 d-block d-sm-none">
-                        <a href="index.html"><img src="{{asset('')}}frontend/assets/imgs/Kohen_Logo_Main.png" alt="logo"></a>
+                        <a href="{{route('home')}}"><img src="{{asset('')}}frontend/assets/imgs/Kohen_Logo_Main.png" alt="logo"></a>
                     </div>
 
                     <div class="header-nav d-none d-lg-flex" id="header-nav">
-                        <!--Catagory-->
-                        {{-- @include('frontend.include.catagory') --}}
-                        <!--Catagory-->
+
                         <!--Main Menu Bar-->
                         <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
                             <nav>
@@ -263,64 +260,23 @@
                                   </button>
                                 </form>
                               </div>
-                            <div class="header-action-icon-2">
-                                <a href="wishlist.php">
-                                    <i class="fal fa-heart"></i>
-                                    {{-- <img class="svgInject" alt="Evara" src="{{asset('')}}frontend/assets/imgs/theme/icons/icon-heart.svg"> --}}
-                                    <span class="pro-count blue">4</span>
-                                </a>
-                            </div>
+
+                            @livewire('wishlist-icon-component')
+
                             @livewire('cart-icon-component')
-
-                                {{-- <div class="header-action-icon-2">
-                                    <a class="mini-cart-icon" href="#">
-                                        <img alt="Evara" src="{{asset('')}}frontend/assets/imgs/theme/icons/icon-cart.svg">
-                                        <span class="pro-count blue">{{Cart::count()}}</span>
-                                    </a> --}}
-
-                                    {{-- @if(Cart::count() > 0)
-                                    <div class="cart-dropdown-wrap cart-dropdown-hm2">
-                                        <ul>
-                                            @foreach (Cart::content() as $item)
-                                            <li>
-                                                <div class="shopping-cart-img">
-                                                    <a href="{{route('shop.cart')}}"><img alt="{{$item->options->slug}}" src="{{asset('storage/product_images/').$item->options->image->product_image}}"></a>
-                                                </div>
-                                                <div class="shopping-cart-title">
-                                                    <h4><a href="{{route('shop.cart')}}">{{substr($item->name,0,20)}}</a></h4>
-                                                    <h3><span>{{$item->qty}} × </span>${{$item->price}}</h3>
-                                                </div>
-                                                <div class="shopping-cart-delete">
-                                                    <a href="{{route('remove.cart',$item->rowId)}}"><i class="fi-rs-cross-small"></i></a>
-                                                </div>
-                                            </li>
-                                            @endforeach
-                                        </ul>
-                                        <div class="shopping-cart-footer">
-                                            <div class="shopping-cart-total">
-                                                <h4>Total <span>${{Cart::subtotal()}}</span></h4>
-                                            </div>
-                                            <div class="shopping-cart-button">
-                                                <a href="{{route('shop.cart')}}" class="outline">View cart</a>
-                                                <a href="checkout.php">Checkout</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endif --}}
-                                {{-- </div> --}}
-                                {{-- @livewire('cart-icon-component') --}}
 
                         </div>
                     </div>
                     <p class="mobile-promotion">Happy <span class="text-brand">Mother's Day</span>. Big Sale Up to 40%</p>
                     <div class="header-action-right d-block d-lg-none">
                         <div class="header-action-2">
-                            <div class="header-action-icon-2">
+                            {{-- <div class="header-action-icon-2">
                                 <a href="wishlist.php">
-                                    <img alt="Evara" src="{{asset('')}}frontend/assets/imgs/theme/icons/icon-heart.svg">
+                                    <i class="fal fa-heart"></i>
                                     <span class="pro-count white">4</span>
                                 </a>
-                            </div>
+                            </div> --}}
+                            @livewire('wishlist-icon-component')
                             @livewire('cart-icon-component')
                             <div class="header-action-icon-2 d-block d-lg-none">
                                 <div class="burger-icon burger-icon-white">
@@ -335,11 +291,12 @@
             </div>
         </div>
     </header>
+
     <div class="mobile-header-active mobile-header-wrapper-style">
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
                 <div class="mobile-header-logo">
-                    <a href="index.html"><img src="{{asset('')}}frontend/assets/imgs/theme/logo.svg" alt="logo"></a>
+                    <a href="{{route('home')}}"><img src="{{asset('')}}frontend/assets/imgs/Kohen_Logo_Main.png" alt="logo"></a>
                 </div>
                 <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
                     <button class="close-style search-close">
@@ -349,116 +306,74 @@
                 </div>
             </div>
             <div class="mobile-header-content-area">
-                <div class="mobile-search search-style-3 mobile-header-border">
+                {{-- <div class="mobile-search search-style-3 mobile-header-border">
                     <form action="#">
                         <input type="text" placeholder="Search for items…">
                         <button type="submit"><i class="fi-rs-search"></i></button>
                     </form>
-                </div>
+                </div> --}}
                 <div class="mobile-menu-wrap mobile-header-border">
-                    <div class="main-categori-wrap mobile-header-border">
-                        <a class="categori-button-active-2" href="#">
-                            <span class="fi-rs-apps"></span> Browse Categories
-                        </a>
-                        <div class="categori-dropdown-wrap categori-dropdown-active-small">
-                            <ul>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-dress"></i>Women's Clothing</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-tshirt"></i>Men's Clothing</a></li>
-                                <li> <a href="shop-grid-right.html"><i class="evara-font-smartphone"></i> Cellphones</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-desktop"></i>Computer & Office</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-cpu"></i>Consumer Electronics</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-home"></i>Home & Garden</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-high-heels"></i>Shoes</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-teddy-bear"></i>Mother & Kids</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-kite"></i>Outdoor fun</a></li>
-                            </ul>
-                        </div>
-                    </div>
+
                     <!-- mobile menu start -->
                     <nav>
                         <ul class="mobile-menu">
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="{{route('home')}}">Home</a>
-
+                            <li class="menu-item-has-children">
+                                <span class="menu-expand"></span>
+                                <a class="{{ request()->is('/') ? 'active' : '' }}" href="{{route('home')}}">Home</a>
                             </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="{{route('shop')}}">shop</a>
-
+                            <li class="menu-item-has-children">
+                                <span class="menu-expand"></span>
+                                <a class="{{ request()->is('shop') ? 'active' : '' }}" href="{{route('shop')}}">Shop</a>
                             </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Mega menu</a>
-                                <ul class="dropdown">
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Women's Fashion</a>
-                                        <ul class="dropdown">
-                                            <li><a href="shop-product-right.html">Dresses</a></li>
-                                            <li><a href="shop-product-right.html">Blouses & Shirts</a></li>
-                                            <li><a href="shop-product-right.html">Hoodies & Sweatshirts</a></li>
-                                            <li><a href="shop-product-right.html">Women's Sets</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Men's Fashion</a>
-                                        <ul class="dropdown">
-                                            <li><a href="shop-product-right.html">Jackets</a></li>
-                                            <li><a href="shop-product-right.html">Casual Faux Leather</a></li>
-                                            <li><a href="shop-product-right.html">Genuine Leather</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Technology</a>
-                                        <ul class="dropdown">
-                                            <li><a href="shop-product-right.html">Gaming Laptops</a></li>
-                                            <li><a href="shop-product-right.html">Ultraslim Laptops</a></li>
-                                            <li><a href="shop-product-right.html">Tablets</a></li>
-                                            <li><a href="shop-product-right.html">Laptop Accessories</a></li>
-                                            <li><a href="shop-product-right.html">Tablet Accessories</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                            <li class="menu-item-has-children">
+                                <span class="menu-expand"></span>
+                                <a class="{{ request()->is('aboutus') ? 'active' : '' }}" href="{{route('aboutus')}}">About Us</a>
                             </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="blog-category-fullwidth.html">Blog</a>
-                                <ul class="dropdown">
-                                    <li><a href="blog-category-grid.html">Blog Category Grid</a></li>
-                                    <li><a href="blog-category-list.html">Blog Category List</a></li>
-                                    <li><a href="blog-category-big.html">Blog Category Big</a></li>
-                                    <li><a href="blog-category-fullwidth.html">Blog Category Wide</a></li>
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Single Product Layout</a>
-                                        <ul class="dropdown">
-                                            <li><a href="blog-post-left.html">Left Sidebar</a></li>
-                                            <li><a href="blog-post-right.html">Right Sidebar</a></li>
-                                            <li><a href="blog-post-fullwidth.html">No Sidebar</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="page-about.html">About Us</a></li>
-                                    <li><a href="page-contact.html">Contact</a></li>
-                                    <li><a href="page-account.html">My Account</a></li>
-                                    <li><a href="page-login-register.html">login/register</a></li>
-                                    <li><a href="page-purchase-guide.html">Purchase Guide</a></li>
-                                    <li><a href="page-privacy-policy.html">Privacy Policy</a></li>
-                                    <li><a href="page-terms.html">Terms of Service</a></li>
-                                    <li><a href="page-404.html">404 Page</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Language</a>
-                                <ul class="dropdown">
-                                    <li><a href="#">English</a></li>
-                                    <li><a href="#">French</a></li>
-                                    <li><a href="#">German</a></li>
-                                    <li><a href="#">Spanish</a></li>
-                                </ul>
+                            <li class="menu-item-has-children">
+                                <span class="menu-expand"></span>
+                                <a class="{{ request()->is('contactus') ? 'active' : '' }}" href="{{route('contactus')}}">Contact Us</a>
                             </li>
                         </ul>
                     </nav>
                     <!-- mobile menu end -->
                 </div>
                 <div class="mobile-header-info-wrap mobile-header-border">
+
+                    <div class="single-mobile-header-info">
+                        @auth('customer')
+                        <i class="fi-rs-user"></i>
+                            @php
+                            $user = Auth::guard('customer')->user();
+                            $fullName = $user->customer->firstName . ' ' . $user->customer->lastName;
+                            @endphp
+
+                            <div class="dropdown">
+                                <a class="customer_info dropdown-toggle" href="#"  id="dropdownMenuButton"
+                                data-mdb-toggle="dropdown"
+                                aria-expanded="false">{{ $fullName }}</a>
+
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a class="dropdown-item" href="{{route('customer.dashboard')}}">Profile</a></li>
+                                    <li>
+                                        <a class="dropdown-item" href="#" onclick="document.getElementById('logout_form').submit();">Logout</a>
+                                        <form method="post" id="logout_form" action="{{ route('customer.logout') }}">
+                                            @csrf
+                                        </form>
+                                    </li>
+                                </ul>
+                              </div>
+
+                        @else
+                            {{-- Show login/register links --}}
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#login" style="display: inline">Log In / </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#signup" style="display: inline"> Sign Up</a>
+                        @endauth
+                    </div>
+                    <div class="single-mobile-header-info">
+                        <a href="tel:09639174502">(+880) - 9639 174 502</a>
+                    </div>
                     <div class="single-mobile-header-info mt-30">
-                        <a  href="page-contact.html"> Our location </a>
-                    </div>
-                    <div class="single-mobile-header-info">
-                        <a href="page-login-register.html">Log In / Sign Up </a>
-                    </div>
-                    <div class="single-mobile-header-info">
-                        <a href="#">(+01) - 2345 - 6789 </a>
+                        <a  href="{{route('contactus')}}"> Our location: <p>522/B, North Shahjahanpur, Dhaka-1217</p></a>
                     </div>
                 </div>
                 <div class="mobile-social-icon">
@@ -472,7 +387,7 @@
             </div>
         </div>
     </div>
-    {{-- @yield('main') --}}
+
 
             {{-- @if($errors->any())
                 <div style="color: red;">
@@ -558,20 +473,21 @@
                     <div class="col-lg-3  col-md-3">
                         <h5 class="widget-title wow fadeIn animated">Usefull Links</h5>
                         <ul class="footer-list wow fadeIn animated">
-                            <li><a href="#">Delivery Information</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Cancellation & Return</a></li>
-                            <li><a href="#">FAQS</a></li>
-                            <li><a href="#">Track My Order</a></li>
+                            <li><a href="{{url('/delivery_information')}}">Delivery Information</a></li>
+                            {{-- <li><a href="{{url('/terms-and-condition')}}">Terms & Conditions</a></li> --}}
+                            <li><a href="{{url('/privacy_and_policy')}}">Privacy Policy</a></li>
+                            <li><a href="{{url('/cancellation_and_return')}}">Cancellation & Return</a></li>
+                            {{-- <li><a href="#">FAQS</a></li> --}}
+                            <li><a href="{{route('trackorder')}}">Track My Order</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-3">
-                        <h5 class="widget-title wow fadeIn animated">Install App</h5>
+                        <h5 class="widget-title wow fadeIn animated">Trusted member of - </h5>
+                        <a href="https://e-cab.net"><img src="{{asset('frontend/assets/imgs/ecab.png')}}" alt="ecab" width="80px"></a>
                         <div class="row">
-                            <div class="col-md-4 col-lg-12 mt-md-3 mt-lg-0">
+                            <div class="col-md-4 col-lg-12 mt-md-3 mt-lg-3">
                                 <p class="mb-20 wow fadeIn animated">Secured Payment Gateways</p>
-                                <img class="wow fadeIn animated" src="..{{asset('frontend/assets/imgs/theme/payment-method.png')}}" alt="">
+                                <img class="wow fadeIn animated" src="{{asset('frontend/assets/imgs/pay_image.png')}}" alt="pay_image">
                             </div>
                         </div>
                     </div>
@@ -598,6 +514,9 @@
             </div>
         </div>
     </footer>
+
+    <livewire:quick-view-component />
+
 
     <!-- Preloader Start -->
     <!--<div id="preloader-active">-->
@@ -645,17 +564,21 @@
     <script src="{{asset('frontend/assets/notifications/notifications.js')}}"></script>
 	{{-- <script src="{{asset('frontend/assets/vendor/slick/slick.min.js')}}"></script> --}}
     <script src="{{asset('frontend/assets/js/vendor/slick-custom.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/vendor/moment.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/vendor/moment-with-locales.js')}}"></script>
 
     <!-- Template  JS -->
     <script src="{{asset('')}}frontend/assets/js/main.js?v=3.4"></script>
     <script src="{{asset('')}}frontend/assets/js/shop.js?v=3.4"></script>
+
     @livewireScripts
+
     @stack('dashboard')
     @stack('checkout')
-
     @stack('shop')
+
 <script>
-   var headerContainer = $('.header-wrap');
+    var headerContainer = $('.header-wrap');
     var topPanel = headerContainer.find('#header-nav');
     var searchHolder = headerContainer.find('.search-holder');
     var searchForm = headerContainer.find('#search-form');
@@ -663,22 +586,22 @@
     var closeToggle = searchForm.find('#form-close');
 
     function calculateAnimationProps () {
-    var vpWidth = $(window).outerWidth(true);
-    var width = 0;
+        var vpWidth = $(window).outerWidth(true);
+        var width = 0;
 
-    if (vpWidth < 1000) {
-        width = headerContainer.outerWidth(true) - 40; // Minus container side padding
-    } else {
-        width = topPanel.outerWidth(true);
-    }
+        if (vpWidth < 1000) {
+            width = headerContainer.outerWidth(true) - 40; // Minus container side padding
+        } else {
+            width = topPanel.outerWidth(true);
+        }
 
-    var right = width - openToggle.outerWidth(true);
+        var right = width - openToggle.outerWidth(true);
 
-    return {
-        formWidth: width,
-        formRight: right,
-        toggleRight: right / 2
-    };
+        return {
+            formWidth: width,
+            formRight: right,
+            toggleRight: right / 2
+        };
     }
 
     $(document).ready(function() {
@@ -723,6 +646,135 @@
 
             $(this).find('[name="qwrd"]')
             .val('This form has been disabled');
+        });
+    });
+
+
+    $(document).on('click', '.quickview', function (e) {
+
+        e.preventDefault();
+        var Slug = $(this).data('product-slug');
+        console.log(Slug);
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/home/quickview',
+            method: 'GET',
+            data: {
+                slug: Slug,
+            },
+            success: function (response) {
+                console.log(response);
+                $('#p_name').text(response.product_name);
+                $('#brand_name').text(response.brand.brand_name);
+
+                $('#product_price').empty();
+                if(response.product_price.offer_price > 0){
+                    var row = '<ins><span class="text-brand">৳'+response.product_price.offer_price +'</span></ins>'+
+                    '<ins><span class="old-price font-md ml-15">৳'+response.regular_price+'</span></ins>'+
+                    '<span class="save-price  font-md color3 ml-15">'+ response.product_price.percentage +'% Off</span>';
+                    $('#product_price').append(row);
+                }
+                else{
+                    var row = '<ins><span class="text-brand">৳'+ response.regular_price +'</span></ins>';
+                    $('#product_price').append(row);
+                }
+
+                $("#overview").empty();
+
+                $.each(response.overviews, function (index, overview) {
+                    var li = '<li><span>' + overview.overview_name + '</span>' + overview.overview_value + '</li>';
+                    $("#overview").append(li);
+                });
+
+                $("#color").empty();
+
+                $.each(response.colors, function(index, color){
+                    var li = $('<li><a href="#" data-color="'+color.color_name+'"><span class="'+color.color_code+'" style="background-color:'+color.color_code+'"></span></a></li>');
+
+                    li.find('a').click(function() {
+                        // Remove "active" class from all list items
+                        $("#color li").removeClass("active");
+
+                        // Add "active" class to the parent list item
+                        $(this).parent().addClass("active");
+                    });
+
+                    $("#color").append(li);
+                })
+
+                $("#size").empty();
+
+                $.each(response.sizes, function(index, size) {
+                    var li = $('<li><a href="#">' + size.size + '</a></li>');
+
+                    // Add a click event handler to the anchor tag inside the list item
+                    li.find('a').click(function() {
+                        // Remove "active" class from all list items
+                        $("#size li").removeClass("active");
+
+                        // Add "active" class to the parent list item
+                        $(this).parent().addClass("active");
+                    });
+
+                    // Append the list item to the #size element
+                    $("#size").append(li);
+                });
+
+                $("#product_sku").text(response.sku);
+                $("#stock").text(response.stock + ' Items In Stock');
+
+                $("#tags").empty();
+                $("#tags").html('Tags: ');
+                $.each(response.tags, function(index, tag){
+                    var a = '<a href="#" rel="tag">'+ tag.tag+'</a>,';
+                    $("#tags").append(a);
+                });
+
+                Livewire.dispatch('buyNow', response.product_id);
+
+                // $(".slider-nav-thumbnails").empty();
+
+                // $.each(response.product_images, function(index, image){
+                //     var baseUrl = "{{ asset('storage/product_images/') }}";
+                //     var imageUrl = baseUrl + '/' + image.product_image;
+                //     var image_Div = '<div><img src="' + imageUrl + '" alt="'+response.slug+'"></div>';
+                //     $(".slider-nav-thumbnails").append(image_Div);
+
+
+                // });
+                //     $(".product-image-slider").slick();
+
+                //     // $('.slider-nav-thumbnails').slick();
+                //     $(".slider-nav-thumbnails").slick({
+                //         slidesToShow: 4,
+                //         slidesToScroll: 1,
+                //         asNavFor: '.product-image-slider',
+                //         dots: false,
+                //         centerMode: false,
+                //         focusOnSelect: true
+                //     });
+
+                $(".product-image-slider").empty();
+                if (response.product_thumbnail && response.product_thumbnail.length > 0) {
+                    var baseUrl = "{{ asset('storage/product_images/thumbnail/') }}";
+                    var imageUrl = baseUrl + '/' + response.product_thumbnail[0].product_thumbnail;
+
+                    var imageDiv = '<figure class="border-radius-10" >' +
+                                        '<img src="' + imageUrl + '" alt="' + response.slug + '">' +
+                                    '</figure>';
+
+                    $(".product-image-slider").append(imageDiv);
+                }
+
+
+                // const outputImage = document.getElementById('output-image2');
+                // outputImage.src = "{{asset('storage')}}"+'/'+response.image
+            }
         });
     });
 </script>

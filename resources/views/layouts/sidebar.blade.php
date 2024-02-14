@@ -104,7 +104,7 @@
                <div class="submenu">
                     <a href="{{route('category_feature')}}">Category</a>
                     <a href="page-account-register.html">Products</a>
-                    <a href="page-error-404.html">Campaign</a>
+                    <a href="{{route('campaign')}}">Campaign</a>
                 </div>
             </li>
 
@@ -116,20 +116,26 @@
         </ul>
         <hr>
         <ul class="menu-aside">
+            <li class="menu-item">
+                <a class="menu-link" href="{{route('slider')}}">
+                    <span class="text">Manage Slider</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="{{route('ads')}}">
+                    <span class="text">Manage Ads</span>
+                </a>
+            </li>
             <li class="menu-item has-submenu">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-settings"></i>
                     <span class="text">Settings</span>
                 </a>
-                {{-- <div class="submenu">
-                    <a href="page-settings-1.html">Setting sample 1</a>
-                    <a href="page-settings-2.html">Setting sample 2</a>
-                </div> --}}
+                <div class="submenu">
+                    <a href="{{ route('settings.index') }}">Website Setting </a>
+                    <a href="#">Setting sample 2</a>
+                </div>
             </li>
-            {{-- <li class="menu-item">
-                <a class="menu-link" href="page-blank.html"> <i class="icon material-icons md-local_offer"></i>
-                    <span class="text"> Starter page </span>
-                </a>
-            </li> --}}
+
         </ul>
         <br>
         <br>

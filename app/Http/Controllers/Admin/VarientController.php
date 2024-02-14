@@ -176,8 +176,8 @@ class VarientController extends Controller
                 'color_name' => $request->color_name,
                 'status' => $request->status ? 1 : 0,
             ]);
-
-            return response()->json(['status' => 200, 'message' => "Color updated successfully!"]);
+            Session::flash('success','Color updated successfully!');
+            return response()->json(['status' => 200]);
             // return redirect()->back()->with('success', 'Color updated successfully.');
         }
 
@@ -214,7 +214,9 @@ class VarientController extends Controller
                 'status' => $request->status ? 1 : 0,
             ]);
 
-            return response()->json(['status' => 200, 'message' => "Size updated successfully!"]);
+            Session::flash('success','Size updated successfully!');
+
+            return response()->json(['status' => 200,]);
             // return redirect()->back()->with('success', 'Color updated successfully.');
         }
 

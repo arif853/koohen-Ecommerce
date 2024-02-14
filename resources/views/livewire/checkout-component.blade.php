@@ -1,5 +1,5 @@
 <div>
-    @if(Cart::count() > 0  )
+    @if(Cart::instance('cart')->count() > 0  )
     <div class="table-responsive order_table text-center">
         <table class="table">
             <thead>
@@ -14,7 +14,7 @@
                 $total = 0
                 @endphp
                 {{-- cart item --}}
-                @foreach (Cart::content() as $item)
+                @foreach (Cart::instance('cart')->content() as $item)
 
                 <tr>
                     <td class="image product-thumbnail">
@@ -49,7 +49,7 @@
 
                 <tr>
                     <th class="text-end">SubTotal</th>
-                    <td class="product-subtotal">{{Cart::count()}}</td>
+                    <td class="product-subtotal">{{Cart::instance('cart')->count()}}</td>
                     <td class="product-subtotal" colspan="1">৳{{$total}}</td>
                     <input type="hidden" name="subtotal" value="{{$total}}">
                 </tr>
@@ -71,13 +71,24 @@
                 </tr>
                 <tr>
                     <th class="text-end">Total</th>
+                    @if($deliveryCharge)
+                    <td colspan="3" class="product-subtotal">
+                        @php
+                            $total =  $total - $discount + $deliveryCharge ;
+                        @endphp
+                        <span class="font-xl text-brand fw-900">৳{{$total }}</span>
+                        <input type="hidden" name="total_amount" id="t_amount" value="{{$total }}">
+                    </td>
+                    @else
                     <td colspan="3" class="product-subtotal"><span
                         @php
-                            $total =  $total - $discount ;
+                            $total =  $total - $discount + $delivery_charge ;
                         @endphp
                             class="font-xl text-brand fw-900">৳{{$total}}</span>
                             <input type="hidden" name="total_amount" id="t_amount" value="{{$total}}">
                     </td>
+                    @endif
+
                 </tr>
 
             </tbody>

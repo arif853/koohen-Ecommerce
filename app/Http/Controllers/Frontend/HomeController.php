@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\Ads;
 use App\Models\Feature_category;
 use App\Models\Products;
+use App\Models\Slider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
@@ -49,8 +51,10 @@ class HomeController extends Controller
 
         $categories = Category::with('children')->whereNull('parent_category')->get();
         $cat_feature = Feature_category::where('status', 'Active')->first();
+        $sliders = Slider::all();
+        $adsbanner = Ads::all();
 
-        return view('frontend.home.index',compact('categories','groupedCategories','cat_feature'));
+        return view('frontend.home.index',compact('categories','groupedCategories','cat_feature','sliders','adsbanner'));
     }
 
     /**
@@ -102,12 +106,34 @@ class HomeController extends Controller
 
     }
 
+    public function wishlist(){
+        
+        return view('frontend.shop-wishlist');
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function quickview(Request $request)
     {
-        //
+        $slug = $request->slug;
+
+        $product = Products::with([
+            'overviews',
+            'product_infos',
+            'product_images',
+            'product_thumbnail',
+            'product_extras',
+            'tags',
+            'sizes',
+            'colors',
+            'brand',
+            'category',
+            'subcategory',
+            'product_price'
+        ])->where('slug', $slug)->first();
+
+        return response()->json( $product);
     }
 
     /**

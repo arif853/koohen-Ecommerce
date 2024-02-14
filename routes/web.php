@@ -1,37 +1,41 @@
 <?php
 
-use App\Http\Controllers\Admin\FeatureCategoryController;
-use App\Models\Feature_category;
 use App\Models\Products;
+use Illuminate\Routing\Router;
 use App\Livewire\CartComponent;
 use App\Livewire\HomeComponent;
 use App\Livewire\ShopComponent;
+use App\Models\Feature_category;
 use App\Livewire\ProductComponent;
 use App\Livewire\CheckoutComponent;
 use App\Livewire\PostOfficeSelector;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\AdsController;
+use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\VarientController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\SubcategoryController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SupplierController;
-use App\Http\Controllers\Admin\ZoneController;
+use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\TrackorderController;
+use App\Http\Controllers\Admin\FeatureCategoryController;
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
-use App\Http\Controllers\Frontend\ShopController;
-use App\Http\Controllers\Frontend\TrackorderController;
-use Illuminate\Routing\Router;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +68,21 @@ Route::get('/dashboard/404', function () {
     return view('admin.error.404');
 });
 
+Route::get('/privacy_and_policy', function () {
+    return view('frontend.privacy-policy');
+});
+
+Route::get('/terms-and-condition', function () {
+    return view('frontend.terms-and-condition');
+});
+
+Route::get('/cancellation_and_return', function () {
+    return view('frontend.cancellation_and_return');
+});
+Route::get('/delivery_information', function () {
+    return view('frontend.delivery_information');
+});
+
 // Route::get('/', HomeComponent::class )->name('home');
 // Route::get('/product/{slug}', ProductComponent::class)->name('product.detail');
 
@@ -80,6 +99,8 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/products/{slug}', 'products')->name('product.detail');
     Route::get('/checkout', 'checkout')->name('checkout');
     Route::get('/cart', 'cart')->name('cart');
+    Route::get('/wishlist', 'wishlist')->name('wishlist');
+    Route::get('/home/quickview', 'quickview')->name('quickview');
 });
 
 // Route::get('/shop', [ShopController::class, 'index'])->name('shop');
@@ -119,6 +140,8 @@ Route::controller(TrackorderController::class)->group(function () {
 
 });
 
+
+
 // Frontend Route End
 
 
@@ -142,7 +165,6 @@ Route::controller(BrandController::class)->middleware('auth')->group(function ()
     Route::get('/dashboard/brands/edit', 'edit')->name('brands.edit');
     Route::post('/dashboard/brands/update', 'update')->name('brands.update');
     Route::delete('/dashboard/brands/destroy/{id}', 'destroy')->name('brands.destroy');
-
 });
 
 //Category
@@ -257,7 +279,14 @@ Route::controller(SupplierController::class)->middleware('auth')->group(function
     Route::delete('/dashboard/supplier/destroy', 'destroy')->name('supplier.destroy');
 
 });
+Route::controller(SettingsController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/settings', 'index')->name('settings.index');
+   // Route::post('/dashboard/settings/store', 'store')->name('supplier.store');
+   // Route::get('/dashboard/supplier/edit', 'edit')->name('supplier.edit');
+    Route::post('/dashboard/settings/update', 'update')->name('settings.update');
+  //  Route::delete('/dashboard/supplier/destroy', 'destroy')->name('supplier.destroy');
 
+});
 //Zone
 Route::controller(ZoneController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/zone', 'index')->name('zone.index');
@@ -277,6 +306,33 @@ Route::controller(FeatureCategoryController::class)->middleware('auth')->group(f
     Route::delete('/dashboard/category_feature/destroy', 'destroy')->name('category_feature.destroy');
 });
 
+//Slider
+Route::controller(SliderController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/slider', 'index')->name('slider');
+    Route::post('/dashboard/slider/store', 'store')->name('slider.store');
+    Route::get('/dashboard/slider/edit', 'edit')->name('slider.edit');
+    Route::post('/dashboard/slider/update', 'update')->name('slider.update');
+    Route::delete('/dashboard/slider/destroy/{id}', 'destroy')->name('slider.destroy');
+});
+
+//ads route
+Route::controller(AdsController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/ads', 'index')->name('ads');
+    Route::post('/dashboard/ads/store', 'store')->name('ads.store');
+    Route::get('/dashboard/ads/edit', 'edit')->name('ads.edit');
+    Route::post('/dashboard/ads/update', 'update')->name('ads.update');
+    Route::delete('/dashboard/ads/destroy/{id}', 'destroy')->name('ads.destroy');
+});
+
+//ads route
+Route::controller(CampaignController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/campaign', 'index')->name('campaign');
+    Route::get('/dashboard/campaign/create', 'create')->name('campaign.create');
+    Route::post('/dashboard/campaign/store', 'store')->name('campaign.store');
+    Route::get('/dashboard/campaign/edit', 'edit')->name('campaign.edit');
+    Route::post('/dashboard/campaign/update', 'update')->name('campaign.update');
+    Route::delete('/dashboard/campaign/destroy/{id}', 'destroy')->name('campaign.destroy');
+});
 
 // reviews
 Route::get('/dashboard/reviews', function () {

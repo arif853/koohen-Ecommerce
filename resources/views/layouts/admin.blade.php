@@ -73,6 +73,7 @@
     </main>
 
 
+
     {{-- Jquery  --}}
     <script src="{{asset('admin/assets/js/vendors/jquery-3.6.0.min.js')}}"></script>
     <script src="{{asset('admin/assets/js/vendors/bootstrap.bundle.min.js')}}"></script>
@@ -115,6 +116,7 @@
     <script src="{{asset('admin/assets/js/custom-chart.js')}}" type="text/javascript"></script>
     <script src="{{asset('admin/assets/js/deleteConfirm.js')}}"></script>
     {{-- <script src="{{asset('admin/assets/js/script.js')}}"></script> --}}
+
     @stack('product')
     @stack('varient')
     @stack('brand')
@@ -123,6 +125,8 @@
     @stack('order_status')
     @stack('supplier')
     @stack('zone')
+
+
     <script>
         $(document).ready(function() {
 
