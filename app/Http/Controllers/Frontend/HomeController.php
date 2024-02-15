@@ -8,6 +8,7 @@ use App\Models\Products;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Campaign;
 use App\Models\Category;
 use App\Models\Division;
 
@@ -53,8 +54,10 @@ class HomeController extends Controller
         $cat_feature = Feature_category::where('status', 'Active')->first();
         $sliders = Slider::all();
         $adsbanner = Ads::all();
+        $campaign = Campaign::where('status','Published')->first();
 
-        return view('frontend.home.index',compact('categories','groupedCategories','cat_feature','sliders','adsbanner'));
+        return view('frontend.home.index',compact('categories','groupedCategories','cat_feature','sliders','adsbanner','campaign'));
+
     }
 
     /**
@@ -107,7 +110,7 @@ class HomeController extends Controller
     }
 
     public function wishlist(){
-        
+
         return view('frontend.shop-wishlist');
     }
 

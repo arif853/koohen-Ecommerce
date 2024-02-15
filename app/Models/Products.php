@@ -121,4 +121,9 @@ class Products extends Model
         return $this->belongsTo(Supplier::class);
     }
 
+    public function camp_product()
+    {
+        return $this->hasMany(Camp_product::class, 'product_id');
+    }
+
 }

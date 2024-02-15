@@ -22,6 +22,7 @@
 
 	<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/css/vendors/animate.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/vendor/slick/slick.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/vendor/jquery.countdown/css/jquery.countdown.css')}}">
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{asset('')}}frontend/assets/css/main.css?v=3.4">
@@ -567,6 +568,9 @@
     <script src="{{asset('frontend/assets/js/vendor/moment.js')}}"></script>
     <script src="{{asset('frontend/assets/js/vendor/moment-with-locales.js')}}"></script>
 
+    <script src="{{asset('frontend/assets/vendor/jquery.countdown/js/jquery.plugin.min.js')}}"></script>
+    <script src="{{asset('frontend/assets/vendor/jquery.countdown/js/jquery.countdown.js')}}"></script>
+
     <!-- Template  JS -->
     <script src="{{asset('')}}frontend/assets/js/main.js?v=3.4"></script>
     <script src="{{asset('')}}frontend/assets/js/shop.js?v=3.4"></script>
@@ -576,6 +580,7 @@
     @stack('dashboard')
     @stack('checkout')
     @stack('shop')
+    @stack('camp')
 
 <script>
     var headerContainer = $('.header-wrap');

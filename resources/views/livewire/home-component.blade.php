@@ -1,4 +1,5 @@
 
+
 <div>
     <div class="text-center">
         <h3 class="section-title section-title-1 mb-20"><span>All Products</span> </h3>
@@ -29,20 +30,52 @@
                                 <i class="fi-rs-eye"></i></a>
                             <a aria-label="Add To Wishlist" wire:click.prevent="AddToWishlist({{$product->id}})" onclick="wishNotify()" class="action-btn hover-up" href="#"><i class="fi-rs-heart"></i></a>
                         </div>
+
+                            @php
+                            $flag = 0;
+                            $thisProduct = $product->id;
+                            if ($campaign) {
+                                $camp_products = $campaign->camp_product;
+
+                                foreach ($camp_products as $key => $camp_product) {
+                                    if ($thisProduct == $camp_product->product_id) {
+
+                                        $camp_price = $camp_product->camp_price;
+                                        $flag = 1;
+
+                                    }
+                                }
+                            }
+
+                            @endphp
                         <div class="product-badges product-badges-position product-badges-mrg">
-                            <span class="hot">Hot</span>
+                            @if($flag == 1)
+                            <span class="sale">On Sale</span>
+
+                            @else
+                            {{-- <span class="hot">Hot</span> --}}
+
+                            @endif
                         </div>
                     </div>
 
                     <div class="product-content-wrap text-center">
                         {{-- <h2><a href="product-details.php">Colorful Pattern Shirts</a></h2> --}}
                         <h2><a href="{{route('product.detail',['slug'=>$product->slug])}}">{{$product->product_name}}</a></h2>
+
+
+
                         <div class="product-price">
-                             @if ($product->product_price->offer_price > 0)
+                            @if($flag == 1)
+                            <span>৳{{$camp_price}} </span>
+                            <span class="old-price">৳{{$product->regular_price}}</span>
+
+                            @elseif ($product->product_price->offer_price > 0 && $flag == 0)
                                 <span>৳{{$product->product_price->offer_price}} </span>
                                 <span class="old-price">৳{{$product->regular_price}}</span>
+
                             @else
-                                <span >৳{{$product->regular_price}} </span>
+                            <span >৳{{$product->regular_price}}</span>
 
                             @endif
                         </div>

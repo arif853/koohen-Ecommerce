@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Size;
 use App\Models\Color;
 use Livewire\Component;
+use App\Models\Campaign;
 use App\Models\Category;
 use App\Models\Products;
 use Livewire\WithPagination;
@@ -42,7 +43,25 @@ class ShopComponent extends Component
         $product = Products::find($id);
         $item_name = $product->product_name;
         $offer_price = $product->product_price->offer_price;
-        if($offer_price > 0)
+
+        $campaign = Campaign::where('status','Published')->first();
+        $flag = 0;
+        if ($campaign) {
+            $camp_products = $campaign->camp_product;
+
+            foreach ($camp_products as $key => $camp_product) {
+                if ($product->id == $camp_product->product_id) {
+
+                    $camp_price = $camp_product->camp_price;
+                    $flag = 1;
+                }
+            }
+        }
+        if( $flag == 1)
+        {
+            $item_price = $camp_price;
+        }
+        elseif($offer_price > 0)
         {
             $item_price = $offer_price;
         }
@@ -67,7 +86,25 @@ class ShopComponent extends Component
 
         $item_name = $product->product_name;
         $offer_price = $product->product_price->offer_price;
-        if($offer_price > 0)
+        $campaign = Campaign::where('status','Published')->first();
+        $flag = 0;
+        if ($campaign) {
+            $camp_products = $campaign->camp_product;
+
+            foreach ($camp_products as $key => $camp_product) {
+                if ($product->id == $camp_product->product_id) {
+
+                    $camp_price = $camp_product->camp_price;
+                    $flag = 1;
+                }
+            }
+        }
+
+        if( $flag == 1)
+        {
+            $item_price = $camp_price;
+        }
+        elseif($offer_price > 0)
         {
             $item_price = $offer_price;
         }
@@ -151,12 +188,16 @@ class ShopComponent extends Component
 
         }
 
+        $campaign = Campaign::where('status','Published')->first();
+
+
         return view('livewire.shop-component', [
             'product_count' => $product_count,
             'products' => $this->products,
             'groupedCategories' => $this->groupedCategories,
             'colors' => $colors,
             'sizes' => $sizes,
+            'campaign' => $campaign,
         ]);
     }
 

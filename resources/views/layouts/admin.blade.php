@@ -111,6 +111,7 @@
     <script src="{{asset('admin/assets/vendors/form-wizard/jquery.bootstrap.wizard.js')}}"></script>
     <script src="{{asset('admin/assets/vendors/form-wizard/gsdk-bootstrap-wizard.js')}}"></script>
     {{-- <script src="{{asset('admin/assets/vendors/form-wizard/step-init.js')}}"></script> --}}
+
     <!-- Main Script -->
     <script src="{{asset('admin/assets/js/main.js')}}" type="text/javascript"></script>
     <script src="{{asset('admin/assets/js/custom-chart.js')}}" type="text/javascript"></script>

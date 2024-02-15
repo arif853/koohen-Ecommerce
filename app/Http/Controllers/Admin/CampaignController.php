@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Campaign;
 use App\Models\Products;
+use Illuminate\Support\Str;
 use App\Models\Camp_product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -194,8 +195,8 @@ class CampaignController extends Controller
                 $newImage = $campaign->image;
             }
 
-
                 $campaign->camp_name = $request->camp_name;
+                $campaign->slug = Str::slug($request->camp_name);
                 $campaign->image = $newImage;
                 $campaign->camp_offer = $request->camp_offer;
                 $campaign->status = $request->status;
@@ -210,7 +211,9 @@ class CampaignController extends Controller
                 $campaignPrices = $request->input('campaign_price');
 
                 foreach ($products as $key => $productId) {
+
                     $existedProduct = Camp_product::where('product_id', $productId)->first();
+
                     if(!$existedProduct){
                         Camp_product::create([
                             'campaign_id' => $campaign->id,
@@ -228,7 +231,6 @@ class CampaignController extends Controller
                             'camp_qty' => $stock[$key],
                         ]);
                     }
-
                 }
 
             return redirect()->route('campaign')->with('success','Campaign data has been updated successfully.');
