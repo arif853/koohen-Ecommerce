@@ -5,7 +5,9 @@
     margin: 0;
     box-sizing: border-box;
 }
-
+.font-style{
+    font-style: italic;
+}
 :root{
     --blue-color: #0c2f54;
     --dark-color: #535b61;
@@ -211,13 +213,16 @@ body{
 @media print{
     .print-area{
         visibility: visible;
-        width: 100%;
         position: absolute;
         left: 0;
         top: 0;
         overflow: hidden;
+        margin: 0;
     }
-
+    .invoice-wrapper {
+        width: 100%;
+        height: 100%;
+      }
     .overflow-view{
         overflow-x: hidden;
     }
@@ -225,4 +230,5 @@ body{
     .invoice-btns{
         display: none;
     }
+   
 }

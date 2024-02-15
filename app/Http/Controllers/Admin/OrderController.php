@@ -455,16 +455,21 @@ class OrderController extends Controller
     }
     public function orderInvocie($id){
         ini_set('max_execution_time',3600); 
-        $order = Order::with('customer','order_item','order_item.product')
+        $order = Order::with('customer','order_item','order_item.product','order_item.product.sizes')
         ->where('id', $id)
         ->first();
-       $pdf = Pdf::loadView('admin.print', ['order' => $order]);
-        return $pdf->download();
+     $data = [
+        'order' => $order,
+     ];
+     $pdf =  PDF::loadView('admin.print', $data)->setOptions(['defaultFont' => 'sans-serif']);
+     $pdf->setPaper('A4', 'Portrait');
+     return $pdf->download("invoice.pdf");
     }
-    // public function invoicePage(Request $request)
-    // {
-    //     $orders = DB::table('orders')->join('customers','customers.id','=','orders.customer_id')->select('orders.*','customers.firstName','customers.lastName','customers.phone','customers.billing_address')->get();
-    //     dd($orders);
-    //     return view('admin.order.invoice',compact('orders'));
-    // }
+    public function invoicePage($id)
+    {
+        $order = Order::with('customer','order_item','order_item.product','order_item.product.sizes')
+        ->where('id', $id)
+        ->first();
+        return view('admin.print',compact('order'));
+    }
 }

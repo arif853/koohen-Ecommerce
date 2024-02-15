@@ -229,6 +229,7 @@ Route::controller(OrderController::class)->middleware('auth')->group(function ()
     Route::post('/update-order-status', 'updateOrderStatus');
     Route::post('/update-one-order-status', 'updateOneOrderStatus');
     Route::get('/orders/invoice/{id}', 'orderInvocie')->name('order.invoice');
+    Route::get('/orders/invoice-page/{id}', 'invoicePage')->name('invoice');
 });
 
 //Customer

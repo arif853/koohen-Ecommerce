@@ -1,35 +1,22 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
    
-    <link rel="stylesheet" href="{{ asset('/') }}admin/assets/css/print.css">
-
+    <link href="{{ url('/admin/assets/css/print.css') }}" rel="stylesheet">
+    <title>Koohen Invoice</title>
     <style>
-        /* Additional CSS */
-        .invoice-head-top-right {
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .invoice-head-top-right .text-bold{
-            font-style: italic;
-        }
-        .invoice-head-top-right h3 {
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-        .invoice-head-bottom-left li.text-bold {
-            font-style: italic;
-        }
-        
+    @page 
+    {
+          /* auto is the initial value */
+        margin:0mm;  /* this affects the margin in the printer settings */
+        height: 0mm;
+    }
     </style>
-</head>
 
+</head>
 <body>
     @php
     $settings = DB::table('settings')->first();
@@ -40,18 +27,20 @@
                 <div class="invoice-head">
                     <div class="invoice-head-top">
                         <div class="invoice-head-top-left text-start">
+                        
                             <img src="{{ asset('/') }}frontend/assets/imgs/Kohen_Logo_Main.png">
+
                             <p><span class="text_soft">{{ $settings->company_address }}</span></p>
                             <p><span class="text_soft">{{ $settings->primary_mobile_no }}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="text_soft">{{ $settings->email }}</span></p>
                         </div>
                         <div class="invoice-head-top-right text-end">
-                            <div id="invoice-title" style="padding:9px;">
+                            <div id="invoice-title" style="padding:6px;">
                                 <h3 style="background-color:#e6e6e6;">Invoice</h3>
                             </div>
                            
-                            <p><span class="text-bold">Date</span> : {{ date('j F y',strtotime($order->created_at)) }}</p>
+                            <p><span class="text-bold font-style">Date</span> : {{ date('j F y',strtotime($order->created_at)) }}</p>
                             <p >
-                                <span class="text-bold">Invoice No : {{ $order->order_track_id ?? 'K25-5200' }}</span>
+                                <span class="text-bold font-style">Invoice No : {{ $order->order_track_id ?? 'K25-5200' }}</span>
                             </p>
                         </div>
                     </div>
@@ -60,7 +49,7 @@
                     <div class="invoice-head-bottom">
                         <div class="invoice-head-bottom-left">
                             <ul class="text_soft">
-                                <li class="text-bold">SHIP To:</li>
+                                <li class="text-bold font-style">SHIP To:</li>
                                 <li>Name : {{ $order->customer->firstName.' '.$order->customer->lastName }}</li>
                                 <li>Phone: {{ $order->customer->phone }}</li>
                                 <li>Address: {{ $order->customer->billing_address }}</li>
@@ -90,7 +79,15 @@
                                 <td>{{ $key+1 }}</td>
                              
                                 <td>{{ $item->product->product_name }}</td>
-                                <td>{{ $item->product->sku }}</td>
+                                <td>
+                                    {{ $item->product->sku }}<br>
+                                   
+                                    @foreach ($item->product->sizes as $size)
+                                     <strong> Size :</strong> {{$size->size }} 
+                                     <br>
+                                    @endforeach
+                                   
+                                </td>
                                 <td>{{ $item->quantity }}</td>
                                 <td>{{ $item->price }}</td>
                                 <td class="">{{$item->quantity * $item->price}} &#2547;</td>
@@ -105,7 +102,9 @@
                                 <table class="table">
                                     <tr style="background-color:#a8cef0">
                                       <th>Sub Total:</th>
-                                      <td>{{ $order->subtotal }} &#2547;</td>
+                                      <td>
+                                        {{ $order->subtotal }} &#2547;
+                                    </td>
                                     </tr>
                                     <tr style="background-color:#eeeee8">
                                       <th>Shipping Charge:</th>
@@ -130,21 +129,34 @@
                         </div>
                     </div>
                 </div>
-                <div class="invoice-foot" style="margin-top:8%;">
+                <div class="invoice-foot" style="margin-top:25%;">
                     <h5><span class="text-bold" style=""></span>নিন্মোক্ত শর্ত সাপেক্ষে কোন ধরনের ডেলিভারি চার্জ ব্যতীত পণ্য ফেরত দেয়া যাবে</h5>
                     <ul class="text_soft">
-                   
-                        <li class="text_soft"><p style="margin-right:2px;margin-bottom:3%;font-size:12px;width:82%;">১. &nbsp;পণ্যটি অবশ্যই ডেলিভারি ম্যান এর সামনে চেক করে দেখে নিতে হবে অন্যথায় ডেলিভারি ম্যান চলে গেলে আপনার অভিযোগ গ্রহণ যোগ্য হবে না </p></li>
-                        <li class="text_soft"><p style="margin-right:2px;margin-bottom:3%;font-size:12px;width:82%;"> ২.&nbsp;ডেলিভারি কৃত পণ্য কালার বা সাইজ যদি অর্ডারকৃত পণ্য থেকে ব্যতিক্রম হয় </p></li>
-                        <li class="text_soft"><p style="margin-right:2px;margin-bottom:3%;font-size:12px;width:82%;">৩.&nbsp;কাস্টমারের  কাছে যদি পণ্য ক্ষতিগ্রস্ত অবস্থায় পৌঁছায় </p></li>
+                        <li class="text_soft"><p style="margin-right:2px;margin-bottom:5px;font-size:12px;width:100cm;">১. &nbsp;পণ্যটি অবশ্যই ডেলিভারি ম্যান এর সামনে চেক করে দেখে নিতে হবে অন্যথায় ডেলিভারি ম্যান চলে গেলে আপনার অভিযোগ গ্রহণ যোগ্য হবে না </p></li>
+                        <li class="text_soft"><p style="margin-right:2px;margin-bottom:5px;font-size:12px;width:100cm;"> ২.&nbsp;ডেলিভারি কৃত পণ্য কালার বা সাইজ যদি অর্ডারকৃত পণ্য থেকে ব্যতিক্রম হয় </p></li>
+                        <li class="text_soft"><p style="margin-right:2px;margin-bottom:5px;font-size:12px;width:100cm;">৩.&nbsp;কাস্টমারের  কাছে যদি পণ্য ক্ষতিগ্রস্ত অবস্থায় পৌঁছায় </p></li>
 
                     </ul>
-                  
+                    <div class="invoice-btns">
+                        <button type ="button" class="invoice-btn"  id ="btnPrint">
+                            <span>
+                                <i class="fa-solid fa-print"></i>
+                            </span>
+                            <span>Print</span>
+                        </button>
+                       
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-   
+    <script>
+        const $btnPrint = document.querySelector("#btnPrint");
+        $btnPrint.addEventListener("click", () => {
+            window.print();
+        });
+    </script>
+    
 </body>
 
 </html>
