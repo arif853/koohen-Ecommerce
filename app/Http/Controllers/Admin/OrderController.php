@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use App\Models\Size;
 use App\Models\Color;
@@ -454,25 +454,17 @@ class OrderController extends Controller
         // return $pdf->stream($filename.'.pdf');
     }
     public function orderInvocie($id){
-        $order = Order::with('customer', 'order_item','order_item.product')
+        ini_set('max_execution_time',3600); 
+        $order = Order::with('customer','order_item','order_item.product')
         ->where('id', $id)
         ->first();
-
-        $data = [
-            'title' => 'Koohen Invoice Pdf',
-            'date' => date('m/d/Y'),
-            'order' => $order
-        ]; 
-            
-        $pdf = PDF::loadView('invoice', $data);
-     
-        return $pdf->download('Invoice_Sheet.pdf');
-      
+       $pdf = Pdf::loadView('admin.print', ['order' => $order]);
+        return $pdf->download();
     }
-    public function invoicePage(Request $request)
-    {
-        $orders = DB::table('orders')->join('customers','customers.id','=','orders.customer_id')->select('orders.*','customers.firstName','customers.lastName','customers.phone','customers.billing_address')->get();
-        dd($orders);
-        return view('admin.order.invoice',compact('orders'));
-    }
+    // public function invoicePage(Request $request)
+    // {
+    //     $orders = DB::table('orders')->join('customers','customers.id','=','orders.customer_id')->select('orders.*','customers.firstName','customers.lastName','customers.phone','customers.billing_address')->get();
+    //     dd($orders);
+    //     return view('admin.order.invoice',compact('orders'));
+    // }
 }
