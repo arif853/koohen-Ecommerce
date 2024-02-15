@@ -252,6 +252,10 @@ Route::controller(OfferController::class)->middleware('auth')->group(function ()
 Route::controller(CouponController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/promotion/coupons', 'index')->name('coupon.index');
     Route::get('/dashboard/promotion/coupons/create', 'create')->name('coupon.create');
+    Route::post('/dashboard/promotion/coupons/save', 'store')->name('coupon.store');
+    Route::get('/dashboard/promotion/coupons-edit/{id}', 'edit')->name('coupon.edit');
+    Route::put('/dashboard/promotion/coupons-update/{id}', 'update')->name('coupon.update');
+    Route::delete('/dashboard/promotion/coupons-destroy', 'destroy')->name('coupon.destroy');
     // Route::get('/dashboard/customers/Customer_profile', 'customer_details')->name('customer.profile');
     // Route::get('/dashboard/category/create', 'create')->name('category.create');
 });

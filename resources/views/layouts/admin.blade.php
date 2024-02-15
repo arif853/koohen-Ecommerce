@@ -125,7 +125,7 @@
     @stack('order_status')
     @stack('supplier')
     @stack('zone')
-
+    @stack('coupons_type')
 
     <script>
         $(document).ready(function() {

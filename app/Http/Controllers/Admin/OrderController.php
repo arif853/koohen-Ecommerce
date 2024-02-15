@@ -470,6 +470,6 @@ class OrderController extends Controller
         $order = Order::with('customer','order_item','order_item.product','order_item.product.sizes')
         ->where('id', $id)
         ->first();
-        return view('admin.print',compact('order'));
+        return view('admin.order.print-invoice',compact('order'));
     }
 }
