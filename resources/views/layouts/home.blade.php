@@ -25,7 +25,7 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/vendor/jquery.countdown/css/jquery.countdown.css')}}">
 
     <!-- Template CSS -->
-    <link rel="stylesheet" href="{{asset('')}}frontend/assets/css/main.css?v=3.4">
+    <link rel="stylesheet" href="{{asset('/')}}frontend/assets/css/main.css?v=3.4">
     <!--Font-->
     @livewireStyles
 </head>
@@ -39,9 +39,12 @@
                 <div class="row align-items-center">
                     <div class="col-xl-3 col-lg-4">
                         <div class="header-info">
+                            @php
+                                $settings = DB::table('settings')->first();
+                            @endphp
                             <ul>
-                                <li><i class="far fa-phone-alt"></i> <a href="tel:+880 9639 174 502">+880 9639 174 502</a></li>
-                                <li><i class="fal fa-envelope"></i><a  href="mailto:info@koohen.com">info@koohen.com</a></li>
+                                <li><i class="far fa-phone-alt"></i> <a href="tel:<?php echo $settings->secondary_mobile_no?>">{{$settings->secondary_mobile_no}}</a></li>
+                                <li><i class="fal fa-envelope"></i><a  href="mailto:<?php echo $settings->email?>">{{$settings->email}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -371,10 +374,10 @@
                         @endauth
                     </div>
                     <div class="single-mobile-header-info">
-                        <a href="tel:09639174502">(+880) - 9639 174 502</a>
+                        <a href="tel:<?php echo $settings->secondary_mobile_no?>">{{ $settings->secondary_mobile_no }}</a>
                     </div>
                     <div class="single-mobile-header-info mt-30">
-                        <a  href="{{route('contactus')}}"> Our location: <p>522/B, North Shahjahanpur, Dhaka-1217</p></a>
+                        <a  href="{{route('contactus')}}"> Our location: <p>{{ $settings->company_address }}</p></a>
                     </div>
                 </div>
                 <div class="mobile-social-icon">
@@ -438,9 +441,7 @@
                             <div class="logo logo-width-1 wow fadeIn animated">
                                 <a href="index.html"><img src="{{asset('frontend/assets/imgs/Kohen_Logo_Main.png')}}" alt="logo"></a>
                             </div>
-                            <p class="footer-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            <p class="footer-desc">{{$settings->company_short_details}}</p>
 
                         </div>
                     </div>
@@ -454,12 +455,12 @@
                         <h5 class="widget-title wow fadeIn animated">Contact</h5>
                         <ul class="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
                             <li>
-                                <a href="https://wa.link/3qi05h"><span><i class="fab fa-whatsapp"></i></span> +880 1751218778</a>
+                                <a href="https://wa.link/3qi05h"><span><i class="fab fa-whatsapp"></i></span> {{ $settings->primary_mobile_no }}</a>
 
                             </li>
-                            <li><a href="tel:+880 9639 174 502"><span><i class="fal fa-phone-alt"></i></span> +880 9639 174 502</a></li>
-                            <li><a href="mailto:support@koohen.com"><span><i class="fal fa-envelope"></i></span> support@koohen.com</a></li>
-                            <li><a href="#"><span><i class="fal fa-map-marker-alt"></i></span> 522/B, North Shahjahanpur, Dhaka-1217</a></li>
+                            <li><a href="tel:<?php echo $settings->secondary_mobile_no?>"><span><i class="fal fa-phone-alt"></i></span> {{ $settings->secondary_mobile_no }}</a></li>
+                            <li><a href="mailto:<?php echo $settings->email?>"><span><i class="fal fa-envelope"></i></span> {{ $settings->email }}</a></li>
+                            <li><a href="#"><span><i class="fal fa-map-marker-alt"></i></span> {{ $settings->company_address }}</a></li>
 
                         </ul>
                         <h5 class="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">Follow Us</h5>
