@@ -647,4 +647,6 @@ class ProductController extends Controller
             return response()->json(['error' => 'Product image not found'], Response::HTTP_NOT_FOUND);
         }
     }
+
+
 }

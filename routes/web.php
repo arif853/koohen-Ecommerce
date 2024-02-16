@@ -34,6 +34,7 @@ use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\TrackorderController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
+use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
 
@@ -334,6 +335,18 @@ Route::controller(CampaignController::class)->middleware('auth')->group(function
     Route::post('/dashboard/campaign/update/{id}', 'update')->name('campaign.update');
     Route::delete('/dashboard/campaign/destroy/{id}', 'destroy')->name('campaign.destroy');
     Route::delete('/dashboard/campaign/camp_item/delete', 'campItemRemove')->name('camp_item.delete');
+
+});
+
+
+//campaign route
+Route::controller(InventoryController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/inventory', 'index')->name('inventory');
+    Route::get('/dashboard/inventory/create', 'create')->name('inventory.create');
+
+    //add new stock
+    Route::get('/dashboard/inventory/newstock', 'newstock')->name('new.stock');
+    Route::post('/dashboard/inventory/addstock', 'addstock')->name('add.stock');
 
 });
 

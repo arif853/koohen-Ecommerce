@@ -97,7 +97,10 @@
                 <a class="menu-link" href="{{route('media.index')}}"> <i class="icon material-icons md-stars"></i>
                     <span class="text">Media</span> </a>
             </li> --}}
-
+            <li class="menu-item">
+                <a class="menu-link" href="{{route('inventory')}}"> <i class="icon material-icons md-stars"></i>
+                    <span class="text">Inventory</span> </a>
+            </li>
             <li class="menu-item">
                 <a class="menu-link" href="{{route('campaign')}}"> <i class="icon material-icons md-stars"></i>
                     <span class="text">Campaign</span> </a>
