@@ -108,3 +108,30 @@
 <h6>It is not the man who has too little, but the man who craves more, that is poor. - Seneca</h6>
 
 @endsection
+@push('product')
+<script>
+     document.querySelectorAll('.delete').forEach(function (element) {
+        element.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent the default link behavior
+
+            var form = this.closest('form');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                // If confirmed, submit the corresponding form
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
+
+@endpush

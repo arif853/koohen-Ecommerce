@@ -92,7 +92,7 @@ class CampaignController extends Controller
 
                 $campaign->camp_name = $request->camp_name;
                 $campaign->image = $imagePath;
-                $campaign->camp_offer = $request->camp_offer;
+                $campaign->camp_offer = $request->camp_offer ;
                 $campaign->status = $request->status;
                 $campaign->start_date = $request->start_date;
                 $campaign->end_date = $request->end_date;
@@ -243,7 +243,18 @@ class CampaignController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $item = Campaign::findOrFail($id);
+
+        if ($item) {
+
+            $item->delete();
+            Session::flash('danger', 'Campaign has been deleted !!');
+
+            // Return a JSON response indicating success
+            return redirect()->back();
+            // return response()->json(['message' => 'Campaign has been deleted'], Response::HTTP_OK);
+        }
+
     }
 
     public function campItemRemove(Request $request){

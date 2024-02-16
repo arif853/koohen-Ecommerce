@@ -27,7 +27,7 @@ class ShopComponent extends Component
 
     public function decreaseQuantity($id)
     {
-        $item = Cart::get($id);
+        $item = Cart::instance('cart')->get($id);
         $qty = $item->qty - 1;
         Cart::instance('cart')->update($id,$qty);
         $this->dispatch('cartRefresh')->to('cart-icon-component');
