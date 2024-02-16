@@ -72,7 +72,7 @@ class CheckoutController extends Controller
                 'order_id' => $order->id,
             ]);
 
-            $cartItems = Cart::content();
+            $cartItems = Cart::instance('cart')->content();
 
             // Loop through the cart items and save them to the order item table
             foreach ($cartItems as $cartItem) {
@@ -193,7 +193,7 @@ class CheckoutController extends Controller
                     'order_id' => $order->id,
                 ]);
 
-                $cartItems = Cart::content();
+                $cartItems = Cart::instance('cart')->content();
 
                 // Loop through the cart items and save them to the order item table
                 foreach ($cartItems as $cartItem) {
@@ -251,7 +251,7 @@ class CheckoutController extends Controller
             }
         }
         // Clear the cart after saving to the order item table
-        Cart::destroy();
+        Cart::instance('cart')->destroy();
         return redirect()->route('shop')->with('success', 'Your order has been placed');
     }
 
