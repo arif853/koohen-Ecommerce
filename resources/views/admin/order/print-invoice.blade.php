@@ -7,156 +7,172 @@
    
     <link href="{{ url('/admin/assets/css/print.css') }}" rel="stylesheet">
     <title>Koohen Invoice</title>
-    <style>
-    @page 
-    {
-          /* auto is the initial value */
-        margin:0mm;  /* this affects the margin in the printer settings */
-        height: 0mm;
-    }
+   <style>
+        table,
+        td,
+        th {
+            border: 1px solid black;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 50%;
+        }
     </style>
 
 </head>
+
 <body>
     @php
     $settings = DB::table('settings')->first();
     @endphp
-    <div class="invoice-wrapper" id="print-area">
-        <div class="invoice">
-            <div class="invoice-container">
-                <div class="invoice-head">
-                    <div class="invoice-head-top">
-                        <div class="invoice-head-top-left text-start">
+    <div class="wrapper print-area">
+        <div class="invoice_wrapper">
+            <div class="header">
+                <div class="logo_invoice_wrap">
+                    <div class="logo_sec">
+                        <img src="{{ asset('/') }}frontend/assets/imgs/Kohen_Logo_Main.png" alt="code logo"><br>
                         
-                            <img src="{{ asset('/') }}frontend/assets/imgs/Kohen_Logo_Main.png">
-
-                            <p><span class="text_soft">{{ $settings->company_address }}</span></p>
-                            <p><span class="text_soft">{{ $settings->primary_mobile_no }}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="text_soft">{{ $settings->email }}</span></p>
-                        </div>
-                        <div class="invoice-head-top-right text-end">
-                            <div id="invoice-title" style="padding:6px;">
-                                <h3 style="background-color:#e6e6e6;">Invoice</h3>
-                            </div>
-                           
-                            <p><span class="text-bold font-style">Date</span> : {{ date('j F y',strtotime($order->created_at)) }}</p>
-                            <p >
-                                <span class="text-bold font-style">Invoice No : {{ $order->order_track_id ?? 'K25-5200' }}</span>
-                            </p>
+                        <div class="title_wrap">
+                            <p class="sub_title">{{ $settings->company_address }}</p>
+                          <p class="sub_title">{{ $settings->primary_mobile_no }} &nbsp;&nbsp;&nbsp;&nbsp;{{ $settings->email }}</p>
                         </div>
                     </div>
+                    <div class="invoice_sec">
+                        <p class="invoice bold" style="background-color:#e6e6e6;">INVOICE</p>
 
-
-                    <div class="invoice-head-bottom">
-                        <div class="invoice-head-bottom-left">
-                            <ul class="text_soft">
-                                <li class="text-bold font-style">SHIP To:</li>
-                                <li>Name : {{ $order->customer->firstName.' '.$order->customer->lastName }}</li>
-                                <li>Phone: {{ $order->customer->phone }}</li>
-                                <li>Address: {{ $order->customer->billing_address }}</li>
-
-                            </ul>
-                        </div>
-                        <div class="invoice-head-bottom-right">
-
-                        </div>
+                        <p class="date">
+                            <span class="bold tera">Date :</span>&nbsp;&nbsp;
+                            <span>{{ date('j F y',strtotime($order->created_at)) }}</span>
+                        </p>
+                        <p class="invoice_no">
+                            <span class="bold tera">Invoice No :</span>&nbsp;&nbsp;
+                            <span>{{ $order->order_track_id ?? ' ' }}</span>
+                        </p>
                     </div>
                 </div>
-                <div class="">
-                    <div class="invoice-body">
-                      
-                        <table class="text-center">
-                            <tr style="background-color:#a8cef0;font-style:italic">
-                                <th class="text-bold">SL</th>
-                                <th class="text-bold">Product</th>
-                                <th class="text-bold">Item Code</th>
-                                <th class="text-bold">QTY</th>
-                                <th class="text-bold">Unit Price</th>
-                                <th class="text-bold">Total</th>
-                            </tr>
-                          
-                            @foreach ($order->order_item as $key=>$item)
-                            <tr>
-                                <td>{{ $key+1 }}</td>
-                             
-                                <td>{{ $item->product->product_name }}</td>
-                                <td>
-                                    {{ $item->product->sku }}<br>
-                                   
-                                    @foreach ($item->product->sizes as $size)
-                                     <strong> Size :</strong> {{$size->size }} 
-                                     <br>
-                                    @endforeach
-                                   
-                                </td>
-                                <td>{{ $item->quantity }}</td>
-                                <td>{{ $item->price }}</td>
-                                <td class="">{{$item->quantity * $item->price}} &#2547;</td>
-                            </tr>
-                            @endforeach
-                            
-                        
-                        </table>
-                        <div class="invoice-body-bottom text-end">
-                            
-                            <div class="invoice-body-info-item noborder" style="display: flex; justify-content: flex-end;">
-                                <table class="table">
-                                    <tr style="background-color:#a8cef0">
-                                      <th>Sub Total:</th>
-                                      <td>
-                                        {{ $order->subtotal }} &#2547;
-                                    </td>
-                                    </tr>
-                                    <tr style="background-color:#eeeee8">
-                                      <th>Shipping Charge:</th>
-                                      <td>{{ $order->delivery_charge }} &#2547;</td>
-                                    </tr>
-                                    <tr style="background-color:#a8cef0">
-                                      <th>Total:</th>
-                                      <td>{{ $order->total }} &#2547;</td>
-                                    </tr>
-                                    <tr style="background-color:#99ffdd">
-                                        <th>Discount:</th>
-                                        <td>{{ $order->discount}} &#2547;</td>
-                                      </tr>
-                                      <tr style="background-color:#ffe6b3">
-                                        <th>Payable Amount:</th>
-                                        <td>{{ $order->total }} &#2547;</td>
-                                      </tr>
-                                </table>
-                              
-                            </div>
-                          
-                        </div>
-                    </div>
-                </div>
-                <div class="invoice-foot" style="margin-top:25%;">
-                    <h5><span class="text-bold" style=""></span>নিন্মোক্ত শর্ত সাপেক্ষে কোন ধরনের ডেলিভারি চার্জ ব্যতীত পণ্য ফেরত দেয়া যাবে</h5>
-                    <ul class="text_soft">
-                        <li class="text_soft"><p style="margin-right:2px;margin-bottom:5px;font-size:12px;width:100cm;">১. &nbsp;পণ্যটি অবশ্যই ডেলিভারি ম্যান এর সামনে চেক করে দেখে নিতে হবে অন্যথায় ডেলিভারি ম্যান চলে গেলে আপনার অভিযোগ গ্রহণ যোগ্য হবে না </p></li>
-                        <li class="text_soft"><p style="margin-right:2px;margin-bottom:5px;font-size:12px;width:100cm;"> ২.&nbsp;ডেলিভারি কৃত পণ্য কালার বা সাইজ যদি অর্ডারকৃত পণ্য থেকে ব্যতিক্রম হয় </p></li>
-                        <li class="text_soft"><p style="margin-right:2px;margin-bottom:5px;font-size:12px;width:100cm;">৩.&nbsp;কাস্টমারের  কাছে যদি পণ্য ক্ষতিগ্রস্ত অবস্থায় পৌঁছায় </p></li>
+                <div class="bill_total_wrap" style="margin-top: 0; margin-bottom: 0;">
+                    <div class="bill_sec">
+                        <p class="tera bold shiping">Ship To</p>
 
-                    </ul>
-                    <div class="invoice-btns">
-                        <button type ="button" class="invoice-btn"  id ="btnPrint">
-                            <span>
-                                <i class="fa-solid fa-print"></i>
-                            </span>
-                            <span>Print</span>
-                        </button>
-                       
+                        <ul style="width: 100%;margin-top:5%;">
+                            <li style="margin-bottom:2%;">Name <span style="font-weight: 600; margin-left:40px;">
+                                   {{ $order->customer->firstName.' '.$order->customer->lastName }} </span> </li>
+                            <li style="margin-bottom:2%;">Phone <span style="margin-left:40px;"> {{ $order->customer->phone }}</span>
+                            </li>
+                            <li style="margin-bottom:2%;">Address<span style="margin-left:36px;">{{ $order->customer->billing_address }}</span></li>
+
+                        </ul>
+                    </div>
+                    <div class="total_wrap">
+                        <p></p>
+                        <p class="bold price"></p>
                     </div>
                 </div>
             </div>
+            <div class="body">
+                <div class="main_table">
+
+                    <div class="container">
+                        <div class="row" style="padding:3%;margin: 0 auto;">
+                            <table style="width:100%; text-align: center;">
+                                <thead style="background: #d3f8f8;">
+                                    <tr>
+                                        <th class="tera" style="padding: 2%;">SL</th>
+                                        <th class="tera" style="padding: 2%;">Product Name</th>
+                                        <th class="tera" style="padding: 2%;">Item Code</th>
+                                        <th class="tera" style="padding: 2%;">Qty </th>
+                                        <th class="tera" style="padding: 2%;">Unit Price </th>
+                                        <th class="tera" style="padding: 2%;">Toal </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($order->order_item as $key=>$item)
+                                    <tr>
+                                        <td style="padding: 2%;">{{ $key+1 }}</td>
+                                        <td style="padding: 2%;">{{ $item->product->product_name }}</td>
+                                        <td style="padding: 2%;">
+                                            {{ $item->product->sku }}<br>
+                                            <span>Size :</span>
+                                          
+                                                   @foreach ($item->product->sizes as $size)
+                                  <span> {{$size->size }} </span>
+                                     <br>
+                                    @endforeach
+                                        </td>
+                                        <td style="padding: 2%;">{{ $item->quantity }}</td>
+                                        <td style="padding: 2%;">{{ $item->price }}</td>
+                                        <td style="padding: 2%;">{{$item->price *  $item->quantity}}</td>
+                                    </tr>
+                                      @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="paymethod_grandtotal_wrap">
+                    <div class="paymethod_sec">
+
+                    </div>
+                    <div class="grandtotal_sec" style="padding-right:3%;font-size:10px;">
+                        <p class="" style="display: flex; flex-wrap: wrap; padding-top: 2px;background: #d3f8f8;margin-right:5px; ">
+                            <span style="padding-top:7px;">Sub total</span>
+                            <span> <input value=" {{ $order->subtotal }}"
+                                    style="width:40px;padding:2px;border-color:transparent;background-color: transparent;" />
+                                &#2547;</span>
+                        </p>
+                        <p style="background: #e6e6e6; ">
+                            <span style="padding-top:7px;">Shipping Charge</span>
+                            <span><input value="{{ $order->delivery_charge }} "
+                                    style="width:40px; padding:4px;border-color:transparent;background-color: transparent;" />
+                                &#2547; </span>
+                        </p>
+                        <p style="background: #d3f8f8;">
+                            <span style="padding-top:7px;">Total </span>
+                            <span> <input value="{{ $order->total }}"
+                                    style="width: 40px; padding: 2px;border-color:transparent;background-color: transparent;" />
+                                &#2547; </span>
+                        </p>
+                        <p style="background: #c9efa3;">
+                            <span style="padding-top:7px;">Discount </span>
+                            <span> <input value="{{ $order->discount}}"
+                                    style="width: 40px; padding: 2px;border-color:transparent;background-color: transparent;" />
+                                &#2547; </span>
+                        </p>
+                        {{-- <p style="background: #ffdd99;">
+                            <span style="padding-top:7px;">Advance Payment</span>
+                            <span> <input value=""
+                                    style="width: 40px; padding: 2px; border-color:transparent;background-color: transparent;" />
+                                &#2547;</span>
+                        </p> --}}
+                        <p style="background: #ff80b3;">
+                            <span style="padding-top:7px;">Payable Amount</span>
+                            <span> <input value="{{ $order->total }}"
+                                    style="width: 40px; padding: 2px;border-color:transparent; background-color: transparent;" />&#2547;</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="terms">
+                    <p class="tc bold" style="font-size: 13px; margin-bottom:5px;">নিন্মোক্ত শর্ত সাপেক্ষে কোন ধরনের ডেলিভারি চার্জ ব্যতীত
+                        পণ্য ফেরত দেয়া যাবে।</p>
+                    <p style="font-size:14px; margin-bottom:5px;">১. &nbsp;পণ্যটি অবশ্যই ডেলিভারি ম্যান এর সামনে চেক করে দেখে নিতে হবে
+                        অন্যথায় ডেলিভারি ম্যান চলে গেলে আপনার অভিযোগ গ্রহণ যোগ্য হবে না। </p>
+                    <p style="font-size:14px; margin-bottom:5px;">২.&nbsp;ডেলিভারি কৃত পণ্য কালার বা সাইজ যদি অর্ডারকৃত পণ্য থেকে ব্যতিক্রম
+                        হয়। </p>
+                    <p style="font-size:14px; margin-bottom:5px;">৩.&nbsp;কাস্টমারের কাছে যদি পণ্য ক্ষতিগ্রস্ত অবস্থায় পৌঁছায় । </p>
+                </div>
+            </div>
+            <div class="button_printer" style="text-align: center; padding: 20px;">
+                <!-- Your existing content -->
+                <button id="printButton" onclick="printInvoice()" >Print</button>
+            </div>
         </div>
     </div>
-    <script>
-        const $btnPrint = document.querySelector("#btnPrint");
-        $btnPrint.addEventListener("click", () => {
-            window.print();
-        });
-    </script>
-    
+    <script src="{{ url('/admin/assets/js/print.js ') }}"></script>
+
 </body>
 
 </html>
