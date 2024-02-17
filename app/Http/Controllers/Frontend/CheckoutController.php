@@ -12,8 +12,10 @@ use Illuminate\Http\Request;
 use App\Models\Register_customer;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Mail\AdminMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Validator;
@@ -251,6 +253,8 @@ class CheckoutController extends Controller
             }
         }
         // Clear the cart after saving to the order item table
+        Mail::to('arifhossen853@gmail.com')->send( new AdminMail($order));
+
         Cart::instance('cart')->destroy();
         return redirect()->route('shop')->with('success', 'Your order has been placed');
     }
