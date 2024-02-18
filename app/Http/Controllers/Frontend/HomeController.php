@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Models\Ads;
-use App\Models\Feature_category;
-use App\Models\Products;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Campaign;
 use App\Models\Category;
 use App\Models\Division;
+use App\Models\Products;
+use App\Models\Feature_category;
 
 class HomeController extends Controller
 {
@@ -110,7 +110,6 @@ class HomeController extends Controller
     }
 
     public function wishlist(){
-
         return view('frontend.shop-wishlist');
     }
 

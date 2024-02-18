@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use App\Models\Size;
 use App\Models\Color;
 use App\Models\Order;
@@ -15,8 +16,9 @@ use App\Models\transactions;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Register_customer;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
+use App\Models\Products;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -106,7 +108,7 @@ class OrderController extends Controller
             // Add color and size information to the product if needed
             $product->color = $color;
             $product->size = $size;
-            
+
             $orderProducts->push($product);
         }
         // $customer = $order->customer;
@@ -416,8 +418,24 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+
+    public function orderInvocie($id){
+        ini_set('max_execution_time',3600);
+        $order = Order::with('customer','order_item','order_item.product','order_item.product.sizes')
+        ->where('id', $id)
+        ->first();
+     $data = [
+        'order' => $order,
+     ];
+     $pdf =  PDF::loadView('admin.print', $data)->setOptions(['defaultFont' => 'sans-serif']);
+     $pdf->setPaper('A4', 'Portrait');
+     return $pdf->download("invoice.pdf");
+    }
+    public function invoicePage($id)
     {
-        //
+        $order = Order::with('customer','order_item','order_item.product','order_item.product_sizes')
+        ->where('id', $id)
+        ->first();
+        return view('admin.order.print-invoice',compact('order'));
     }
 }

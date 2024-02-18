@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+<div>
+    <!-- Happiness is not something readymade. It comes from your own actions. - Dalai Lama -->
+</div>
+=======
 
 
 @extends('layouts.admin')
@@ -334,3 +339,4 @@
 
 </script>
 @endpush
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
