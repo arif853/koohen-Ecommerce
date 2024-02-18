@@ -374,17 +374,10 @@
                         @endauth
                     </div>
                     <div class="single-mobile-header-info">
-<<<<<<< HEAD
-                        <a href="tel:09639174502">(+880) - 9639 174 502</a>
-                    </div>
-                    <div class="single-mobile-header-info mt-30">
-                        <a  href="{{route('contactus')}}"> Our location: <p>522/B, North Shahjahanpur, Dhaka-1217</p></a>
-=======
                         <a href="tel:<?php echo $settings->secondary_mobile_no?>">{{ $settings->secondary_mobile_no }}</a>
                     </div>
                     <div class="single-mobile-header-info mt-30">
                         <a  href="{{route('contactus')}}"> Our location: <p>{{ $settings->company_address }}</p></a>
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
                     </div>
                 </div>
                 <div class="mobile-social-icon">
@@ -575,12 +568,9 @@
     <script src="{{asset('frontend/assets/js/vendor/slick-custom.js')}}"></script>
     <script src="{{asset('frontend/assets/js/vendor/moment.js')}}"></script>
     <script src="{{asset('frontend/assets/js/vendor/moment-with-locales.js')}}"></script>
-<<<<<<< HEAD
-=======
 
     <script src="{{asset('frontend/assets/vendor/jquery.countdown/js/jquery.plugin.min.js')}}"></script>
     <script src="{{asset('frontend/assets/vendor/jquery.countdown/js/jquery.countdown.js')}}"></script>
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 
     <!-- Template  JS -->
     <script src="{{asset('')}}frontend/assets/js/main.js?v=3.4"></script>
@@ -591,10 +581,7 @@
     @stack('dashboard')
     @stack('checkout')
     @stack('shop')
-<<<<<<< HEAD
-=======
     @stack('camp')
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 
 <script>
     var headerContainer = $('.header-wrap');

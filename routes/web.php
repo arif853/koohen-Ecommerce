@@ -279,15 +279,17 @@ Route::controller(SupplierController::class)->middleware('auth')->group(function
     Route::delete('/dashboard/supplier/destroy', 'destroy')->name('supplier.destroy');
 
 });
+
 //setting
 Route::controller(SettingsController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/settings', 'index')->name('settings.index');
    // Route::post('/dashboard/settings/store', 'store')->name('supplier.store');
     Route::get('/dashboard/invoice/page', 'invoicePage')->name('invoice.printed');
     Route::post('/dashboard/settings/update', 'update')->name('settings.update');
-  Route::get('/dashboard/page', 'printPdf')->name('print.pdf');
+    Route::get('/dashboard/page', 'printPdf')->name('print.pdf');
 
 });
+
 //Zone
 Route::controller(ZoneController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/zone', 'index')->name('zone.index');

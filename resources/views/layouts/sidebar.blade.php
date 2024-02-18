@@ -112,10 +112,6 @@
                <div class="submenu">
                     <a href="{{route('category_feature')}}">Category</a>
                     <a href="page-account-register.html">Products</a>
-<<<<<<< HEAD
-                    <a href="{{route('campaign')}}">Campaign</a>
-=======
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
                 </div>
             </li>
 
