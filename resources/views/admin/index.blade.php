@@ -13,7 +13,7 @@
     <div class="col-lg-3">
         <div class="card card-body mb-4">
             <article class="icontext">
-                <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-success material-icons md-local_shipping"></i></span>
+                <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-success material-icons md-shopping_cart"></i></span>
                 <div class="text">
                     <h6 class="mb-1 card-title"> Total Orders </h6>
                     <span>{{$total_orders}}</span>
@@ -24,7 +24,7 @@
     <div class="col-lg-3">
         <div class="card card-body mb-4">
             <article class="icontext">
-                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
+                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_cart"></i></span>
                 <div class="text">
                     <h6 class="mb-1 card-title">Total Completed Order</h6> <span>{{ $completed_orders }}</span>
                    
@@ -35,7 +35,7 @@
     <div class="col-lg-3">
         <div class="card card-body mb-4">
             <article class="icontext">
-                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
+                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-primary material-icons md-shopping_cart"></i></span>
                 <div class="text">
                     <h6 class="mb-1 card-title">Total Pending Order</h6> <span>{{ $pending_orders }}</span>
                    
@@ -46,7 +46,7 @@
     <div class="col-lg-3">
         <div class="card card-body mb-4">
             <article class="icontext">
-                <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-primary material-icons md-monetization_on"></i></span>
+                <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-monetization_on"></i></span>
                 <div class="text">
                     <h6 class="mb-1 card-title">Total Sales </h6> <span>{{ $sales }}</span>
                    
@@ -67,7 +67,7 @@
     <div class="col-lg-3">
         <div class="card card-body mb-4">
             <article class="icontext">
-                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
+                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-stars"></i></span>
                 <div class="text">
                     <h6 class="mb-1 card-title">Total Category</h6> <span>{{ $category }}</span>
                    
@@ -78,7 +78,7 @@
     <div class="col-lg-3">
         <div class="card card-body mb-4">
             <article class="icontext">
-                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
+                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-primary material-icons md-person"></i></span>
                 <div class="text">
                     <h6 class="mb-1 card-title">Total Customer</h6> <span>{{ $customers }}</span>
                    
@@ -87,7 +87,7 @@
         </div>
     </div>
     
-    <div class="col-lg-3">
+    {{-- <div class="col-lg-3">
         <div class="card card-body mb-4">
             <article class="icontext">
                 <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
@@ -97,7 +97,7 @@
                 </div>
             </article>
         </div>
-    </div>
+    </div> --}}
 </div>
 {{-- <div class="row">
     <div class="col-xl-8 col-lg-12">
