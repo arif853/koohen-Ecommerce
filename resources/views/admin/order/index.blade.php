@@ -114,6 +114,7 @@
                                     <td class="text-end">
                                         <a href="{{route('order.details', ['id' => $order->id])}}" class="btn btn-md rounded font-sm">Detail</a>
                                         <a class="btn btn-md rounded font-sm" href="{{route('order.track', ['id' => $order->id])}}">Track me</a>
+                                        <a href="{{route('invoice', ['id' => $order->id])}}" target="__blank" class="btn btn-facebook rounded font-sm">Invoice</a>
                                         {{-- <div class="dropdown">
                                             <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
                                             <div class="dropdown-menu">

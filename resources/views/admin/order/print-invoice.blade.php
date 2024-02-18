@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <link href="{{ url('/admin/assets/css/print.css') }}" rel="stylesheet">
-    <title>Koohen Invoice</title>
+    <title>Koohen_Invoice_{{$order->id}}</title>
    <style>
         table,
         td,
@@ -98,7 +98,7 @@
 
                                             <span>Size :</span>
                                             <span> {{ $item->product_sizes->size }} </span>  <br>
-                                           
+
                                             @endif
                                             <br>
 
