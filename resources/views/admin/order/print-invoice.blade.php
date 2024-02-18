@@ -93,15 +93,21 @@
                                         <td style="padding: 2%;">{{ $item->product->product_name }}</td>
                                         <td style="padding: 2%;">
                                             {{ $item->product->sku }}<br>
+
+                                            @if($item->product_sizes)
+
                                             <span>Size :</span>
+                                            <span> {{ $item->product_sizes->size }} </span>  <br>
+                                           
+                                            @endif
+                                            <br>
 
+                                            @if($item->product_colors)
+                                            <span>Color :</span>
 
-                                    <span> {{ $item->product_sizes->size }} </span>  <br>
-                           <br>
+                                            <span> {{ $item->product_colors->color_name }} </span>
 
-                           <span>Color :</span>
-
-                                <span> {{ $item->product_colors->color_name }} </span>
+                                            @endif
 
                                         </td>
                                         <td style="padding: 2%;">{{ $item->quantity }}</td>
