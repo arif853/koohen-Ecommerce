@@ -9,9 +9,9 @@
 
 </head>
 <body style="background-color: #f3f4f6">
-    <div style=" width:650px; margin:50px auto; border-radius: 8px; background-color:#fff; box-shadow: 0px 10px 15px 0px rgba(0,0,0,0.1); ">
+    <div style=" width:580px; margin:50px auto; border-radius: 8px; background-color:#fff; box-shadow: 0px 10px 15px 0px rgba(0,0,0,0.1); ">
 
-        <div class="card-header" style=" border-radius: 8px 8px 0px 0; height: 60px;  background-color:aqua; padding:15px 25px; text-align:center;">
+        <div class="card-header" style=" border-radius: 8px 8px 0px 0; height: 60px;  background-color:aqua; padding:15px 30px; text-align:center;">
             <h2>New Order #123456</h2>
         </div>
         <div class="card-body" style="padding:15px 25px;">
@@ -47,20 +47,20 @@
                         </td>
                         <td>1000/=</td>
                     </tr>
-                    <tr bgcolor="#ffffff">
-                        <td style="text-align: end" colspan="2"><p class="tfooter-text">Subtotal:</p></td>
+                    <tr bgcolor="#ffffff" >
+                        <td style="text-align: end" colspan="2" >Subtotal:</td>
                         <td>1000/=</td>
                     </tr>
                     <tr bgcolor="#ffffff">
-                        <td style="text-align: end" colspan="2" ><p class="tfooter-text">Shipping:</p></td>
+                        <td style="text-align: end" colspan="2" >Shipping:</td>
                         <td>1000/=</td>
                     </tr>
                     <tr bgcolor="#ffffff">
-                        <td style="text-align: end" class="text-end" colspan="2"><p class="tfooter-text">Payment Method:</p></td>
+                        <td style="text-align: end"  colspan="2">Payment Method:</td>
                         <td>1000/=</td>
                     </tr>
                     <tr bgcolor="#ffffff">
-                        <td style="text-align: end" class="text-end" colspan="2"><p class="tfooter-text">Total:</p></td>
+                        <td style="text-align: end" colspan="2">Total:</td>
                         <td>1000/=</td>
                     </tr>
             </table>
