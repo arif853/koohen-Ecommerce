@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="invoice_sec">
-                        <p class="invoice bold" style="background-color:#e6e6e6;">INVOICE</p>
+                        <p class="invoice bold" style="background-color:#e6e6e6;color:#528d52 ;padding-right:6px;">INVOICE</p>
 
                         <p class="date">
                             <span class="bold tera">Date :</span>&nbsp;&nbsp;
@@ -76,14 +76,14 @@
                     <div class="container">
                         <div class="row" style="padding:3%;margin: 0 auto;">
                             <table style="width:100%; text-align: center;">
-                                <thead style="background: #d3f8f8;">
+                                <thead style="background: #99ddff">
                                     <tr>
-                                        <th class="tera" style="padding: 2%;">SL</th>
-                                        <th class="tera" style="padding: 2%;">Product Name</th>
-                                        <th class="tera" style="padding: 2%;">Item Code</th>
-                                        <th class="tera" style="padding: 2%;">Qty </th>
-                                        <th class="tera" style="padding: 2%;">Unit Price </th>
-                                        <th class="tera" style="padding: 2%;">Toal </th>
+                                        <th class="tera" style="padding: 2%; width:2%">SL</th>
+                                        <th class="tera" style="padding: 2%; width:2%">Product Name</th>
+                                        <th class="tera" style="padding: 2%; width:2%">Item Code</th>
+                                        <th class="tera" style="padding: 2%; width:2%">Qty </th>
+                                        <th class="tera" style="padding: 2%; width:2%">Unit Price </th>
+                                        <th class="tera" style="padding: 2%; width:2%">Total </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -94,11 +94,10 @@
                                         <td style="padding: 2%;">
                                             {{ $item->product->sku }}<br>
                                             <span>Size :</span>
-                                          
-                                                   @foreach ($item->product->sizes as $size)
-                                  <span> {{$size->size }} </span>
-                                     <br>
-                                    @endforeach
+                                      
+                                    @foreach ($item->product_sizes as $size)
+                                    <span> {{ $size->size }} </span>  <br>
+                                @endforeach
                                         </td>
                                         <td style="padding: 2%;">{{ $item->quantity }}</td>
                                         <td style="padding: 2%;">{{ $item->price }}</td>
@@ -115,29 +114,29 @@
                     <div class="paymethod_sec">
 
                     </div>
-                    <div class="grandtotal_sec" style="padding-right:3%;font-size:10px;">
-                        <p class="" style="display: flex; flex-wrap: wrap; padding-top: 2px;background: #d3f8f8;margin-right:5px; ">
+                    <div class="grandtotal_sec" style="padding-right:3%;font-size:12px; width:40%;">
+                        <p class="" style="display: flex; flex-wrap: wrap; padding-top: 2px;background:  #99ddff;margin-right:5px; ">
                             <span style="padding-top:7px;">Sub total</span>
                             <span> <input value=" {{ $order->subtotal }}"
-                                    style="width:40px;padding:2px;border-color:transparent;background-color: transparent;" />
+                                    style="width:60px;padding:2px;border-color:transparent;background-color: transparent;" />
                                 &#2547;</span>
                         </p>
                         <p style="background: #e6e6e6; ">
                             <span style="padding-top:7px;">Shipping Charge</span>
                             <span><input value="{{ $order->delivery_charge }} "
-                                    style="width:40px; padding:4px;border-color:transparent;background-color: transparent;" />
+                                    style="width:60px; padding:4px;border-color:transparent;background-color: transparent;" />
                                 &#2547; </span>
                         </p>
-                        <p style="background: #d3f8f8;">
+                        <p style="background: #99ddff;">
                             <span style="padding-top:7px;">Total </span>
                             <span> <input value="{{ $order->total }}"
-                                    style="width: 40px; padding: 2px;border-color:transparent;background-color: transparent;" />
+                                    style="width:60px; padding: 2px;border-color:transparent;background-color: transparent;" />
                                 &#2547; </span>
                         </p>
                         <p style="background: #c9efa3;">
                             <span style="padding-top:7px;">Discount </span>
                             <span> <input value="{{ $order->discount}}"
-                                    style="width: 40px; padding: 2px;border-color:transparent;background-color: transparent;" />
+                                    style="width:60px; padding: 2px;border-color:transparent;background-color: transparent;" />
                                 &#2547; </span>
                         </p>
                         {{-- <p style="background: #ffdd99;">
@@ -149,7 +148,7 @@
                         <p style="background: #ff80b3;">
                             <span style="padding-top:7px;">Payable Amount</span>
                             <span> <input value="{{ $order->total }}"
-                                    style="width: 40px; padding: 2px;border-color:transparent; background-color: transparent;" />&#2547;</span>
+                                    style="width:60px; padding: 2px;border-color:transparent; background-color: transparent;" />&#2547;</span>
                         </p>
                     </div>
                 </div>

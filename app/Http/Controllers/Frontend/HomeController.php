@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Models\Ads;
 use App\Models\Slider;
+<<<<<<< HEAD
+use App\Models\Setting;
+=======
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Campaign;
-use App\Models\Setting;
+>>>>>>> master
 use App\Models\Category;
 use App\Models\Division;
 use App\Models\Products;
