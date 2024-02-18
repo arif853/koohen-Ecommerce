@@ -90,12 +90,12 @@
                     <div class="panel-collapse collapse coupon_form " id="coupon">
                         <div class="panel-body">
                             <p class="mb-30 font-sm">If you have a coupon code, please apply it below.</p>
-                            <form method="post">
+                            <form method="post" id="coupne_form">
                                 <div class="form-group">
-                                    <input type="text" placeholder="Enter Coupon Code...">
+                                    <input type="text" placeholder="Enter Coupon Code..." id="coupne">
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn  btn-md" name="login">Apply Coupon</button>
+                                    <button class="btn  btn-md" name="login" type="submit">Apply Coupon</button>
                                 </div>
                             </form>
                         </div>
@@ -218,8 +218,7 @@
                                                     id="createaccount">
                                                 <label class="form-check-label label_info" data-bs-toggle="collapse"
                                                     href="#collapsePassword" data-target="#collapsePassword"
-                                                    aria-controls="collapsePassword" for="createaccount"><span>Create an
-                                                        account?</span></label>
+                                                    aria-controls="collapsePassword" for="createaccount"><span>Create an account?</span></label>
                                             </div>
                                         </div>
                                     </div>

@@ -356,6 +356,11 @@ Route::get('/dashboard/reviews', function () {
     return view('admin.reviews.index');
 })->name('reviews');
 
+// reviews
+Route::get('/dashboard/mailerview', function () {
+    return view('admin.email.mail');
+})->name('reviews');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

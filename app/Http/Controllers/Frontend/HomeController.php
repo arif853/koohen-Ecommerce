@@ -89,7 +89,7 @@ class HomeController extends Controller
      */
     public function products(string $slug)
     {
-        $products = Products::with([
+        $product = Products::with([
             'overviews',
             'product_infos',
             'product_images',
@@ -100,10 +100,30 @@ class HomeController extends Controller
             'brand',
             'category',
             'subcategory',
-            'product_price'
-        ])->where('slug', $slug)->get();
+            'product_price',
+            'product_thumbnail',
+        ])->where('slug', $slug)->first();
 
-        return view('frontend.product-details',compact('products'));
+        $realatedProducts = Products::with([
+            'overviews',
+            'product_infos',
+            'product_images',
+            'product_extras',
+            'tags',
+            'sizes',
+            'colors',
+            'brand',
+            'category',
+            'subcategory',
+            'product_price',
+            'product_thumbnail'
+        ])->where('category_id', $product->category_id)->where('id', '!=', $product->id)->get();
+
+        $campaign = Campaign::where('status','Published')->first();
+        $adsbanner = Ads::all();
+
+
+        return view('frontend.product-details',compact('product','realatedProducts','campaign','adsbanner'));
 
         // return response()->json($products, 200, [], JSON_PRETTY_PRINT);
 

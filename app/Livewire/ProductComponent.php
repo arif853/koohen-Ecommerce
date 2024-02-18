@@ -144,8 +144,10 @@ class ProductComponent extends Component
             'brand',
             'category',
             'subcategory',
-            'product_price'
+            'product_price',
+            'product_thumbnail'
         ])->where('slug', $this->slug)->first();
+
         $campaign = Campaign::where('status','Published')->first();
 
 

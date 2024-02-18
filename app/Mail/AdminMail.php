@@ -28,13 +28,13 @@ class AdminMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Order Arrived !!',
+            subject: '[Koohen - Your ultimate Lifestyle]: New order #' ,
         );
     }
 
 
     public function build(){
-        return $this->view('admin.email.adminmail',[
+        return $this->view('admin.email.mail',[
             'order' => $this->data
         ]);
     }
@@ -45,7 +45,7 @@ class AdminMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'admin.email.adminmail',
+            view: 'admin.email.mail',
         );
     }
 
