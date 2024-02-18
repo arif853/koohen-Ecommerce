@@ -35,7 +35,7 @@
                         </div>
                         <div class="invoice-head-top-right text-end">
                             <div id="invoice-title" style="padding:6px;">
-                                <h3 style="background-color:#e6e6e6;">Invoice</h3>
+                                <h3 style="background-color:#84aa65;">Invoice</h3>
                             </div>
                            
                             <p><span class="text-bold font-style">Date</span> : {{ date('j F y',strtotime($order->created_at)) }}</p>

@@ -467,7 +467,7 @@ class OrderController extends Controller
     }
     public function invoicePage($id)
     {
-        $order = Order::with('customer','order_item','order_item.product','order_item.product.sizes')
+        $order = Order::with('customer','order_item','order_item.product','order_item.product_sizes')
         ->where('id', $id)
         ->first();
         return view('admin.order.print-invoice',compact('order'));

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Size;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class order_items extends Model
 {
@@ -18,4 +19,8 @@ class order_items extends Model
     {
         return $this->belongsTo(Products::class, 'product_id');
     }
+    public function product_sizes(){
+        return $this->belongsToMany(Size::class, 'products_sizes', 'product_id','size_id');
+    }
+
 }

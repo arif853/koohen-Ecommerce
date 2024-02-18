@@ -17,8 +17,8 @@
             <article class="icontext">
                 <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
                 <div class="text">
-                    <h6 class="mb-1 card-title">Totoal Orders</h6>
-                    <span>13,456.5</span>
+                    <h6 class="mb-1 card-title">Total Orders</h6>
+                    <span>{{  }}</span>
                     <span class="text-sm">
                         Shipping fees are not included
                     </span>
@@ -243,7 +243,39 @@
 <div class="card mb-4">
     <header class="card-header">
         <h4 class="card-title">Latest orders</h4>
-
+        <div class="row align-items-center">
+            <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
+                <div class="custom_select">
+                    <select class="form-select select-nice">
+                        <option selected>All Categories</option>
+                        <option>Women's Clothing</option>
+                        <option>Men's Clothing</option>
+                        <option>Cellphones</option>
+                        <option>Computer & Office</option>
+                        <option>Consumer Electronics</option>
+                        <option>Jewelry & Accessories</option>
+                        <option>Home & Garden</option>
+                        <option>Luggage & Bags</option>
+                        <option>Shoes</option>
+                        <option>Mother & Kids</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2 col-6">
+                <input type="date" value="02.05.2022" class="form-control">
+            </div>
+            <div class="col-md-2 col-6">
+                <div class="custom_select">
+                    <select class="form-select select-nice">
+                        <option selected>Status</option>
+                        <option>All</option>
+                        <option>Paid</option>
+                        <option>Chargeback</option>
+                        <option>Refund</option>
+                    </select>
+                </div>
+            </div>
+        </div>
     </header>
     <div class="card-body">
         <div class="table-responsive">
@@ -267,7 +299,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($orders as $order)
                         <tr>
                             <td class="text-center">
                                 <div class="form-check">
@@ -275,33 +306,149 @@
                                     <label class="form-check-label" for="transactionCheck02"></label>
                                 </div>
                             </td>
-                            <td><a href="{{route('order.details', ['id' => $order->id])}}" class="fw-bold">{{$order->order_track_id}}</a> </td>
-                            <td>{{$order->customer->firstName}} {{$order->customer->lastName}}</td>
+                            <td><a href="#" class="fw-bold">#SK2540</a> </td>
+                            <td>Neal Matthews</td>
                             <td>
-                                {{$order->created_at->setTimezone('Asia/Dhaka')->format('D, M j, Y, g:iA')}}
-                                {{-- {{$order->created_at}} --}}
+                                07 Oct, 2022
                             </td>
                             <td>
-                                {{$order->total}}
+                                $400
                             </td>
                             <td>
-                                @if ($order->transaction->status == 'paid')
                                 <span class="badge badge-pill badge-soft-success">Paid</span>
-                                @elseif ($order->transaction->status == 'unpaid')
-                                <span class="badge badge-pill badge-soft-warning">Unpaid</span>
-
-                                @endif
-
                             </td>
                             <td>
                                 <i class="material-icons md-payment font-xxl text-muted mr-5"></i> Mastercard
                             </td>
                             <td>
-                                <a href="{{route('order.details', ['id' => $order->id])}}" class="btn btn-xs"> View details</a>
+                                <a href="#" class="btn btn-xs"> View details</a>
                             </td>
                         </tr>
-                        @endforeach
-
+                        <tr>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="transactionCheck03">
+                                    <label class="form-check-label" for="transactionCheck03"></label>
+                                </div>
+                            </td>
+                            <td><a href="#" class="fw-bold">#SK2541</a> </td>
+                            <td>Jamal Burnett</td>
+                            <td>
+                                07 Oct, 2022
+                            </td>
+                            <td>
+                                $380
+                            </td>
+                            <td>
+                                <span class="badge badge-pill badge-soft-danger">Chargeback</span>
+                            </td>
+                            <td>
+                                <i class="material-icons md-payment font-xxl text-muted mr-5"></i> Visa
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-xs"> View details</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="transactionCheck04">
+                                    <label class="form-check-label" for="transactionCheck04"></label>
+                                </div>
+                            </td>
+                            <td><a href="#" class="fw-bold">#SK2542</a> </td>
+                            <td>Juan Mitchell</td>
+                            <td>
+                                06 Oct, 2022
+                            </td>
+                            <td>
+                                $384
+                            </td>
+                            <td>
+                                <span class="badge badge-pill badge-soft-success">Paid</span>
+                            </td>
+                            <td>
+                                <i class="material-icons md-payment font-xxl text-muted mr-5"></i> Paypal
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-xs"> View details</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="transactionCheck05">
+                                    <label class="form-check-label" for="transactionCheck05"></label>
+                                </div>
+                            </td>
+                            <td><a href="#" class="fw-bold">#SK2543</a> </td>
+                            <td>Barry Dick</td>
+                            <td>
+                                05 Oct, 2022
+                            </td>
+                            <td>
+                                $412
+                            </td>
+                            <td>
+                                <span class="badge badge-pill badge-soft-success">Paid</span>
+                            </td>
+                            <td>
+                                <i class="material-icons md-payment font-xxl text-muted mr-5"></i> Mastercard
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-xs"> View details</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="transactionCheck06">
+                                    <label class="form-check-label" for="transactionCheck06"></label>
+                                </div>
+                            </td>
+                            <td><a href="#" class="fw-bold">#SK2544</a> </td>
+                            <td>Ronald Taylor</td>
+                            <td>
+                                04 Oct, 2022
+                            </td>
+                            <td>
+                                $404
+                            </td>
+                            <td>
+                                <span class="badge badge-pill badge-soft-warning">Refund</span>
+                            </td>
+                            <td>
+                                <i class="material-icons md-payment font-xxl text-muted mr-5"></i> Visa
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-xs"> View details</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="transactionCheck07">
+                                    <label class="form-check-label" for="transactionCheck07"></label>
+                                </div>
+                            </td>
+                            <td><a href="#" class="fw-bold">#SK2545</a> </td>
+                            <td>Jacob Hunter</td>
+                            <td>
+                                04 Oct, 2022
+                            </td>
+                            <td>
+                                $392
+                            </td>
+                            <td>
+                                <span class="badge badge-pill badge-soft-success">Paid</span>
+                            </td>
+                            <td>
+                                <i class="material-icons md-payment font-xxl text-muted mr-5"></i> Paypal
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-xs"> View details</a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

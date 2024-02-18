@@ -10,7 +10,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        
         $orders = Order::where('status','pending')->latest()->get();
         return view('admin.index',compact('orders'));
     }
+    
 }
