@@ -507,7 +507,7 @@
 
             // Get the product image ID
             var productImageId = element.getAttribute('data-productimage-id');
-                console.log(productImageId);
+                // console.log(productImageId);
             // Show SweetAlert confirmation
             Swal.fire({
                 title: 'Are you sure?',

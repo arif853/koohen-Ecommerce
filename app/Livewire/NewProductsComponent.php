@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Models\Campaign;
 use App\Models\Products;
 use App\Models\Product_image;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,25 @@ class NewProductsComponent extends Component
         $product = Products::find($id);
         $item_name = $product->product_name;
         $offer_price = $product->product_price->offer_price;
-        if($offer_price > 0)
+
+        $campaign = Campaign::where('status','Published')->first();
+        $flag = 0;
+        if ($campaign) {
+            $camp_products = $campaign->camp_product;
+
+            foreach ($camp_products as $key => $camp_product) {
+                if ($product->id == $camp_product->product_id) {
+
+                    $camp_price = $camp_product->camp_price;
+                    $flag = 1;
+                }
+            }
+        }
+        if( $flag == 1)
+        {
+            $item_price = $camp_price;
+        }
+        elseif($offer_price > 0)
         {
             $item_price = $offer_price;
         }
@@ -40,7 +59,29 @@ class NewProductsComponent extends Component
         $item_name = $product->product_name;
 
         $offer_price = $product->product_price->offer_price;
+<<<<<<< HEAD
         if($offer_price > 0)
+=======
+        $campaign = Campaign::where('status','Published')->first();
+        $flag = 0;
+        if ($campaign) {
+            $camp_products = $campaign->camp_product;
+
+            foreach ($camp_products as $key => $camp_product) {
+                if ($product->id == $camp_product->product_id) {
+
+                    $camp_price = $camp_product->camp_price;
+                    $flag = 1;
+                }
+            }
+        }
+
+        if( $flag == 1)
+        {
+            $item_price = $camp_price;
+        }
+        elseif($offer_price > 0)
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
         {
             $item_price = $offer_price;
         }
@@ -75,9 +116,15 @@ class NewProductsComponent extends Component
         if(Auth::guard('customer')->check()){
             Cart::instance('wishlist')->store(Auth::guard('customer')->user()->email);
         }
+<<<<<<< HEAD
+=======
+        $campaign = Campaign::where('status','Published')->first();
+
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 
         return view('livewire.new-products-component',[
             'Newproducts' => $this->Newproducts,
+            'campaign' => $campaign,
         ]);
     }
 }

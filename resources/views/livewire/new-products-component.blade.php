@@ -25,22 +25,53 @@
                         <i class="fi-rs-eye"></i></a>
                     <a aria-label="Add To Wishlist" class="action-btn hover-up" href="#" wire:click.prevent="AddToWishlist({{$newproduct->id}})" onclick="wishNotify()"><i class="fi-rs-heart"></i></a>
                 </div>
+
+                @php
+                    $thisProduct = $newproduct->id;
+                    $flag = 0;
+                    if ($campaign) {
+                        $camp_products = $campaign->camp_product;
+                        foreach ($camp_products as $key => $camp_product) {
+                            if ($thisProduct == $camp_product->product_id) {
+                                $camp_price = $camp_product->camp_price;
+                                $flag = 1;
+
+                            }
+                        }
+                    }
+                @endphp
+
                 <div class="product-badges product-badges-position product-badges-mrg">
-                    <span class="hot">Hot</span>
+                    @if($flag == 1)
+                    <span class="sale">On Sale</span>
+
+                    @else
+                    <span class="new">New</span>
+
+                    @endif
                 </div>
             </div>
             <div class="product-content-wrap text-center">
                 <h2><a href="product-details.php">{{$newproduct->product_name}}</a></h2>
 
+
                 <div class="product-price">
-                    @if ($newproduct->product_price->offer_price > 0)
+                    @if($flag == 1)
+                    <span>৳{{$camp_price}} </span>
+                    <span class="old-price">৳{{$newproduct->regular_price}}</span>
+                    {{$flag}}
+
+                    @elseif ($newproduct->product_price->offer_price > 0)
                     <span>৳{{$newproduct->product_price->offer_price}} </span>
                     <span class="old-price">৳{{$newproduct->regular_price}}</span>
+                    {{$flag}}
+
                     @else
                     <span>৳{{$newproduct->regular_price}} </span>
 
                     @endif
                 </div>
+
                 <div>
                     <div class="text-center">
                         <a href="#" wire:click.prevent="store({{$newproduct->id}})" onclick="cartNotify()"><button type="button" class="adto-cart-btn">Add To Cart</button></a>

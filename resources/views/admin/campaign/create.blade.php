@@ -28,6 +28,12 @@
         transition: all .4s;
         display: inline-block;
     }
+<<<<<<< HEAD
+=======
+    small{
+        font-size: 11px !important;
+    }
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 </style>
 <div>
 
@@ -58,7 +64,13 @@
                     <div class="card-header">
                         <h4>New Campaign</h4>
                     </div>
+<<<<<<< HEAD
                     <form action="#" >
+=======
+                    <form action="{{route('campaign.store')}}" method="POST" enctype="multipart/form-data" >
+                        @csrf
+                        @method('POST')
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
                         <div class="card-body ">
 
                             <div class="row">
@@ -71,7 +83,11 @@
                                             </div>
                                             <div class="mb-4">
                                                 <label for="camp_image" class="form-label">Campaign Image <span class="text-danger">*</span></label>
+<<<<<<< HEAD
                                                 <input type="imag" class="form-control" name="camp_image" id="camp_image" placeholder="Campaign Image">
+=======
+                                                <input type="file" class="form-control" name="camp_image" id="camp_image" placeholder="Campaign Image">
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
                                             </div>
                                             <div class="mb-4">
                                                 <label for="camp_name" class="form-label">Campaign Status</label>
@@ -81,6 +97,7 @@
                                                 </select>
                                                 {{-- <input type="text" class="form-control" name="camp_name" id="camp_name" placeholder="Campaign Name"> --}}
                                             </div>
+<<<<<<< HEAD
                                             <div class="mb-4">
                                                 <label for="start_date" class="form-label">Start Date</label>
                                                 <input type="date" class="form-control" name="start_date" id="start_date" placeholder="Start Date">
@@ -88,6 +105,21 @@
                                             <div class="mb-4">
                                                 <label for="end_date" class="form-label">End Date</label>
                                                 <input type="date" class="form-control" name="end_date" id="end_date" placeholder="End Date">
+=======
+
+                                            <div class="mb-4">
+                                                <label for="camp_offer" class="form-label"> Campaign Offer<small> ( Set Fix Percentage for Campaign Offer ) </small></label>
+                                                <input type="number" class="form-control" name="camp_offer" id="camp_offer" placeholder="Campaign Offer">
+                                                <button class="mt-2" id="sync_all_btn">Syn Price</button>
+                                            </div>
+                                            <div class="mb-4">
+                                                <label for="start_date" class="form-label">Start Date</label>
+                                                <input type="datetime-local" class="form-control" name="start_date" id="start_date" placeholder="Start Date">
+                                            </div>
+                                            <div class="mb-4">
+                                                <label for="end_date" class="form-label">End Date</label>
+                                                <input type="datetime-local" class="form-control" name="end_date" id="end_date" placeholder="End Date">
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
                                             </div>
                                         </div>
                                     </div>
@@ -100,15 +132,34 @@
                                                     <div class="col-lg-6">
                                                         <div class="mb-4">
                                                             <label for="product" class="form-label">Select Product</label>
+<<<<<<< HEAD
                                                             <select name="product[]" id="product" class="select-nice">
                                                                 <option value="">-- Select Product --</option>
+=======
+                                                            <select name="product[]" id="product" class="select-nice" onchange="updateRegularPrice(this)">
+                                                                <option value="">-- Select Product --</option>
+                                                                @foreach ($products as $product)
+                                                                <option value="{{$product->id}}"  data-stock="{{$product->stock}}" data-regular-price ="{{$product->regular_price}}">{{$product->product_name}}</option>
+                                                                @endforeach
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="mb-4">
                                                             <label for="regular_price" class="form-label">Regular Price</label>
+<<<<<<< HEAD
                                                            <input type="text" class="form-control" name="regular_price" placeholder="Regular Price" id="regular_price" readonly>
+=======
+                                                           <input type="text" class="form-control" name="regular_price[]" placeholder="Regular Price" id="regular_price" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-4">
+                                                            <label for="stock" class="form-label">Available Stock</label>
+                                                           <input type="text" class="form-control" name="stock[]" placeholder="Stock" id="stock" readonly>
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
@@ -117,12 +168,15 @@
                                                            <input type="text" class="form-control" name="campaign_price[]" placeholder="Campaign Price" id="campaign_price">
                                                         </div>
                                                     </div>
+<<<<<<< HEAD
                                                     <div class="col-lg-6">
                                                         <div class="mb-4">
                                                             <label for="stock" class="form-label">Available Stock</label>
                                                            <input type="text" class="form-control" name="stock" placeholder="Stock" id="stock" readonly>
                                                         </div>
                                                     </div>
+=======
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
                                                 </div>
                                             </div>
                                         </div>
@@ -134,11 +188,20 @@
 
                                     <div class="action-btn ">
                                         <a class="adds-btn mt-2" href="" onclick="event.preventDefault();addfield()"> Add Product </a>
+<<<<<<< HEAD
                                         {{-- <a class="remove-btn mt-4" href="" onclick="event.preventDefault();removeField()"> <i class="fa-solid fa-times"></i> </a> --}}
                                     </div>
                                 </div>
                             </div>
                             <button class="btn btn-primary mt-auto mx-auto">Save</button>
+=======
+                                        <button class="btn btn-primary pull-right" type="submit">Save</button>
+                                        {{-- <a class="remove-btn mt-4" href="" onclick="event.preventDefault();removeField()"> <i class="fa-solid fa-times"></i> </a> --}}
+                                    </div>
+                                </div>
+
+                            </div>
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
                         </div>
                     </form>
 
@@ -155,6 +218,17 @@
 <script>
     var i = 1;
     function addfield(){
+<<<<<<< HEAD
+=======
+        // Assuming you have a variable 'products' containing the encoded product data
+        var productData = {!! json_encode($products) !!};
+
+        // Generate product options dynamically
+        var productOptions = '<option value="">-- Select Product --</option>';
+        productData.forEach(function (product) {
+            productOptions += '<option value="' + product.id + '" data-stock="' + product.stock + '" data-regular-price="' + product.regular_price + '">' + product.product_name + '</option>';
+        });
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
     i++;
     var data = '<div class="card">'+
                     '<div class="card-body">'+
@@ -162,29 +236,49 @@
                             '<div class="col-lg-6">'+
                                 '<div class="mb-4">'+
                                     '<label for="product" class="form-label">Select Product</label>'+
+<<<<<<< HEAD
                                     ' <select name="product[]" id="product" class="select-box">'+
                                         '<option value="">-- Select Product --</option>'+
+=======
+                                    ' <select name="product[]" id="product' + i + '" class="select-box" onchange="updateRegularPrice(this)">' +
+                                        productOptions + // Insert product options here
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
                                     '</select>'+
                                 '</div>'+
                             '</div>'+
                             '<div class="col-lg-6">'+
                                 '<div class="mb-4">'+
                                     '<label for="regular_price" class="form-label">Regular Price</label>'+
+<<<<<<< HEAD
                                     '<input type="text" class="form-control" name="regular_price" placeholder="Regular Price" id="regular_price" readonly>'+
                                 '</div>'+
                             ' </div>'+
+=======
+                                    '<input type="text" class="form-control" name="regular_price[]" placeholder="Regular Price" id="regular_price" readonly>'+
+                                '</div>'+
+                            ' </div>'+
+                            '<div class="col-lg-6">'+
+                                '<div class="mb-4">'+
+                                    '<label for="stock" class="form-label">Available Stock</label>'+
+                                    '<input type="text" class="form-control" name="stock[]" placeholder="Stock" id="stock" readonly>'+
+                                '</div>'+
+                            '</div>'+
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
                             ' <div class="col-lg-6">'+
                                 '<div class="mb-4">'+
                                     '<label for="campaign_price" class="form-label">Campaign Price</label>'+
                                     '<input type="text" class="form-control" name="campaign_price[]" placeholder="Campaign Price" id="campaign_price">'+
                                 '</div>'+
                             '</div>'+
+<<<<<<< HEAD
                             '<div class="col-lg-6">'+
                                 '<div class="mb-4">'+
                                     '<label for="stock" class="form-label">Available Stock</label>'+
                                     '<input type="text" class="form-control" name="stock" placeholder="Stock" id="stock" readonly>'+
                                 '</div>'+
                             '</div>'+
+=======
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
                         ' </div>'+
                     '</div>'+
                     '<a class="rm-btn"  onclick="event.preventDefault();removeField(this)"> <i class="fa-solid fa-times"></i> </a>'+
@@ -197,7 +291,10 @@
         if ($('.select-box').length) {
             $('.select-box').select2();
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
     }
 
     function removeField(e) {
@@ -205,7 +302,11 @@
             var rowToRemove = e.closest('.card');
                 rowToRemove.remove();
 
+<<<<<<< HEAD
             i--;
+=======
+                i--;
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 
             // Update the hidden input value
             var tot = '<input type="hidden" name="totinput" value="' + i + '">';
@@ -214,5 +315,45 @@
             alert("Cannot remove the last row. At least one row is required.");
         }
     }
+<<<<<<< HEAD
+=======
+
+    // Function to update the regular price based on the selected product
+    function updateRegularPrice(selectElement) {
+        var selectedProduct = selectElement.options[selectElement.selectedIndex];
+        var regularPriceInput = $(selectElement).closest('.row').find('[name="regular_price[]"]');
+        var stock = $(selectElement).closest('.row').find('[name="stock[]"]');
+
+        regularPriceInput.val(selectedProduct.getAttribute('data-regular-price'));
+        stock.val(selectedProduct.getAttribute('data-stock'));
+    }
+
+
+    function syncAll() {
+        var campaignOfferPercentage = parseFloat($("#camp_offer").val());
+        if (isNaN(campaignOfferPercentage)) {
+            alert("Please enter a valid campaign offer percentage.");
+            return;
+        }
+
+        // Loop through each product row and calculate campaign price
+        $(".card").each(function() {
+            var regularPriceInput = $(this).find('[name="regular_price[]"]');
+            var campaignPriceInput = $(this).find('[name="campaign_price[]"]');
+            var regularPrice = parseFloat(regularPriceInput.val());
+
+            if (!isNaN(regularPrice)) {
+                var campaignPrice = regularPrice * (1 - campaignOfferPercentage / 100);
+                campaignPriceInput.val(campaignPrice.toFixed(2));
+            }
+        });
+    }
+
+    // Attach click event listener to the "Sync All" button
+    $(document).on("click", "#sync_all_btn", function(e) {
+        e.preventDefault();
+        syncAll();
+    });
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 </script>
 @endpush

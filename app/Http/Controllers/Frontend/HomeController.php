@@ -3,13 +3,22 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Models\Ads;
+<<<<<<< HEAD
 use App\Models\Feature_category;
 use App\Models\Products;
+=======
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 use App\Models\Slider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Campaign;
+use App\Models\Setting;
 use App\Models\Category;
 use App\Models\Division;
+use App\Models\Products;
+use Illuminate\Http\Request;
+use App\Models\Feature_category;
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
@@ -53,8 +62,15 @@ class HomeController extends Controller
         $cat_feature = Feature_category::where('status', 'Active')->first();
         $sliders = Slider::all();
         $adsbanner = Ads::all();
+<<<<<<< HEAD
 
         return view('frontend.home.index',compact('categories','groupedCategories','cat_feature','sliders','adsbanner'));
+=======
+        $campaign = Campaign::where('status','Published')->first();
+
+        return view('frontend.home.index',compact('categories','groupedCategories','cat_feature','sliders','adsbanner','campaign'));
+
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
     }
 
     /**
@@ -107,7 +123,11 @@ class HomeController extends Controller
     }
 
     public function wishlist(){
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
         return view('frontend.shop-wishlist');
     }
 

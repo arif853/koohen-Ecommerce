@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Size;
 use App\Models\Color;
 use Livewire\Component;
+use App\Models\Campaign;
 use App\Models\Category;
 use App\Models\Products;
 use Livewire\WithPagination;
@@ -26,7 +27,7 @@ class ShopComponent extends Component
 
     public function decreaseQuantity($id)
     {
-        $item = Cart::get($id);
+        $item = Cart::instance('cart')->get($id);
         $qty = $item->qty - 1;
         Cart::instance('cart')->update($id,$qty);
         $this->dispatch('cartRefresh')->to('cart-icon-component');
@@ -42,7 +43,25 @@ class ShopComponent extends Component
         $product = Products::find($id);
         $item_name = $product->product_name;
         $offer_price = $product->product_price->offer_price;
-        if($offer_price > 0)
+
+        $campaign = Campaign::where('status','Published')->first();
+        $flag = 0;
+        if ($campaign) {
+            $camp_products = $campaign->camp_product;
+
+            foreach ($camp_products as $key => $camp_product) {
+                if ($product->id == $camp_product->product_id) {
+
+                    $camp_price = $camp_product->camp_price;
+                    $flag = 1;
+                }
+            }
+        }
+        if( $flag == 1)
+        {
+            $item_price = $camp_price;
+        }
+        elseif($offer_price > 0)
         {
             $item_price = $offer_price;
         }
@@ -67,7 +86,29 @@ class ShopComponent extends Component
 
         $item_name = $product->product_name;
         $offer_price = $product->product_price->offer_price;
+<<<<<<< HEAD
         if($offer_price > 0)
+=======
+        $campaign = Campaign::where('status','Published')->first();
+        $flag = 0;
+        if ($campaign) {
+            $camp_products = $campaign->camp_product;
+
+            foreach ($camp_products as $key => $camp_product) {
+                if ($product->id == $camp_product->product_id) {
+
+                    $camp_price = $camp_product->camp_price;
+                    $flag = 1;
+                }
+            }
+        }
+
+        if( $flag == 1)
+        {
+            $item_price = $camp_price;
+        }
+        elseif($offer_price > 0)
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
         {
             $item_price = $offer_price;
         }
@@ -151,12 +192,19 @@ class ShopComponent extends Component
 
         }
 
+<<<<<<< HEAD
+=======
+        $campaign = Campaign::where('status','Published')->first();
+
+
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
         return view('livewire.shop-component', [
             'product_count' => $product_count,
             'products' => $this->products,
             'groupedCategories' => $this->groupedCategories,
             'colors' => $colors,
             'sizes' => $sizes,
+            'campaign' => $campaign,
         ]);
     }
 

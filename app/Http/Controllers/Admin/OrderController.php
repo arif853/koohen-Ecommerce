@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use App\Models\Size;
 use App\Models\Color;
 use App\Models\Order;
@@ -15,8 +16,9 @@ use App\Models\transactions;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Register_customer;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
+use App\Models\Products;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -419,5 +421,55 @@ class OrderController extends Controller
     public function destroy(string $id)
     {
         //
+          //$filename = 'Invoice_Sheet';
+
+        // $pdf= PDF::loadView('admin.order.invoice',['order'=>$order],[],
+        //     [
+        //         'mode'                 => '',
+        //         'format'               => 'A5',
+        //         'default_font_size'    => '12',
+        //         'default_font'         => 'sans-serif',
+        //         'margin_left'          => 5,
+        //         'margin_right'         => 5,
+        //         'margin_top'           => 10,
+        //         'margin_bottom'        => 21,
+        //         'margin_header'        => 0,
+        //         'margin_footer'        => 0,
+        //         'orientation'          => 'P',
+        //         'title'                => 'Laravel mPDF',
+        //         'author'               => '',
+        //         'watermark'            => '',
+        //         'show_watermark'       => false,
+        //         'watermark_font'       => 'sans-serif',
+        //         'display_mode'         => 'fullpage',
+        //         'watermark_text_alpha' => 0.1,
+        //         'custom_font_dir'      => '',
+        //         'custom_font_data' 	   => [],
+        //         'auto_language_detection'  => false,
+        //         'temp_dir'               => rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR),
+        //         'pdfa' 			=> false,
+        //         'pdfaauto' 		=> false,
+        //     ]
+        // );
+        // return $pdf->stream($filename.'.pdf');
+    }
+    public function orderInvocie($id){
+        ini_set('max_execution_time',3600); 
+        $order = Order::with('customer','order_item','order_item.product','order_item.product.sizes')
+        ->where('id', $id)
+        ->first();
+     $data = [
+        'order' => $order,
+     ];
+     $pdf =  PDF::loadView('admin.print', $data)->setOptions(['defaultFont' => 'sans-serif']);
+     $pdf->setPaper('A4', 'Portrait');
+     return $pdf->download("invoice.pdf");
+    }
+    public function invoicePage($id)
+    {
+        $order = Order::with('customer','order_item','order_item.product','order_item.product.sizes')
+        ->where('id', $id)
+        ->first();
+        return view('admin.order.print-invoice',compact('order'));
     }
 }

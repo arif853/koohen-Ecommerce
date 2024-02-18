@@ -34,6 +34,10 @@ use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\TrackorderController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
+<<<<<<< HEAD
+=======
+use App\Http\Controllers\Admin\InventoryController;
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
 
@@ -233,8 +237,8 @@ Route::controller(OrderController::class)->middleware('auth')->group(function ()
     Route::get('/dashboard/orders/orders_return', 'order_return')->name('order.return');
     Route::post('/update-order-status', 'updateOrderStatus');
     Route::post('/update-one-order-status', 'updateOneOrderStatus');
-
-    // Route::get('/dashboard/category/create', 'create')->name('category.create');
+    Route::get('/orders/invoice/{id}', 'orderInvocie')->name('order.invoice');
+    Route::get('/orders/invoice-page/{id}', 'invoicePage')->name('invoice');
 });
 
 //Customer
@@ -257,6 +261,10 @@ Route::controller(OfferController::class)->middleware('auth')->group(function ()
 Route::controller(CouponController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/promotion/coupons', 'index')->name('coupon.index');
     Route::get('/dashboard/promotion/coupons/create', 'create')->name('coupon.create');
+    Route::post('/dashboard/promotion/coupons/save', 'store')->name('coupon.store');
+    Route::get('/dashboard/promotion/coupons-edit/{id}', 'edit')->name('coupon.edit');
+    Route::put('/dashboard/promotion/coupons-update/{id}', 'update')->name('coupon.update');
+    Route::delete('/dashboard/promotion/coupons-destroy', 'destroy')->name('coupon.destroy');
     // Route::get('/dashboard/customers/Customer_profile', 'customer_details')->name('customer.profile');
     // Route::get('/dashboard/category/create', 'create')->name('category.create');
 });
@@ -279,12 +287,22 @@ Route::controller(SupplierController::class)->middleware('auth')->group(function
     Route::delete('/dashboard/supplier/destroy', 'destroy')->name('supplier.destroy');
 
 });
+<<<<<<< HEAD
 Route::controller(SettingsController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/settings', 'index')->name('settings.index');
    // Route::post('/dashboard/settings/store', 'store')->name('supplier.store');
    // Route::get('/dashboard/supplier/edit', 'edit')->name('supplier.edit');
     Route::post('/dashboard/settings/update', 'update')->name('settings.update');
   //  Route::delete('/dashboard/supplier/destroy', 'destroy')->name('supplier.destroy');
+=======
+//setting
+Route::controller(SettingsController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/settings', 'index')->name('settings.index');
+   // Route::post('/dashboard/settings/store', 'store')->name('supplier.store');
+    Route::get('/dashboard/invoice/page', 'invoicePage')->name('invoice.printed');
+    Route::post('/dashboard/settings/update', 'update')->name('settings.update');
+  Route::get('/dashboard/page', 'printPdf')->name('print.pdf');
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 
 });
 //Zone
@@ -303,7 +321,7 @@ Route::controller(FeatureCategoryController::class)->middleware('auth')->group(f
     Route::get('/dashboard/category_feature/edit', 'edit')->name('category_feature.edit');
     Route::post('/dashboard/category_feature/update', 'update')->name('category_feature.update');
     // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
-    Route::delete('/dashboard/category_feature/destroy', 'destroy')->name('category_feature.destroy');
+    Route::get('/dashboard/category_feature/destroy', 'destroy')->name('category_feature.destroy');
 });
 
 //Slider
@@ -324,14 +342,37 @@ Route::controller(AdsController::class)->middleware('auth')->group(function () {
     Route::delete('/dashboard/ads/destroy/{id}', 'destroy')->name('ads.destroy');
 });
 
+<<<<<<< HEAD
 //ads route
+=======
+//campaign route
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 Route::controller(CampaignController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/campaign', 'index')->name('campaign');
     Route::get('/dashboard/campaign/create', 'create')->name('campaign.create');
     Route::post('/dashboard/campaign/store', 'store')->name('campaign.store');
     Route::get('/dashboard/campaign/edit', 'edit')->name('campaign.edit');
+<<<<<<< HEAD
     Route::post('/dashboard/campaign/update', 'update')->name('campaign.update');
     Route::delete('/dashboard/campaign/destroy/{id}', 'destroy')->name('campaign.destroy');
+=======
+    Route::post('/dashboard/campaign/update/{id}', 'update')->name('campaign.update');
+    Route::delete('/dashboard/campaign/destroy/{id}', 'destroy')->name('campaign.destroy');
+    Route::delete('/dashboard/campaign/camp_item/delete', 'campItemRemove')->name('camp_item.delete');
+
+});
+
+
+//campaign route
+Route::controller(InventoryController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/inventory', 'index')->name('inventory');
+    Route::get('/dashboard/inventory/create', 'create')->name('inventory.create');
+
+    //add new stock
+    Route::get('/dashboard/inventory/newstock', 'newstock')->name('new.stock');
+    Route::post('/dashboard/inventory/addstock', 'addstock')->name('add.stock');
+
+>>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 });
 
 // reviews
