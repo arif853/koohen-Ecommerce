@@ -94,10 +94,15 @@
                                         <td style="padding: 2%;">
                                             {{ $item->product->sku }}<br>
                                             <span>Size :</span>
- 
-                                    @foreach ($item->product_sizes as $size)
-                                    <span> {{ $size->size }} </span>  <br>
-                                    @endforeach
+
+
+                                    <span> {{ $item->product_sizes->size }} </span>  <br>
+                           <br>
+
+                           <span>Color :</span>
+
+                                <span> {{ $item->product_colors->color_name }} </span>
+
                                         </td>
                                         <td style="padding: 2%;">{{ $item->quantity }}</td>
                                         <td style="padding: 2%;">{{ $item->price }}</td>
