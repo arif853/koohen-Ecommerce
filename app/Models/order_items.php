@@ -20,7 +20,10 @@ class order_items extends Model
         return $this->belongsTo(Products::class, 'product_id');
     }
     public function product_sizes(){
-        return $this->belongsToMany(Size::class, 'products_sizes', 'product_id','size_id');
+        return $this->belongsTo(Size::class,'size_id');
+    }
+    public function product_colors(){
+        return $this->belongsTo(Color::class,'color_id');
     }
 
 }
