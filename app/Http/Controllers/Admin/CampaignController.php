@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-<<<<<<< HEAD
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-=======
 use App\Models\Campaign;
 use App\Models\Products;
 use Illuminate\Support\Str;
@@ -19,7 +15,6 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Drivers\Gd\Driver;
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 
 class CampaignController extends Controller
 {
@@ -28,12 +23,8 @@ class CampaignController extends Controller
      */
     public function index()
     {
-<<<<<<< HEAD
-        return view('admin.campaign.index');
-=======
         $campaigns = Campaign::all();
         return view('admin.campaign.index',compact('campaigns'));
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
     }
 
     /**
@@ -41,13 +32,9 @@ class CampaignController extends Controller
      */
     public function create()
     {
-<<<<<<< HEAD
-        return view('admin.campaign.create');
-=======
         $products = Products::all();
 
         return view('admin.campaign.create',compact('products'));
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
     }
 
     /**
@@ -55,9 +42,6 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
-<<<<<<< HEAD
-        //
-=======
 
         $rules = [
             'camp_name' => 'required|string',
@@ -133,7 +117,6 @@ class CampaignController extends Controller
             return redirect()->route('campaign')->with('success','New Campaign added successfully.');
         }
 
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
     }
 
     /**
@@ -147,28 +130,17 @@ class CampaignController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-<<<<<<< HEAD
-    public function edit(string $id)
-    {
-        //
-=======
     public function edit(Request $request)
     {
         $products = Products::all();
         $camp_id = $request->id;
         $campaign = Campaign::find($camp_id);
         return view('admin.campaign.edit',compact('products','campaign'));
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
     }
 
     /**
      * Update the specified resource in storage.
      */
-<<<<<<< HEAD
-    public function update(Request $request, string $id)
-    {
-        //
-=======
     public function update(Request $request,string $id)
     {
 
@@ -264,7 +236,6 @@ class CampaignController extends Controller
             return redirect()->route('campaign')->with('success','Campaign data has been updated successfully.');
         }
 
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
     }
 
     /**
@@ -272,10 +243,6 @@ class CampaignController extends Controller
      */
     public function destroy(string $id)
     {
-<<<<<<< HEAD
-        //
-    }
-=======
         $item = Campaign::findOrFail($id);
 
         if ($item) {
@@ -307,5 +274,4 @@ class CampaignController extends Controller
         }
     }
 
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 }

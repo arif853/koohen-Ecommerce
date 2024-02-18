@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('camp_products', function (Blueprint $table) {
             $table->id();
-<<<<<<< HEAD
-=======
             $table->bigInteger('campaign_id')->unsigned();
             $table->bigInteger('product_id')->unsigned();
             $table->decimal('regular_price');
@@ -24,7 +22,6 @@ return new class extends Migration
             $table->decimal('end_date')->nullable();
             $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
             $table->timestamps();
         });
     }

@@ -86,9 +86,6 @@ class ShopComponent extends Component
 
         $item_name = $product->product_name;
         $offer_price = $product->product_price->offer_price;
-<<<<<<< HEAD
-        if($offer_price > 0)
-=======
         $campaign = Campaign::where('status','Published')->first();
         $flag = 0;
         if ($campaign) {
@@ -108,7 +105,6 @@ class ShopComponent extends Component
             $item_price = $camp_price;
         }
         elseif($offer_price > 0)
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
         {
             $item_price = $offer_price;
         }
@@ -192,12 +188,9 @@ class ShopComponent extends Component
 
         }
 
-<<<<<<< HEAD
-=======
         $campaign = Campaign::where('status','Published')->first();
 
 
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
         return view('livewire.shop-component', [
             'product_count' => $product_count,
             'products' => $this->products,

@@ -35,10 +35,7 @@ use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\TrackorderController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\Admin\InventoryController;
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
 
@@ -282,14 +279,6 @@ Route::controller(SupplierController::class)->middleware('auth')->group(function
     Route::delete('/dashboard/supplier/destroy', 'destroy')->name('supplier.destroy');
 
 });
-<<<<<<< HEAD
-Route::controller(SettingsController::class)->middleware('auth')->group(function () {
-    Route::get('/dashboard/settings', 'index')->name('settings.index');
-   // Route::post('/dashboard/settings/store', 'store')->name('supplier.store');
-   // Route::get('/dashboard/supplier/edit', 'edit')->name('supplier.edit');
-    Route::post('/dashboard/settings/update', 'update')->name('settings.update');
-  //  Route::delete('/dashboard/supplier/destroy', 'destroy')->name('supplier.destroy');
-=======
 //setting
 Route::controller(SettingsController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/settings', 'index')->name('settings.index');
@@ -297,7 +286,6 @@ Route::controller(SettingsController::class)->middleware('auth')->group(function
     Route::get('/dashboard/invoice/page', 'invoicePage')->name('invoice.printed');
     Route::post('/dashboard/settings/update', 'update')->name('settings.update');
   Route::get('/dashboard/page', 'printPdf')->name('print.pdf');
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 
 });
 //Zone
@@ -337,20 +325,12 @@ Route::controller(AdsController::class)->middleware('auth')->group(function () {
     Route::delete('/dashboard/ads/destroy/{id}', 'destroy')->name('ads.destroy');
 });
 
-<<<<<<< HEAD
-//ads route
-=======
 //campaign route
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 Route::controller(CampaignController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/campaign', 'index')->name('campaign');
     Route::get('/dashboard/campaign/create', 'create')->name('campaign.create');
     Route::post('/dashboard/campaign/store', 'store')->name('campaign.store');
     Route::get('/dashboard/campaign/edit', 'edit')->name('campaign.edit');
-<<<<<<< HEAD
-    Route::post('/dashboard/campaign/update', 'update')->name('campaign.update');
-    Route::delete('/dashboard/campaign/destroy/{id}', 'destroy')->name('campaign.destroy');
-=======
     Route::post('/dashboard/campaign/update/{id}', 'update')->name('campaign.update');
     Route::delete('/dashboard/campaign/destroy/{id}', 'destroy')->name('campaign.destroy');
     Route::delete('/dashboard/campaign/camp_item/delete', 'campItemRemove')->name('camp_item.delete');
@@ -367,7 +347,6 @@ Route::controller(InventoryController::class)->middleware('auth')->group(functio
     Route::get('/dashboard/inventory/newstock', 'newstock')->name('new.stock');
     Route::post('/dashboard/inventory/addstock', 'addstock')->name('add.stock');
 
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 });
 
 // reviews
