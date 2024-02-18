@@ -37,8 +37,8 @@
           offset: 20,
           spacing: 10,
           z_index: 1031,
-          delay: 3300,
-          timer: 2000,
+          delay: 1000,
+          timer: 1000,
           url_target: '_blank',
           mouse_over: null,
           animate: {

@@ -15,6 +15,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdsController;
 use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\OrderController;
@@ -27,12 +28,14 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\TrackorderController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
+use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
 
@@ -98,6 +101,8 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/products/{slug}', 'products')->name('product.detail');
     Route::get('/checkout', 'checkout')->name('checkout');
     Route::get('/cart', 'cart')->name('cart');
+    Route::get('/wishlist', 'wishlist')->name('wishlist');
+    Route::get('/home/quickview', 'quickview')->name('quickview');
 });
 
 // Route::get('/shop', [ShopController::class, 'index'])->name('shop');
@@ -137,20 +142,16 @@ Route::controller(TrackorderController::class)->group(function () {
 
 });
 
+
+
 // Frontend Route End
-
-
-
-
 
 // =================================++++++++++++++++++++++++++++++++++++++++++++++++++++++++===================================== //
 
 // Backend Route Start
 
 //dashboard
-Route::get('/dashboard', function () {
-    return view('admin.index');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class,'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 //Brands
 Route::controller(BrandController::class)->middleware('auth')->group(function () {
@@ -278,6 +279,7 @@ Route::controller(SupplierController::class)->middleware('auth')->group(function
     Route::delete('/dashboard/supplier/destroy', 'destroy')->name('supplier.destroy');
 
 });
+//setting
 Route::controller(SettingsController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/settings', 'index')->name('settings.index');
    // Route::post('/dashboard/settings/store', 'store')->name('supplier.store');
@@ -321,6 +323,30 @@ Route::controller(AdsController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/ads/edit', 'edit')->name('ads.edit');
     Route::post('/dashboard/ads/update', 'update')->name('ads.update');
     Route::delete('/dashboard/ads/destroy/{id}', 'destroy')->name('ads.destroy');
+});
+
+//campaign route
+Route::controller(CampaignController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/campaign', 'index')->name('campaign');
+    Route::get('/dashboard/campaign/create', 'create')->name('campaign.create');
+    Route::post('/dashboard/campaign/store', 'store')->name('campaign.store');
+    Route::get('/dashboard/campaign/edit', 'edit')->name('campaign.edit');
+    Route::post('/dashboard/campaign/update/{id}', 'update')->name('campaign.update');
+    Route::delete('/dashboard/campaign/destroy/{id}', 'destroy')->name('campaign.destroy');
+    Route::delete('/dashboard/campaign/camp_item/delete', 'campItemRemove')->name('camp_item.delete');
+
+});
+
+
+//campaign route
+Route::controller(InventoryController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/inventory', 'index')->name('inventory');
+    Route::get('/dashboard/inventory/create', 'create')->name('inventory.create');
+
+    //add new stock
+    Route::get('/dashboard/inventory/newstock', 'newstock')->name('new.stock');
+    Route::post('/dashboard/inventory/addstock', 'addstock')->name('add.stock');
+
 });
 
 // reviews

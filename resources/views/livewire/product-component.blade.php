@@ -54,6 +54,7 @@
             <!-- End Gallery -->
         </div>
         <!--Product View-->
+
         <!--Product Details Button-->
         <div class="col-md-7 col-sm-12 col-xs-12">
             <div class="detail-info">
@@ -71,21 +72,46 @@
                         <span class="font-small ml-5 text-muted"> (25 reviews)</span>
                     </div>
                 </div>
+
                 <div class="clearfix product-price-cover">
                     <div class="product-price primary-color float-left">
+                        @php
+                            $flag = 0;
+                            $thisProduct = $product->id;
+                            if ($campaign) {
+                                $camp_products = $campaign->camp_product;
 
-                        @if ($product->product_price->offer_price > 0)
-                        <ins><span
-                                class="text-brand">৳{{$product->product_price->offer_price}}</span></ins>
-                        <ins><span
-                                class="old-price font-md ml-15">৳{{$product->regular_price}}</span></ins>
-                        <span
-                            class="save-price  font-md color3 ml-15">{{$product->product_price->percentage}}%
+                                foreach ($camp_products as $key => $camp_product) {
+                                    if ($thisProduct == $camp_product->product_id) {
+                                        $camp_offer = DB::select('select * from campaigns where id = ?', [$camp_product->campaign_id]);
+                                        // echo $camp_offer->camp_offer;
+                                        $camp_price = $camp_product->camp_price;
+                                        $flag = 1;
+
+                                        if (!empty($camp_offer)) {
+                                            $firstOffer = $camp_offer[0]; // Access the first element of the array
+                                        }
+                                    }
+                                }
+                            }
+                        @endphp
+
+                        @if($flag == 1)
+                        <ins><span class="text-brand">৳{{$camp_price}}</span></ins>
+                        <ins><span class="old-price font-md ml-15">৳{{$product->regular_price}}</span></ins>
+                            <span class="save-price  font-md color3 ml-15">{{$firstOffer->camp_offer}}% Off</span>
+
+                        @elseif($product->product_price->offer_price > 0)
+                        <ins><span class="text-brand">৳{{$product->product_price->offer_price}}</span></ins>
+                        <ins><span class="old-price font-md ml-15">৳{{$product->regular_price}}</span></ins>
+                        <span class="save-price  font-md color3 ml-15">{{$product->product_price->percentage}}%
                             Off</span>
                         @else
                         <ins><span class="text-brand">৳{{$product->regular_price}}</span></ins>
 
                         @endif
+
+
 
                     </div>
                 </div>

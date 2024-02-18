@@ -8,6 +8,7 @@
       @endforeach --}}
         <div class="row">
             @if ($trackedOrder)
+
             <div class="col-lg-12">
                 <div class="card  mb-3" >
                     <div class="card-body text-primary">
@@ -35,7 +36,17 @@
                                             <img height="80px" width="80px" src="{{asset('storage/product_images/'.$item->product_images->first()->product_image)}}" class="image-fluid" alt="ProductImage">
                                         <p>{{$item->product_name}}</p>
                                         </a>
-                                        <p><small>{{$item->color->color_name}}, {{$item->size->size_name}}</small></p>
+                                        <p><small>
+                                            @if($item->color)
+                                            {{$item->color->color_name}},
+
+                                            @endif
+
+                                            @if($item->size)
+                                            {{$item->size->size_name}}
+
+                                            @endif
+                                        </small></p>
                                     </td>
 
                                     <td class="text-center">{{$item->quantity}} X {{$item->price}}</td>
@@ -79,3 +90,44 @@
             @endif
         </div>
   </div>
+  @push('dashboard')
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone-with-data.min.js"></script>
+
+  <script>
+      // Ensure orderStatus is an object with the expected properties
+      var orderStatus = {!! json_encode($trackedOrder->orderstatus) !!};
+      var steps = $('.steps');
+      steps.empty();
+
+      var statusIcons = {
+          pending: 'far fa-shopping-basket',
+          confirmed: 'fas fa-shopping-bag',
+          shipped: 'fad fa-truck-couch',
+          delivered: 'fal fa-shipping-fast',
+          completed: 'fas fa-badge-check',
+          returned: 'fas fa-undo-alt',
+          cancelled: 'fas fa-times-circle'
+      };
+
+      var currentStatusIndex = ['pending', 'confirmed', 'shipped', 'delivered', 'completed'].indexOf(orderStatus.status);
+
+      // Iterate over all possible statuses and update the steps
+      $.each(['pending', 'confirmed', 'shipped', 'delivered', 'completed'], function(index, stepStatus) {
+          var iconClass = statusIcons[stepStatus];
+          var date = orderStatus[stepStatus + '_date_time'];
+          var formattedDate = date ? moment.utc(date).tz('Asia/Dhaka').format('D MMM YYYY') : '';
+          var isCompleted = index <= currentStatusIndex;
+
+          steps.append(
+              '<div class="step ' + (isCompleted ? 'completed' : '') + '">' +
+                  '<div class="step-icon-wrap">' +
+                      '<div class="step-icon"><i class="' + iconClass + '"></i></div>' +
+                  '</div>' +
+                  '<h4 class="step-title">' + stepStatus.replace(/^\w/, c => c.toUpperCase()) + '</h4>' +
+                  '<small class="text-muted text-sm">' + formattedDate + '</small>' +
+              '</div>'
+          );
+      });
+  </script>
+  @endpush

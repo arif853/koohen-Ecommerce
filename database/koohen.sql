@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 31, 2024 at 05:09 AM
+-- Generation Time: Feb 12, 2024 at 11:41 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,8 +18,26 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `evara-ecomm`
+-- Database: `koohen`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ads`
+--
+
+CREATE TABLE `ads` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `header` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `shop_url` varchar(255) DEFAULT NULL,
+  `is_featured` varchar(255) DEFAULT NULL,
+  `is_feature_no` varchar(255) NOT NULL DEFAULT '0',
+  `image` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -80,14 +98,13 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `categories_id`, `category_name`, `parent_category`, `category_icon`, `category_image`, `slug`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'QZjal28HnXR9', 'T-Shirt', NULL, 'category_image/icons/icon_1706503206.jpg', 'T-Shirt_1706503207.jpg', 't-shirt', '1', '2024-01-28 22:40:07', '2024-01-28 22:40:07'),
+(1, 'QZjal28HnXR9', 'T-Shirts', NULL, 'category_image/icons/icon_1707136842.png', 'T-Shirts_1707136842.png', 't-shirt', '1', '2024-01-28 22:40:07', '2024-02-05 06:40:42'),
 (2, 'VWNtQqB2E0Hc', 'Shirt', NULL, 'category_image/icons/icon_1706503228.webp', 'Shirt_1706503228.jpg', 'shirt', '1', '2024-01-28 22:40:28', '2024-01-28 22:40:28'),
 (3, 'RvnlmkgT8Dwj', 'Trouser', NULL, 'category_image/icons/icon_1706503244.jpg', 'Trouser_1706503244.jpg', 'trouser', '1', '2024-01-28 22:40:44', '2024-01-28 22:40:44'),
 (4, '0Rl1jdQbJF9X', 'Long Sleve Tshirt', 'T-Shirt', 'category_image/icons/icon_1706503267.jpg', 'Long Sleve Tshirt_1706503267.jpg', 'long-sleve-tshirt', '1', '2024-01-28 22:41:08', '2024-01-28 22:41:08'),
 (5, 'Ap36GoNIQCKl', 'Long Sleve Shirt', 'Shirt', 'category_image/icons/icon_1706503314.jpg', NULL, 'long-sleve-shirt', '1', '2024-01-28 22:41:54', '2024-01-28 22:41:54'),
 (6, 'AidmXK76JjLH', 'China Trouser', 'Trouser', 'category_image/icons/icon_1706503344.jpg', NULL, 'china-trouser', '1', '2024-01-28 22:42:24', '2024-01-28 22:42:24'),
-(7, 'Ygu37AjStBil', 'China Shirt', 'Long Sleve Shirt', 'category_image/icons/icon_1706503390.webp', NULL, 'china-shirt', '1', '2024-01-28 22:43:11', '2024-01-28 22:43:11'),
-(8, 'oXBICMqef4nJ', 'China big Shirt', 'Shirt', 'category_image/icons/icon_1706503491.jpg', NULL, 'china-big-shirt', '1', '2024-01-28 22:44:52', '2024-01-28 22:44:52');
+(7, 'Ygu37AjStBil', 'China Shirt', 'Long Sleve Shirt', 'category_image/icons/icon_1706503390.webp', NULL, 'china-shirt', '1', '2024-01-28 22:43:11', '2024-01-28 22:43:11');
 
 -- --------------------------------------------------------
 
@@ -110,8 +127,7 @@ CREATE TABLE `colors` (
 
 INSERT INTO `colors` (`id`, `color_name`, `color_code`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'Red', 'rgba(245, 0, 0, 1)', 1, '2024-01-11 01:52:27', '2024-01-30 04:08:36'),
-(2, 'Blue', 'rgba(0, 34, 255, 1)', 1, '2024-01-11 01:53:35', '2024-01-11 01:53:35'),
-(3, 'Green', 'rgba(26, 230, 23, 1)', 1, '2024-01-30 04:18:20', '2024-01-30 04:18:20');
+(2, 'Blue', 'rgba(0, 34, 255, 1)', 1, '2024-01-11 01:53:35', '2024-01-11 01:53:35');
 
 -- --------------------------------------------------------
 
@@ -152,14 +168,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `firstName`, `lastName`, `phone`, `email`, `billing_address`, `division`, `district`, `area`, `loyalty_point`, `status`, `created_at`, `updated_at`) VALUES
-(31, 'Arif', 'Hossen', '01303638635', 'arifhossen@gmail.com', '522/B North Shajahanpur, Dhaka.', '3', '1', '469', '0', 'registerd', '2024-01-17 04:20:37', '2024-01-24 02:06:32'),
-(32, 'Hasan', 'Ali', '01303638631', 'arifhosse12@gmail.com', '23 Gondersor, chilmari, cumilla', '2', '44', '293', '0', 'not registerd', '2024-01-18 00:18:43', '2024-01-18 00:18:43'),
-(33, 'Hasan', 'ahmed', '01303638637', 'arifhosse5@gmail.com', '556 Halkuti,  Amtali, Barguna.', '1', '34', '1', '0', 'registerd', '2024-01-18 01:21:02', '2024-01-24 01:07:28'),
-(34, 'Abir', 'Hossain', '01795795443', 'arifhosse123@gmail.com', '512/c North Shajahanpur, Dhaka', '3', '1', '453', '10', 'registerd', '2024-01-20 22:19:02', '2024-01-20 22:19:03'),
-(35, 'Hasan', 'Abir', '01601958562', 'hasan.abir@gmail.com', NULL, NULL, NULL, NULL, '0', 'not registerd', '2024-01-20 23:37:44', '2024-01-20 23:37:44'),
-(36, 'Hasan', 'Abir', '01601958563', 'hasan.abir1@gmail.com', NULL, NULL, NULL, NULL, '0', 'not registerd', '2024-01-20 23:42:28', '2024-01-20 23:42:28'),
-(37, 'Arif', 'Hossen', '01601958566', 'arifhossen560@gmail.com', '522/B North Shajahanpur, Dhaka', NULL, NULL, NULL, '0', 'registerd', '2024-01-20 23:47:07', '2024-01-24 04:37:42'),
-(38, 'Himel', 'Vai', '01795795442', 'himel.vai@gmail.com', '522/B North Shajahanpur, Dhaka', '2', '40', '117', '10', 'not registerd', '2024-01-30 00:29:22', '2024-01-30 00:29:22');
+(41, 'Arif', 'Hossen', '01795795441', 'arifhosse12@gmail.com', '522/B North Shajahanpur, Dhaka', '3', '1', '458', '10', 'registerd', '2024-02-07 00:22:46', '2024-02-07 00:22:46');
 
 -- --------------------------------------------------------
 
@@ -183,7 +192,7 @@ CREATE TABLE `delivery_zones` (
 
 INSERT INTO `delivery_zones` (`id`, `district_id`, `upazila`, `charge`, `status`, `created_at`, `updated_at`) VALUES
 (2, 1, 'Dhaka Cantt.', 80.00, 'Inactive', '2024-01-29 05:12:07', '2024-01-29 05:14:48'),
-(3, 1, 'Demra', 80.00, 'Active', '2024-01-29 05:13:05', '2024-01-30 01:41:08'),
+(3, 1, 'Demra', 80.00, 'Active', '2024-01-29 05:13:05', '2024-02-04 04:05:25'),
 (4, 2, 'Alfadanga', 20.00, 'Active', '2024-01-30 00:09:24', '2024-01-30 00:09:24'),
 (5, 1, 'Khilgaon', 80.00, 'Active', '2024-01-30 01:20:54', '2024-01-30 01:24:24'),
 (6, 3, 'Kaliakaar', 60.00, 'Active', '2024-01-30 01:40:13', '2024-01-30 01:40:13');
@@ -325,6 +334,31 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `feature_categories`
+--
+
+CREATE TABLE `feature_categories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `category_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `text` varchar(255) DEFAULT NULL,
+  `image` varchar(255) NOT NULL,
+  `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `feature_categories`
+--
+
+INSERT INTO `feature_categories` (`id`, `category_id`, `title`, `text`, `image`, `status`, `created_at`, `updated_at`) VALUES
+(3, 2, 'Regular Panjabi', NULL, 'feature/category/1707039724.jpg', 'Inactive', '2024-02-04 03:42:04', '2024-02-04 04:40:20'),
+(4, 1, 'Premium Panjabi2', NULL, 'feature/category/1707040768.png', 'Active', '2024-02-04 03:59:28', '2024-02-04 04:39:44');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `media`
 --
 
@@ -387,7 +421,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (42, '2024_01_22_054321_create_orderstatuses_table', 9),
 (43, '2023_12_20_041449_create_suppliers_table', 10),
 (44, '2023_12_20_065612_create_categories_table', 11),
-(46, '2024_01_29_055920_create_delivery_zones_table', 12);
+(46, '2024_01_29_055920_create_delivery_zones_table', 12),
+(47, '2024_02_04_052438_create_feature_categories_table', 13),
+(48, '2024_02_06_072336_create_product_thumbnails_table', 14),
+(49, '2024_02_07_101403_create_sliders_table', 15),
+(50, '2024_02_08_054458_create_ads_table', 16);
 
 -- --------------------------------------------------------
 
@@ -409,6 +447,7 @@ CREATE TABLE `offers` (
 
 CREATE TABLE `orders` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `order_track_id` varchar(255) DEFAULT NULL,
   `customer_id` bigint(20) UNSIGNED NOT NULL,
   `subtotal` decimal(8,2) NOT NULL,
   `discount` decimal(8,2) NOT NULL DEFAULT 0.00,
@@ -428,24 +467,10 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `customer_id`, `subtotal`, `discount`, `tax`, `total`, `delivery_charge`, `status`, `is_shipping_different`, `delivered_date`, `canceled_date`, `comment`, `created_at`, `updated_at`) VALUES
-(27, 31, 15225.00, 0.00, 761.25, '0', '0', 'completed', 0, NULL, NULL, NULL, '2024-01-17 04:20:37', '2024-01-22 05:28:03'),
-(28, 32, 30450.00, 0.00, 761.25, '0', '0', 'confirmed', 0, NULL, NULL, NULL, '2024-01-18 00:18:43', '2024-01-22 01:19:45'),
-(29, 33, 600.00, 0.00, 30.00, '0', '0', 'confirmed', 0, NULL, NULL, NULL, '2024-01-18 01:21:02', '2024-01-22 01:19:45'),
-(30, 31, 902.50, 0.00, 45.13, '0', '0', 'delivered', 0, NULL, NULL, NULL, '2024-01-18 05:13:36', '2024-01-22 05:22:37'),
-(31, 31, 230222.00, 0.00, 5755.55, '0', '0', 'completed', 0, NULL, NULL, NULL, '2024-01-18 05:15:57', '2024-01-22 01:21:42'),
-(32, 31, 1200.00, 0.00, 60.00, '0', '0', 'cancelled', 0, NULL, NULL, NULL, '2024-01-18 05:16:46', '2024-01-22 05:04:49'),
-(33, 31, 1200.00, 0.00, 60.00, '1260', '0', 'confirmed', 0, NULL, NULL, NULL, '2024-01-18 05:55:48', '2024-01-22 01:19:45'),
-(34, 31, 115111.00, 0.00, 5755.55, '122666.55', '0', 'confirmed', 0, NULL, NULL, NULL, '2024-01-18 05:56:12', '2024-01-22 01:19:45'),
-(35, 31, 16727.50, 0.00, 45.13, '16772.63', '0', 'confirmed', 0, NULL, NULL, NULL, '2024-01-18 06:00:48', '2024-01-22 01:19:45'),
-(36, 33, 4400.00, 0.00, 25.00, '4425', '0', 'confirmed', 0, NULL, NULL, NULL, '2024-01-18 06:04:32', '2024-01-22 01:19:45'),
-(37, 33, 76125.00, 0.00, 761.25, '76886.25', '0', 'confirmed', 0, NULL, NULL, NULL, '2024-01-20 22:15:48', '2024-01-22 01:16:43'),
-(38, 34, 1805.00, 0.00, 45.13, '1850.13', '0', 'confirmed', 0, NULL, NULL, NULL, '2024-01-20 22:19:03', '2024-01-22 01:16:43'),
-(39, 33, 1200.00, 0.00, 60.00, '1260', '0', 'pending', 0, NULL, NULL, NULL, '2024-01-22 03:30:10', '2024-01-22 03:30:10'),
-(40, 33, 1200.00, 0.00, 60.00, '1260', '0', 'pending', 0, NULL, NULL, NULL, '2024-01-22 03:31:52', '2024-01-22 03:31:52'),
-(41, 33, 30450.00, 0.00, 761.25, '31211.25', '0', 'pending', 0, NULL, NULL, NULL, '2024-01-22 05:38:42', '2024-01-22 05:38:42'),
-(42, 31, 60900.00, 0.00, 761.25, '61661.25', '0', 'shipped', 0, NULL, NULL, NULL, '2024-01-24 05:47:46', '2024-01-24 05:49:52'),
-(43, 38, 3600.00, 0.00, 60.00, '3660', '80', 'pending', 1, NULL, NULL, NULL, '2024-01-30 00:29:22', '2024-01-30 00:29:22');
+INSERT INTO `orders` (`id`, `order_track_id`, `customer_id`, `subtotal`, `discount`, `tax`, `total`, `delivery_charge`, `status`, `is_shipping_different`, `delivered_date`, `canceled_date`, `comment`, `created_at`, `updated_at`) VALUES
+(48, NULL, 41, 15300.00, 0.00, 0.00, '15300', '80', 'confirmed', 0, NULL, NULL, 'New order', '2024-02-07 00:22:46', '2024-02-11 05:12:47'),
+(49, 'K24-6100', 41, 27300.00, 0.00, 0.00, '27300', '80', 'pending', 0, NULL, NULL, NULL, '2024-02-07 00:26:41', '2024-02-07 00:26:41'),
+(50, 'K24-5317', 41, 107100.00, 0.00, 0.00, '107180', '80', 'pending', 0, NULL, NULL, NULL, '2024-02-07 00:42:58', '2024-02-07 00:42:58');
 
 -- --------------------------------------------------------
 
@@ -472,23 +497,9 @@ CREATE TABLE `orderstatuses` (
 --
 
 INSERT INTO `orderstatuses` (`id`, `order_id`, `status`, `confirmed_date_time`, `shipped_date_time`, `delivered_date_time`, `completed_date_time`, `returned_date_time`, `cancelled_date_time`, `created_at`, `updated_at`) VALUES
-(4, 27, 'completed', '2024-01-22 07:19:45', '2024-01-22 07:08:21', '2024-01-22 10:11:32', '2024-01-22 11:28:03', '2024-01-22 06:38:39', '2024-01-22 06:38:47', '2024-01-22 00:38:01', '2024-01-22 05:28:03'),
-(5, 28, 'confirmed', '2024-01-22 07:19:45', '2024-01-22 06:41:54', NULL, '2024-01-22 07:13:29', NULL, NULL, '2024-01-22 00:41:54', '2024-01-22 01:19:45'),
-(6, 38, 'confirmed', '2024-01-22 07:16:43', NULL, NULL, '2024-01-22 06:52:57', NULL, NULL, '2024-01-22 00:43:17', '2024-01-22 01:16:43'),
-(7, 30, 'delivered', '2024-01-22 07:19:45', NULL, '2024-01-22 11:22:37', '2024-01-22 07:21:42', NULL, NULL, '2024-01-22 00:43:29', '2024-01-22 05:22:37'),
-(8, 31, 'completed', '2024-01-22 07:19:45', NULL, NULL, '2024-01-22 07:21:42', NULL, NULL, '2024-01-22 00:43:33', '2024-01-22 01:21:42'),
-(9, 32, 'cancelled', '2024-01-22 07:19:45', '2024-01-22 10:27:33', NULL, '2024-01-22 07:21:42', '2024-01-22 10:31:11', '2024-01-22 11:04:49', '2024-01-22 00:43:37', '2024-01-22 05:04:49'),
-(10, 33, 'confirmed', '2024-01-22 07:19:45', NULL, NULL, '2024-01-22 07:13:29', NULL, NULL, '2024-01-22 00:43:40', '2024-01-22 01:19:45'),
-(11, 34, 'confirmed', '2024-01-22 07:19:45', NULL, NULL, '2024-01-22 07:13:29', NULL, NULL, '2024-01-22 00:43:42', '2024-01-22 01:19:45'),
-(12, 29, 'confirmed', '2024-01-22 07:19:45', NULL, NULL, '2024-01-22 07:17:34', NULL, NULL, '2024-01-22 00:52:20', '2024-01-22 01:19:45'),
-(13, 35, 'confirmed', '2024-01-22 07:19:45', NULL, NULL, '2024-01-22 07:13:29', NULL, NULL, '2024-01-22 00:52:20', '2024-01-22 01:19:45'),
-(14, 36, 'confirmed', '2024-01-22 07:19:45', NULL, NULL, '2024-01-22 07:13:29', NULL, NULL, '2024-01-22 00:52:20', '2024-01-22 01:19:45'),
-(15, 37, 'confirmed', '2024-01-22 07:16:43', NULL, NULL, '2024-01-22 07:14:13', NULL, NULL, '2024-01-22 01:14:13', '2024-01-22 01:16:43'),
-(16, 40, 'pending', NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-22 03:31:52', '2024-01-22 03:31:52'),
-(17, 39, 'pending', NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-22 03:33:28', '2024-01-22 03:33:28'),
-(18, 41, 'pending', NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-22 05:38:42', '2024-01-22 05:38:42'),
-(19, 42, 'shipped', NULL, '2024-01-24 11:49:52', NULL, NULL, NULL, NULL, '2024-01-24 05:47:46', '2024-01-24 05:49:52'),
-(20, 43, 'pending', NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-30 00:29:22', '2024-01-30 00:29:22');
+(25, 48, 'confirmed', '2024-02-11 11:12:47', NULL, '2024-02-11 10:08:54', NULL, NULL, NULL, '2024-02-07 00:22:46', '2024-02-11 05:12:47'),
+(26, 49, 'pending', NULL, NULL, NULL, NULL, NULL, NULL, '2024-02-07 00:26:41', '2024-02-07 00:26:41'),
+(27, 50, 'pending', NULL, NULL, NULL, NULL, NULL, NULL, '2024-02-07 00:42:58', '2024-02-07 00:42:58');
 
 -- --------------------------------------------------------
 
@@ -515,31 +526,10 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `product_id`, `order_id`, `color_id`, `size_id`, `price`, `quantity`, `comment`, `rstatus`, `created_at`, `updated_at`) VALUES
-(25, 1, 27, NULL, NULL, 15225.00, 1, NULL, 0, '2024-01-17 04:20:37', '2024-01-17 04:20:37'),
-(26, 1, 28, NULL, NULL, 15225.00, 2, NULL, 0, '2024-01-18 00:18:43', '2024-01-18 00:18:43'),
-(27, 6, 29, NULL, NULL, 600.00, 1, NULL, 0, '2024-01-18 01:21:02', '2024-01-18 01:21:02'),
-(28, 3, 30, NULL, NULL, 902.50, 1, NULL, 0, '2024-01-18 05:13:36', '2024-01-18 05:13:36'),
-(29, 12, 31, NULL, NULL, 115111.00, 2, NULL, 0, '2024-01-18 05:15:57', '2024-01-18 05:15:57'),
-(30, 1, 32, NULL, NULL, 15225.00, 1, NULL, 0, '2024-01-18 05:16:46', '2024-01-18 05:16:46'),
-(31, 3, 32, NULL, NULL, 902.50, 1, NULL, 0, '2024-01-18 05:16:46', '2024-01-18 05:16:46'),
-(32, 4, 32, NULL, NULL, 500.00, 1, NULL, 0, '2024-01-18 05:16:46', '2024-01-18 05:16:46'),
-(33, 6, 32, NULL, NULL, 600.00, 1, NULL, 0, '2024-01-18 05:16:46', '2024-01-18 05:16:46'),
-(34, 9, 32, NULL, NULL, 1200.00, 1, NULL, 0, '2024-01-18 05:16:46', '2024-01-18 05:16:46'),
-(35, 9, 33, NULL, NULL, 1200.00, 1, NULL, 0, '2024-01-18 05:55:48', '2024-01-18 05:55:48'),
-(36, 6, 34, NULL, NULL, 600.00, 1, NULL, 0, '2024-01-18 05:56:12', '2024-01-18 05:56:12'),
-(37, 9, 34, NULL, NULL, 1200.00, 1, NULL, 0, '2024-01-18 05:56:12', '2024-01-18 05:56:12'),
-(38, 12, 34, NULL, NULL, 115111.00, 1, NULL, 0, '2024-01-18 05:56:12', '2024-01-18 05:56:12'),
-(39, 6, 35, NULL, NULL, 600.00, 1, NULL, 0, '2024-01-18 06:00:48', '2024-01-18 06:00:48'),
-(40, 1, 35, NULL, NULL, 15225.00, 1, NULL, 0, '2024-01-18 06:00:48', '2024-01-18 06:00:48'),
-(41, 3, 35, NULL, NULL, 902.50, 1, NULL, 0, '2024-01-18 06:00:48', '2024-01-18 06:00:48'),
-(42, 9, 36, NULL, NULL, 1200.00, 2, NULL, 0, '2024-01-18 06:04:32', '2024-01-18 06:04:32'),
-(43, 4, 36, NULL, NULL, 500.00, 4, NULL, 0, '2024-01-18 06:04:32', '2024-01-18 06:04:32'),
-(44, 1, 37, 1, 1, 15225.00, 5, NULL, 0, '2024-01-20 22:15:48', '2024-01-20 22:15:48'),
-(45, 3, 38, 1, 1, 902.50, 2, NULL, 0, '2024-01-20 22:19:03', '2024-01-20 22:19:03'),
-(46, 9, 40, NULL, NULL, 1200.00, 1, NULL, 0, '2024-01-22 03:31:52', '2024-01-22 03:31:52'),
-(47, 1, 41, 1, 1, 15225.00, 2, NULL, 0, '2024-01-22 05:38:42', '2024-01-22 05:38:42'),
-(48, 1, 42, 2, 1, 15225.00, 4, NULL, 0, '2024-01-24 05:47:46', '2024-01-24 05:47:46'),
-(49, 9, 43, NULL, NULL, 1200.00, 3, NULL, 0, '2024-01-30 00:29:22', '2024-01-30 00:29:22');
+(54, 14, 48, NULL, NULL, 15300.00, 1, NULL, 0, '2024-02-07 00:22:46', '2024-02-07 00:22:46'),
+(55, 15, 49, NULL, NULL, 6000.00, 2, NULL, 0, '2024-02-07 00:26:41', '2024-02-07 00:26:41'),
+(56, 14, 49, NULL, NULL, 15300.00, 1, NULL, 0, '2024-02-07 00:26:41', '2024-02-07 00:26:41'),
+(57, 14, 50, 1, 2, 15300.00, 7, NULL, 0, '2024-02-07 00:42:58', '2024-02-07 00:42:58');
 
 -- --------------------------------------------------------
 
@@ -1957,7 +1947,7 @@ CREATE TABLE `products` (
   `product_name` varchar(255) NOT NULL,
   `brand_id` bigint(20) UNSIGNED NOT NULL,
   `category_id` bigint(20) UNSIGNED NOT NULL,
-  `subcategory_id` bigint(20) UNSIGNED NOT NULL,
+  `supplier_id` bigint(20) UNSIGNED DEFAULT NULL,
   `raw_price` varchar(255) DEFAULT NULL,
   `regular_price` varchar(255) DEFAULT NULL,
   `description` longtext NOT NULL,
@@ -1973,13 +1963,9 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `product_name`, `brand_id`, `category_id`, `subcategory_id`, `raw_price`, `regular_price`, `description`, `sku`, `stock`, `slug`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'New Year T-shirt', 1, 1, 1, '15000', '17500', '<p>New Year Tshirt.<br></p>', 'RU2TK8WF', '10', 'new-year-t-shirt', 'active', '2024-01-11 01:56:57', '2024-01-11 03:51:38'),
-(3, 'Special Cozy Cotton Pants', 1, 1, 1, '600', '950', '<div class=\"entry-content woocommerce-Tabs-panel woocommerce-Tabs-panel--description wd-active panel wc-tab\" id=\"tab-description\" role=\"tabpanel\" aria-labelledby=\"tab-title-description\" data-accordion-index=\"description\" style=\"display: block;\"><div class=\"wc-tab-inner\"><div dir=\"auto\"><img class=\"alignnone size-medium wp-image-20832\" src=\"https://daarkak.com/wp-content/uploads/2023/11/Size-400x267.png\" alt=\"\" width=\"400\" height=\"267\"></div><div dir=\"auto\"><span class=\"x3nfvp2 x1j61x8r x1fcty0u xdj266r xhhsvwb xat24cr xgzva0m xxymvpz xlup9mm x1kky2od\"><img src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/tba/1.5/16/2705.png\" alt=\"✅\" width=\"16\" height=\"16\"></span>&nbsp;Made of 100% cotton</div><div dir=\"auto\"><span class=\"x3nfvp2 x1j61x8r x1fcty0u xdj266r xhhsvwb xat24cr xgzva0m xxymvpz xlup9mm x1kky2od\"><img src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/tba/1.5/16/2705.png\" alt=\"✅\" width=\"16\" height=\"16\"></span>&nbsp;Covered 100% cotton waistband (woven fabric)</div><div dir=\"auto\"><span class=\"x3nfvp2 x1j61x8r x1fcty0u xdj266r xhhsvwb xat24cr xgzva0m xxymvpz xlup9mm x1kky2od\"><img src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/tba/1.5/16/2705.png\" alt=\"✅\" width=\"16\" height=\"16\"></span>&nbsp;Drawstring for an adjustable fit</div><div dir=\"auto\"><span class=\"x3nfvp2 x1j61x8r x1fcty0u xdj266r xhhsvwb xat24cr xgzva0m xxymvpz xlup9mm x1kky2od\"><img src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/tba/1.5/16/2705.png\" alt=\"✅\" width=\"16\" height=\"16\"></span>&nbsp;Convenient side seam pockets</div><div dir=\"auto\"><span class=\"x3nfvp2 x1j61x8r x1fcty0u xdj266r xhhsvwb xat24cr xgzva0m xxymvpz xlup9mm x1kky2od\"><img src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/tba/1.5/16/2705.png\" alt=\"✅\" width=\"16\" height=\"16\"></span>&nbsp;Soft material for comfort</div><div dir=\"auto\"><span class=\"x3nfvp2 x1j61x8r x1fcty0u xdj266r xhhsvwb xat24cr xgzva0m xxymvpz xlup9mm x1kky2od\"><img src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/tba/1.5/16/2705.png\" alt=\"✅\" width=\"16\" height=\"16\"></span>&nbsp;Durability tightly coupled stitches</div><div dir=\"auto\"><span class=\"x3nfvp2 x1j61x8r x1fcty0u xdj266r xhhsvwb xat24cr xgzva0m xxymvpz xlup9mm x1kky2od\"><img src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/tba/1.5/16/2705.png\" alt=\"✅\" width=\"16\" height=\"16\"></span>&nbsp;Fabric type : Texture fabric.</div><div dir=\"auto\"><span class=\"x3nfvp2 x1j61x8r x1fcty0u xdj266r xhhsvwb xat24cr xgzva0m xxymvpz xlup9mm x1kky2od\"><img src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/tba/1.5/16/2705.png\" alt=\"✅\" width=\"16\" height=\"16\"></span>&nbsp;premium pocketing with stitches</div><div dir=\"auto\"><span class=\"x3nfvp2 x1j61x8r x1fcty0u xdj266r xhhsvwb xat24cr xgzva0m xxymvpz xlup9mm x1kky2od\"><img src=\"https://static.xx.fbcdn.net/images/emoji.php/v9/tba/1.5/16/2705.png\" alt=\"✅\" width=\"16\" height=\"16\"></span>&nbsp;GSM : 180</div></div></div><p></p>', 'Q5TPX18C', '100', 'special-cozy-cotton-pants', 'active', '2024-01-14 02:11:57', '2024-01-14 02:11:57'),
-(4, 'Award Crest', 1, 2, 2, '500', '500', '<p>rifat hossain</p>', '56MXO32Y', '80', 'award-crest', 'active', '2024-01-18 00:45:30', '2024-01-18 00:45:30'),
-(6, 'Cristal Crest', 1, 2, 2, '600', '600', '<p>masud vai</p>', 'DM4FU2QJ', '561230', 'cristal-crest', 'active', '2024-01-18 00:58:48', '2024-01-18 00:58:48'),
-(9, 'Fabrilife Mens Multi-Shades Hoodie - Stormy Sea', 1, 1, 5, '1000', '1200', '<ul class=\"\" style=\"margin-block-start: 1em; font-size: 14px; overflow: hidden; columns: 2; column-gap: 32px; font-family: Roboto, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, Helvetica, sans-serif; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400;\"><li class=\"\" data-spm-anchor-id=\"a2a0e.pdp.product_detail.i0.1f682d20pjOCGW\" style=\"padding-left: 15px; position: relative; font-size: 14px; line-height: 18px; text-align: left; list-style: none; word-break: break-word; break-inside: avoid;\">Relaxed-Fit hoodie in Cotton-blend fabric with soft brushed inside. Jersey-lined Wrapover hood with drawstring, kangaroo pocket, and long sleeves. Wide ribbing at cuff and hem.</li><li class=\"\" style=\"padding-left: 15px; position: relative; font-size: 14px; line-height: 18px; text-align: left; list-style: none; word-break: break-word; break-inside: avoid;\">Incredibly Soft and super comfortable, perfect for the whole winter.</li><li class=\"\" style=\"padding-left: 15px; position: relative; font-size: 14px; line-height: 18px; text-align: left; list-style: none; word-break: break-word; break-inside: avoid;\">Designed to shield you and keep you warm on cool windy days.</li><li class=\"\" style=\"padding-left: 15px; position: relative; font-size: 14px; line-height: 18px; text-align: left; list-style: none; word-break: break-word; break-inside: avoid;\">Heathered with insulating properties.</li></ul>', 'N2O5RVPX', '5000', 'fabrilife-mens-multi-shades-hoodie-stormy-sea', 'active', '2024-01-18 01:36:17', '2024-01-18 01:36:17'),
-(12, 'City Boy Premium Printed Men\'s Winter Jacket', 1, 1, 1, '45454', '115111', '<p><span style=\"font-family: Roboto, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, Helvetica, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400;\">It\'s a high-quality Black shade digital print winter jacket for men manufactured by City Boy. It\'s a Premium quality jacket with 100% QC pass product. The fabric and swing are very high quality. High-quality and imported fabric. This is a very stylish and trendy product. Fabric is very comfortable and skin-friendly. It\'s a fashionable winter jacket for men and a stylish bomber winter jacket for men. 100% quality jacket. This is Microfiber Polyester Fabric and uses rip in the bottom, hand and in collar. This is a trendy jacket in Bangladesh.</span><br></p>', '2YL3OAXN', NULL, 'city-boy-premium-printed-mens-winter-jacket', 'active', '2024-01-18 01:56:06', '2024-01-18 01:56:06');
+INSERT INTO `products` (`id`, `product_name`, `brand_id`, `category_id`, `supplier_id`, `raw_price`, `regular_price`, `description`, `sku`, `stock`, `slug`, `status`, `created_at`, `updated_at`) VALUES
+(14, 'Sada Panjabi', 1, 2, 1, '15000', '17000', '<p>asds<br></p>', 'MQ6FA7TJ', '10', 'sada-panjabi', 'active', '2024-02-07 00:17:25', '2024-02-07 00:17:25'),
+(15, 'Polo T shirt', 1, 1, NULL, '5000', '6000', '<p>hhhh<br></p>', 'RF0B31IV', '100', 'polo-t-shirt', 'active', '2024-02-07 00:19:02', '2024-02-07 00:19:02');
 
 -- --------------------------------------------------------
 
@@ -2007,7 +1993,11 @@ INSERT INTO `products_colors` (`id`, `product_id`, `color_id`, `created_at`, `up
 (7, 4, 1, '2024-01-18 00:45:30', '2024-01-18 00:45:30'),
 (8, 6, 2, '2024-01-18 00:58:48', '2024-01-18 00:58:48'),
 (10, 9, 1, '2024-01-18 01:36:17', '2024-01-18 01:36:17'),
-(11, 9, 2, '2024-01-18 01:36:17', '2024-01-18 01:36:17');
+(11, 9, 2, '2024-01-18 01:36:17', '2024-01-18 01:36:17'),
+(12, 13, 2, '2024-02-06 02:22:43', '2024-02-06 02:22:43'),
+(14, 14, 1, '2024-02-07 00:17:25', '2024-02-07 00:17:25'),
+(15, 14, 2, '2024-02-07 00:17:25', '2024-02-07 00:17:25'),
+(17, 15, 2, '2024-02-07 00:19:02', '2024-02-07 00:19:02');
 
 -- --------------------------------------------------------
 
@@ -2035,7 +2025,12 @@ INSERT INTO `products_sizes` (`id`, `product_id`, `size_id`, `created_at`, `upda
 (7, 4, 1, '2024-01-18 00:45:30', '2024-01-18 00:45:30'),
 (8, 6, 1, '2024-01-18 00:58:48', '2024-01-18 00:58:48'),
 (10, 9, 1, '2024-01-18 01:36:17', '2024-01-18 01:36:17'),
-(11, 9, 2, '2024-01-18 01:36:17', '2024-01-18 01:36:17');
+(11, 9, 2, '2024-01-18 01:36:17', '2024-01-18 01:36:17'),
+(12, 13, 2, '2024-02-06 02:22:43', '2024-02-06 02:22:43'),
+(13, 13, 3, NULL, NULL),
+(14, 14, 1, '2024-02-07 00:17:25', '2024-02-07 00:17:25'),
+(15, 14, 2, '2024-02-07 00:17:25', '2024-02-07 00:17:25'),
+(17, 15, 2, '2024-02-07 00:19:02', '2024-02-07 00:19:02');
 
 -- --------------------------------------------------------
 
@@ -2086,7 +2081,22 @@ INSERT INTO `product_additionalinfos` (`id`, `product_id`, `additional_name`, `a
 (42, 12, 'Weight Capacity :', '35cm x 27cm', '2024-01-18 01:56:06', '2024-01-18 01:56:06'),
 (43, 12, 'Width :', '9.84\"', '2024-01-18 01:56:06', '2024-01-18 01:56:06'),
 (44, 12, 'Height :', '10.63\"', '2024-01-18 01:56:06', '2024-01-18 01:56:06'),
-(45, 12, 'Wheels :', '1', '2024-01-18 01:56:06', '2024-01-18 01:56:06');
+(45, 12, 'Wheels :', '1', '2024-01-18 01:56:06', '2024-01-18 01:56:06'),
+(46, 13, 'Frame :', NULL, '2024-02-06 02:22:45', '2024-02-06 02:22:45'),
+(47, 13, 'Weight Capacity :', NULL, '2024-02-06 02:22:45', '2024-02-06 02:22:45'),
+(48, 13, 'Width :', NULL, '2024-02-06 02:22:45', '2024-02-06 02:22:45'),
+(49, 13, 'Height :', NULL, '2024-02-06 02:22:45', '2024-02-06 02:22:45'),
+(50, 13, 'Wheels :', NULL, '2024-02-06 02:22:45', '2024-02-06 02:22:45'),
+(51, 14, 'Frame :', NULL, '2024-02-07 00:17:26', '2024-02-07 00:17:26'),
+(52, 14, 'Weight Capacity :', NULL, '2024-02-07 00:17:26', '2024-02-07 00:17:26'),
+(53, 14, 'Width :', NULL, '2024-02-07 00:17:26', '2024-02-07 00:17:26'),
+(54, 14, 'Height :', NULL, '2024-02-07 00:17:26', '2024-02-07 00:17:26'),
+(55, 14, 'Wheels :', NULL, '2024-02-07 00:17:26', '2024-02-07 00:17:26'),
+(56, 15, 'Frame :', NULL, '2024-02-07 00:19:03', '2024-02-07 00:19:03'),
+(57, 15, 'Weight Capacity :', NULL, '2024-02-07 00:19:03', '2024-02-07 00:19:03'),
+(58, 15, 'Width :', NULL, '2024-02-07 00:19:03', '2024-02-07 00:19:03'),
+(59, 15, 'Height :', NULL, '2024-02-07 00:19:03', '2024-02-07 00:19:03'),
+(60, 15, 'Wheels :', NULL, '2024-02-07 00:19:03', '2024-02-07 00:19:03');
 
 -- --------------------------------------------------------
 
@@ -2115,7 +2125,10 @@ INSERT INTO `product_extras` (`id`, `product_id`, `warranty_type`, `return_polic
 (4, 4, '1 years', '3 days', '1', 'Available', '2024-01-18 00:45:30', '2024-01-18 00:45:30'),
 (6, 6, '5year', '7days', '1', 'Available', '2024-01-18 00:58:48', '2024-01-18 00:58:48'),
 (8, 9, NULL, NULL, '0', 'Available', '2024-01-18 01:36:17', '2024-01-18 01:36:17'),
-(9, 12, NULL, NULL, '0', 'Available', '2024-01-18 01:56:06', '2024-01-18 01:56:06');
+(9, 12, NULL, NULL, '0', 'Available', '2024-01-18 01:56:06', '2024-01-18 01:56:06'),
+(10, 13, NULL, NULL, '1', 'Available', '2024-02-06 02:22:45', '2024-02-06 02:22:45'),
+(11, 14, NULL, NULL, '1', 'Available', '2024-02-07 00:17:26', '2024-02-07 00:17:26'),
+(12, 15, NULL, 'NO', '2', 'Available', '2024-02-07 00:19:03', '2024-02-07 00:19:03');
 
 -- --------------------------------------------------------
 
@@ -2155,7 +2168,20 @@ INSERT INTO `product_images` (`id`, `product_id`, `product_image`, `slug`, `crea
 (22, 6, 'cristal-crest_0_1705561128.png', '', '2024-01-18 00:58:48', '2024-01-18 00:58:48'),
 (23, 6, 'cristal-crest_1_1705561128.jpg', '', '2024-01-18 00:58:48', '2024-01-18 00:58:48'),
 (25, 9, 'fabrilife-mens-multi-shades-hoodie-stormy-sea_0_1705563377.png', '', '2024-01-18 01:36:17', '2024-01-18 01:36:17'),
-(26, 12, 'city-boy-premium-printed-mens-winter-jacket_0_1705564566.png', '', '2024-01-18 01:56:06', '2024-01-18 01:56:06');
+(26, 12, 'city-boy-premium-printed-mens-winter-jacket_0_1705564566.png', '', '2024-01-18 01:56:06', '2024-01-18 01:56:06'),
+(28, 13, 'aaa_1.webp', '', '2024-02-06 02:22:45', '2024-02-06 02:22:45'),
+(29, 13, 'aaa_2.webp', '', '2024-02-06 02:22:45', '2024-02-06 02:22:45'),
+(31, 14, 'sada-panjabi_0_1707286645.webp', '', '2024-02-07 00:17:25', '2024-02-07 00:17:25'),
+(32, 14, 'sada-panjabi_1_1707286645.webp', '', '2024-02-07 00:17:26', '2024-02-07 00:17:26'),
+(33, 14, 'sada-panjabi_2_1707286646.webp', '', '2024-02-07 00:17:26', '2024-02-07 00:17:26'),
+(34, 14, 'sada-panjabi_3_1707286646.webp', '', '2024-02-07 00:17:26', '2024-02-07 00:17:26'),
+(35, 14, 'sada-panjabi_4_1707286646.webp', '', '2024-02-07 00:17:26', '2024-02-07 00:17:26'),
+(37, 15, 'polo-t-shirt_0_1707286742.webp', '', '2024-02-07 00:19:02', '2024-02-07 00:19:02'),
+(38, 15, 'polo-t-shirt_1_1707286742.webp', '', '2024-02-07 00:19:03', '2024-02-07 00:19:03'),
+(39, 15, 'polo-t-shirt_2_1707286743.webp', '', '2024-02-07 00:19:03', '2024-02-07 00:19:03'),
+(40, 15, 'polo-t-shirt_3_1707286743.jpg', '', '2024-02-07 00:19:03', '2024-02-07 00:19:03'),
+(41, 15, 'polo-t-shirt_4_1707286743.webp', '', '2024-02-07 00:19:03', '2024-02-07 00:19:03'),
+(42, 15, 'polo-t-shirt_5_1707286743.jpg', '', '2024-02-07 00:19:03', '2024-02-07 00:19:03');
 
 -- --------------------------------------------------------
 
@@ -2185,7 +2211,10 @@ INSERT INTO `product_overviews` (`id`, `product_id`, `overview_name`, `overview_
 (8, 4, 'badrujjaman', 'badrujjaman', '2024-01-18 00:45:30', '2024-01-18 00:45:30'),
 (10, 6, 'Type Of Packing :', 'masud vai', '2024-01-18 00:58:48', '2024-01-18 00:58:48'),
 (12, 9, 'Type Of Packing :', 'Paper Box', '2024-01-18 01:36:17', '2024-01-18 01:36:17'),
-(13, 12, 'Type Of Packing :', 'Paper Box', '2024-01-18 01:56:06', '2024-01-18 01:56:06');
+(13, 12, 'Type Of Packing :', 'Paper Box', '2024-01-18 01:56:06', '2024-01-18 01:56:06'),
+(14, 13, 'Type Of Packing :', 'sdsd', '2024-02-06 02:22:45', '2024-02-06 02:22:45'),
+(15, 14, 'Type Of Packing :', 'Yes', '2024-02-07 00:17:26', '2024-02-07 00:17:26'),
+(16, 15, 'Type Of Packing :', 'Yes', '2024-02-07 00:19:03', '2024-02-07 00:19:03');
 
 -- --------------------------------------------------------
 
@@ -2213,7 +2242,10 @@ INSERT INTO `product_prices` (`id`, `product_id`, `offer_price`, `percentage`, `
 (3, 4, '0', '0', NULL, '2024-01-18 00:45:30', '2024-01-18 00:50:20'),
 (4, 6, '0', NULL, NULL, '2024-01-18 00:58:48', '2024-01-18 00:58:48'),
 (5, 12, '0', NULL, NULL, '2024-01-18 01:56:06', '2024-01-18 01:56:06'),
-(6, 9, '0', NULL, NULL, NULL, NULL);
+(6, 9, '0', NULL, NULL, NULL, NULL),
+(7, 13, '588', '2', '12', '2024-02-06 02:22:45', '2024-02-06 02:22:45'),
+(8, 14, '15300', '10', '1700', '2024-02-07 00:17:26', '2024-02-07 00:17:26'),
+(9, 15, '0', NULL, NULL, '2024-02-07 00:19:03', '2024-02-07 00:19:03');
 
 -- --------------------------------------------------------
 
@@ -2244,7 +2276,46 @@ INSERT INTO `product_tags` (`id`, `product_id`, `tag`, `created_at`, `updated_at
 (8, 3, 'pants', '2024-01-14 02:11:58', '2024-01-14 02:11:58'),
 (9, 4, '', '2024-01-18 00:45:30', '2024-01-18 00:45:30'),
 (10, 6, '', '2024-01-18 00:58:48', '2024-01-18 00:58:48'),
-(11, 12, '', '2024-01-18 01:56:06', '2024-01-18 01:56:06');
+(11, 12, '', '2024-01-18 01:56:06', '2024-01-18 01:56:06'),
+(12, 13, 'a', '2024-02-06 02:22:45', '2024-02-06 02:22:45'),
+(13, 13, 's', '2024-02-06 02:22:45', '2024-02-06 02:22:45'),
+(14, 13, 'f', '2024-02-06 02:22:45', '2024-02-06 02:22:45'),
+(15, 13, '', '2024-02-06 04:28:00', '2024-02-06 04:28:00'),
+(16, 14, 'v', '2024-02-07 00:17:26', '2024-02-07 00:17:26'),
+(17, 14, 'f', '2024-02-07 00:17:26', '2024-02-07 00:17:26'),
+(18, 14, 'gh', '2024-02-07 00:17:26', '2024-02-07 00:17:26'),
+(19, 15, 'sd', '2024-02-07 00:19:03', '2024-02-07 00:19:03'),
+(20, 15, 'df d', '2024-02-07 00:19:03', '2024-02-07 00:19:03'),
+(21, 15, 'd', '2024-02-07 00:19:03', '2024-02-07 00:19:03'),
+(22, 15, 'fd d', '2024-02-07 00:19:03', '2024-02-07 00:19:03'),
+(23, 15, 'fdf d', '2024-02-07 00:19:03', '2024-02-07 00:19:03'),
+(24, 14, '', '2024-02-08 05:28:44', '2024-02-08 05:28:44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_thumbnails`
+--
+
+CREATE TABLE `product_thumbnails` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `product_thumbnail` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `product_thumbnails`
+--
+
+INSERT INTO `product_thumbnails` (`id`, `product_id`, `product_thumbnail`, `slug`, `created_at`, `updated_at`) VALUES
+(3, 13, 'aaa_0_1707218757.webp', '', '2024-02-06 05:25:57', '2024-02-06 05:25:57'),
+(6, 15, 'polo-t-shirt_0_1707286742.webp', '', '2024-02-07 00:19:02', '2024-02-07 00:19:02'),
+(7, 15, 'polo-t-shirt_1_1707286742.webp', '', '2024-02-07 00:19:02', '2024-02-07 00:19:02'),
+(12, 14, 'sada-panjabi_0_1707638689.jpg', '', '2024-02-11 02:04:50', '2024-02-11 02:04:50'),
+(13, 14, 'sada-panjabi_1_1707638690.jpg', '', '2024-02-11 02:04:50', '2024-02-11 02:04:50');
 
 -- --------------------------------------------------------
 
@@ -2269,12 +2340,7 @@ CREATE TABLE `register_customers` (
 --
 
 INSERT INTO `register_customers` (`id`, `customer_id`, `phone`, `email`, `password`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 31, '01601958560', 'arifhosse55@gmail.com', '$2y$12$oyxR.yqD4uyNmEHA3Baa6.n.JNUHpiyfkv9Ek8VugrrpPdAKAF6Hy', 'registerd', NULL, '2024-01-17 04:20:37', '2024-01-24 04:11:43'),
-(2, 33, '01303638637', 'arifhosse5@gmail.com', '$2y$12$ThuQLFrM2S82H5DGhng4duqJCpMNpU1Na9fynBCn62EiGCfwjztmW', 'registerd', NULL, '2024-01-18 01:21:02', '2024-01-18 01:21:02'),
-(3, 34, '01795795443', 'arifhosse123@gmail.com', '$2y$12$jNZrYx6A.vdDSKCQRMp/D.QzSFDbijOSpE.5MCNA1nFfUjEkvcQJ.', 'registerd', NULL, '2024-01-20 22:19:03', '2024-01-20 22:19:03'),
-(4, 35, '01601958562', 'hasan.abir@gmail.com', '$2y$12$V1.4Ws/Br/xBPmeoaSh0puSWXgMP1c0SgoWCTXHronsICsEhnZ6Qy', 'registerd', NULL, '2024-01-20 23:37:45', '2024-01-20 23:37:45'),
-(5, 36, '01601958563', 'hasan.abir1@gmail.com', '$2y$12$g/kfL3jFreg5EaF8kMonLuKfnX2VTcz3sQydIkki2NjIJKVesZzgO', 'registerd', NULL, '2024-01-20 23:42:29', '2024-01-20 23:42:29'),
-(6, 37, '01601958566', 'arifhossen560@gmail.com', '$2y$12$BRNgWc5c/PW4Jt.QYvFL4eRaimLDavfMMlm5RxnwnpzdXSC8Qbvxy', 'registerd', NULL, '2024-01-20 23:47:07', '2024-01-20 23:47:07');
+(9, 41, '01795795441', 'arifhosse12@gmail.com', '$2y$12$UR4aRWslWlmIVZwYE3o0NOqjZ/75C5g7DXf6lrR7dADtlPj8x6.2a', 'registerd', NULL, '2024-02-07 00:22:46', '2024-02-07 00:22:46');
 
 -- --------------------------------------------------------
 
@@ -2303,11 +2369,7 @@ CREATE TABLE `shippings` (
 --
 
 INSERT INTO `shippings` (`id`, `customer_id`, `order_id`, `first_name`, `last_name`, `s_phone`, `s_email`, `shipping_add`, `division`, `district`, `area`, `created_at`, `updated_at`) VALUES
-(15, 31, 27, 'Arif', 'Hossen', '01303638635', 'arifhosse@gmail.com', '522/B North Shajahanpur, Dhaka.', '3', '1', 469, '2024-01-17 04:20:37', '2024-01-24 02:05:57'),
-(16, 32, 28, 'Hasan', 'Ali', '01303638631', 'arifhosse12@gmail.com', '23 Gondersor, chilmari, cumilla', '2', '44', 293, '2024-01-18 00:18:43', '2024-01-18 00:18:43'),
-(17, 33, 29, 'Arif', 'Hossen', '01601958560', 'arifhosse5@gmail.com', '23 Gondersor, chilmari, cumilla', '3', '3', 539, '2024-01-18 01:21:02', '2024-01-24 02:03:18'),
-(18, 34, 38, 'Abir', 'Hossain', '01795795443', 'arifhosse123@gmail.com', '512/c North Shajahanpur, Dhaka', '3', '1', 453, '2024-01-20 22:19:03', '2024-01-20 22:19:03'),
-(19, 38, 43, 'Arif', 'Hossen', '01601958560', 'arif@gmail.com', '186 east Rasulpur, Jatrabari, dhaka', '3', '1', 461, '2024-01-30 00:29:22', '2024-01-30 00:29:22');
+(22, 41, 48, 'Arif', 'Hossen', '01795795441', 'arifhosse12@gmail.com', '522/B North Shajahanpur, Dhaka', '3', '1', 458, '2024-02-07 00:22:46', '2024-02-07 00:22:46');
 
 -- --------------------------------------------------------
 
@@ -2322,6 +2384,13 @@ CREATE TABLE `shoppingcart` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `shoppingcart`
+--
+
+INSERT INTO `shoppingcart` (`identifier`, `instance`, `content`, `created_at`, `updated_at`) VALUES
+('arifhosse12@gmail.com', 'wishlist', 'O:29:\"Illuminate\\Support\\Collection\":2:{s:8:\"\0*\0items\";a:2:{s:32:\"955d7809eac3f605daf95746d7eccb74\";O:32:\"Gloudemans\\Shoppingcart\\CartItem\":9:{s:5:\"rowId\";s:32:\"955d7809eac3f605daf95746d7eccb74\";s:2:\"id\";i:15;s:3:\"qty\";i:1;s:4:\"name\";s:12:\"Polo T shirt\";s:5:\"price\";d:6000;s:7:\"options\";O:39:\"Gloudemans\\Shoppingcart\\CartItemOptions\":2:{s:8:\"\0*\0items\";a:2:{s:5:\"image\";O:24:\"App\\Models\\Product_image\":30:{s:13:\"\0*\0connection\";s:5:\"mysql\";s:8:\"\0*\0table\";s:14:\"product_images\";s:13:\"\0*\0primaryKey\";s:2:\"id\";s:10:\"\0*\0keyType\";s:3:\"int\";s:12:\"incrementing\";b:1;s:7:\"\0*\0with\";a:0:{}s:12:\"\0*\0withCount\";a:0:{}s:19:\"preventsLazyLoading\";b:0;s:10:\"\0*\0perPage\";i:15;s:6:\"exists\";b:1;s:18:\"wasRecentlyCreated\";b:0;s:28:\"\0*\0escapeWhenCastingToString\";b:0;s:13:\"\0*\0attributes\";a:1:{s:13:\"product_image\";s:30:\"polo-t-shirt_0_1707286742.webp\";}s:11:\"\0*\0original\";a:1:{s:13:\"product_image\";s:30:\"polo-t-shirt_0_1707286742.webp\";}s:10:\"\0*\0changes\";a:0:{}s:8:\"\0*\0casts\";a:0:{}s:17:\"\0*\0classCastCache\";a:0:{}s:21:\"\0*\0attributeCastCache\";a:0:{}s:13:\"\0*\0dateFormat\";N;s:10:\"\0*\0appends\";a:0:{}s:19:\"\0*\0dispatchesEvents\";a:0:{}s:14:\"\0*\0observables\";a:0:{}s:12:\"\0*\0relations\";a:0:{}s:10:\"\0*\0touches\";a:0:{}s:10:\"timestamps\";b:1;s:13:\"usesUniqueIds\";b:0;s:9:\"\0*\0hidden\";a:0:{}s:10:\"\0*\0visible\";a:0:{}s:11:\"\0*\0fillable\";a:2:{i:0;s:10:\"product_id\";i:1;s:13:\"product_image\";}s:10:\"\0*\0guarded\";a:1:{i:0;s:1:\"*\";}}s:4:\"slug\";s:12:\"polo-t-shirt\";}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}s:49:\"\0Gloudemans\\Shoppingcart\\CartItem\0associatedModel\";N;s:41:\"\0Gloudemans\\Shoppingcart\\CartItem\0taxRate\";i:5;s:41:\"\0Gloudemans\\Shoppingcart\\CartItem\0isSaved\";b:0;}s:32:\"9d2fa7a7c364fc4206960bcf00437296\";O:32:\"Gloudemans\\Shoppingcart\\CartItem\":9:{s:5:\"rowId\";s:32:\"9d2fa7a7c364fc4206960bcf00437296\";s:2:\"id\";i:14;s:3:\"qty\";i:1;s:4:\"name\";s:12:\"Sada Panjabi\";s:5:\"price\";d:15300;s:7:\"options\";O:39:\"Gloudemans\\Shoppingcart\\CartItemOptions\":2:{s:8:\"\0*\0items\";a:2:{s:5:\"image\";O:24:\"App\\Models\\Product_image\":30:{s:13:\"\0*\0connection\";s:5:\"mysql\";s:8:\"\0*\0table\";s:14:\"product_images\";s:13:\"\0*\0primaryKey\";s:2:\"id\";s:10:\"\0*\0keyType\";s:3:\"int\";s:12:\"incrementing\";b:1;s:7:\"\0*\0with\";a:0:{}s:12:\"\0*\0withCount\";a:0:{}s:19:\"preventsLazyLoading\";b:0;s:10:\"\0*\0perPage\";i:15;s:6:\"exists\";b:1;s:18:\"wasRecentlyCreated\";b:0;s:28:\"\0*\0escapeWhenCastingToString\";b:0;s:13:\"\0*\0attributes\";a:1:{s:13:\"product_image\";s:30:\"sada-panjabi_0_1707286645.webp\";}s:11:\"\0*\0original\";a:1:{s:13:\"product_image\";s:30:\"sada-panjabi_0_1707286645.webp\";}s:10:\"\0*\0changes\";a:0:{}s:8:\"\0*\0casts\";a:0:{}s:17:\"\0*\0classCastCache\";a:0:{}s:21:\"\0*\0attributeCastCache\";a:0:{}s:13:\"\0*\0dateFormat\";N;s:10:\"\0*\0appends\";a:0:{}s:19:\"\0*\0dispatchesEvents\";a:0:{}s:14:\"\0*\0observables\";a:0:{}s:12:\"\0*\0relations\";a:0:{}s:10:\"\0*\0touches\";a:0:{}s:10:\"timestamps\";b:1;s:13:\"usesUniqueIds\";b:0;s:9:\"\0*\0hidden\";a:0:{}s:10:\"\0*\0visible\";a:0:{}s:11:\"\0*\0fillable\";a:2:{i:0;s:10:\"product_id\";i:1;s:13:\"product_image\";}s:10:\"\0*\0guarded\";a:1:{i:0;s:1:\"*\";}}s:4:\"slug\";s:12:\"sada-panjabi\";}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}s:49:\"\0Gloudemans\\Shoppingcart\\CartItem\0associatedModel\";N;s:41:\"\0Gloudemans\\Shoppingcart\\CartItem\0taxRate\";i:5;s:41:\"\0Gloudemans\\Shoppingcart\\CartItem\0isSaved\";b:0;}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}', '2024-02-12 04:27:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -2350,6 +2419,30 @@ INSERT INTO `sizes` (`id`, `size_name`, `size`, `status`, `created_at`, `updated
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sliders`
+--
+
+CREATE TABLE `sliders` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `subtitle` varchar(255) NOT NULL,
+  `slider_url` varchar(255) DEFAULT NULL,
+  `image` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sliders`
+--
+
+INSERT INTO `sliders` (`id`, `title`, `subtitle`, `slider_url`, `image`, `created_at`, `updated_at`) VALUES
+(5, 'New Arrivals', 'Men\'s Collection 2024', 'https://koohen.com/shop', 'slider/1707386438.jpg', '2024-02-08 04:00:38', '2024-02-08 04:00:38'),
+(6, 'New Arrivals', 'Men\'s Collection 2024', 'https://koohen.com/shop', 'slider/1707394541.jpg', '2024-02-08 06:15:41', '2024-02-08 06:15:41');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `subcategories`
 --
 
@@ -2363,16 +2456,6 @@ CREATE TABLE `subcategories` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `subcategories`
---
-
-INSERT INTO `subcategories` (`id`, `category_id`, `subcategory_name`, `subcategory_image`, `slug`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'New Subcategory', 'New Subcategory_1705563025.jpg', 'new-subcategory', '1', '2024-01-11 01:52:09', '2024-01-18 01:30:25'),
-(2, 2, 'wooden crest', 'wooden crest_1705560218.png', 'wooden-crest', '1', '2024-01-18 00:43:38', '2024-01-18 00:43:38'),
-(5, 1, 'Men\'s Fashion', 'Male Item_1705562540.png', 'male-item', '1', '2024-01-18 01:22:20', '2024-01-18 01:30:44'),
-(6, 9, 'Man', 'Man_1705564266.png', 'man', '1', '2024-01-18 01:51:06', '2024-01-18 01:51:06');
 
 -- --------------------------------------------------------
 
@@ -2420,22 +2503,9 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`id`, `customer_id`, `order_id`, `mode`, `status`, `created_at`, `updated_at`) VALUES
-(15, 31, 27, 'cod', 'pending', '2024-01-17 04:20:37', '2024-01-17 04:20:37'),
-(16, 32, 28, 'cod', 'pending', '2024-01-18 00:18:43', '2024-01-18 00:18:43'),
-(17, 33, 29, 'cod', 'pending', '2024-01-18 01:21:02', '2024-01-18 01:21:02'),
-(18, 31, 30, 'cod', 'pending', '2024-01-18 05:13:36', '2024-01-18 05:13:36'),
-(19, 31, 31, 'cod', 'pending', '2024-01-18 05:15:57', '2024-01-18 05:15:57'),
-(20, 31, 32, 'cod', 'pending', '2024-01-18 05:16:46', '2024-01-18 05:16:46'),
-(21, 31, 33, 'cod', 'pending', '2024-01-18 05:55:48', '2024-01-18 05:55:48'),
-(22, 31, 34, 'cod', 'pending', '2024-01-18 05:56:12', '2024-01-18 05:56:12'),
-(23, 31, 35, 'cod', 'pending', '2024-01-18 06:00:48', '2024-01-18 06:00:48'),
-(24, 33, 36, 'cod', 'pending', '2024-01-18 06:04:32', '2024-01-18 06:04:32'),
-(25, 33, 37, 'cod', 'pending', '2024-01-20 22:15:48', '2024-01-20 22:15:48'),
-(26, 34, 38, 'cod', 'pending', '2024-01-20 22:19:03', '2024-01-20 22:19:03'),
-(27, 33, 40, 'cod', 'pending', '2024-01-22 03:31:52', '2024-01-22 03:31:52'),
-(28, 33, 41, 'cod', 'pending', '2024-01-22 05:38:42', '2024-01-22 05:38:42'),
-(29, 31, 42, 'cod', 'pending', '2024-01-24 05:47:46', '2024-01-24 05:47:46'),
-(30, 38, 43, 'cod', 'pending', '2024-01-30 00:29:22', '2024-01-30 00:29:22');
+(35, 41, 48, 'cod', 'pending', '2024-02-07 00:22:46', '2024-02-07 00:22:46'),
+(36, 41, 49, 'cod', 'pending', '2024-02-07 00:26:41', '2024-02-07 00:26:41'),
+(37, 41, 50, 'cod', 'pending', '2024-02-07 00:42:58', '2024-02-07 00:42:58');
 
 -- --------------------------------------------------------
 
@@ -2975,7 +3045,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'admin@evara.com', '2024-01-11 01:33:04', '$2y$12$LYwVhmz7qzsHVZ7YrDhXnuDsLIJ7WvgJitmJ9rVjj8Hs84Wm9Tgxy', 'Lzz2REmkNKQVF6iGVcZRzwUH3I5om143JUMfeZ27Kf9xlUFMBMWgsmOU9EJJ', '2024-01-11 01:33:04', '2024-01-11 01:33:04');
+(1, 'Admin', 'admin@koohen.com', NULL, '$2y$12$LYwVhmz7qzsHVZ7YrDhXnuDsLIJ7WvgJitmJ9rVjj8Hs84Wm9Tgxy', 'Lzz2REmkNKQVF6iGVcZRzwUH3I5om143JUMfeZ27Kf9xlUFMBMWgsmOU9EJJ', '2024-01-11 01:33:04', '2024-02-05 01:56:41');
 
 -- --------------------------------------------------------
 
@@ -2992,6 +3062,12 @@ CREATE TABLE `varients` (
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `ads`
+--
+ALTER TABLE `ads`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `brands`
@@ -3059,6 +3135,13 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indexes for table `feature_categories`
+--
+ALTER TABLE `feature_categories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `feature_categories_category_id_foreign` (`category_id`);
+
+--
 -- Indexes for table `media`
 --
 ALTER TABLE `media`
@@ -3081,6 +3164,7 @@ ALTER TABLE `offers`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `order_track_id` (`order_track_id`),
   ADD KEY `orders_customer_id_foreign` (`customer_id`);
 
 --
@@ -3131,7 +3215,7 @@ ALTER TABLE `products`
   ADD UNIQUE KEY `products_slug_unique` (`slug`),
   ADD KEY `products_brand_id_foreign` (`brand_id`),
   ADD KEY `products_category_id_foreign` (`category_id`),
-  ADD KEY `products_subcategory_id_foreign` (`subcategory_id`);
+  ADD KEY `products_subcategory_id_foreign` (`supplier_id`);
 
 --
 -- Indexes for table `products_colors`
@@ -3192,6 +3276,13 @@ ALTER TABLE `product_tags`
   ADD KEY `product_tags_product_id_foreign` (`product_id`);
 
 --
+-- Indexes for table `product_thumbnails`
+--
+ALTER TABLE `product_thumbnails`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_thumbnails_product_id_foreign` (`product_id`);
+
+--
 -- Indexes for table `register_customers`
 --
 ALTER TABLE `register_customers`
@@ -3218,6 +3309,12 @@ ALTER TABLE `shoppingcart`
 -- Indexes for table `sizes`
 --
 ALTER TABLE `sizes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sliders`
+--
+ALTER TABLE `sliders`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -3267,6 +3364,12 @@ ALTER TABLE `varients`
 --
 
 --
+-- AUTO_INCREMENT for table `ads`
+--
+ALTER TABLE `ads`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
@@ -3300,7 +3403,7 @@ ALTER TABLE `coupons`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `delivery_zones`
@@ -3321,6 +3424,12 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `feature_categories`
+--
+ALTER TABLE `feature_categories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `media`
 --
 ALTER TABLE `media`
@@ -3330,7 +3439,7 @@ ALTER TABLE `media`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `offers`
@@ -3342,19 +3451,19 @@ ALTER TABLE `offers`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `orderstatuses`
 --
 ALTER TABLE `orderstatuses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -3372,73 +3481,85 @@ ALTER TABLE `postcodes`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `products_colors`
 --
 ALTER TABLE `products_colors`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `products_sizes`
 --
 ALTER TABLE `products_sizes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `product_additionalinfos`
 --
 ALTER TABLE `product_additionalinfos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `product_extras`
 --
 ALTER TABLE `product_extras`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `product_overviews`
 --
 ALTER TABLE `product_overviews`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `product_prices`
 --
 ALTER TABLE `product_prices`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `product_tags`
 --
 ALTER TABLE `product_tags`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `product_thumbnails`
+--
+ALTER TABLE `product_thumbnails`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `register_customers`
 --
 ALTER TABLE `register_customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `shippings`
 --
 ALTER TABLE `shippings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `sizes`
 --
 ALTER TABLE `sizes`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `sliders`
+--
+ALTER TABLE `sliders`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `subcategories`
@@ -3456,7 +3577,7 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `upazillas`
@@ -3485,6 +3606,12 @@ ALTER TABLE `varients`
 --
 ALTER TABLE `delivery_zones`
   ADD CONSTRAINT `delivery_zones_district_id_foreign` FOREIGN KEY (`district_id`) REFERENCES `districts` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `feature_categories`
+--
+ALTER TABLE `feature_categories`
+  ADD CONSTRAINT `feature_categories_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `orders`
@@ -3520,7 +3647,7 @@ ALTER TABLE `postcodes`
 ALTER TABLE `products`
   ADD CONSTRAINT `products_brand_id_foreign` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `products_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `products_subcategory_id_foreign` FOREIGN KEY (`subcategory_id`) REFERENCES `subcategories` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `products_supplier_id_foreign` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `products_colors`
@@ -3573,6 +3700,12 @@ ALTER TABLE `product_tags`
   ADD CONSTRAINT `product_tags_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `product_thumbnails`
+--
+ALTER TABLE `product_thumbnails`
+  ADD CONSTRAINT `product_thumbnails_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `register_customers`
 --
 ALTER TABLE `register_customers`
@@ -3587,23 +3720,11 @@ ALTER TABLE `shippings`
   ADD CONSTRAINT `shippings_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `subcategories`
---
-ALTER TABLE `subcategories`
-  ADD CONSTRAINT `subcategories_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
-
---
 -- Constraints for table `transactions`
 --
 ALTER TABLE `transactions`
   ADD CONSTRAINT `transactions_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `transactions_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `upazillas`
---
-ALTER TABLE `upazillas`
-  ADD CONSTRAINT `upazillas_district_id_foreign` FOREIGN KEY (`district_id`) REFERENCES `districts` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

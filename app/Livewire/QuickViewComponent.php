@@ -12,21 +12,6 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 class QuickViewComponent extends Component
 {
 
-    public $slug;
-    public $product;
-
-    // public function showQuickView($slug)
-    // {
-    //     $this->slug = $slug;
-    //     // $this->dispatch('showQuickViewModal')->to('quick-view-component');
-    // }
-    // public function mount($slug)
-    // {
-    //     $this->slug = $slug;
-    //     // $this->loadProduct();
-    // }
-
-
     public function store($id)
     {
         $product = Products::find($id);
@@ -36,8 +21,7 @@ class QuickViewComponent extends Component
         {
             $item_price = $offer_price;
         }
-        else
-        {
+        else{
             $item_price = $product->regular_price;
         }
         // $item_price = $product->regular_price;
@@ -53,11 +37,15 @@ class QuickViewComponent extends Component
     }
 
     // buy now product by cart
-    public function buyNow($id)
+    public $productId;
+    
+    public function buyNow()
     {
-        $product = Products::find($id);
+        $product = Products::find($this->productId);
+
         $item_id = $product->id;
         $item_name = $product->product_name;
+
         $item_qty = session()->get('quantity') + 1;
         $item_size = session()->get('product_size');
         $item_color = session()->get('product_color');
@@ -66,7 +54,8 @@ class QuickViewComponent extends Component
         $item_price = ($offer_price > 0) ? $offer_price : $product->regular_price;
 
         $item_slug = $product->slug;
-        $item_image = Product_image::where('product_id', $id)->select('product_image')->first();
+        $item_image = Product_image::where('product_id', $this->productId)->select('product_image')->first();
+
         $item_data = Cart::add($item_id,$item_name,$item_qty,$item_price,
         ['image' => $item_image,
         'slug' => $item_slug,
@@ -99,28 +88,7 @@ class QuickViewComponent extends Component
 
     public function render()
     {
-
         return view('livewire.quick-view-component');
     }
 
-    public function loadProduct()
-    {
-        $this->product = Products::with([
-
-            'overviews',
-            'product_infos',
-            'product_images',
-            'product_extras',
-            'tags',
-            'sizes',
-            'colors',
-            'brand',
-            'category',
-            'subcategory',
-            'product_price',
-
-        ])->where('slug', $this->slug)->first();
-
-        // $this->dispatch('quick-view-component', ['product' => $this->product]);
-    }
 }

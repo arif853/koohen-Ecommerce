@@ -14,7 +14,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('admin/assets/imgs/theme/favicon.ico')}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('admin/assets/imgs/favicon_48x48.ico')}}">
     {{-- <link href="{{asset('admin/assets/css/summernote-bs4.min.css')}}" rel="stylesheet"> --}}
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/thinline.css">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
@@ -60,7 +60,7 @@
                 <div class="col-sm-6">
                     <script>
                     document.write(new Date().getFullYear())
-                    </script> ©, Evara - HTML Ecommerce Template .
+                    </script> ©, Koohen  - Admin Dashboard  .
                 </div>
                 <div class="col-sm-6">
                     <div class="text-sm-end">
@@ -111,6 +111,7 @@
     <script src="{{asset('admin/assets/vendors/form-wizard/jquery.bootstrap.wizard.js')}}"></script>
     <script src="{{asset('admin/assets/vendors/form-wizard/gsdk-bootstrap-wizard.js')}}"></script>
     {{-- <script src="{{asset('admin/assets/vendors/form-wizard/step-init.js')}}"></script> --}}
+
     <!-- Main Script -->
     <script src="{{asset('admin/assets/js/main.js')}}" type="text/javascript"></script>
     <script src="{{asset('admin/assets/js/custom-chart.js')}}" type="text/javascript"></script>
