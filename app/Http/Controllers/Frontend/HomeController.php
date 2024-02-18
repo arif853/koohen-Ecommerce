@@ -4,19 +4,18 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Models\Ads;
 use App\Models\Slider;
-<<<<<<< HEAD
+
 use App\Models\Setting;
-=======
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+
 use App\Models\Campaign;
->>>>>>> master
+
 use App\Models\Category;
 use App\Models\Division;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use App\Models\Feature_category;
 use App\Http\Controllers\Controller;
+use Termwind\Components\Raw;
 
 class HomeController extends Controller
 {
@@ -160,4 +159,5 @@ class HomeController extends Controller
     {
         //
     }
+  
 }
