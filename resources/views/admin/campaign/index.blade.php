@@ -5,10 +5,6 @@
 <div class="content-header">
     <a href="javascript:history.back()"><i class="material-icons md-arrow_back"></i> Go back </a>
 </div>
-<<<<<<< HEAD
-<h2>It is not the man who has too little, but the man who craves more, that is poor. - Seneca</h2>
-=======
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 
 <div>
     <div class="content-header">
@@ -29,33 +25,13 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
-<<<<<<< HEAD
-                <div class="card-header">
-=======
                 {{-- <div class="card-header">
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
                     <form class="form-inline search-form search-box pull-right">
                         <div class="form-group">
                             <input class="form-control-plaintext" type="search" placeholder="Search..">
                         </div>
                     </form>
 
-<<<<<<< HEAD
-                </div>
-
-                <div class="card-body">
-                    <div>
-                        <div class="table-responsive table-desi">
-                            <table class="all-package coupon-table table table-striped" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <input class="checkbox_animated check-it" type="checkbox" value="" id="flexCheckDefault" data-id="1">
-                                        </th>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Image</th>
-=======
                 </div> --}}
                 <style>
                     .table tr td{
@@ -74,30 +50,11 @@
                                         <th width=5%>ID</th>
                                         <th>Name</th>
                                         <th >Image</th>
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-<<<<<<< HEAD
-                                    <tr >
-                                        <td>
-                                            <input class="checkbox_animated check-it" type="checkbox" value="" id="flexCheckDefault" data-id="1">
-                                        </td>
-                                        <td>1</td>
-                                        <td>10% Off</td>
-
-                                        <td>2143235</td>
-
-                                        <td>10%</td>
-
-                                        <td class="order-warning">
-                                            <span>Waiting</span>
-                                        </td>
-                                    </tr>
-
-=======
                                     @foreach ($campaigns as $key => $campaign)
                                     <tr >
                                         <td class="text-center">
@@ -136,7 +93,6 @@
 
                                     @endforeach
 
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
 
                                 </tbody>
                             </table>
@@ -149,9 +105,6 @@
 
 </div>
 
-<<<<<<< HEAD
-@endsection
-=======
 <h6>It is not the man who has too little, but the man who craves more, that is poor. - Seneca</h6>
 
 @endsection
@@ -182,4 +135,3 @@
 </script>
 
 @endpush
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091

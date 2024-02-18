@@ -449,8 +449,6 @@
                 }
             ],
             "time": "2024-02-05T11:56:58+00:00"
-<<<<<<< HEAD
-=======
         },
         {
             "name": "dompdf/dompdf",
@@ -513,7 +511,6 @@
                 "source": "https://github.com/dompdf/dompdf/tree/v2.0.4"
             },
             "time": "2023-12-12T20:19:39+00:00"
->>>>>>> 71d6d2e3987b20dd12848d8991cc00ea1bbbd091
         },
         {
             "name": "dragonmantank/cron-expression",
@@ -8816,5 +8813,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
