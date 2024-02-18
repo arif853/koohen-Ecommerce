@@ -108,7 +108,7 @@ class OrderController extends Controller
             // Add color and size information to the product if needed
             $product->color = $color;
             $product->size = $size;
-            
+
             $orderProducts->push($product);
         }
         // $customer = $order->customer;
@@ -418,43 +418,9 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-          //$filename = 'Invoice_Sheet';
 
-        // $pdf= PDF::loadView('admin.order.invoice',['order'=>$order],[],
-        //     [
-        //         'mode'                 => '',
-        //         'format'               => 'A5',
-        //         'default_font_size'    => '12',
-        //         'default_font'         => 'sans-serif',
-        //         'margin_left'          => 5,
-        //         'margin_right'         => 5,
-        //         'margin_top'           => 10,
-        //         'margin_bottom'        => 21,
-        //         'margin_header'        => 0,
-        //         'margin_footer'        => 0,
-        //         'orientation'          => 'P',
-        //         'title'                => 'Laravel mPDF',
-        //         'author'               => '',
-        //         'watermark'            => '',
-        //         'show_watermark'       => false,
-        //         'watermark_font'       => 'sans-serif',
-        //         'display_mode'         => 'fullpage',
-        //         'watermark_text_alpha' => 0.1,
-        //         'custom_font_dir'      => '',
-        //         'custom_font_data' 	   => [],
-        //         'auto_language_detection'  => false,
-        //         'temp_dir'               => rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR),
-        //         'pdfa' 			=> false,
-        //         'pdfaauto' 		=> false,
-        //     ]
-        // );
-        // return $pdf->stream($filename.'.pdf');
-    }
     public function orderInvocie($id){
-        ini_set('max_execution_time',3600); 
+        ini_set('max_execution_time',3600);
         $order = Order::with('customer','order_item','order_item.product','order_item.product.sizes')
         ->where('id', $id)
         ->first();

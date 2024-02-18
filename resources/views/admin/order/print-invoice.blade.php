@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   
+
     <link href="{{ url('/admin/assets/css/print.css') }}" rel="stylesheet">
     <title>Koohen Invoice</title>
    <style>
@@ -32,7 +32,7 @@
                 <div class="logo_invoice_wrap">
                     <div class="logo_sec">
                         <img src="{{ asset('/') }}frontend/assets/imgs/Kohen_Logo_Main.png" alt="code logo"><br>
-                        
+
                         <div class="title_wrap">
                             <p class="sub_title">{{ $settings->company_address }}</p>
                           <p class="sub_title">{{ $settings->primary_mobile_no }} &nbsp;&nbsp;&nbsp;&nbsp;{{ $settings->email }}</p>
@@ -94,10 +94,10 @@
                                         <td style="padding: 2%;">
                                             {{ $item->product->sku }}<br>
                                             <span>Size :</span>
-                                      
+ 
                                     @foreach ($item->product_sizes as $size)
                                     <span> {{ $size->size }} </span>  <br>
-                                @endforeach
+                                    @endforeach
                                         </td>
                                         <td style="padding: 2%;">{{ $item->quantity }}</td>
                                         <td style="padding: 2%;">{{ $item->price }}</td>

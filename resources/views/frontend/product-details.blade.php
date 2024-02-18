@@ -22,7 +22,7 @@
                 <div class="product-detail accordion-detail">
 
                     {{-- Product Component --}}
-                    
+
                     @livewire('product-component', ['slug' => $product->slug], key($product->slug))
 
                    <!--Related Product-->
