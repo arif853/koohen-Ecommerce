@@ -17,8 +17,8 @@
             <article class="icontext">
                 <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
                 <div class="text">
-                    <h6 class="mb-1 card-title">Revenue</h6>
-                    <span>$13,456.5</span>
+                    <h6 class="mb-1 card-title">Totoal Orders</h6>
+                    <span>13,456.5</span>
                     <span class="text-sm">
                         Shipping fees are not included
                     </span>
