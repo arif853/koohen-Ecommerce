@@ -28,6 +28,7 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\SubcategoryController;
@@ -148,18 +149,12 @@ Route::controller(TrackorderController::class)->group(function () {
 
 // Frontend Route End
 
-
-
-
-
 // =================================++++++++++++++++++++++++++++++++++++++++++++++++++++++++===================================== //
 
 // Backend Route Start
 
 //dashboard
-Route::get('/dashboard', function () {
-    return view('admin.index');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class,'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 //Brands
 Route::controller(BrandController::class)->middleware('auth')->group(function () {
