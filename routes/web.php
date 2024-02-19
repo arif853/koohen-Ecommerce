@@ -339,8 +339,7 @@ Route::controller(CampaignController::class)->middleware('auth')->group(function
 
 });
 
-
-//campaign route
+//Inventory route
 Route::controller(InventoryController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/inventory', 'index')->name('inventory');
     Route::get('/dashboard/inventory/create', 'create')->name('inventory.create');
@@ -348,6 +347,14 @@ Route::controller(InventoryController::class)->middleware('auth')->group(functio
     //add new stock
     Route::get('/dashboard/inventory/newstock', 'newstock')->name('new.stock');
     Route::post('/dashboard/inventory/addstock', 'addstock')->name('add.stock');
+
+//Pos route
+Route::controller(POSController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/pos', 'index')->name('pos');
+    Route::get('/dashboard/search-products', 'searchProducts')->name('search.products');
+    Route::get('/dashboard/pos_cart/{id}', 'pos_cart');
+    Route::get('/dashboard/pos_cart/cart_remove/{id}', 'cart_remove');
+    Route::get('.dashboard/pos/customer', 'searchcustomer')->name('search.customer');
 
 });
 
