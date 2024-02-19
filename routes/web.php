@@ -109,8 +109,6 @@ Route::controller(HomeController::class)->group(function () {
 Route::get('forget-password-get', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
 Route::post('forget-password-post', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
 Route::get('reset-password/{token}', [ForgotPasswordController::class, 'resetPasswordSubmit'])->name('reset.password.get');
-
-
 Route::post('reset-password-post', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 // Route::get('/shop', [ShopController::class, 'index'])->name('shop');
@@ -237,7 +235,7 @@ Route::controller(OrderController::class)->middleware('auth')->group(function ()
     Route::get('/dashboard/orders/orders_return', 'order_return')->name('order.return');
     Route::post('/update-order-status', 'updateOrderStatus');
     Route::post('/update-one-order-status', 'updateOneOrderStatus');
-    Route::get('/orders/invoice/{id}', 'orderInvocie')->name('order.invoice');
+    Route::get('/orders/invoice/{id}', 'orderInvoice')->name('order.invoice');
     Route::get('/orders/invoice-page/{id}', 'invoicePage')->name('invoice');
 });
 

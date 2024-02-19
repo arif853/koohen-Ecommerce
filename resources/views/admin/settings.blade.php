@@ -36,6 +36,24 @@
                                 <label for="whatsapp_url" class="form-label">Whatsapp URL</label>
                                 <input type="text" class="form-control" id="whatsapp_url" name="whatsapp_url" placeholder="Whatsapp Link URL"  value="{{ $settings->whatsapp_url }}">
                             </div>
+
+                            <div class="col-md-12 mb-2">
+                                <label for="facebook_url" class="form-label">Facebook URL</label>
+                                <input type="text" class="form-control" id="facebook_url" name="facebook_url" placeholder=" Facebook Link URL"  value="{{ $settings->facebook_url }}">
+                            </div>
+
+                            <div class="col-md-12 mb-2">
+                                <label for="twiter_url" class="form-label">Twitter URL</label>
+                                <input type="text" class="form-control" id="twiter_url" name="twiter_url" placeholder=" Twitter Link URL"  value="{{ $settings->twiter_url }}">
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <label for="instagram_url" class="form-label">Instragram URL</label>
+                                <input type="text" class="form-control" id="instagram_url" name="instagram_url" placeholder=" Instagram Link URL"  value="{{ $settings->instagram_url }}">
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <label for="youtube_url" class="form-label">Youtube URL</label>
+                                <input type="text" class="form-control" id="youtube_url" name="youtube_url" placeholder=" Youtube Link URL"  value="{{ $settings->youtube_url }}">
+                            </div>
         
                             <div class="col-md-12 mb-2">
                               <label for="slider_image" class="form-label">Email<span class="text-danger">*</span></label>

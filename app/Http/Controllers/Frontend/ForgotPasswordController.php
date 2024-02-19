@@ -25,7 +25,7 @@ class ForgotPasswordController extends Controller
         $this->validate($request, [
             'email' =>'required|email',
         ]);
-        $token = rand(0,5);
+        $token = Str::random(40);
         $email = $request->email;
         $registered_email = Register_customer::where('email', $email)->first();
         if($registered_email==true){
@@ -68,7 +68,7 @@ class ForgotPasswordController extends Controller
         Register_customer::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
         PasswordReset::where(['email'=> $request->email])->delete();
         Session::flash('success','Your password has been changed!!');
-        return redirect()->route('/');
+        return redirect()->route('home');
 
     }
 

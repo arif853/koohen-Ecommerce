@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use Barryvdh\DomPDF\Facade\Pdf;
+use PDF;
 use Carbon\Carbon;
 use App\Models\Size;
 use App\Models\Color;
@@ -31,13 +31,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with(
-            'customer',
-            'order_item',
-            'shipping',
-            'transaction',
-        )->get();
-        return view('admin.order.index',compact('orders'));
+        $orders = Order::with('customer', 'order_item', 'shipping', 'transaction')->get();
+        return view('admin.order.index', compact('orders'));
     }
 
     public function order_track(Request $request)
@@ -49,11 +44,10 @@ class OrderController extends Controller
 
         // $customer_id = $order->customer->id;
         // $customer = shipping::where('customer_id',$customer_id)->
-        if($order->shipping){
+        if ($order->shipping) {
             $s_district = District::find($order->shipping->district);
             $s_postOffice = Postcode::find($order->shipping->area);
-        }
-        else{
+        } else {
             $s_district = '';
             $s_postOffice = '';
         }
@@ -80,7 +74,7 @@ class OrderController extends Controller
             $product->size = $size;
         }
         // $customer = $order->customer;
-        return view('admin.order.order_track',compact('order','orderProducts','district','postOffice','s_district','s_postOffice'));
+        return view('admin.order.order_track', compact('order', 'orderProducts', 'district', 'postOffice', 's_district', 's_postOffice'));
     }
 
     public function order_details(Request $request)
@@ -108,11 +102,11 @@ class OrderController extends Controller
             // Add color and size information to the product if needed
             $product->color = $color;
             $product->size = $size;
-            
+
             $orderProducts->push($product);
         }
         // $customer = $order->customer;
-        return view('admin.order.order_details',compact('order','orderProducts','district','postOffice'));
+        return view('admin.order.order_details', compact('order', 'orderProducts', 'district', 'postOffice'));
     }
 
     public function order_return()
@@ -145,12 +139,11 @@ class OrderController extends Controller
                 [
                     'status' => $selectedStatus,
                     $statusColumn => Carbon::now(),
-                ]
+                ],
             );
         }
 
-
-        return response()->json(['success' => true, 'message' => 'Order '.$selectedStatus.' updated successfully.']);
+        return response()->json(['success' => true, 'message' => 'Order ' . $selectedStatus . ' updated successfully.']);
     }
 
     // OrderController.php
@@ -175,15 +168,11 @@ class OrderController extends Controller
 
         // Update the OrderStatus table
         $statusColumn = $newStatus . '_date_time';
-        Orderstatus::updateOrCreate(
-            ['order_id' => $orderId,],
-            ['status' => $newStatus,
-            $statusColumn => Carbon::now()]
-        );
+        Orderstatus::updateOrCreate(['order_id' => $orderId], ['status' => $newStatus, $statusColumn => Carbon::now()]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Order status updated '.$previousStatus.' to '.$newStatus.' successfully',
+            'message' => 'Order status updated ' . $previousStatus . ' to ' . $newStatus . ' successfully',
             'previousStatus' => $previousStatus,
             'newStatus' => $newStatus,
         ]);
@@ -193,10 +182,8 @@ class OrderController extends Controller
      */
     public function pending_order()
     {
-        $pendingOrders = Order::with('customer', 'order_item', 'shipping', 'transaction')
-        ->where('status', 'pending')
-        ->get();
-         return view('admin.order.pending_list',compact('pendingOrders'));
+        $pendingOrders = Order::with('customer', 'order_item', 'shipping', 'transaction')->where('status', 'pending')->get();
+        return view('admin.order.pending_list', compact('pendingOrders'));
     }
 
     /**
@@ -296,7 +283,6 @@ class OrderController extends Controller
     //             Session::flash('warning','Your registration successfully complete, Please login to user dashboard.');
     //         }
 
-
     //         // $product = Cart::get();
 
     //         // order details store to order
@@ -393,10 +379,8 @@ class OrderController extends Controller
      */
     public function completed_order()
     {
-        $completedOrders = Order::with('customer', 'order_item', 'shipping', 'transaction')
-        ->where('status', 'completed')
-        ->get();
-         return view('admin.order.completed_order',compact('completedOrders'));
+        $completedOrders = Order::with('customer', 'order_item', 'shipping', 'transaction')->where('status', 'completed')->get();
+        return view('admin.order.completed_order', compact('completedOrders'));
     }
 
     /**
@@ -421,7 +405,7 @@ class OrderController extends Controller
     public function destroy(string $id)
     {
         //
-          //$filename = 'Invoice_Sheet';
+        //$filename = 'Invoice_Sheet';
 
         // $pdf= PDF::loadView('admin.order.invoice',['order'=>$order],[],
         //     [
@@ -453,23 +437,50 @@ class OrderController extends Controller
         // );
         // return $pdf->stream($filename.'.pdf');
     }
-    public function orderInvocie($id){
-        ini_set('max_execution_time',3600); 
-        $order = Order::with('customer','order_item','order_item.product','order_item.product.sizes')
-        ->where('id', $id)
-        ->first();
-     $data = [
-        'order' => $order,
-     ];
-     $pdf =  PDF::loadView('admin.print', $data)->setOptions(['defaultFont' => 'sans-serif']);
-     $pdf->setPaper('A4', 'Portrait');
-     return $pdf->download("invoice.pdf");
+    public function orderInvoice($id)
+
+    {
+        ini_set('max_execution_time', 3600);
+        $data = Order::where('id', $id)->first();
+                   
+        if (!$data) {
+            return 'Order not found';
+        }
+
+        $pdf =PDF::loadView('invoice', ['data' => $data], [], [
+                'mode' => '',
+                'format' => 'A5-P',
+                'default_font_size' => '12',
+                'default_font' => 'nikosh',
+                'margin_left' => 10,
+                'margin_right' => 10,
+                'margin_top' => 15,
+                'margin_bottom' => 15,
+                'margin_header' => 2,
+                'margin_footer' => 5,
+                'orientation' => 'L',
+                'title' => 'Laravel mPDF',
+                'author' => '',
+                'watermark' => '',
+                'show_watermark' => false,
+                'watermark_font' => 'SutonnyMJRegular',
+                'display_mode' => 'fullpage',
+                'watermark_text_alpha' => 0.1,
+                'custom_font_dir' => '',
+                'custom_font_data' => [],
+                'auto_language_detection' => false,
+                'temp_dir' => rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR),
+                'pdfa' => false,
+                'pdfaauto' => false,
+            ],
+        );
+
+        return $pdf->stream('invoice.pdf');
     }
+
     public function invoicePage($id)
     {
-        $order = Order::with('customer','order_item','order_item.product','order_item.product_sizes')
-        ->where('id', $id)
-        ->first();
-        return view('admin.order.print-invoice',compact('order'));
+        $order = Order::with('customer', 'order_item', 'order_item.product', 'order_item.product_sizes')->where('id', $id)->first();
+        return view('admin.order.print-invoice', compact('order'));
     }
 }

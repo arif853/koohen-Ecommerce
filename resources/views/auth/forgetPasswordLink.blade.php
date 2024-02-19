@@ -27,14 +27,14 @@
                                                 @endif
                                             </div>
                                             <div class="form-group ">
-                                                <input type="password" name="password" placeholder="password"
+                                                <input type="password" name="password" placeholder="Password"
                                                     id="password">
                                                 @if ($errors->has('password'))
                                                     <span class="text-danger">{{ $errors->first('password') }}</span>
                                                 @endif
                                             </div>
                                             <div class="form-group ">
-                                                <input type="password" name="password_confirmation" placeholder="password"
+                                                <input type="password" name="password_confirmation" placeholder="Confirm Password"
                                                     id="password-confirm">
                                                 @if ($errors->has('password_confirmation'))
                                                     <span
