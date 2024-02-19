@@ -28,7 +28,7 @@ class AdminMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '[Koohen - Your ultimate Lifestyle]: New order #' ,
+            subject: '[Koohen - Your ultimate Lifestyle]: New order #'. $this->data->id ,
         );
     }
 

@@ -242,39 +242,7 @@
 <div class="card mb-4">
     <header class="card-header">
         <h4 class="card-title">Latest orders</h4>
-        <div class="row align-items-center">
-            <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
-                <div class="custom_select">
-                    <select class="form-select select-nice">
-                        <option selected>All Categories</option>
-                        <option>Women's Clothing</option>
-                        <option>Men's Clothing</option>
-                        <option>Cellphones</option>
-                        <option>Computer & Office</option>
-                        <option>Consumer Electronics</option>
-                        <option>Jewelry & Accessories</option>
-                        <option>Home & Garden</option>
-                        <option>Luggage & Bags</option>
-                        <option>Shoes</option>
-                        <option>Mother & Kids</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-2 col-6">
-                <input type="date" value="02.05.2022" class="form-control">
-            </div>
-            <div class="col-md-2 col-6">
-                <div class="custom_select">
-                    <select class="form-select select-nice">
-                        <option selected>Status</option>
-                        <option>All</option>
-                        <option>Paid</option>
-                        <option>Chargeback</option>
-                        <option>Refund</option>
-                    </select>
-                </div>
-            </div>
-        </div>
+        
     </header>
     <div class="card-body">
         <div class="table-responsive">
