@@ -341,7 +341,7 @@
             var searchTerm = $(this).val().trim();
             console.log(searchTerm)
 
-            if (searchTerm.length > 5) { // Adjust the minimum characters for search as needed
+            if (searchTerm.length > 3) { // Adjust the minimum characters for search as needed
                 $.ajax({
                     url: '{{ route('search.customer') }}',
                     type: 'GET',

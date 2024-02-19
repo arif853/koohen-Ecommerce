@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AdminMail extends Mailable
+class customerMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -32,20 +32,18 @@ class AdminMail extends Mailable
         );
     }
 
-
     public function build(){
-        return $this->view('admin.email.adminmail',[
+        return $this->view('admin.email.customermail',[
             'order' => $this->data
         ]);
     }
-
     /**
      * Get the message content definition.
      */
     public function content(): Content
     {
         return new Content(
-            view: 'admin.email.adminmail',
+            view: 'admin.email.customermail',
         );
     }
 
