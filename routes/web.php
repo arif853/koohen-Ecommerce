@@ -11,11 +11,12 @@ use App\Livewire\CheckoutComponent;
 use App\Livewire\PostOfficeSelector;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdsController;
+use App\Http\Controllers\Admin\POSController;
 use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Controllers\Admin\BrandController;
-use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\OrderController;
@@ -26,16 +27,17 @@ use App\Http\Controllers\Admin\VarientController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ShopController;
+use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\TrackorderController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
-use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
 
@@ -50,10 +52,13 @@ use App\Http\Controllers\Frontend\CustomerDashboardController;
 |
 */
 Route::get('/cache_clear',function(){
+
     Artisan::call('route:clear');
     Artisan::call('config:clear');
     Artisan::call('cache:clear');
     Artisan::call('config:cache');
+    Session::flash('success','Cached clear successfully!');
+    return redirect()->back();
 });
 
 Route::get('/storage',function(){
@@ -339,7 +344,6 @@ Route::controller(CampaignController::class)->middleware('auth')->group(function
 
 });
 
-
 //campaign route
 Route::controller(InventoryController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/inventory', 'index')->name('inventory');
@@ -348,7 +352,20 @@ Route::controller(InventoryController::class)->middleware('auth')->group(functio
     //add new stock
     Route::get('/dashboard/inventory/newstock', 'newstock')->name('new.stock');
     Route::post('/dashboard/inventory/addstock', 'addstock')->name('add.stock');
+});
 
+//campaign route
+Route::controller(POSController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/pos', 'index')->name('pos');
+    Route::get('/dashboard/search-products', 'searchProducts')->name('search.products');
+    Route::get('/dashboard/pos_cart/{id}', 'pos_cart');
+    Route::get('/dashboard/pos_cart/cart_remove/{id}', 'cart_remove');
+    Route::get('.dashboard/pos/customer', 'searchcustomer')->name('search.customer');
+    // Route::get('/dashboard/pos/create', 'create')->name('inventory.create');
+
+    // //add new stock
+    // Route::get('/dashboard/inventory/newstock', 'newstock')->name('new.stock');
+    // Route::post('/dashboard/inventory/addstock', 'addstock')->name('add.stock');
 });
 
 // reviews
