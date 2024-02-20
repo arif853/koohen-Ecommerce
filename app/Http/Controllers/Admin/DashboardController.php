@@ -19,14 +19,15 @@ class DashboardController extends Controller
         $products = Products::count();
         $category = Category::count();
         $customers = Customer::count();
-        $pending_order = Order::where('status','pending')->count();
-        $completed_order = Order::where('status','completed')->count();
+        $pending_orders = Order::where('status','pending')->count();
+        $completed_orders = Order::where('status','completed')->count();
         $campaign = Campaign::where('status','Published')->count();
 
         $orders = Order::where('status','pending')->latest()->get();
+
         $sales = Order::where('status','completed')->sum('total');
 
-        return view('admin.index',compact('orders','total_orders','sales','products','category','customers','pending_order','completed_order','campaign'));
+        return view('admin.index',compact('orders','total_orders','sales','products','category','customers','pending_orders','completed_orders','campaign'));
     }
 
 }

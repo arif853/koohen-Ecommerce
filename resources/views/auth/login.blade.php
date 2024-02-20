@@ -53,7 +53,7 @@
 
                         </div> <!-- form-group// -->
                         <div class="mb-4">
-                            <a href="#" class="float-end font-sm text-muted">Forgot password?</a>
+                        
                             <label class="form-check">
                                 <input type="checkbox" class="form-check-input" checked=""  name="remember">
                                 <span class="form-check-label">Remember</span>

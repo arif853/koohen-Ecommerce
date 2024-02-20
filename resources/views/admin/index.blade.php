@@ -13,7 +13,7 @@
     <div class="col-lg-3">
         <div class="card card-body mb-4">
             <article class="icontext">
-                <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-success material-icons md-local_shipping"></i></span>
+                <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-success material-icons md-shopping_cart"></i></span>
                 <div class="text">
                     <h6 class="mb-1 card-title"> Total Orders </h6>
                     <span>{{$total_orders}}</span>
@@ -24,7 +24,29 @@
     <div class="col-lg-3">
         <div class="card card-body mb-4">
             <article class="icontext">
-                <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-primary material-icons md-monetization_on"></i></span>
+                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_cart"></i></span>
+                <div class="text">
+                    <h6 class="mb-1 card-title">Total Completed Order</h6> <span>{{ $completed_orders }}</span>
+
+                </div>
+            </article>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card card-body mb-4">
+            <article class="icontext">
+                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-primary material-icons md-shopping_cart"></i></span>
+                <div class="text">
+                    <h6 class="mb-1 card-title">Total Pending Order</h6> <span>{{ $pending_orders }}</span>
+
+                </div>
+            </article>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card card-body mb-4">
+            <article class="icontext">
+                <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-monetization_on"></i></span>
                 <div class="text">
                     <h6 class="mb-1 card-title">Total Sales </h6> <span>{{ $sales }}</span>
 
@@ -45,7 +67,7 @@
     <div class="col-lg-3">
         <div class="card card-body mb-4">
             <article class="icontext">
-                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
+                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-stars"></i></span>
                 <div class="text">
                     <h6 class="mb-1 card-title">Total Category</h6> <span>{{ $category }}</span>
 
@@ -56,7 +78,7 @@
     <div class="col-lg-3">
         <div class="card card-body mb-4">
             <article class="icontext">
-                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
+                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-primary material-icons md-person"></i></span>
                 <div class="text">
                     <h6 class="mb-1 card-title">Total Customer</h6> <span>{{ $customers }}</span>
 
@@ -64,27 +86,8 @@
             </article>
         </div>
     </div>
-    <div class="col-lg-3">
-        <div class="card card-body mb-4">
-            <article class="icontext">
-                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
-                <div class="text">
-                    <h6 class="mb-1 card-title">Total Pending Orders</h6> <span>{{ $pending_order }}</span>
 
-                </div>
-            </article>
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="card card-body mb-4">
-            <article class="icontext">
-                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
-                <div class="text">
-                    <h6 class="mb-1 card-title">Total Complete Orders</h6> <span>{{ $completed_order }}</span>
-                </div>
-            </article>
-        </div>
-    </div>
+   
     <div class="col-lg-3">
         <div class="card card-body mb-4">
             <article class="icontext">
@@ -95,6 +98,18 @@
             </article>
         </div>
     </div>
+
+    {{-- <div class="col-lg-3">
+        <div class="card card-body mb-4">
+            <article class="icontext">
+                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
+                <div class="text">
+                    <h6 class="mb-1 card-title">Total Pending Order</h6> <span>{{ $customers }}</span>
+
+                </div>
+            </article>
+        </div>
+    </div> --}}
 </div>
 
 <div class="card mb-4">
@@ -166,137 +181,7 @@
         </div> <!-- table-responsive end// -->
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-5">
-        <div class="card mb-4">
-            <article class="card-body">
-                <h5 class="card-title">New Members</h5>
-                <div class="new-member-list">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <div class="d-flex align-items-center">
-                            <img src="assets/imgs/people/avatar4.jpg" alt="" class="avatar">
-                            <div>
-                                <h6>Patric Adams</h6>
-                                <p class="text-muted font-xs">
-                                    Sanfrancisco
-                                </p>
-                            </div>
-                        </div>
-                        <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <div class="d-flex align-items-center">
-                            <img src="assets/imgs/people/avatar2.jpg" alt="" class="avatar">
-                            <div>
-                                <h6>Dilan Specter</h6>
-                                <p class="text-muted font-xs">
-                                    Sanfrancisco
-                                </p>
-                            </div>
-                        </div>
-                        <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <div class="d-flex align-items-center">
-                            <img src="assets/imgs/people/avatar3.jpg" alt="" class="avatar">
-                            <div>
-                                <h6>Tomas Baker</h6>
-                                <p class="text-muted font-xs">
-                                    Sanfrancisco
-                                </p>
-                            </div>
-                        </div>
-                        <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                    </div>
-                </div>
-            </article>
-        </div>
-    </div>
-    <div class="col-lg-7">
-        <div class="card mb-4">
-            <article class="card-body">
-                <h5 class="card-title">Recent activities</h5>
-                <ul class="verti-timeline list-unstyled font-sm">
-                    <li class="event-list">
-                        <div class="event-timeline-dot">
-                            <i class="material-icons md-play_circle_outline font-xxl"></i>
-                        </div>
-                        <div class="media">
-                            <div class="me-3">
-                                <h6><span>Today</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                            </div>
-                            <div class="media-body">
-                                <div>
-                                    Lorem ipsum dolor sit amet consectetur
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="event-list active">
-                        <div class="event-timeline-dot">
-                            <i class="material-icons md-play_circle_outline font-xxl animation-fade-right"></i>
-                        </div>
-                        <div class="media">
-                            <div class="me-3">
-                                <h6><span>17 May</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                            </div>
-                            <div class="media-body">
-                                <div>
-                                    Debitis nesciunt voluptatum dicta reprehenderit
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="event-list">
-                        <div class="event-timeline-dot">
-                            <i class="material-icons md-play_circle_outline font-xxl"></i>
-                        </div>
-                        <div class="media">
-                            <div class="me-3">
-                                <h6><span>13 May</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                            </div>
-                            <div class="media-body">
-                                <div>
-                                    Accusamus voluptatibus voluptas.
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="event-list">
-                        <div class="event-timeline-dot">
-                            <i class="material-icons md-play_circle_outline font-xxl"></i>
-                        </div>
-                        <div class="media">
-                            <div class="me-3">
-                                <h6><span>05 April</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                            </div>
-                            <div class="media-body">
-                                <div>
-                                    At vero eos et accusamus et iusto odio dignissi
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="event-list">
-                        <div class="event-timeline-dot">
-                            <i class="material-icons md-play_circle_outline font-xxl"></i>
-                        </div>
-                        <div class="media">
-                            <div class="me-3">
-                                <h6><span>26 Mar</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                            </div>
-                            <div class="media-body">
-                                <div>
-                                    Responded to need “Volunteer Activities
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </article>
-        </div>
-    </div>
-</div>
+
 <div class="pagination-area mt-30 mb-50">
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-start">
