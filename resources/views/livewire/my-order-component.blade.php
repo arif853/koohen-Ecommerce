@@ -87,7 +87,10 @@
                     </div>
                 </div>
             </div>
+            @else
+            <p>No order found</p>
             @endif
+
         </div>
   </div>
   @push('dashboard')

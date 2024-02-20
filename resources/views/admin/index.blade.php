@@ -27,7 +27,7 @@
                 <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_cart"></i></span>
                 <div class="text">
                     <h6 class="mb-1 card-title">Total Completed Order</h6> <span>{{ $completed_orders }}</span>
-                   
+
                 </div>
             </article>
         </div>
@@ -38,7 +38,7 @@
                 <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-primary material-icons md-shopping_cart"></i></span>
                 <div class="text">
                     <h6 class="mb-1 card-title">Total Pending Order</h6> <span>{{ $pending_orders }}</span>
-                   
+
                 </div>
             </article>
         </div>
@@ -86,27 +86,8 @@
             </article>
         </div>
     </div>
-    <div class="col-lg-3">
-        <div class="card card-body mb-4">
-            <article class="icontext">
-                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
-                <div class="text">
-                    <h6 class="mb-1 card-title">Total Pending Orders</h6> <span>{{ $pending_order }}</span>
 
-                </div>
-            </article>
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="card card-body mb-4">
-            <article class="icontext">
-                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
-                <div class="text">
-                    <h6 class="mb-1 card-title">Total Complete Orders</h6> <span>{{ $completed_order }}</span>
-                </div>
-            </article>
-        </div>
-    </div>
+   
     <div class="col-lg-3">
         <div class="card card-body mb-4">
             <article class="icontext">
@@ -117,14 +98,14 @@
             </article>
         </div>
     </div>
-    
+
     {{-- <div class="col-lg-3">
         <div class="card card-body mb-4">
             <article class="icontext">
                 <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
                 <div class="text">
                     <h6 class="mb-1 card-title">Total Pending Order</h6> <span>{{ $customers }}</span>
-                   
+
                 </div>
             </article>
         </div>
