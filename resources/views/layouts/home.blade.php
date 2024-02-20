@@ -26,6 +26,7 @@
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{asset('/')}}frontend/assets/css/main.css?v=3.4">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
     <!--Font-->
     @livewireStyles
 </head>
@@ -255,11 +256,11 @@
                               </span>
                               <div class="search-holder">
                                 <form id="search-form" class="search-form">
-                                  <input type="text" name="qwrd" placeholder="Type your keyword(s)" class="search-input">
+                                  <input type="text" name="search" placeholder="Type your keyword(ss)" class="search-input">
                                   {{-- <button type="submit" id="form-submit" class="search-toggle">
                                     <i class="fa fa-search"></i>
                                   </button> --}}
-                                  <button type="reset" id="form-close" class="search-close">
+                                  <button type="submit" id="form-close" class="search-close">
                                     <i class="fa fa-times"></i>
                                   </button>
                                 </form>
@@ -539,6 +540,7 @@
 
     @include('auth.registermodal')
 
+
     @include('auth.loginmodal')
 
 
@@ -576,7 +578,8 @@
     <!-- Template  JS -->
     <script src="{{asset('')}}frontend/assets/js/main.js?v=3.4"></script>
     <script src="{{asset('')}}frontend/assets/js/shop.js?v=3.4"></script>
-
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     @livewireScripts
 
     @stack('dashboard')
@@ -784,6 +787,8 @@
             }
         });
     });
+
+    
 </script>
     @if(Session::has('success'))
     <script>
