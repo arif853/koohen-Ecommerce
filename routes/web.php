@@ -361,6 +361,7 @@ Route::controller(POSController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/pos_cart/{id}', 'pos_cart');
     Route::get('/dashboard/pos_cart/cart_remove/{id}', 'cart_remove');
     Route::get('.dashboard/pos/customer', 'searchcustomer')->name('search.customer');
+});
 
 //Pos route
 Route::controller(POSController::class)->middleware('auth')->group(function () {
