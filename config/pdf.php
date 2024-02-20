@@ -12,6 +12,7 @@ return [
     //     ],
 	'mode'                  => 'utf-8',
 	'format'                => 'A5',
+	'orientation'           => 'P',
 	'author'                => '',
 	'subject'               => '',
 	'keywords'              => '',
