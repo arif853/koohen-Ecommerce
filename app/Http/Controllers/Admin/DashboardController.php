@@ -24,6 +24,7 @@ class DashboardController extends Controller
         $campaign = Campaign::where('status','Published')->count();
 
         $orders = Order::where('status','pending')->latest()->get();
+        $pending_orders = $orders->count();
         $sales = Order::where('status','completed')->sum('total');
 
         return view('admin.index',compact('orders','total_orders','sales','products','category','customers','pending_order','completed_order','campaign'));

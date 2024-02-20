@@ -17,6 +17,7 @@ class Register_customer extends Model implements AuthenticatableContract
     // {
     //     return $this->password;
     // }
+    
 
     public function customer()
     {
