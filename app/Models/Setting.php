@@ -12,6 +12,10 @@ class Setting extends Model
         'primary_mobile_no',
         'secondary_mobile_no',
         'whatsapp_url',
+        'facebook_url',
+        'twiter_url',
+        'instagram_url',
+        'youtube_url',
         'email',
         'company_address',
         'company_short_details'
