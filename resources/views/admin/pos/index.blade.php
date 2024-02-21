@@ -160,8 +160,8 @@
                                     <a class="btn btn-primary ml-2" id="addNewCustomer" href="#"><i class="fa-solid fa-plus"></i></a>
 
                                     <div id="customerList">
-
-
+                                        <ul >
+                                        </ul>
                                     </div>
 
                                 </div>
@@ -338,7 +338,7 @@
         });
 
 
-        $('#searchInput').on('input', function () {
+        function handleSearch() {
             var searchTerm = $(this).val().trim();
             // console.log(searchTerm)
 
@@ -349,25 +349,25 @@
                     data: { customer: searchTerm },
                     success: function (response) {
                         // console.log(response);
-                        if (response.length > 0) {
-                            $.each(response, function (index, customer) {
-                            var ul = $('#customerList');
+                        var ul = $('#customerList ul');
                             ul.empty();
+                        if (response.length > 0) {
 
-                            var li = '<ul class="customer_list">'+
-                                        '<li>'+
+                            ul.addClass('customer_list');
+                            $.each(response, function (index, customer) {
+                            var li ='<li>'+
                                             '<a href="#" class="select_customer">'+
                                                 ' <strong>'+ customer.firstName +' '+customer.lastName+ '</strong>'+
                                                 ' <p>' + customer.email + '</p>'+
                                                 '<input type="hidden" name="customer_id" data-customer-id="'+customer.id+'">'
                                             ' </a>'+
-                                        '</li>'+
-                                    '</ul>';
+                                        '</li>';
 
                             ul.append(li);
                                 // console.log(customer.firstName);
 
                             });
+
                             $(document).on('click', '.customer_list a', function (e) {
                                 e.preventDefault();
 
@@ -375,18 +375,19 @@
                                 var selectedCustomer = $(this).find('strong').text() + '<br> ' + $(this).find('p').text();
                                 var selectedCustomerId = $(this).find('input').data('customer-id'); // Assuming you set the data-customer-id attribute in your HTML
 
-                                // Update the customer-search section
-                                $('.customer-search').empty().html('<p class="mt-5">' + selectedCustomer + '</p>');
+                                // Update the customer-search section with remove button
+                                var selectedCustomerHTML = '<div class="selected-customer">' +
+                                                                '<p class="mt-5">' + selectedCustomer + '</p>' +
+                                                                '<a href="#" class="remove-customer"><i class="fa-solid fa-xmark"></i> Remove</a>' +
+                                                            '</div>';
+
+                                $('.customer-search').empty().html(selectedCustomerHTML);
 
                                 // Update the hidden input field with the selected customer's ID
                                 $('#selectedCustomerId').val(selectedCustomerId);
-
-                                // console.log('Selected Customer:', selectedCustomer);
-                                // console.log('Selected Customer ID:', selectedCustomerId);
                             });
                         }
                         else{
-                            var ul = $('#customerList');
                             ul.empty();
                         }
                     },
@@ -395,8 +396,32 @@
                     }
                 });
             }
-        });
+            else {
+                // Clear the list if the input is invalid or empty
+                var ul = $('#customerList ul');
+                ul.removeClass('customer_list').empty();
+            }
+        };
 
+        $('#searchInput').on('input', handleSearch);
+
+        // Add click event for removing the selected customer
+        $(document).on('click', '.remove-customer', function (e) {
+            e.preventDefault();
+
+            // Clear the selected customer and re-bind the search input
+            $('.customer-search').empty().html('<div class="mt-10 search-box">' +
+                '<input type="text" class="form-control searchInput" name="customer" id="searchInput" placeholder="Search customer by phone or email">' +
+                '<a class="btn btn-primary ml-2" id="addNewCustomer" href="#"><i class="fa-solid fa-plus"></i></a>' +
+                '<div id="customerList">' +
+                ' <ul ></ul>' +
+                '</div>' +
+                '</div>');
+            $('#selectedCustomerId').val('');
+
+            // Re-bind the input event for the search functionality
+            $('#searchInput').on('input', handleSearch);
+        });
         function displaySearchResults(products) {
             var tableBody = $('#productTable tbody');
             tableBody.empty();
