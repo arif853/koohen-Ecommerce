@@ -109,6 +109,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/cart', 'cart')->name('cart');
     Route::get('/wishlist', 'wishlist')->name('wishlist');
     Route::get('/home/quickview', 'quickview')->name('quickview');
+    Route::get('/home/product_search', 'searchBar')->name('search');
 
 });
 Route::get('forget-password-get', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
@@ -227,6 +228,7 @@ Route::controller(ProductController::class)->middleware('auth')->group(function 
     Route::delete('/dashboard/products/thumb_destroy/{id}', 'thumb_destroy')->name('productsthumb.destroy');
 
     Route::get('/dashboard/products/{slug}', 'show')->name('products.show');
+    Route::post('/dashboard/products/search', 'ProductFilter')->name('products.filter');
 
 });
 
