@@ -97,18 +97,10 @@
                                             @if($item->product_sizes)
 
                                             <span>Size :</span>
-                                            <span> {{ $item->product_sizes->size }} </span>  <br>
 
-                                            @endif
-                                            <br>
-
-                                            @if($item->product_colors)
-                                            <span>Color :</span>
-
-                                            <span> {{ $item->product_colors->color_name }} </span>
-
-                                            @endif
-
+                                    @foreach ($item->product_sizes as $size)
+                                    <span> {{ $size->size }} </span>  <br>
+                                    @endforeach
                                         </td>
                                         <td style="padding: 2%;">{{ $item->quantity }}</td>
                                         <td style="padding: 2%;">{{ $item->price }}</td>

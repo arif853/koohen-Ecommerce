@@ -15,8 +15,11 @@
             <article class="icontext">
                 <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-success material-icons md-shopping_cart"></i></span>
                 <div class="text">
-                    <h6 class="mb-1 card-title"> Total Orders </h6>
-                    <span>{{$total_orders}}</span>
+                    <h6 class="mb-1 card-title">Total Orders</h6>
+                    <span></span>
+                    <span class="text-sm">
+                        Shipping fees are not included
+                    </span>
                 </div>
             </article>
         </div>
@@ -87,7 +90,7 @@
         </div>
     </div>
 
-   
+
     <div class="col-lg-3">
         <div class="card card-body mb-4">
             <article class="icontext">
