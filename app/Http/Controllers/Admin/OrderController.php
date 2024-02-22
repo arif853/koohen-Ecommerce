@@ -407,15 +407,12 @@ class OrderController extends Controller
        
     }
     public function orderInvoice($id)
-
     {
-       // ini_set('max_execution_time',3600);
         $order = Order::where('id', $id)->first();
                  
         if (!$order) {
             return 'Order not found';
         }
-
         $pdf= PDF::loadView('admin.order.invoice',['order'=>$order],[],
             [
                 'mode'                 => '',
@@ -445,7 +442,7 @@ class OrderController extends Controller
             ]
         );
   
-        return $pdf->stream('invoice.pdf');
+        return $pdf->download('invoice.pdf');
     }
 
     public function invoicePage($id)
