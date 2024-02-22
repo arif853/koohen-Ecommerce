@@ -409,14 +409,13 @@ class OrderController extends Controller
     public function orderInvoice($id)
 
     {
-        ini_set('max_execution_time',3600);
+       // ini_set('max_execution_time',3600);
         $order = Order::where('id', $id)->first();
                  
         if (!$order) {
             return 'Order not found';
         }
-
-      
+        
         $pdf= PDF::loadView('invoice',['order'=>$order],[],
             [
                 'mode'                 => '',
