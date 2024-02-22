@@ -259,7 +259,7 @@ class CheckoutController extends Controller
 
         }
         // Clear the cart after saving to the order item table
-        Mail::to('qbittech.dev1@gmail.com')->send( new AdminMail($order));
+        Mail::to('arifhossen853@gmail.com')->send( new AdminMail($order));
 
         Cart::instance('cart')->destroy();
         return redirect()->route('shop')->with('success', 'Your order has been placed');

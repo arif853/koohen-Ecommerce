@@ -34,7 +34,7 @@ class AdminMail extends Mailable
 
 
     public function build(){
-        return $this->view('admin.email.mail',[
+        return $this->view('admin.email.adminmail',[
             'order' => $this->data
         ]);
     }
@@ -45,7 +45,7 @@ class AdminMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'admin.email.mail',
+            view: 'admin.email.adminmail',
         );
     }
 
