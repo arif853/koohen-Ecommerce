@@ -415,8 +415,8 @@ class OrderController extends Controller
         if (!$order) {
             return 'Order not found';
         }
-        
-        $pdf= PDF::loadView('invoice',['order'=>$order],[],
+
+        $pdf= PDF::loadView('admin.order.invoice',['order'=>$order],[],
             [
                 'mode'                 => '',
                 'format'               => 'A5',
@@ -445,7 +445,7 @@ class OrderController extends Controller
             ]
         );
   
-        return $pdf->download('invoice.pdf');
+        return $pdf->stream('invoice.pdf');
     }
 
     public function invoicePage($id)
