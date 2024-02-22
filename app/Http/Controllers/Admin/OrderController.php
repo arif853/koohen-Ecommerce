@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use PDF;
+
 use Carbon\Carbon;
 use App\Models\Size;
 use App\Models\Color;
@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Validator;
+use PDF;
 
 class OrderController extends Controller
 {
@@ -440,42 +441,22 @@ class OrderController extends Controller
     public function orderInvoice($id)
 
     {
-        ini_set('max_execution_time', 3600);
-        $data = Order::where('id', $id)->first();
-
-        if (!$data) {
+        // ini_set('max_execution_time', 3600);
+        $order = Order::where('id', $id)->first();
+        // echo '<pre>';
+        // print_r($data);
+        if (!$order) {
             return 'Order not found';
         }
+        else{
+            // $pdf = PDF::loadView('admin.order.invoice');
 
-        $pdf =PDF::loadView('invoice', ['data' => $data], [], [
-                'mode' => '',
-                'format' => 'A5-P',
-                'default_font_size' => '12',
-                'default_font' => 'nikosh',
-                'margin_left' => 10,
-                'margin_right' => 10,
-                'margin_top' => 15,
-                'margin_bottom' => 15,
-                'margin_header' => 2,
-                'margin_footer' => 5,
-                'orientation' => 'L',
-                'title' => 'Laravel mPDF',
-                'author' => '',
-                'watermark' => '',
-                'show_watermark' => false,
-                'watermark_font' => 'SutonnyMJRegular',
-                'display_mode' => 'fullpage',
-                'watermark_text_alpha' => 0.1,
-                'custom_font_dir' => '',
-                'custom_font_data' => [],
-                'auto_language_detection' => false,
-                'temp_dir' => rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR),
-                'pdfa' => false,
-                'pdfaauto' => false,
-            ],
-        );
+            // return $pdf->stream('invoice.pdf');
+            $data = ['order'=>$order];
+            $pdf = PDF::loadView('admin.order.invoice', $data);
+	        return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
+        }
 
-        return $pdf->stream('invoice.pdf');
     }
 
     public function invoicePage($id)
