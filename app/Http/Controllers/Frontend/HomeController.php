@@ -171,9 +171,9 @@ class HomeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function searchBar(Request $request)
     {
-        //
+        dd('ok');
     }
 
 }
