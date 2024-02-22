@@ -157,7 +157,30 @@ class HomeController extends Controller
      */
     public function searchBar(Request $request)
     {
-        dd('ok');
+        $searchTerm = $request->input('qwrd');
+
+        // Query the products table to find matching products along with their images
+        $products = Products::where('product_name', 'like', '%' . $searchTerm . '%')
+                            ->orWhere('sku', 'like', '%' . $searchTerm . '%')
+                            ->orWhere('regular_price', 'like', '%' . $searchTerm . '%')
+                            ->with('product_images') // Eager load product images
+                            ->limit(5) // Limit the number of results
+                            ->get();
+
+        // Prepare the response data
+        $response = [];
+        foreach ($products as $product) {
+            $response[] = [
+                'product_name' => $product->product_name,
+                'sku' => $product->sku,
+                'regular_price' => $product->regular_price,
+                'image_url' => asset('storage/product_images/' . $product->product_images->first()->product_image), // Assuming product_images is a relation and product_image is the image field
+                // Add more fields as needed
+            ];
+        }
+
+        // Return the response as JSON
+        return response()->json(['products' => $response]);
     }
   
 }
