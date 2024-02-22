@@ -438,33 +438,32 @@ class OrderController extends Controller
         // return $pdf->stream($filename.'.pdf');
     }
     public function orderInvoice($id)
-
     {
-        ini_set('max_execution_time', 3600);
-        $data = Order::where('id', $id)->first();
+       // ini_set('max_execution_time',3600);
+        $order = Order::where('id', $id)->first();
 
-        if (!$data) {
+        if (!$order) {
             return 'Order not found';
         }
-
-        $pdf =PDF::loadView('invoice', ['data' => $data], [], [
-                'mode' => '',
-                'format' => 'A5-P',
-                'default_font_size' => '12',
-                'default_font' => 'nikosh',
-                'margin_left' => 10,
-                'margin_right' => 10,
-                'margin_top' => 15,
-                'margin_bottom' => 15,
-                'margin_header' => 2,
-                'margin_footer' => 5,
-                'orientation' => 'L',
-                'title' => 'Laravel mPDF',
-                'author' => '',
-                'watermark' => '',
-                'show_watermark' => false,
-                'watermark_font' => 'SutonnyMJRegular',
-                'display_mode' => 'fullpage',
+        $pdf= PDF::loadView('admin.order.invoice',['order'=>$order],[],
+            [
+                'mode'                 => '',
+                'format'               => 'A5',
+                'default_font_size'    => '10',
+                'default_font'         => 'nikosh',
+                'margin_left'          => 5,
+                'margin_right'         => 5,
+                'margin_top'           => 10,
+                'margin_bottom'        => 21,
+                'margin_header'        => 0,
+                'margin_footer'        => 0,
+                'orientation'          => 'P',
+                'title'                => 'Laravel mPDF',
+                'author'               => '',
+                'watermark'            => '',
+                'show_watermark'       => false,
+                'watermark_font'       => 'sans-serif',
+                'display_mode'         => 'fullpage',
                 'watermark_text_alpha' => 0.1,
                 'custom_font_dir' => '',
                 'custom_font_data' => [],
