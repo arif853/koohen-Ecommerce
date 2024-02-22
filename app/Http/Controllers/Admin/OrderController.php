@@ -441,7 +441,6 @@ class OrderController extends Controller
                 'pdfaauto' 		=> false,
             ]
         );
-
         return $pdf->download('invoice.pdf');
     }
 
