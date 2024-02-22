@@ -55,23 +55,29 @@ class POSController extends Controller
         return response()->json($customers);
     }
 
-    public function pos_cart(Request $request, $id)
+    public function posCart(Request $request, $id)
     {
         $product = Products::find($id);
-        $item_name = $product->product_name;
-        $offer_price = $product->product_price->offer_price;
+        if($product){
+            $item_name = $product->product_name;
+            $offer_price = $product->product_price->offer_price;
 
 
-        $item_price = $product->regular_price;
-        $color = $request->input('color');
-        $size = $request->input('size');
+            $item_price = $product->regular_price;
+            $color = $request->input('color');
+            $size = $request->input('size');
 
-            // $item_price = $product->regular_price;
-        $item_slug = $product->slug;
-        $data = Cart::instance('pos_cart')->add($id,$item_name,1,$item_price, ['color' => $color,'size' => $size,'slug' => $item_slug]);
+                // $item_price = $product->regular_price;
+            $item_slug = $product->slug;
+            $data = Cart::instance('pos_cart')->add($id,$item_name,1,$item_price, ['color' => $color,'size' => $size,'slug' => $item_slug]);
 
-        Session::flash('success','Product added To cart.');
-        return response()->json(['status' => 200,'message' => 'Product added to cart', 'data' => $data]);
+            Session::flash('success','Product added To cart.');
+            return response()->json(['status' => 200,'message' => 'Product added to cart', 'data' => $data]);
+        }
+        else{
+            Session::flash('success','Product not found.');
+        }
+
 
     }
 
@@ -81,5 +87,13 @@ class POSController extends Controller
 
         Session::flash('danger','Product removed from cart.');
         return response()->json(['status' => 200,'message' => 'Product remove from cart','cartItems' => $cartItems]);
+    }
+
+
+    public function posOrderCancel()
+    {
+        Cart::instance('pos_cart')->destroy();
+        Session::flash('danger','Order canceled,Products remove from cart.');
+        return response()->json(['status' => 200,'message' => 'Product remove from cart']);
     }
 }

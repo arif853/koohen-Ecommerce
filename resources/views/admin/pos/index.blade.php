@@ -151,7 +151,7 @@
                             <a class="btn btn-outline-primary" id="walk_in_customer_btn">Walk In Customer</a>
 
                             <div class="walking_customer mt-10" style="display: none;">
-                                <input type="text" class="form-control" readonly name="walk_customer" id="walk_customer" value="Walk In Customer">
+                                <input type="text" class="form-control" readonly name="customer" id="walk_customer" value="Walk In Customer">
                             </div>
 
                             <div class="customer-search" style="display: none;">
@@ -160,12 +160,13 @@
                                     <a class="btn btn-primary ml-2" id="addNewCustomer" href="#"><i class="fa-solid fa-plus"></i></a>
 
                                     <div id="customerList">
-
-
+                                        <ul >
+                                        </ul>
                                     </div>
 
                                 </div>
                             </div>
+                            <input type="hidden" class="selectedcustomerid" id="selectedCustomerId" name="customer">
                         </div>
                     </div>
                     <div class="card">
@@ -218,11 +219,8 @@
                                             @php
                                             $subtotal = $item->subtotal;
                                             $total += $subtotal;
-                                            $discount = 50;
                                             @endphp
                                         @endforeach
-
-
                                     </tbody>
                                 </table>
                             </span>
@@ -241,19 +239,21 @@
                                         @else
                                         ৳{{$total}}
                                         @endif
+                                        <input type="hidden" name="subtotal" value="{{$total}}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Delivery Charge:</td>
-                                    <td><input type="text" class="form-input" placeholder="Delivery Charge" name="" id="delivery_charge" value="0"></td>
+                                    <td><input type="text" class="form-input" placeholder="Delivery Charge" name="delivery_charge" id="delivery_charge" ></td>
                                 </tr>
                                 <tr>
                                     <td>Discount:</td>
-                                    <td><input type="text" class="form-input" placeholder="Discount" name="" id="discount" value="0" ></td>
+                                    <td><input type="text" class="form-input" placeholder="Discount" name="discount" id="discount" ></td>
                                 </tr>
                                 <tr>
                                     <td>Total:</td>
                                     <td id="total">৳{{$total}}</td>
+                                    <input type="hidden" name="total" id="g_total" value="{{$total}}">
                                 </tr>
 
                             </table>
@@ -262,7 +262,7 @@
 
                                 </div>
                                 <div class="col-md-7">
-                                    <a href="#" class="btn btn-danger btn-block">
+                                    <a href="#" class="btn btn-danger btn-block" id="order_cancel">
                                         <i class="fa-solid fa-xmark"></i> Cancel </a>
                                     <a href="#" class="btn btn-primary "><i class="fa-solid fa-bag-shopping"></i>Procced order </a>
                                 </div>
@@ -302,6 +302,7 @@
 
             // Update the total element
             totalElement.text('৳' + newTotal.toFixed(2));
+            $('#g_total').val(newTotal.toFixed(2));
         }
 
         // Show/hide search box based on button click
@@ -337,49 +338,90 @@
         });
 
 
-        $('#searchInput').on('input', function () {
+        function handleSearch() {
             var searchTerm = $(this).val().trim();
-            console.log(searchTerm)
+            // console.log(searchTerm)
 
-            if (searchTerm.length > 3) { // Adjust the minimum characters for search as needed
+            if (searchTerm.length > 1) { // Adjust the minimum characters for search as needed
                 $.ajax({
                     url: '{{ route('search.customer') }}',
                     type: 'GET',
                     data: { customer: searchTerm },
                     success: function (response) {
-
-                        if (response.length > 0) {
-                            $.each(response, function (index, customer) {
-                        var ul = $('#customerList');
+                        // console.log(response);
+                        var ul = $('#customerList ul');
                             ul.empty();
+                        if (response.length > 0) {
 
-                            var li = '<ul class="customer_list">'+
-                                        '<li>'+
-                                            '<a href="#">'+
-                                                ' <strong>' + customer.firstName +' '+customer.lastName+ '</strong>'+
+                            ul.addClass('customer_list');
+                            $.each(response, function (index, customer) {
+                            var li ='<li>'+
+                                            '<a href="#" class="select_customer">'+
+                                                ' <strong>'+ customer.firstName +' '+customer.lastName+ '</strong>'+
                                                 ' <p>' + customer.email + '</p>'+
+                                                '<input type="hidden" name="customer_id" data-customer-id="'+customer.id+'">'
                                             ' </a>'+
-                                        '</li>'+
-                                    '</ul>';
+                                        '</li>';
 
                             ul.append(li);
-                                console.log(customer.firstName);
+                                // console.log(customer.firstName);
 
+                            });
+
+                            $(document).on('click', '.customer_list a', function (e) {
+                                e.preventDefault();
+
+                                // Extract customer details from the selected item
+                                var selectedCustomer = $(this).find('strong').text() + '<br> ' + $(this).find('p').text();
+                                var selectedCustomerId = $(this).find('input').data('customer-id'); // Assuming you set the data-customer-id attribute in your HTML
+
+                                // Update the customer-search section with remove button
+                                var selectedCustomerHTML = '<div class="selected-customer">' +
+                                                                '<p class="mt-5">' + selectedCustomer + '</p>' +
+                                                                '<a href="#" class="remove-customer"><i class="fa-solid fa-xmark"></i> Remove</a>' +
+                                                            '</div>';
+
+                                $('.customer-search').empty().html(selectedCustomerHTML);
+
+                                // Update the hidden input field with the selected customer's ID
+                                $('#selectedCustomerId').val(selectedCustomerId);
                             });
                         }
                         else{
                             ul.empty();
                         }
-
-
                     },
                     error: function (error) {
                         console.error('Error fetching search results:', error);
                     }
                 });
             }
-        });
+            else {
+                // Clear the list if the input is invalid or empty
+                var ul = $('#customerList ul');
+                ul.removeClass('customer_list').empty();
+            }
+        };
 
+        $('#searchInput').on('input', handleSearch);
+
+        // Add click event for removing the selected customer
+        $(document).on('click', '.remove-customer', function (e) {
+            e.preventDefault();
+
+            // Clear the selected customer and re-bind the search input
+            $('.customer-search').empty().html('<div class="mt-10 search-box">' +
+                '<input type="text" class="form-control searchInput" name="customer" id="searchInput" placeholder="Search customer by phone or email">' +
+                '<a class="btn btn-primary ml-2" id="addNewCustomer" href="#"><i class="fa-solid fa-plus"></i></a>' +
+                '<div id="customerList">' +
+                ' <ul ></ul>' +
+                '</div>' +
+                '</div>');
+            $('#selectedCustomerId').val('');
+
+            // Re-bind the input event for the search functionality
+            $('#searchInput').on('input', handleSearch);
+        });
         function displaySearchResults(products) {
             var tableBody = $('#productTable tbody');
             tableBody.empty();
@@ -465,7 +507,7 @@
                         size: selectedSize,
                     },
                     success: function (response) {
-                        console.log(response);
+                        // console.log(response);
                         updateCartTable(response);
                         location.reload();
                         // $.Notification.autoHideNotify('success', 'top right', 'Bingo!!', response.message);
@@ -521,7 +563,24 @@
                     updateCartTable(response.cartItems);
                     location.reload();
                     // $.Notification.autoHideNotify('danger', 'top right', 'Removed!!', response.message);
+                },
+                error: function (error) {
+                    console.error('Error removing product from cart:', error);
+                }
+            });
+        });
 
+        $('#order_cancel').click(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '/dashboard/pos/order_cancel',
+                method: 'GET',
+
+                success: function (response) {
+                    $('#customerList').empty();
+                    $('#selectedCustomerId').val('');
+                    location.reload();
                 },
                 error: function (error) {
                     console.error('Error removing product from cart:', error);
