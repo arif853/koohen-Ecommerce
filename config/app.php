@@ -160,6 +160,7 @@ return [
          * Package Service Providers...
          */
         // Intervention\Image\ImageServiceProvider::class,
+        niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -191,6 +192,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
         // 'PDF' => misterspelik\LaravelPdf\Facades\Pdf::class
+        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
     ])->toArray(),
 
 ];

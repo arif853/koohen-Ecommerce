@@ -240,8 +240,7 @@ Route::controller(OrderController::class)->middleware('auth')->group(function ()
     Route::get('/dashboard/orders/orders_return', 'order_return')->name('order.return');
     Route::post('/update-order-status', 'updateOrderStatus');
     Route::post('/update-one-order-status', 'updateOneOrderStatus');
-    // Route::get('/orders/invoice/{id}', 'orderInvoice')->name('order.invoice');
-    Route::get('/dashboard/orders/invoice/{orderId}', 'generateInvoice')->name('order.invoice');
+    Route::get('/orders/invoice/{id}', 'orderInvoice')->name('order.invoice');
     Route::get('/orders/invoice-page/{id}', 'invoicePage')->name('invoice');
 });
 

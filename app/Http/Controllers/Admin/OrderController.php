@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use PDF;
-use Mpdf\Mpdf;
 use Carbon\Carbon;
 use App\Models\Size;
 use App\Models\Color;
@@ -439,26 +438,45 @@ class OrderController extends Controller
         // );
         // return $pdf->stream($filename.'.pdf');
     }
-    // public function orderInvoice($id)
+    public function orderInvoice($id)
+    {
+       // ini_set('max_execution_time',3600);
+        $order = Order::where('id', $id)->first();
 
-    // {
-    //     // ini_set('max_execution_time', 3600);
-    //     $order = Order::where('id', $id)->first();
-    //     // echo '<pre>';
-    //     // print_r($data);
-    //     if (!$order) {
-    //         return 'Order not found';
-    //     }
-    //     else{
-    //         // $pdf = PDF::loadView('admin.order.invoice');
+        if (!$order) {
+            return 'Order not found';
+        }
 
-    //         // return $pdf->stream('invoice.pdf');
-    //         $data = ['order'=>$order];
-    //         $pdf = PDF::loadView('admin.order.invoice', $data);
-	//         return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
-    //     }
+        $pdf= PDF::loadView('admin.order.invoice',['order'=>$order],[],
+            [
+                'mode'                 => '',
+                'format'               => 'A5',
+                'default_font_size'    => '10',
+                'margin_left'          => 8,
+                'margin_right'         => 8,
+                'margin_top'           => 10,
+                'margin_bottom'        => 10,
+                'margin_header'        => 0,
+                'margin_footer'        => 0,
+                'orientation'          => 'P',
+                'title'                => 'Koohen',
+                'author'               => 'koohen Ecommerce',
+                'watermark'            => 'KOOHEN',
+                'show_watermark'       => false,
+                'watermark_font'       => 'sans-serif',
+                'display_mode'         => 'fullpage',
+                'watermark_text_alpha' => 0.1,
+                'custom_font_dir'      => '',
+                'custom_font_data'     => [],
+                'auto_language_detection'  => false,
+                'temp_dir'               => rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR),
+                'pdfa'          => false,
+                'pdfaauto'      => false,
+            ]
+        );
 
-    // }
+        return $pdf->download('Koohen Invoice-'.$order->id.'.pdf');
+    }
 
     public function invoicePage($id)
     {
@@ -466,27 +484,5 @@ class OrderController extends Controller
         return view('admin.order.print-invoice', compact('order'));
     }
 
-    public function generateInvoice($orderId)
-    {
-        $order = Order::find($orderId);
 
-        if (!$order) {
-            abort(404, 'Order not found');
-        }
-
-        // Load the HTML template
-        $html = view('invoice', compact('order'))->render();
-
-        // Create mPDF instance
-        $mpdf = new Mpdf(['mode' => 'utf-8', 'format' => 'A5','orientation' => 'P']);
-
-        // Add a page
-        $mpdf->AddPage();
-
-        // Write the HTML content to the PDF
-        $mpdf->WriteHTML($html);
-
-        // Output the PDF
-        $mpdf->Output('invoice.pdf', 'I');
-    }
 }

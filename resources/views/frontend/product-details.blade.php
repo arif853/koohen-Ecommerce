@@ -114,7 +114,7 @@
                    </div>
                    <!--Related Product-->
                    <!--Advertise-->
-                   @foreach ($adsbanner as $ads)
+                   {{-- @foreach ($adsbanner as $ads)
 
                    @endforeach
                    @if($ads->is_featured == 1 )
@@ -130,7 +130,7 @@
                         </div>
                     </div>
 
-                    @endif
+                    @endif --}}
                    <!--Advertise-->
                 </div>
              </div>

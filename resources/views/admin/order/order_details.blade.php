@@ -29,7 +29,7 @@
                         <option>Delivered</option>
                     </select>
                     <a class="btn btn-primary" href="#">Save</a>
-                    <a class="btn btn-secondary print ms-2"   href="{{ url('dashboard/orders/invoice/'.$order->id) }}"><i class="icon material-icons md-print"></i></a>
+                    <a class="btn btn-secondary print ms-2" href="{{ url('/orders/invoice/'.$order->id) }}"><i class="icon material-icons md-print"></i></a>
                 </div>
             </div>
         </header> <!-- card-header end// -->
