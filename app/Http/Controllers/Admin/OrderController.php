@@ -408,7 +408,6 @@ class OrderController extends Controller
     }
 
     public function orderInvoice($id)
-
     {
        // ini_set('max_execution_time',3600);
         $order = Order::where('id', $id)->first();
@@ -422,7 +421,6 @@ class OrderController extends Controller
                 'mode'                 => '',
                 'format'               => 'A5',
                 'default_font_size'    => '10',
-                'default_font'         => 'nikosh',
                 'margin_left'          => 8,
                 'margin_right'         => 8,
                 'margin_top'           => 10,

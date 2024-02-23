@@ -1,15 +1,16 @@
 <?php
 
 return [
-	// 'font_path' => base_path('resources/fonts/'),
-	// 'font_data'         => [
-    //     'kalpurush' => [
-    //         'R'  => 'Kalpurush.ttf',
-    //         'B'  => 'Kalpurush.ttf',
-    //         'I'  => 'Kalpurush.ttf',
-    //         'BI' => 'Kalpurush.ttf'
-    //         ]
-    //     ],
+	'font_path' => base_path('resources/fonts/'),
+	'font_data'         => [
+        'nikosh' => [
+            'R'  => 'Nikosh.ttf',
+            'B'  => 'Nikosh.ttf',
+            'I'  => 'Nikosh.ttf',
+            'BI' => 'Nikosh.ttf',
+            'useOTL' => 0xFF,
+            ]
+        ],
 	'mode'                  => 'utf-8',
 	'format'                => 'A5',
 	'orientation'           => 'P',

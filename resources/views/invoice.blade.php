@@ -59,7 +59,7 @@ p{
 @php
 $settings = DB::table('settings')->first();
 @endphp
-<div class="row" style="width: 100%;">
+<div class="row" style="width: 100%; margin-bottom:25px;">
     <div class="content-address" style="width:60%; float:left;">
         <img src="{{ base_path('public/frontend/assets/imgs/Kohen_Logo_Main.png')}}" alt="Logo" style="width:120px;"><br>
         <address style="margin-top:4px;">{{ $settings->company_address }}</address>
@@ -112,8 +112,8 @@ $settings = DB::table('settings')->first();
 
 </table>
 
-<div class="row payment_table" style="width:100%; margin-top: -5px;">
-    <div class="noBorder" style="width:40%; float:right;">
+<div class="row payment_table" style="width:100%; margin-top: -5px; font-size:10px;">
+    <div class="noBorder" style="width:30%; float:right;">
         <div style="background: #99ddff; padding: 5px 8px; display: flex; justify-content: space-between; align-items: center;">
             <div style="flex-basis: 50%"><strong>Sub total:</strong></div>
             <div style="flex-basis: 50%; text-align: right; padding-top: -17px;">{{ $order->subtotal }}</div>
@@ -137,12 +137,13 @@ $settings = DB::table('settings')->first();
     </div>
 </div>
 
-<div class="row" style="width:100%; margin-top: 15px; font-family: 'Kalpurush';">
-    <h2 >নিন্মোক্ত শর্ত সাপেক্ষে কোন ধরনের ডেলিভারি চার্জ ব্যতীত পণ্য ফেরত দেয়া যাবে।</h2>
-    <p style="font-size:14px; margin-bottom:5px;">১. &nbsp;পণ্যটি অবশ্যই ডেলিভারি ম্যান এর সামনে চেক করে দেখে নিতে হবে
+<div class="row" style="width:100%; margin-top: 15px;">
+
+    <h2 style="font-family: 'nikosh';">নিন্মোক্ত শর্ত সাপেক্ষে কোন ধরনের ডেলিভারি চার্জ ব্যতীত পণ্য ফেরত দেয়া যাবে।</h2>
+    <p style="font-size:14px; margin-bottom:5px;font-family: 'nikosh';">১. &nbsp;পণ্যটি অবশ্যই ডেলিভারি ম্যান এর সামনে চেক করে দেখে নিতে হবে
             অন্যথায় ডেলিভারি ম্যান চলে গেলে আপনার অভিযোগ গ্রহণ যোগ্য হবে না। </p>
-    <p style="font-size:14px; margin-bottom:5px;">২.&nbsp;ডেলিভারি কৃত পণ্য কালার বা সাইজ যদি অর্ডারকৃত পণ্য থেকে ব্যতিক্রম হয়। </p>
-    <p style="font-size:14px; margin-bottom:5px;">৩.&nbsp;কাস্টমারের কাছে যদি পণ্য ক্ষতিগ্রস্ত অবস্থায়
+    <p style="font-size:14px; margin-bottom:5px;font-family: 'nikosh';">২.&nbsp;ডেলিভারি কৃত পণ্য কালার বা সাইজ যদি অর্ডারকৃত পণ্য থেকে ব্যতিক্রম হয়। </p>
+    <p style="font-size:14px; margin-bottom:5px;font-family: 'nikosh';">৩.&nbsp;কাস্টমারের কাছে যদি পণ্য ক্ষতিগ্রস্ত অবস্থায়
             পৌঁছায় । </p>
 </div>
 
