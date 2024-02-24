@@ -133,6 +133,7 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth:customer']], functi
     Route::post('/customerAuth_update/{id}', [CustomerDashboardController::class, 'customerAuth_update']);
     Route::post('/userNameUpdate/{id}', [CustomerDashboardController::class, 'userNameUpdate']);
     Route::post('/newShipping', [CustomerDashboardController::class, 'newShipping']);
+    Route::post('/customer-order-return', [CustomerDashboardController::class, 'orderReturn']);
     Route::post('/logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
 });
 

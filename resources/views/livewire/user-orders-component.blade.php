@@ -120,19 +120,23 @@
 
                                         @endif
                                     </td>
-                                    <td class="text-center">
-                                        <a href="#" class="action-btn" wire:click="trackOrder({{ $order->id }})">Track me</a>
-                                        <a href="#" class="action-btn" data-bs-toggle="tooltip" data-bs-placement="right" title="Return"><i class="fad fa-reply"></i></a>
-                                        <a href="#" class="action-btn" data-bs-toggle="tooltip" data-bs-placement="right" title="Cancel"> <i class="fal fa-window-close"></i></a>
-
+                                    @if ($order->status == "returned")
+                                    <td class="text-center order_status_action" >
+                                        <p>Order Return in proccess.</p>
                                     </td>
+                                    @else
+                                    <td class="text-center order_status_action" >
+                                        <a href="#" class="action-btn" wire:click="trackOrder({{ $order->id }})">Track me</a>
+                                        <a href="#" data-order-id="{{ $order->id }}" class="action-btn order_return" data-bs-toggle="tooltip" data-bs-placement="right" title="Return"><i class="fad fa-reply"></i></a>
+                                        <a href="#" id="order_cancel" data-order-id="{{ $order->id }}" class="action-btn" data-bs-toggle="tooltip" data-bs-placement="right" title="Cancel"> <i class="fal fa-window-close"></i></a>
+                                    </td>
+                                    @endif
+
                                 </tr>
                             @else
                             <p>you do not have any order right now.</p>
                             @endif
-
                             @endforeach
-
                         </tbody>
 
                     </table>
@@ -142,5 +146,62 @@
         </div>
     </div>
     {{-- @livewire('my-order-component') --}}
-
 </div>
+@push('order')
+    <script>
+
+        document.querySelectorAll('.order_return').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent the default link behavior
+            console.log('click');
+            var orderId = $(this).data('order-id');
+            console.log(orderId);
+
+            // Find the closest form element related to the clicked link
+            // var form = this.closest('form');
+            // console.log(form)
+            // Display SweetAlert confirmation
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You want to return it, you won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, return it!'
+            }).then((result) => {
+                // If confirmed, submit the corresponding form
+                if (result.isConfirmed) {
+
+                    var newStatus = "returned";
+
+                    console.log(newStatus);
+                    // Perform an AJAX request to update the status of selected orders
+                    $.ajax({
+                        type: 'POST',
+                        url: '/customer/customer-order-return', // Update with your route
+                        data: {
+                            orderId: orderId,
+                            newStatus: newStatus,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function (response) {
+                            // Handle success, if needed
+                            location.reload();
+                            
+                            // if (response.success) {
+                            //     $.Notification.autoHideNotify('success', 'top right', 'Success', response.message);
+                            // }
+                            console.log(response);
+                        },
+                        error: function (error) {
+                            // Handle error, if needed
+                            console.error(error);
+                        }
+                    });
+                }
+            });
+        });
+    });
+    </script>
+@endpush

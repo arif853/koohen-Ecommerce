@@ -10699,3 +10699,26 @@ span.fi-rs-apps {
         text-align: center !important;
       }
   }
+ul li a.customer_info{
+    position: relative;
+}
+
+ul li a.customer_info::before{
+    position: absolute;
+    content: '';
+    bottom: -5px;
+    left: 0;
+    height: 1px;
+    width: 0%;
+    background-color: #ffffff;
+    transition: all .5s;
+}
+
+ul li a.customer_info:hover::before{
+    width: 100%;
+    background-color: #000 !important;
+
+}
+ul li a.customer_info:hover{
+   color: #000 !important;
+}

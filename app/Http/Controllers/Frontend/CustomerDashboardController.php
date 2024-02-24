@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use Carbon\Carbon;
 use App\Models\Size;
 use App\Models\Color;
 use App\Models\Order;
@@ -10,11 +11,13 @@ use App\Models\District;
 use App\Models\Division;
 use App\Models\Postcode;
 use App\Models\shipping;
+use App\Models\Orderstatus;
 use Illuminate\Http\Request;
 use App\Models\Register_customer;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 
 class CustomerDashboardController extends Controller
@@ -162,6 +165,33 @@ class CustomerDashboardController extends Controller
         return redirect()->back()->with('success', 'User updated successfully');
     }
 
+    public function orderReturn(Request $request)
+    {
+        $orderId = $request->orderId;
+        $newStatus = $request->newStatus;
+
+        // Retrieve the order
+        $order = Order::find($orderId);
+
+        if (!$order) {
+            return response()->json(['success' => false, 'message' => 'Order not found']);
+        }
+
+        // Save the current order status
+        $previousStatus = $order->status;
+
+        // Update the order status
+        $order->status = $newStatus;
+        $order->save();
+
+        // Update the OrderStatus table
+        $statusColumn = $newStatus . '_date_time';
+        Orderstatus::updateOrCreate(['order_id' => $orderId], ['status' => $newStatus, $statusColumn => Carbon::now()]);
+        Session::flash('success','Your order has been returned. Someone will conatct with you soon.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Order status updated ' . $previousStatus . ' to ' . $newStatus . ' successfully']);
+    }
     /**
      * Update the specified resource in storage.
      */
@@ -177,4 +207,6 @@ class CustomerDashboardController extends Controller
     {
         //
     }
+
+
 }
