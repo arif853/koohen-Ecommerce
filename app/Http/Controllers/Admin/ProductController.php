@@ -56,12 +56,10 @@ class ProductController extends Controller
 
     public function ProductFilter(Request $request)
     {
-        $productName = $request->input('product_name');
-        $productSku = $request->input('sku');
         $startDate = $request->input('created_at');
         $endDate = $request->input('updated_at');
-
-        $query = Products::with([
+    
+        $query = Products::query()->with([
             'overviews',
             'product_infos',
             'product_images',
@@ -72,37 +70,25 @@ class ProductController extends Controller
             'brand',
             'category',
         ]);
-
-        if ($productName) {
-            $query->where('product_name', 'LIKE', "%$productName%");
-        }
-
-        if ($productSku) {
-            $query->where('sku', 'LIKE', "%$productSku%");
-        }
-        if ($productName || $productSku || $startDate ) {
-            $query->where(function ($query) use ($productName, $productSku,$startDate) {
-                if ($productName) {
-                    $query->where('product_name', 'LIKE', "%$productName%");
-                }
-                if ($productSku) {
-                    $query->orWhere('sku', 'LIKE', "%$productSku%");
-                }
-                if ($startDate) {
-                    $query->where('created_at', '>=', $startDate);
-                }
-            });
-        }
-        if ($startDate && $endDate) {
-            $query->whereBetween('created_at', [$startDate, $endDate]);
+        
+        if ($startDate || $endDate) {
+            // If both start and end dates are provided, filter between them
+            $query->whereDate('created_at', $startDate)
+                  ->orWhereDate('updated_at', $endDate);
         } elseif ($startDate) {
+            // If only start date is provided, filter based on it
             $query->where('created_at', '>=', $startDate);
         } elseif ($endDate) {
+            // If only end date is provided, filter based on it
             $query->where('updated_at', '<=', $endDate);
         }
+        
         $products = $query->get();
+    
         return response()->json(['products' => $products]);
     }
+    
+    
 
     /**
      * Show the form for creating a new resource.

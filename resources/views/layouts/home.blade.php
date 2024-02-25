@@ -270,6 +270,16 @@
                             top: 10px;
                             right: 12px;
                         }
+                        .search-holder {
+    position: relative; /* Position the search-holder relative */
+}
+
+.search-elements {
+    position: absolute; /* Position the search-elements absolutely */
+    width: 100%; /* Set the width to 100% */
+    margin-top: 3px; /* Add margin top */
+    /* Additional styling as needed */
+}
                     </style>
                     <div class="hotline d-none d-lg-block">
                         <div class="header-action-2 header">
@@ -284,10 +294,11 @@
                                     <button type="reset" id="form-close" class="search-close">
                                         <i class="fa fa-times"></i>
                                     </button>
+                                    <div id="product-suggestions" class="search-elements" style="width: 100%; margin-top:3px;"></div>
                                 </form>
-                                <div id="product-suggestions"></div>
+                               
                             </div>
-
+                          
 
                             @livewire('wishlist-icon-component')
 
@@ -854,43 +865,45 @@
                 }
             });
         });
-        $(document).ready(function() {
-            $('.search-input').keyup(function(event) {
-                var searchTerm = $(this).val();
-                // alert(searchTerm); // Display the value in an alert box
-                console.log(searchTerm); // Log the value to the console
+     $(document).ready(function() {
+    $('.search-input').keyup(function(event) {
+        var searchTerm = $(this).val();
+        console.log(searchTerm); // Log the value to the console
 
-                $.ajax({
-                    url: "{{ route('search') }}",
-                    type: 'GET',
-                    dataType: 'json',
-                    data: {
-                        search: searchTerm
-                    },
-                    success: function(data) {
-                        var suggestionsContainer = $('#product-suggestions');
-                        suggestionsContainer.empty();
+        $.ajax({
+            url: "{{ route('search') }}",
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                search: searchTerm
+            },
+            success: function(data) {
+                var suggestionsContainer = $('#product-suggestions');
+                suggestionsContainer.empty();
 
-                        if (data.products.length === 0) {
-                            suggestionsContainer.append('<p>No products found</p>');
-                        } else {
-                            data.products.forEach(function(product) {
-                                var suggestion = $('<div class="product-suggestion">');
-                                suggestion.append('<img src="' + product.image_url +
-                                    '" alt="' + product.product_name + '">');
-                                suggestion.append('<p>' + product.product_name +
-                                '</p>');
-                                suggestionsContainer.append(suggestion);
-                            });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching product suggestions:', error);
-                    }
-                });
-
-            });
+                if (data.products.length === 0) {
+                    suggestionsContainer.append('<p>No products found</p>');
+                } else {
+                    data.products.forEach(function(product) {
+                        var suggestion = $('<div class="product-suggestion">');
+                        var img = $('<img>');
+                        img.attr('src', product.image_url);
+                        img.attr('alt', product.product_name);
+                        img.css('width', '100%'); // Set the width of the image to 100%
+                        var productName = $('<p>').css('font-size', '12px').text(product.product_name); // Set the font size of the product name to 12px
+                        suggestion.append(img, productName); // Append both image and product name to the same div
+                        suggestionsContainer.append(suggestion);
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching product suggestions:', error);
+            }
         });
+
+    });
+});
+
     </script>
     @if (Session::has('success'))
         <script>
