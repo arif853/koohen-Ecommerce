@@ -46,9 +46,9 @@
                             @endphp
                             <ul>
                                 <li><i class="far fa-phone-alt"></i> <a
-                                        href="tel:<?php echo $settings->secondary_mobile_no; ?>">{{ $settings->secondary_mobile_no }}</a></li>
+                                        href="tel:<?php echo $settings->secondary_mobile_no; ?>">{{ (@$settings->secondary_mobile_no)?$settings->secondary_mobile_no:"+8809639174502"}}</a></li>
                                 <li><i class="fal fa-envelope"></i><a
-                                        href="mailto:<?php echo $settings->email; ?>">{{ $settings->email }}</a></li>
+                                        href="mailto:<?php echo $settings->email; ?>">{{(@$settings->email)?$settings->email:"support@koohen.com" }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -407,10 +407,10 @@
                         @endauth
                     </div>
                     <div class="single-mobile-header-info">
-                        <a href="tel:<?php echo $settings->secondary_mobile_no; ?>">{{ $settings->secondary_mobile_no }}</a>
+                        <a href="tel:<?php echo $settings->secondary_mobile_no; ?>">{{(@$settings->secondary_mobile_no)?$settings->secondary_mobile_no:"+880 1751218778"}}</a>
                     </div>
                     <div class="single-mobile-header-info mt-30">
-                        <a href="{{ route('contactus') }}"> Our location: <p>{{ $settings->company_address }}</p></a>
+                        <a href="{{ route('contactus') }}"> Our location: <p>{{(@$settings->company_address)? $settings->company_address:"Company Address" }}</p></a>
                     </div>
                 </div>
                 <div class="mobile-social-icon">
@@ -485,7 +485,7 @@
                                         src="{{ asset('frontend/assets/imgs/Kohen_Logo_Main.png') }}"
                                         alt="logo"></a>
                             </div>
-                            <p class="footer-desc">{{ $settings->company_short_details }}</p>
+                            <p class="footer-desc">{{ (@$settings->company_short_details)? $settings->company_short_details: "Company Short Description" }}</p>
 
                         </div>
                     </div>
@@ -500,29 +500,29 @@
                         <ul class="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
                             <li>
                                 <a href="https://wa.link/3qi05h"><span><i class="fab fa-whatsapp"></i></span>
-                                    {{ $settings->primary_mobile_no }}</a>
+                                    {{ (@$settings->primary_mobile_no)? $settings->primary_mobile_no:" +880 1751218778"}}</a>
 
                             </li>
                             <li><a href="tel:<?php echo $settings->secondary_mobile_no; ?>"><span><i class="fal fa-phone-alt"></i></span>
-                                    {{ $settings->secondary_mobile_no }}</a></li>
+                                    {{ (@$settings->secondary_mobile_no)? $settings->secondary_mobile_no:"+8809639174502" }}</a></li>
                             <li><a href="mailto:<?php echo $settings->email; ?>"><span><i class="fal fa-envelope"></i></span>
-                                    {{ $settings->email }}</a></li>
+                                    {{(@$settings->email)? $settings->email:"support@koohen.com" }}</a></li>
                             <li><a href="#"><span><i class="fal fa-map-marker-alt"></i></span>
-                                    {{ $settings->company_address }}</a></li>
+                                    {{ (@$settings->company_address)? $settings->company_address:"Company Address"}}</a></li>
 
                         </ul>
                         <h5 class="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">Follow Us</h5>
                         <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
-                            <a href="{{ $settings->facebook_url }}" target="_blank"><img
+                            <a href="{{(@$settings->facebook_url)? $settings->facebook_url:"https://www.facebook.com"}}" target="_blank"><img
                                     src="{{ asset('frontend/assets/imgs/theme/icons/icon-facebook.svg') }}"
                                     alt=""></a>
-                            <a href="{{ $settings->twiter_url }}" target="_blank"><img
+                            <a href="{{(@$settings->twiter_url)? $settings->twiter_url:"https://www.twitter.com"}}" target="_blank"><img
                                     src="{{ asset('frontend/assets/imgs/theme/icons/icon-twitter.svg') }}"
                                     alt=""></a>
-                            <a href="{{ $settings->instagram_url }}" target="_blank"><img
+                            <a href="{{ (@$settings->instagram_url)? $settings->instagram_url:"https://www.instagram.com/"}}" target="_blank"><img
                                     src="{{ asset('frontend/assets/imgs/theme/icons/icon-instagram.svg') }}"
                                     alt=""></a>
-                            <a href="{{ $settings->youtube_url }}" target="_blank"><img
+                            <a href="{{ (@$settings->youtube_url)? $settings->youtube_url:"https://www.youtube.com" }}" target="_blank"><img
                                     src="{{ asset('frontend/assets/imgs/theme/icons/icon-youtube.svg') }}"
                                     alt=""></a>
                         </div>

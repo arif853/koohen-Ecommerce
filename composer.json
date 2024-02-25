@@ -13,6 +13,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.3",
+        "misterspelik/laravel-pdf": "^1.1",
         "niklasravnsborg/laravel-pdf": "^4.1"
     },
     "require-dev": {
