@@ -101,14 +101,14 @@ $settings = DB::table('settings')->first();
 <h3 class="tera" style="margin-bottom:0%;text-transform:uppercase;">Ship To:-</h3>
 <div class="customer" style="display: flex; justify-content: space-between; align-items: center;">
     <p style="margin-top:4px;"> <strong>Customer Name :</strong>
-         {{ $order->customer->shipping[0]->first_name.' '.$order->customer->shipping[0]->last_name }}
+         {{ $order->customer->firstName.' '.$order->customer->lastName }}
     </p>
 
     <p style="margin-top:4px;"> <strong>Phone :</strong>
-        {{ $order->customer->shipping[0]->s_phone }}
+
     </p>
     <p style="margin-top:4px;"> <strong>Address :</strong>
-        {{ $order->customer->shipping[0]->shipping_add}}
+
     </p>
 
 </div>

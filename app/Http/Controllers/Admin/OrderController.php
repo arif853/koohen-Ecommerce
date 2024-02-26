@@ -438,6 +438,7 @@ class OrderController extends Controller
         // );
         // return $pdf->stream($filename.'.pdf');
     }
+    
     public function orderInvoice($id)
     {
        // ini_set('max_execution_time',3600);
@@ -447,35 +448,9 @@ class OrderController extends Controller
             return 'Order not found';
         }
 
-        $pdf= PDF::loadView('admin.order.invoice',['order'=>$order],[],
-            [
-                'mode'                 => '',
-                'format'               => 'A5',
-                'default_font_size'    => '10',
-                'margin_left'          => 8,
-                'margin_right'         => 8,
-                'margin_top'           => 10,
-                'margin_bottom'        => 10,
-                'margin_header'        => 0,
-                'margin_footer'        => 0,
-                'orientation'          => 'P',
-                'title'                => 'Koohen',
-                'author'               => 'koohen Ecommerce',
-                'watermark'            => 'KOOHEN',
-                'show_watermark'       => false,
-                'watermark_font'       => 'sans-serif',
-                'display_mode'         => 'fullpage',
-                'watermark_text_alpha' => 0.1,
-                'custom_font_dir'      => '',
-                'custom_font_data'     => [],
-                'auto_language_detection'  => false,
-                'temp_dir'               => rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR),
-                'pdfa'          => false,
-                'pdfaauto'      => false,
-            ]
-        );
+        $pdf= PDF::loadView('admin.order.invoice',['order'=>$order]);
 
-        return $pdf->download('Koohen Invoice-'.$order->id.'.pdf');
+        return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
     }
 
     public function invoicePage($id)

@@ -721,7 +721,7 @@
                 },
                 success: function (response) {
                     // Handle success response
-                    reload.location();
+                    location.reload();
                     console.log(response);
                 },
                 error: function (error) {

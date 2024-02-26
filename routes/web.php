@@ -390,7 +390,7 @@ Route::get('/dashboard/reviews', function () {
 // reviews
 Route::get('/dashboard/mailerview', function () {
     return view('admin.email.mail');
-})->name('reviews');
+})->name('mailer');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
