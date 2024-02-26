@@ -1,6 +1,54 @@
   @extends('layouts.admin')
   @section('title','POS SYSTEM')
   @section('content')
+  <style>
+    .form-input{
+        width: 70px;
+        height: 40px;
+        border: 2px solid #b6b6b6;
+        border-radius: 6px;
+        padding: 10px;
+    }
+    .search-box{
+        position: relative;
+    }
+    .search-box #addNewCustomer{
+        position: absolute;
+        top: 0;
+        right: 0;
+
+    }
+    .search-box{
+        position: relative;
+    }
+    .search-box .customer_list{
+        position: absolute;
+        top: 50px;
+        left: 0;
+        /* height: 100%; */
+        width: 300px;
+        background-color: #fff;
+        border: 1px solid #eee;
+        z-index: 9999999;
+        padding: 15px 25px;
+        border-radius: 10px;
+
+    }
+    .customer_list li{
+        margin-bottom: 10px;
+    }
+    .customer-wrapper{
+        height: 100%;
+        width: 100%;
+        background-color: #fff;
+        margin-bottom: 24px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border: 1px solid #eee;
+        border-radius: 10px;
+        padding: 15px 25px;
+    }
+</style>
 
 <!-- ========================= SECTION CONTENT ========================= -->
 <section class="section-content">
@@ -12,8 +60,8 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-lg-3">
-                                <div class="dropdown">
+                            <div class="col-lg-0">
+                                {{-- <div class="dropdown">
                                     <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="fa-solid fa-tags"></i>All Category
                                     </a>
@@ -22,10 +70,10 @@
                                       <li><a class="dropdown-item" href="#">Another action</a></li>
                                       <li><a class="dropdown-item" href="#">Something else here</a></li>
                                     </ul>
-                                </div>
+                                </div> --}}
 
                             </div>
-                            <div class="col-lg-6 col-sm-6">
+                            <div class="col-lg-8 col-sm-6">
                                 <form action="#" class="search-wrap">
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Search By Product Name or SKU" id="product_search">
@@ -79,9 +127,11 @@
                                     </select>
                                     </td>
                                     <td class="text-center">
-                                    <div class="price-wrap">
-                                    <var class="price">৳{{$product->regular_price}}</var>
-                                    </div>
+                                        <div class="price-wrap">
+                                            <var class="price">
+                                                <input type="text" class="form-input" name="price" value="{{$product->regular_price}}" data-product-price>
+                                            </var>
+                                        </div>
                                     </td>
                                     <td class="text-end">
                                     <a href="#" class="btn btn-outline-primary addToCarts" data-product-id="{{$product->id}}"><i class="fa-solid fa-plus"></i></a>
@@ -94,69 +144,22 @@
                     </div>
                 </div>
             </div>
-            <style>
-                .form-input{
-                    width: 70px;
-                    height: 40px;
-                    border: 2px solid #b6b6b6;
-                    border-radius: 6px;
-                    padding: 10px;
-                }
-                .search-box{
-                    position: relative;
-                }
-                .search-box #addNewCustomer{
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-
-                }
-                .search-box{
-                    position: relative;
-                }
-                .search-box .customer_list{
-                    position: absolute;
-                    top: 50px;
-                    left: 0;
-                    /* height: 100%; */
-                    width: 300px;
-                    background-color: #fff;
-                    border: 1px solid #eee;
-                    z-index: 9999999;
-                    padding: 15px 25px;
-                    border-radius: 10px;
-
-                }
-                .customer_list li{
-                    margin-bottom: 10px;
-                }
-                .customer-wrapper{
-                    height: 100%;
-                    width: 100%;
-                    background-color: #fff;
-                    margin-bottom: 24px;
-                    -webkit-box-shadow: none;
-                    box-shadow: none;
-                    border: 1px solid #eee;
-                    border-radius: 10px;
-                    padding: 15px 25px;
-                }
-            </style>
 
             <div class="col-md-5">
-                <form action="#" >
+                <form action="#" id="pos_order_form">
                     <div class="customer-wrapper">
                         <div class="customer-body-wrapper">
                             <a class="btn btn-primary mr-10" id="existing_customer_btn">Existing Customer</a>
                             <a class="btn btn-outline-primary" id="walk_in_customer_btn">Walk In Customer</a>
 
                             <div class="walking_customer mt-10" style="display: none;">
-                                <input type="text" class="form-control" readonly name="customer" id="walk_customer" value="Walk In Customer">
+                                <p>Walk In Customer</p>
+                                <input type="hidden" class="form-control" readonly name="customer" id="walk_customer" value="1">
                             </div>
 
                             <div class="customer-search" style="display: none;">
                                 <div class="mt-10 search-box">
-                                    <input type="text" class="form-control searchInput" name="customer" id="searchInput" placeholder="Search customer by phone or email">
+                                    <input type="text" class="form-control searchInput" id="searchInput" placeholder="Search customer by phone or email">
                                     <a class="btn btn-primary ml-2" id="addNewCustomer" href="#"><i class="fa-solid fa-plus"></i></a>
 
                                     <div id="customerList">
@@ -166,7 +169,7 @@
 
                                 </div>
                             </div>
-                            <input type="hidden" class="selectedcustomerid" id="selectedCustomerId" name="customer">
+                            {{-- <input type="hidden" class="selectedcustomerid" id="selectedCustomerId" name="customer"> --}}
                         </div>
                     </div>
                     <div class="card">
@@ -206,10 +209,31 @@
                                             </div>
                                             </td>
                                             <td class="text-center">
-                                            {{-- // '<p>' + cartItem.options.color + '</p> --}}
+                                                    @php
+                                                    $color = DB::table('colors')->where('id', $item->options->color)->first();
+                                                    if ($color) {
+                                                        // Access the properties of $color
+                                                        $colorName = $color->color_name;
+                                                    } else {
+                                                        // Handle the case when no record is found
+                                                        $colorName = 'No color';
+                                                    }
+                                                    @endphp
+                                                <p>{{$colorName}}</p>
                                             </td>
                                             <td class="text-center">
-                                            {{-- // '<p>' + cartItem.options.size + '</p>' + --}}
+                                                @php
+                                                $size = DB::table('sizes')->where('id', $item->options->size)->first();
+                                                if ($size) {
+                                                    // Access the properties of $color
+                                                    $sizeName = $size->size;
+                                                } else {
+                                                    // Handle the case when no record is found
+                                                    $sizeName = 'No size';
+                                                }
+                                                @endphp
+                                            <p>{{$sizeName}}</p>
+
                                             </td>
                                             <td class="text-right">
                                             <a href="#" class="btn btn-outline-danger removeCartItems" data-row-id="{{$item->rowId}}"> <i class="fa-solid fa-xmark"></i></a>
@@ -236,10 +260,11 @@
                                     <td >
                                         @if($total > 0)
                                         ৳{{$total}}
+                                        <input type="hidden" name="subtotal" id="psubtotal" value="{{$total}}">
                                         @else
                                         ৳{{$total}}
+                                        <input type="hidden" name="subtotal" id="psubtotal" value="{{$total}}">
                                         @endif
-                                        <input type="hidden" name="subtotal" value="{{$total}}">
                                     </td>
                                 </tr>
                                 <tr>
@@ -264,7 +289,7 @@
                                 <div class="col-md-7">
                                     <a href="#" class="btn btn-danger btn-block" id="order_cancel">
                                         <i class="fa-solid fa-xmark"></i> Cancel </a>
-                                    <a href="#" class="btn btn-primary "><i class="fa-solid fa-bag-shopping"></i>Procced order </a>
+                                    <a href="#" class="btn btn-primary " id="proceed_order_btn"><i class="fa-solid fa-bag-shopping"></i>Procced order </a>
                                 </div>
                             </div>
                         </div>
@@ -359,7 +384,7 @@
                                             '<a href="#" class="select_customer">'+
                                                 ' <strong>'+ customer.firstName +' '+customer.lastName+ '</strong>'+
                                                 ' <p>' + customer.email + '</p>'+
-                                                '<input type="hidden" name="customer_id" data-customer-id="'+customer.id+'">'
+                                                '<input type="hidden" name="customer_id" data-customer-id="'+customer.id+'">'+
                                             ' </a>'+
                                         '</li>';
 
@@ -378,6 +403,7 @@
                                 // Update the customer-search section with remove button
                                 var selectedCustomerHTML = '<div class="selected-customer">' +
                                                                 '<p class="mt-5">' + selectedCustomer + '</p>' +
+                                                                '<input type="hidden" id="ex_customer" name="customer_id" data-customer-id="'+selectedCustomerId+'">'+
                                                                 '<a href="#" class="remove-customer"><i class="fa-solid fa-xmark"></i> Remove</a>' +
                                                             '</div>';
 
@@ -422,6 +448,7 @@
             // Re-bind the input event for the search functionality
             $('#searchInput').on('input', handleSearch);
         });
+
         function displaySearchResults(products) {
             var tableBody = $('#productTable tbody');
             tableBody.empty();
@@ -474,7 +501,9 @@
                             '</td>' +
                             '<td class="text-center">' +
                             '<div class="price-wrap">' +
-                            '<var class="price">৳' + product.regular_price + '</var>' +
+                            '<var class="price">' +
+                                '<input type="text" class="form-input" name="price" value="' + product.regular_price + '" data-product-price>'+
+                            '</var>' +
                             '</div>' +
                             '</td>' +
                             '<td class="text-end">' +
@@ -494,10 +523,11 @@
                 var productId = $(this).data('product-id');
                 var selectedColor = $(this).closest('tr').find('[data-product-color]').val();
                 var selectedSize = $(this).closest('tr').find('[data-product-size]').val();
+                var productPrice = $(this).closest('tr').find('[data-product-price]').val();
 
                 // console.log(productId);
                 // console.log(selectedColor);
-                // console.log(selectedSize);
+                console.log(productPrice);
 
                 $.ajax({
                     url: '/dashboard/pos_cart/' + productId,
@@ -505,6 +535,7 @@
                     data: {
                         color: selectedColor,
                         size: selectedSize,
+                        price: productPrice,
                     },
                     success: function (response) {
                         // console.log(response);
@@ -526,10 +557,11 @@
             var productId = $(this).data('product-id');
             var selectedColor = $(this).closest('tr').find('[data-product-color]').val();
             var selectedSize = $(this).closest('tr').find('[data-product-size]').val();
+            var productPrice = $(this).closest('tr').find('[data-product-price]').val();
 
             // console.log(productId);
             // console.log(selectedColor);
-            // console.log(selectedSize);
+            console.log(selectedSize);
 
             $.ajax({
                 url: '/dashboard/pos_cart/' + productId,
@@ -537,6 +569,8 @@
                 data: {
                     color: selectedColor,
                     size: selectedSize,
+                    price: productPrice,
+
                 },
                 success: function (response) {
                     location.reload();
@@ -647,6 +681,55 @@
                 });
             });
         }
+
+        //pos order
+
+        $('#proceed_order_btn').on('click', function (e) {
+            e.preventDefault();
+
+            // var formData = $('#pos_order_form').serialize();
+            var selectedCustomerId = $('.selected-customer').find('input').data('customer-id');
+
+            if (selectedCustomerId !== undefined && selectedCustomerId !== null && selectedCustomerId !== '') {
+                var customer = selectedCustomerId;
+                console.log(customer);
+            } else {
+                var customer = $('#walk_customer').val();
+                console.log(customer);
+            }
+            // var customer =
+            var psubtotal = $('#psubtotal').val();
+            var delivery_cost = $('#delivery_charge').val();
+            var discount = $('#discount').val();
+            var total = $('#g_total').val();
+
+            console.log(psubtotal);
+            console.log(delivery_cost);
+            console.log(discount);
+            console.log(total);
+
+            $.ajax({
+                type: 'POST',
+                url: '/dashboard/pos/store', // Update with your route
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    customer: customer,
+                    subtotal: psubtotal,
+                    delivery_charge: delivery_cost,
+                    discount: discount,
+                    total: total,
+                },
+                success: function (response) {
+                    // Handle success response
+                    reload.location();
+                    console.log(response);
+                },
+                error: function (error) {
+                    // Handle error
+                    console.log(error);
+                }
+            });
+        });
 
     });
 </script>
