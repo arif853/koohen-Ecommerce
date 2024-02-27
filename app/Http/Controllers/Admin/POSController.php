@@ -167,7 +167,7 @@ class POSController extends Controller
         Cart::instance('pos_cart')->destroy();
         Session::flash('success','Order has been created.');
         // Generate and stream the invoice
-        $this->Invoice($order->id)->stream();
+        $invoice = $this->Invoice($order->id)->stream();
         // dd($order);
         return Redirect::back()->with('success', 'Order processed successfully');
     }
@@ -180,9 +180,12 @@ class POSController extends Controller
         if (!$order) {
             return 'Order not found';
         }
+        else{
+            $pdf= PDF::loadView('admin.order.pos_invoice', ['order'=>$order]);
 
-        $pdf= PDF::loadView('admin.order.pos_invoice',['order'=>$order]);
+            return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
+        }
 
-        return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
+
     }
 }

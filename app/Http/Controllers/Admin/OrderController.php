@@ -438,7 +438,7 @@ class OrderController extends Controller
         // );
         // return $pdf->stream($filename.'.pdf');
     }
-    
+
     public function orderInvoice($id)
     {
        // ini_set('max_execution_time',3600);
@@ -447,10 +447,13 @@ class OrderController extends Controller
         if (!$order) {
             return 'Order not found';
         }
+        else{
+            $pdf= PDF::loadView('admin.order.invoice',['order'=>$order]);
+            // $pdf->SetWatermarkText('DRAFT');
+            // $pdf->showWatermarkText = true;
+            return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
+        }
 
-        $pdf= PDF::loadView('admin.order.invoice',['order'=>$order]);
-
-        return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
     }
 
     public function invoicePage($id)
