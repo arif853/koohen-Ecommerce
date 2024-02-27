@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use PDF;
 use Carbon\Carbon;
 use App\Models\Size;
@@ -9,6 +10,7 @@ use App\Models\Order;
 use App\Models\Customer;
 use App\Models\District;
 use App\Models\Postcode;
+use App\Models\Products;
 use App\Models\shipping;
 use App\Models\order_items;
 use App\Models\Orderstatus;
@@ -18,7 +20,6 @@ use Illuminate\Validation\Rule;
 use App\Models\Register_customer;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Products;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -416,32 +417,32 @@ class OrderController extends Controller
             return 'Order not found';
         }
 
-        $pdf= PDF::loadView('invoice',['order'=>$order],[],
-            [
-                'mode'                 => '',
-                'format'               => 'A5',
-                'default_font_size'    => '10',
-                'margin_left'          => 8,
-                'margin_right'         => 8,
-                'margin_top'           => 10,
-                'margin_bottom'        => 10,
-                'margin_header'        => 0,
-                'margin_footer'        => 0,
-                'orientation'          => 'P',
-                'title'                => 'Koohen',
-                'author'               => 'koohen Ecommerce',
-                'watermark'            => 'KOOHEN',
-                'show_watermark'       => false,
-                'watermark_font'       => 'sans-serif',
-                'display_mode'         => 'fullpage',
+        $pdf =PDF::loadView('invoice', ['data' => $data], [], [
+                'mode' => '',
+                'format' => 'A5-P',
+                'default_font_size' => '12',
+                'default_font' => 'nikosh',
+                'margin_left' => 10,
+                'margin_right' => 10,
+                'margin_top' => 15,
+                'margin_bottom' => 15,
+                'margin_header' => 2,
+                'margin_footer' => 5,
+                'orientation' => 'L',
+                'title' => 'Laravel mPDF',
+                'author' => '',
+                'watermark' => '',
+                'show_watermark' => false,
+                'watermark_font' => 'SutonnyMJRegular',
+                'display_mode' => 'fullpage',
                 'watermark_text_alpha' => 0.1,
-                'custom_font_dir'      => '',
-                'custom_font_data'     => [],
-                'auto_language_detection'  => false,
-                'temp_dir'               => rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR),
-                'pdfa'          => false,
-                'pdfaauto'      => false,
-            ]
+                'custom_font_dir' => '',
+                'custom_font_data' => [],
+                'auto_language_detection' => false,
+                'temp_dir' => rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR),
+                'pdfa' => false,
+                'pdfaauto' => false,
+            ],
         );
 
         return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
@@ -453,4 +454,6 @@ class OrderController extends Controller
         $order = Order::with('customer', 'order_item', 'order_item.product', 'order_item.product_sizes')->where('id', $id)->first();
         return view('admin.order.print-invoice', compact('order'));
     }
+
+
 }

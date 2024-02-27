@@ -134,6 +134,7 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth:customer']], functi
     Route::post('/customerAuth_update/{id}', [CustomerDashboardController::class, 'customerAuth_update']);
     Route::post('/userNameUpdate/{id}', [CustomerDashboardController::class, 'userNameUpdate']);
     Route::post('/newShipping', [CustomerDashboardController::class, 'newShipping']);
+    Route::post('/customer-order-return', [CustomerDashboardController::class, 'orderReturn']);
     Route::post('/logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
 });
 
@@ -379,6 +380,7 @@ Route::controller(POSController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/pos_cart/cart_remove/{id}', 'cart_remove');
     Route::get('.dashboard/pos/customer', 'searchcustomer')->name('search.customer');
     Route::get('/dashboard/pos/order_cancel', 'posOrderCancel')->name('pos.cancel');
+    Route::post('/dashboard/pos/store','posOrder')->name('pos.order');
 
 });
 
@@ -390,7 +392,7 @@ Route::get('/dashboard/reviews', function () {
 // reviews
 Route::get('/dashboard/mailerview', function () {
     return view('admin.email.mail');
-})->name('reviews');
+})->name('mailer');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

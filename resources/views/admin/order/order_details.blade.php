@@ -29,7 +29,7 @@
                         <option>Delivered</option>
                     </select>
                     <a class="btn btn-primary" href="#">Save</a>
-                    <a class="btn btn-secondary print ms-2"   href="{{ route('order.invoice',$order->id) }}"><i class="icon material-icons md-print"></i></a>
+                    <a class="btn btn-secondary print ms-2" href="{{ url('/orders/invoice/'.$order->id) }}"><i class="icon material-icons md-print"></i></a>
                 </div>
             </div>
         </header> <!-- card-header end// -->
@@ -93,6 +93,8 @@
                     </article>
                 </div> <!-- col// -->
                 <div class="col-md-4">
+                    @if ($district)
+
                     <article class="icontext align-items-start">
                         <span class="icon icon-sm rounded-circle bg-primary-light">
                             <i class="text-primary material-icons md-place"></i>
@@ -102,10 +104,13 @@
                             <p class="mb-1">
                                 City: {{$district->name}},<br> Area: {{$postOffice->postOffice}} <br>
                                 {{$order->customer->billing_address}}
+
                             </p>
                             <a href="#">View profile</a>
                         </div>
                     </article>
+                        @endif
+
                 </div> <!-- col// -->
             </div> <!-- row // -->
             <div class="row">

@@ -20,11 +20,11 @@
 
     <link href="{{ asset('frontend/assets/notifications/notification.css') }}" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/vendors/animate.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/vendor/slick/slick.css') }}">
-    <link rel="stylesheet" type="text/css"
-        href="{{ asset('frontend/assets/vendor/jquery.countdown/css/jquery.countdown.css') }}">
-
+	<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/css/vendors/animate.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/vendor/slick/slick.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/vendor/jquery.countdown/css/jquery.countdown.css')}}">
+    {{-- sweet alert --}}
+    <link rel="stylesheet" href="{{asset('admin/assets/css/vendors/sweetalert2.min.css')}}">
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('/') }}frontend/assets/css/main.css?v=3.4">
 
@@ -91,10 +91,9 @@
                                             $user = Auth::guard('customer')->user();
                                             $fullName = $user->customer->firstName . ' ' . $user->customer->lastName;
                                         @endphp
+                                    <a class="customer_info " href="{{route('customer.dashboard')}}" >{{ $fullName }}</a>
 
-                                        <div class="dropdown">
-                                            <a class="customer_info dropdown-toggle" href="#" id="dropdownMenuButton"
-                                                data-mdb-toggle="dropdown" aria-expanded="false">{{ $fullName }}</a>
+                                        {{-- <div class="dropdown">
 
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <li><a class="dropdown-item"
@@ -108,7 +107,7 @@
                                                     </form>
                                                 </li>
                                             </ul>
-                                        </div>
+                                          </div> --}}
                                         {{-- <form method="post" action="{{ route('customer.logout') }}">
                                             @csrf
                                             <button type="submit">Logout</button>
@@ -382,9 +381,12 @@
                                 $fullName = $user->customer->firstName . ' ' . $user->customer->lastName;
                             @endphp
 
-                            <div class="dropdown">
-                                <a class="customer_info dropdown-toggle" href="#" id="dropdownMenuButton"
-                                    data-mdb-toggle="dropdown" aria-expanded="false">{{ $fullName }}</a>
+                            <a class="customer_info " href="{{route('customer.dashboard')}}" >{{ $fullName }}</a>
+
+                            {{-- <div class="dropdown">
+                                <a class="customer_info dropdown-toggle" href="#"  id="dropdownMenuButton"
+                                data-mdb-toggle="dropdown"
+                                aria-expanded="false">{{ $fullName }}</a>
 
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <li><a class="dropdown-item" href="{{ route('customer.dashboard') }}">Profile</a>
@@ -397,7 +399,8 @@
                                         </form>
                                     </li>
                                 </ul>
-                            </div>
+                              </div> --}}
+
                         @else
                             {{-- Show login/register links --}}
                             <a href="#" data-bs-toggle="modal" data-bs-target="#login" style="display: inline">Log
@@ -633,20 +636,22 @@
     <script src="{{ asset('frontend/assets/js/vendor/moment.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/vendor/moment-with-locales.js') }}"></script>
 
-    <script src="{{ asset('frontend/assets/vendor/jquery.countdown/js/jquery.plugin.min.js') }}"></script>
-    <script src="{{ asset('frontend/assets/vendor/jquery.countdown/js/jquery.countdown.js') }}"></script>
-
+    <script src="{{asset('frontend/assets/vendor/jquery.countdown/js/jquery.plugin.min.js')}}"></script>
+    <script src="{{asset('frontend/assets/vendor/jquery.countdown/js/jquery.countdown.js')}}"></script>
+    {{-- sweet alert --}}
+    <script src="{{asset('admin/assets/js/vendors/sweetalert2.all.min.js')}}"></script>
     <!-- Template  JS -->
     <script src="{{ asset('') }}frontend/assets/js/main.js?v=3.4"></script>
     <script src="{{ asset('') }}frontend/assets/js/shop.js?v=3.4"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 
-    @livewireScripts
 
     @stack('dashboard')
     @stack('checkout')
     @stack('shop')
     @stack('camp')
+    @stack('order')
+    @livewireScripts
 
     <script>
         var headerContainer = $('.header-wrap');

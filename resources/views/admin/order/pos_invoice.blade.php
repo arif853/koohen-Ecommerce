@@ -1,26 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<<<<<<< HEAD
-<style>
-      body, h1, h2, h3, h4, h5, h6, p, div, ul, ol, li, table, tr, th, td {
-            margin: 0;
-            padding: 0;
-        }
-
-    body{
-        font-size:12px;
-        font-weight:400;
-        color:#25252515 !important;
-
-=======
 
 <style>
     body{
         font-size:10px;
         font-weight:400;
         /* letter-spacing: 1px; */
->>>>>>> bd310968803d9fb955bb42ae183e1fe79e9f5aab
     }
 table, td, th {
   border: 1px solid #22212141;
@@ -33,11 +19,7 @@ table {
 }
 
 th, td {
-<<<<<<< HEAD
-  padding: 10px;
-=======
   padding: 5px;
->>>>>>> bd310968803d9fb955bb42ae183e1fe79e9f5aab
 }
 .customer_table{
     border: 1px solid #fff;
@@ -119,14 +101,14 @@ $settings = DB::table('settings')->first();
 <h3 class="tera" style="margin-bottom:0%;text-transform:uppercase;">Ship To:-</h3>
 <div class="customer" style="display: flex; justify-content: space-between; align-items: center;">
     <p style="margin-top:4px;"> <strong>Customer Name :</strong>
-         {{ $order->customer->shipping[0]->first_name.' '.$order->customer->shipping[0]->last_name }}
+         {{ $order->customer->firstName.' '.$order->customer->lastName }}
     </p>
 
     <p style="margin-top:4px;"> <strong>Phone :</strong>
-        {{ $order->customer->shipping[0]->s_phone }}
+
     </p>
     <p style="margin-top:4px;"> <strong>Address :</strong>
-        {{ $order->customer->shipping[0]->shipping_add}}
+
     </p>
 
 </div>

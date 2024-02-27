@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use PDF;
+use App\Models\Order;
 use App\Models\Campaign;
+use App\Models\Customer;
 use App\Models\Products;
+use App\Models\order_items;
+use App\Models\transactions;
 use Illuminate\Http\Request;
 use App\Models\Product_image;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Customer;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class POSController extends Controller
@@ -63,7 +69,7 @@ class POSController extends Controller
             $offer_price = $product->product_price->offer_price;
 
 
-            $item_price = $product->regular_price;
+            $item_price = $request->input('price');
             $color = $request->input('color');
             $size = $request->input('size');
 
@@ -95,5 +101,88 @@ class POSController extends Controller
         Cart::instance('pos_cart')->destroy();
         Session::flash('danger','Order canceled,Products remove from cart.');
         return response()->json(['status' => 200,'message' => 'Product remove from cart']);
+    }
+
+
+    public function generateCode()
+    {
+    do {
+        // Generate a 4-digit random number
+        $randomNumber = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
+
+        // Get the current year
+        $currentYear = date('y');
+        // Concatenate the components to create the final code
+        $generatedCode = 'K'.$currentYear.'-'.$randomNumber;
+        // Check if the generated code already exists in the database
+        $codeExists = DB::table('orders')->where('order_track_id', $generatedCode)->exists();
+
+    } while ($codeExists);
+
+        // Concatenate the components to create the final code
+
+        return $generatedCode;
+    }
+
+
+
+    public function posOrder(Request $request)
+    {
+        $track_id = $this->generateCode();
+
+        $order = new Order();
+        $order->customer_id = $request->input('customer');
+        $order->order_track_id = $track_id;
+        $order->subtotal = $request->input('subtotal');
+        $order->delivery_charge = $request->input('delivery_charge');
+        $order->discount = $request->input('discount');
+        $order->total = $request->input('total');
+        $order->is_shipping_different =  0;
+        $order->comment = "Pos order";
+        $order->status = 'completed';
+        $order->save();
+
+        $cartItems = Cart::instance('pos_cart')->content();
+
+        // Loop through the cart items and save them to the order item table
+        foreach ($cartItems as $cartItem) {
+
+            order_items::create([
+                'product_id' => $cartItem->id,
+                'order_id' => $order->id,
+                'color_id' => $cartItem->options->color,
+                'size_id' => $cartItem->options->size,
+                'price' => $cartItem->price,
+                'quantity' => $cartItem->qty,
+            ]);
+        }
+
+        $transaction = transactions::create([
+            'customer_id' => $request->input('customer'),
+            'order_id' => $order->id,
+            'mode' => 'cash',
+            'status' => 'paid',
+        ]);
+
+        Cart::instance('pos_cart')->destroy();
+        Session::flash('success','Order has been created.');
+        // Generate and stream the invoice
+        $this->Invoice($order->id)->stream();
+        // dd($order);
+        return Redirect::back()->with('success', 'Order processed successfully');
+    }
+
+    public function Invoice($id)
+    {
+
+        $order = Order::where('id', $id)->first();
+
+        if (!$order) {
+            return 'Order not found';
+        }
+
+        $pdf= PDF::loadView('admin.order.pos_invoice',['order'=>$order]);
+
+        return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
     }
 }
