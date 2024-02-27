@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Session;
 
 class ForgotPasswordController extends Controller
 {
-   
-  
+
+
     public function showForgetPasswordForm(){
         return view('auth.forgot-password');
     }
@@ -34,7 +34,7 @@ class ForgotPasswordController extends Controller
             'token' => $token,
             'created_at' => now(),
            ]);
-    
+
            Mail::send('email.forgetPassword', ['token' => $token], function($message) use($request){
             $message->to($request->email);
             $message->subject('Reset Password');
@@ -44,7 +44,7 @@ class ForgotPasswordController extends Controller
         }else{
             Session::flash('error','This email is not registered');
         }
-     
+
     }
     /**
      * Show the form for creating a new resource.
@@ -63,12 +63,16 @@ class ForgotPasswordController extends Controller
         ]);
         $updatePassword = PasswordReset::where(['email' => $request->email,'token' => $request->token])->first();
         if(!$updatePassword){
-            Session::flash('error','Invalid token');
+            Session::flash('danger','Reset link has been expired!!');
+            return redirect()->back();
         }
-        Register_customer::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
-        PasswordReset::where(['email'=> $request->email])->delete();
-        Session::flash('success','Your password has been changed!!');
-        return redirect()->route('home');
+        else{
+            Register_customer::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
+            PasswordReset::where(['email'=> $request->email])->delete();
+            Session::flash('success','Your password has been changed!!');
+            return redirect()->route('home');
+        }
+
 
     }
 

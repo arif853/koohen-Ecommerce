@@ -440,46 +440,49 @@ class OrderController extends Controller
      */
     public function destroy(string $id)
     {
-       
+
     }
+
     public function orderInvoice($id)
     {
+       // ini_set('max_execution_time',3600);
         $order = Order::where('id', $id)->first();
-                 
+
         if (!$order) {
             return 'Order not found';
         }
-        $pdf= PDF::loadView('admin.order.invoice',['order'=>$order],[],
+
+        $pdf= PDF::loadView('invoice',['order'=>$order],[],
             [
                 'mode'                 => '',
                 'format'               => 'A5',
                 'default_font_size'    => '10',
-                'default_font'         => 'nikosh',
-                'margin_left'          => 5,
-                'margin_right'         => 5,
+                'margin_left'          => 8,
+                'margin_right'         => 8,
                 'margin_top'           => 10,
-                'margin_bottom'        => 21,
+                'margin_bottom'        => 10,
                 'margin_header'        => 0,
                 'margin_footer'        => 0,
                 'orientation'          => 'P',
-                'title'                => 'Laravel mPDF',
-                'author'               => '',
-                'watermark'            => '',
+                'title'                => 'Koohen',
+                'author'               => 'koohen Ecommerce',
+                'watermark'            => 'KOOHEN',
                 'show_watermark'       => false,
                 'watermark_font'       => 'sans-serif',
                 'display_mode'         => 'fullpage',
                 'watermark_text_alpha' => 0.1,
                 'custom_font_dir'      => '',
-                'custom_font_data' 	   => [],
+                'custom_font_data'     => [],
                 'auto_language_detection'  => false,
                 'temp_dir'               => rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR),
-                'pdfa' 			=> false,
-                'pdfaauto' 		=> false,
+                'pdfa'          => false,
+                'pdfaauto'      => false,
             ]
         );
-  
-        return $pdf->download('invoice.pdf');
+
+        return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
     }
+
 
     public function invoicePage($id)
     {

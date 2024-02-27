@@ -200,5 +200,4 @@
     <!--All Products (OK)-->
 </main>
   <!-- Quick view -->
-
 @endsection

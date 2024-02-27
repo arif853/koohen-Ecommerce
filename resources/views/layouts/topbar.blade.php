@@ -13,17 +13,39 @@
             </datalist>
         </form>
     </div>
+    <style>
+        .nav-item .pos{
+            width: 80px;
+            height: 40px;
+            line-height: 36px;
+            border: 2px solid #b3b3b3;
+            border-radius: 28px;
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+    </style>
     <div class="col-nav">
         <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
         <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link btn-icon pos" href="{{url('/cache_clear')}}">
+                   Cache
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link btn-icon" href="#">
                     <i class="material-icons md-notifications animation-shake"></i>
                     <span class="badge rounded-pill">3</span>
                 </a>
             </li>
-           
-           
+
+            <li class="nav-item">
+                <a class="nav-link btn-icon pos" href="{{route('pos')}}">
+                    POS
+                </a>
+            </li>
+
+
             <li class="dropdown nav-item">
                 <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="{{ asset('/') }}admin/assets/imgs/customer_avatar.png" alt="User"></a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">

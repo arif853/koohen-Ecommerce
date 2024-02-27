@@ -4,18 +4,15 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Models\Ads;
 use App\Models\Slider;
-
 use App\Models\Setting;
-
 use App\Models\Campaign;
-
 use App\Models\Category;
 use App\Models\Division;
 use App\Models\Products;
-use Illuminate\Http\Request;
+use Termwind\Components\Raw;
 use App\Models\Feature_category;
 use App\Http\Controllers\Controller;
-use Termwind\Components\Raw;
+use Illuminate\Support\Facades\Request;
 
 class HomeController extends Controller
 {
@@ -94,7 +91,7 @@ class HomeController extends Controller
      */
     public function products(string $slug)
     {
-        $products = Products::with([
+        $product = Products::with([
             'overviews',
             'product_infos',
             'product_images',
@@ -105,17 +102,36 @@ class HomeController extends Controller
             'brand',
             'category',
             'subcategory',
-            'product_price'
-        ])->where('slug', $slug)->get();
+            'product_price',
+            'product_thumbnail',
+        ])->where('slug', $slug)->first();
 
-        return view('frontend.product-details',compact('products'));
+        $realatedProducts = Products::with([
+            'overviews',
+            'product_infos',
+            'product_images',
+            'product_extras',
+            'tags',
+            'sizes',
+            'colors',
+            'brand',
+            'category',
+            'subcategory',
+            'product_price',
+            'product_thumbnail'
+        ])->where('category_id', $product->category_id)->where('id', '!=', $product->id)->get();
+
+        $campaign = Campaign::where('status','Published')->first();
+        $adsbanner = Ads::all();
+
+
+        return view('frontend.product-details',compact('product','realatedProducts','campaign','adsbanner'));
 
         // return response()->json($products, 200, [], JSON_PRETTY_PRINT);
 
     }
 
     public function wishlist(){
-
         return view('frontend.shop-wishlist');
     }
 
@@ -182,5 +198,5 @@ class HomeController extends Controller
         // Return the response as JSON
         return response()->json(['products' => $response]);
     }
-  
+
 }

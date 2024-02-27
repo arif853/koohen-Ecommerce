@@ -26,7 +26,6 @@ class SettingsController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-   
 
     /**
      * Store a newly created resource in storage.
@@ -55,7 +54,7 @@ class SettingsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-   
+
     public function update(Request $request)
     {
         $request->validate([
@@ -71,7 +70,7 @@ class SettingsController extends Controller
             'company_short_details' =>'required'
         ]);
         $settings = Setting::first();
-        
+
         if (!$settings) {
             $settings = new Setting(); // Create a new instance if no settings found
         }
@@ -97,5 +96,8 @@ class SettingsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-   
+    public function destroy(string $id)
+    {
+        //
+    }
 }

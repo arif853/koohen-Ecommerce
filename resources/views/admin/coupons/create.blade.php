@@ -11,7 +11,7 @@
               <li class="breadcrumb-item"><a href="{{'/dashborad'}}">Dashborad</a></li>
               <li class="breadcrumb-item active" aria-current="page">
                 @isset($coupons)
-                Edit Coupon 
+                Edit Coupon
             @endisset
               New Coupon</li>
             </ol>
@@ -58,7 +58,7 @@
                                     <input class="form-control" id="coupons_title" type="text" name="coupons_title" placeholder="Coupons title..." value="{{ $coupons->coupons_title ?? old('coupons_title') }}">
                                 </div>
                                 <div class="valid-feedback">
-                                  
+
                                 </div>
                             </div>
                             <div class="form-group row mb-4">
@@ -81,7 +81,7 @@
                                     <input class="datetimepicker form-control digits" type="text" data-language="en" name="end_date" placeholder="End date..." value="{{ $coupons->end_date ?? old('end_date')}}">
                                 </div>
                             </div>
-                            <div class="form-group row mb-4">
+                            {{-- <div class="form-group row mb-4">
                                 <label class="col-xl-3 col-md-4">Free Shipping</label>
                                 <div class="col-md-7">
                                     <div class="checkbox checkbox-primary">
@@ -90,7 +90,7 @@
                                         <label for="checkbox-primary-1">Allow Free Shipping</label>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="form-group row mb-4">
                                 <label class="col-xl-3 col-md-4">Quantity</label>
                                 <div class="col-md-7">
@@ -101,11 +101,11 @@
                                 <label class="col-xl-3 col-md-4">Discount Type</label>
                                 <div class="col-md-7">
                                     <select class="custom-select w-100 form-control discount_type" name="discounts_type">
-                                      
+
                                         <option value="percent" {{ isset($coupons) && $coupons->discount_type == 'percent' ? 'selected' : '' }}>Percent</option>
                                         <option value="fixed" {{ isset($coupons) && $coupons->discount_type == 'fixed' ? 'selected' : '' }}>Fixed</option>
                                     </select>
-                                    
+
                                 </div>
                             </div>
                             <div class="form-group row mb-4 PercentValue">
@@ -133,9 +133,7 @@
                     </div>
                     <div class="pull-right">
                         <button type="submit" class="btn btn-primary">
-                          
                             Save
-                          
                         </button>
                     </div>
                 </form>

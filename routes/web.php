@@ -11,8 +11,10 @@ use App\Livewire\CheckoutComponent;
 use App\Livewire\PostOfficeSelector;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdsController;
+use App\Http\Controllers\Admin\POSController;
 use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\MediaController;
@@ -51,10 +53,13 @@ use App\Http\Controllers\Frontend\CustomerDashboardController;
 |
 */
 Route::get('/cache_clear',function(){
+
     Artisan::call('route:clear');
     Artisan::call('config:clear');
     Artisan::call('cache:clear');
     Artisan::call('config:cache');
+    Session::flash('success','Cached clear successfully!');
+    return redirect()->back();
 });
 
 Route::get('/storage',function(){
@@ -105,10 +110,10 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/wishlist', 'wishlist')->name('wishlist');
     Route::get('/home/quickview', 'quickview')->name('quickview');
     Route::get('/home/product_search', 'searchBar')->name('search');
-  
+
 });
 Route::get('forget-password-get', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
-Route::post('forget-password-post', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
+Route::post('forget-password-post', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
 Route::get('reset-password/{token}', [ForgotPasswordController::class, 'resetPasswordSubmit'])->name('reset.password.get');
 Route::post('reset-password-post', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
@@ -288,15 +293,17 @@ Route::controller(SupplierController::class)->middleware('auth')->group(function
     Route::delete('/dashboard/supplier/destroy', 'destroy')->name('supplier.destroy');
 
 });
+
 //setting
 Route::controller(SettingsController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/settings', 'index')->name('settings.index');
    // Route::post('/dashboard/settings/store', 'store')->name('supplier.store');
     Route::get('/dashboard/invoice/page', 'invoicePage')->name('invoice.printed');
     Route::post('/dashboard/settings/update', 'update')->name('settings.update');
-  Route::get('/dashboard/page', 'printPdf')->name('print.pdf');
+    Route::get('/dashboard/page', 'printPdf')->name('print.pdf');
 
 });
+
 //Zone
 Route::controller(ZoneController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/zone', 'index')->name('zone.index');
@@ -346,8 +353,7 @@ Route::controller(CampaignController::class)->middleware('auth')->group(function
 
 });
 
-
-//campaign route
+//Inventory route
 Route::controller(InventoryController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/inventory', 'index')->name('inventory');
     Route::get('/dashboard/inventory/create', 'create')->name('inventory.create');
@@ -355,12 +361,36 @@ Route::controller(InventoryController::class)->middleware('auth')->group(functio
     //add new stock
     Route::get('/dashboard/inventory/newstock', 'newstock')->name('new.stock');
     Route::post('/dashboard/inventory/addstock', 'addstock')->name('add.stock');
+});
+
+//Pos route
+Route::controller(POSController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/pos', 'index')->name('pos');
+    Route::get('/dashboard/search-products', 'searchProducts')->name('search.products');
+    Route::get('/dashboard/pos_cart/{id}', 'pos_cart');
+    Route::get('/dashboard/pos_cart/cart_remove/{id}', 'cart_remove');
+    Route::get('.dashboard/pos/customer', 'searchcustomer')->name('search.customer');
+});
+
+//Pos route
+Route::controller(POSController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/pos', 'index')->name('pos');
+    Route::get('/dashboard/search-products', 'searchProducts')->name('search.products');
+    Route::get('/dashboard/pos_cart/{id}', 'posCart');
+    Route::get('/dashboard/pos_cart/cart_remove/{id}', 'cart_remove');
+    Route::get('.dashboard/pos/customer', 'searchcustomer')->name('search.customer');
+    Route::get('/dashboard/pos/order_cancel', 'posOrderCancel')->name('pos.cancel');
 
 });
 
 // reviews
 Route::get('/dashboard/reviews', function () {
     return view('admin.reviews.index');
+})->name('reviews');
+
+// reviews
+Route::get('/dashboard/mailerview', function () {
+    return view('admin.email.mail');
 })->name('reviews');
 
 Route::middleware('auth')->group(function () {

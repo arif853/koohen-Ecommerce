@@ -56,9 +56,9 @@ class CouponController extends Controller
                 'quantity' => $request->quantity,
                 'discounts_type' => $request->discounts_type,
                 'percent_value' => $request->percent_value,
-                'free_shipping' => $request->free_shipping,
+                // 'free_shipping' => $request->free_shipping,
                 'fixed' => $request->fixed,
-                'status' => $request->status,
+                'status' => $request->status ? 1 : 0,
             ]);
             Session::flash('success', 'Coupons Created successfully.');
             return redirect()->route('coupon.index');
@@ -111,14 +111,14 @@ class CouponController extends Controller
                 'discounts_type' => $request->discounts_type,
                 'percent_value' => $request->percent_value ?? $request->precent_value,
                 'fixed' => $request->fixed,
-                'free_shipping' => $request->free_shipping,
-                'status' => $request->status,
+                // 'free_shipping' => $request->free_shipping,
+                'status' => $request->status ? 1 : 0,
             ]);
             Session::flash('success', 'Coupons Updated successfully.');
         }
-        
+
         return redirect()->route('coupon.index');
-        
+
     }
 
     /**

@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   
+
     <link href="{{ url('/admin/assets/css/print.css') }}" rel="stylesheet">
-    <title>Koohen Invoice</title>
+    <title>Koohen_Invoice_{{$order->id}}</title>
    <style>
         table,
         td,
@@ -32,7 +32,7 @@
                 <div class="logo_invoice_wrap">
                     <div class="logo_sec">
                         <img src="{{ asset('/') }}frontend/assets/imgs/Kohen_Logo_Main.png" alt="code logo"><br>
-                        
+
                         <div class="title_wrap">
                             <p class="sub_title">{{ $settings->company_address }}</p>
                           <p class="sub_title">{{ $settings->primary_mobile_no }} &nbsp;&nbsp;&nbsp;&nbsp;{{ $settings->email }}</p>
@@ -93,16 +93,22 @@
                                         <td style="padding: 2%;">{{ $item->product->product_name }}</td>
                                         <td style="padding: 2%;">
                                             {{ $item->product->sku }}<br>
+
+                                            @if($item->product_sizes)
+
                                             <span>Size :</span>
-                                      
-                                   
-                                    <span> {{ $item->product_sizes->size }} </span>  <br>
-                           <br>
-                                
-                           <span>Color :</span>
-                             
-                                <span> {{ $item->product_colors->color_name }} </span>  
-                      
+                                            <span> {{ $item->product_sizes->size }} </span>  <br>
+
+                                            @endif
+                                            <br>
+
+                                            @if($item->product_colors)
+                                            <span>Color :</span>
+
+                                            <span> {{ $item->product_colors->color_name }} </span>
+
+                                            @endif
+
                                         </td>
                                         <td style="padding: 2%;">{{ $item->quantity }}</td>
                                         <td style="padding: 2%;">{{ $item->price }}</td>

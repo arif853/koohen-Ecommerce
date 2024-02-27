@@ -9,7 +9,6 @@ use Livewire\WithPagination;
 use App\Models\Product_image;
 use function Laravel\Prompts\alert;
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
 

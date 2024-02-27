@@ -31,7 +31,7 @@
                                 <label for="secondary_mobile_no" class="form-label">Secondary Mobile Number<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="secondary_mobile_no" name="secondary_mobile_no" placeholder="Secondary Mobile Number"  value="{{ $settings->secondary_mobile_no }}">
                             </div>
-        
+
                             <div class="col-md-12 mb-2">
                                 <label for="whatsapp_url" class="form-label">Whatsapp URL</label>
                                 <input type="text" class="form-control" id="whatsapp_url" name="whatsapp_url" placeholder="Whatsapp Link URL"  value="{{ $settings->whatsapp_url }}">
@@ -54,7 +54,7 @@
                                 <label for="youtube_url" class="form-label">Youtube URL</label>
                                 <input type="text" class="form-control" id="youtube_url" name="youtube_url" placeholder=" Youtube Link URL"  value="{{ $settings->youtube_url }}">
                             </div>
-        
+
                             <div class="col-md-12 mb-2">
                               <label for="slider_image" class="form-label">Email<span class="text-danger">*</span></label>
                               <input type="email" class="form-control" id="email" name="email"  value="{{ $settings->email }}">
@@ -67,13 +67,13 @@
                                 <label for="company_short_details" class="form-label">Company Details<span class="text-danger">*</span></label>
                                 <textarea class="form-control" id="company_short_details" name="company_short_details">{{ $settings->company_short_details  }}</textarea>
                             </div>
-            
+
                             <div class="col-12 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary">Save</button>
-                             
+
                             </div>
                         </div>
-                
+
                 </form>
             </div>
         </div>

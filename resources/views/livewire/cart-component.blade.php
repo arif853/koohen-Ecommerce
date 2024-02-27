@@ -63,16 +63,13 @@
                                         <td class="cart_total_label ">Cart Subtotal:</td>
                                         <td class="cart_total_amount"><span class="font-lg fw-900 text-brand">৳{{Cart::subtotal()}}</span></td>
                                     </tr>
-                                    <tr>
-                                        {{-- <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td> --}}
+                                    {{-- <tr>
+
                                         <td colspan="3" style="border: none"></td>
 
                                         <td class="cart_total_label">Discount:</td>
                                         <td class="cart_total_amount"> <span class="font-xl fw-900 text-brand">৳{{0}}</span></td>
-                                    </tr>
+                                    </tr> --}}
                                     <tr>
                                         {{-- <td></td>
                                         <td></td>
@@ -80,8 +77,9 @@
                                         <td></td> --}}
                                         <td colspan="3" style="border: none"></td>
 
-                                        <td class="cart_total_label ">Total:</td>
-                                        <td class="cart_total_amount"><strong><span class="font-xl fw-900 text-brand">৳{{Cart::subtotal() }}</span></strong></td>
+                                        {{-- <td class="cart_total_label ">Total:</td>
+                                        <td class="cart_total_amount"><strong><span class="font-xl fw-900 text-brand">৳{{Cart::subtotal() }}</span></strong></td> --}}
+
                                     </tr>
                                 </tfoot>
                             </table>
@@ -89,7 +87,7 @@
                         <div class="divider center_icon mt-10 mb-20"><i class="fi-rs-fingerprint"></i></div>
                         <div class="row">
                             <div class="col-lg-6">
-                                <div class="total-amount">
+                                {{-- <div class="total-amount">
                                     <div class="left">
                                         <div class="coupon">
                                             <form action="#" target="_blank">
@@ -104,7 +102,7 @@
                                             </form>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="col-lg-6">
                                 <div class="cart-action text-end mb-4">

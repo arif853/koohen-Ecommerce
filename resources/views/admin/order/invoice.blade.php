@@ -11,11 +11,11 @@
         font-size:12px;
         font-weight:400;
         color:#25252515 !important;
-     
+
     }
-table, td, th {  
+table, td, th {
   border: 1px solid #22212141;
- 
+
 }
 
 table {
@@ -100,7 +100,7 @@ $settings = DB::table('settings')->first();
           <td>{{ $key + 1 }}</td>
           <td>{{  $item->product->product_name }}</td>
           <td style="font-size:10px;"> {{ $item->product->sku }} <br>
-              <span>Size :</span> 
+              <span>Size :</span>
               <span> {{ $item->product_sizes->size }} </span>  <br>
               <span>Color :</span>
               <span> {{ $item->product_colors->color_name }} </span>

@@ -13,6 +13,7 @@ use App\Models\Register_customer;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Mail\AdminMail;
+use App\Mail\customerMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -96,8 +97,11 @@ class CheckoutController extends Controller
                 'order_id' => $order->id,
                 'mode' => $request->payment_mode,
             ]);
+            $customer = Customer::find($customer_id);
 
             Session::flash('warning','Check your order in dashboard.');
+            Mail::to($customer->email)->send( new customerMail($order));
+
         }
         else{
             $rules = [
@@ -251,6 +255,8 @@ class CheckoutController extends Controller
                     'mode' => $request->payment_mode,
                 ]);
             }
+            Mail::to( $customer->email)->send( new customerMail($order));
+
         }
         // Clear the cart after saving to the order item table
         Mail::to('arifhossen853@gmail.com')->send( new AdminMail($order));

@@ -251,6 +251,7 @@
 
     function syncAll() {
         var campaignOfferPercentage = parseFloat($("#camp_offer").val());
+        
         if (isNaN(campaignOfferPercentage)) {
             alert("Please enter a valid campaign offer percentage.");
             return;

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Email</title>
-
+    
 </head>
 <body style="background-color: #f3f4f6; padding: 20px;">
     <div style=" width:580px; margin:50px auto; border-radius: 8px; background-color:#fff; box-shadow: 0px 10px 15px 0px rgba(0,0,0,0.1); ">
@@ -16,7 +16,7 @@
         <div class="card-body" style="padding:15px 25px;">
             <h3 class="card-title">You’ve received the following order from <strong>{{$order->customer->firstName}} {{$order->customer->lastName}}</strong> </h3>
             <p class="card-text">
-                <h4><a href="#">[Tracking No #{{$order->order_track_id}}]</a>  ({{$order->created_at->setTimezone('Asia/Dhaka')->format('M j, Y, g:iA')}})</h4>
+                <h4><a href="#">[Tracking No #{{$order->order_track_id}}]</a>  ({{$order->created_at->setTimezone('Asia/Dhaka')->format('M j, Y')}})</h4>
 
             </p>
             <table cellspacing="0" cellpadding="8" border="1" bgcolor="#000000" style="width: 100%; text-align:center">
