@@ -288,8 +288,7 @@
                             var createdAtDate = new Date(order.created_at);
                             var orderDetailUrl = "{{ route('order.details', ['id' => '']) }}" + order.id;
                             var orderTrackUrl = "{{ route('order.track', ['id' => '']) }}" + order.id;
-
-                              
+                            var orderInvoiceUrl = "{{ route('invoice', ['id' => ':id']) }}".replace(':id', order.id);       
                             // Define options for date formatting
                             var options = {
                                 year: 'numeric',
@@ -348,18 +347,13 @@
                                     '') + '>Cancelled</option>' +
                                 '</select>' +
                                 '</div>'));
-
-
+                                
                             row.append($('<td>').text(formattedDate));
                             row.append($('<td>').addClass('text-end').html(
-                                '<a href="' + orderDetailUrl +
-                                '" class="btn btn-md rounded font-sm me-2">Detail</a>' +
-                                '<a href="' + orderTrackUrl +
-                                '" class="btn btn-md rounded font-sm">Track me</a>'
+                                '<a href="' + orderDetailUrl + '" class="btn btn-md rounded font-sm me-2">Detail</a>' +
+                                '<a href="' + orderTrackUrl + '" class="btn btn-md rounded font-sm me-2">Track me</a>' +
+                                '<a href="' + orderInvoiceUrl + '" target="__blank" class="btn btn-facebook rounded font-sm">Invoice</a>'
                             ));
-
-
-
                             // Append more columns as needed
 
                             tableBody.append(row);

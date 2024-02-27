@@ -154,7 +154,7 @@
                                 '<img src="{{ asset('storage/product_images/') }}' +
                                 '/' + product.product_images[0].product_image +
                                 '" class="img-sm img-thumbnail" alt="' + product
-                                .slug + '">'  +
+                                .slug + '">' +
                                 '</div>' +
                                 '<div class="info">' +
                                 '<h6 class="mb-0">' + product.product_name +
@@ -192,18 +192,27 @@
                                 .addClass('btn btn-light rounded btn-sm font-sm').html(
                                     '<i class="material-icons md-more_horiz"></i>');
                             var dropdownMenu = $('<div>').addClass('dropdown-menu');
-                            var editLink = $('<a>').attr('href', 'products/' + product
-                                    .id + '/edit')
-                                .addClass('dropdown-item').text('Edit info');
-                            var deleteLink = $('<a>').attr('href', 'products/' + product
-                                    .id)
-                                .addClass('dropdown-item text-danger').text('Delete');
+                            // Adding your dropdown menu items
 
+                            var editLink = $('<a>').attr('href', 'products/' + 'edit/' +
+                                    product.id)
+                                .addClass('dropdown-item').text('Edit info');
+                            var deleteLink = $('<a>').attr('href',
+                                    '{{ route('products.destroy', $product->id) }}')
+                                .addClass('dropdown-item text-danger').text('Delete')
+                                .on('click', function(event) {
+                                    if (!confirmDelete(event)) {
+                                        event
+                                    .preventDefault(); // Prevent navigation if delete is cancelled
+                                    }
+                                });
                             dropdownMenu.append(editLink, deleteLink);
                             dropdown.append(dropdownButton, dropdownMenu);
+                            // Appending detail link and dropdown to the action
                             action.append(detailLink, dropdown);
                             row.append(action);
                             tableBody.append(row);
+
                         });
                     },
                     error: function(xhr, status, error) {
