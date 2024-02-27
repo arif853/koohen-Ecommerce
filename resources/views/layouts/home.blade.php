@@ -46,9 +46,9 @@
                             @endphp
                             <ul>
                                 <li><i class="far fa-phone-alt"></i> <a
-                                        href="tel:<?php echo $settings->secondary_mobile_no; ?>">{{ (@$settings->secondary_mobile_no)?$settings->secondary_mobile_no:"+8809639174502"}}</a></li>
+                                        href="tel:{{ (@$settings->secondary_mobile_no)?$settings->secondary_mobile_no:"+8809639174502"}}">{{ (@$settings->secondary_mobile_no)?$settings->secondary_mobile_no:"+8809639174502"}}</a></li>
                                 <li><i class="fal fa-envelope"></i><a
-                                        href="mailto:<?php echo $settings->email; ?>">{{(@$settings->email)?$settings->email:"support@koohen.com" }}</a></li>
+                                        href="mailto:{{(@$settings->email)?$settings->email:"support@koohen.com" }}">{{(@$settings->email)?$settings->email:"support@koohen.com" }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -418,7 +418,7 @@
                         @endauth
                     </div>
                     <div class="single-mobile-header-info">
-                        <a href="tel:<?php echo $settings->secondary_mobile_no; ?>">{{(@$settings->secondary_mobile_no)?$settings->secondary_mobile_no:"+880 1751218778"}}</a>
+                        <a href="tel:{{(@$settings->secondary_mobile_no)?$settings->secondary_mobile_no:"+880 1751218778"}}">{{(@$settings->secondary_mobile_no)?$settings->secondary_mobile_no:"+880 1751218778"}}</a>
                     </div>
                     <div class="single-mobile-header-info mt-30">
                         <a href="{{ route('contactus') }}"> Our location: <p>{{(@$settings->company_address)? $settings->company_address:"Company Address" }}</p></a>
@@ -514,9 +514,9 @@
                                     {{ (@$settings->primary_mobile_no)? $settings->primary_mobile_no:" +880 1751218778"}}</a>
 
                             </li>
-                            <li><a href="tel:<?php echo $settings->secondary_mobile_no; ?>"><span><i class="fal fa-phone-alt"></i></span>
+                            <li><a href="tel:{{ (@$settings->secondary_mobile_no)? $settings->secondary_mobile_no:"+8809639174502" }}"><span><i class="fal fa-phone-alt"></i></span>
                                     {{ (@$settings->secondary_mobile_no)? $settings->secondary_mobile_no:"+8809639174502" }}</a></li>
-                            <li><a href="mailto:<?php echo $settings->email; ?>"><span><i class="fal fa-envelope"></i></span>
+                            <li><a href="mailto:{{(@$settings->email)? $settings->email:"support@koohen.com" }}"><span><i class="fal fa-envelope"></i></span>
                                     {{(@$settings->email)? $settings->email:"support@koohen.com" }}</a></li>
                             <li><a href="#"><span><i class="fal fa-map-marker-alt"></i></span>
                                     {{ (@$settings->company_address)? $settings->company_address:"Company Address"}}</a></li>

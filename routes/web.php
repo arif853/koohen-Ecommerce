@@ -223,7 +223,7 @@ Route::controller(ProductController::class)->middleware('auth')->group(function 
     Route::delete('/dashboard/products/thumb_destroy/{id}', 'thumb_destroy')->name('productsthumb.destroy');
 
     Route::get('/dashboard/products/{slug}', 'show')->name('products.show');
-    Route::post('/dashboard/products/search', 'ProductFilter')->name('products.filter');
+    Route::post('/dashboard/products/filter', 'ProductFilter')->name('products.filter');
 
 });
 
@@ -239,6 +239,7 @@ Route::controller(OrderController::class)->middleware('auth')->group(function ()
     Route::post('/update-one-order-status', 'updateOneOrderStatus');
     Route::get('/orders/invoice/{id}', 'orderInvoice')->name('order.invoice');
     Route::get('/orders/invoice-page/{id}', 'invoicePage')->name('invoice');
+    Route::get('/orders/filters', 'OrderFilter')->name('order.filters');
 });
 
 //Customer

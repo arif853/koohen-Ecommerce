@@ -56,35 +56,33 @@ class ProductController extends Controller
 
     public function ProductFilter(Request $request)
     {
+        $product_name = $request->input('product_name');
+        $productSku = $request->input('sku');
         $startDate = $request->input('created_at');
         $endDate = $request->input('updated_at');
-    
-        $query = Products::query()->with([
-            'overviews',
-            'product_infos',
-            'product_images',
-            'product_extras',
-            'tags',
-            'sizes',
-            'colors',
-            'brand',
-            'category',
-        ]);
-        
-        if ($startDate || $endDate) {
-            // If both start and end dates are provided, filter between them
-            $query->whereDate('created_at', $startDate)
-                  ->orWhereDate('updated_at', $endDate);
-        } elseif ($startDate) {
-            // If only start date is provided, filter based on it
-            $query->where('created_at', '>=', $startDate);
-        } elseif ($endDate) {
-            // If only end date is provided, filter based on it
-            $query->where('updated_at', '<=', $endDate);
-        }
-        
+
+        $query = Products::query()->with(['overviews', 'product_infos', 'product_images', 'product_extras', 'tags', 'sizes', 'colors', 'brand', 'category']);
+
+        $query->where(function ($query) use ($product_name, $productSku, $startDate, $endDate) {
+            if ($product_name) {
+                $query->where('product_name', 'like', "%{$product_name}%");
+            }
+            if ($productSku) {
+                $query->orWhere('sku', 'like', "%{$productSku}%");
+            }
+            if ($startDate && $endDate) {
+                $query
+                    ->whereBetween('created_at', [$startDate, $endDate])
+                    ->orWhereBetween('updated_at', [$startDate, $endDate])
+                    ->whereDate('created_at', $startDate)
+                    ->orWhereDate('updated_at', $endDate);
+            } elseif ($startDate) {
+                $query->whereDate('created_at', $startDate);
+            } elseif ($endDate) {
+                $query->whereDate('updated_at', $endDate);
+            }
+        });
         $products = $query->get();
-    
         return response()->json(['products' => $products]);
     }
     
@@ -683,6 +681,6 @@ class ProductController extends Controller
             return response()->json(['error' => 'Product image not found'], Response::HTTP_NOT_FOUND);
         }
     }
-  
+    
 
 }

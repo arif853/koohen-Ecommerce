@@ -1,10 +1,10 @@
 @extends('layouts.admin')
-@section('title','Orders list')
+@section('title','Pending Orders List')
 @section('content')
 
     <div class="content-header">
         <div>
-            <h2 class="content-title card-title">Order List </h2>
+            <h2 class="content-title card-title">Pending Order List </h2>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="{{'/dashborad'}}">Dashboard</a></li>
@@ -19,28 +19,36 @@
                 <header class="card-header">
                     <h5 class="mb-3">Filter by</h5>
                     <form>
-                        <div class="row">
-                        <div class="col-md-3 mb-4">
-                            <label for="order_id" class="form-label">Order ID</label>
-                            <input type="text" placeholder="Type here" class="form-control" id="order_id">
+                        <div class="row order_live_search">
+                            <div class="col-md-3 mb-4">
+                                <label for="order_id" class="form-label">Order ID</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="order_id"
+                                    name="id">
+                            </div>
+                            <div class="col-md-3 mb-4">
+                                <label for="order_customer" class="form-label">Customer</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="customer_name"
+                                    name="customer_name">
+                            </div>
+                            <div class="col-md-3 mb-4">
+                                <label for="orderStatus" class="form-label">Order Status</label>
+                                <select class="form-select" id="orderStatus" name="status">
+                                    <option value="pending" style="color: orange;">Pending</option>
+                                    <option value="confirmed" style="color: blue;">Confirmed</option>
+                                    <option value="shipped" style="color: green;">Shipped</option>
+                                    <option value="delivered" style="color: #00cc00;">Delivered</option>
+                                    <option value="completed" style="color: purple;">Completed</option>
+                                    <option value="returned" style="color: gray;">Returned</option>
+                                    <option value="cancelled" style="color: red;">Cancelled</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-4">
+                                <label for="created_at" class="form-label">Order Date</label>
+                                <input type="date" placeholder="Type here" class="form-control" id="order_date"
+                                    name="created_at">
+                            </div>
                         </div>
-                        <div class="col-md-3 mb-4">
-                            <label for="order_customer" class="form-label">Customer</label>
-                            <input type="text" placeholder="Type here" class="form-control" id="order_customer">
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <label class="form-label">Order Status</label>
-                            <select class="form-select" name="orderStatus" id="orderStatus">
-                                <option>Published</option>
-                                <option>Draft</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <label for="order_created_date" class="form-label">Date Added</label>
-                            <input type="text" placeholder="Type here" class="form-control" id="order_created_date" >
-                        </div>
-                    </div>
-                </form>
+                    </form>
 
                 </header>
                     <div class="row gx-3 mt-4">
@@ -77,7 +85,7 @@
                                     <th class="text-end"> Action </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="pendingOrderTableBody">
                                 @foreach ($pendingOrders as $key => $order)
                                 <tr>
                                     <td><input type="checkbox" class="form-group order-checkbox" value="{{$order->id}}" id="order_checkbox"></td>
@@ -139,7 +147,7 @@
         const selectAllCheckbox = document.getElementById('select-all-checkbox');
         const individualCheckboxes = document.querySelectorAll('.order-checkbox');
         const statusSelect = $('#all_order_status');
-
+        const customerProfileUrl = "{{ route('customer.profile', ['id' => $order->customer->id]) }}";
         // Add an event listener to the global checkbox
         selectAllCheckbox.addEventListener('change', function () {
             // Update the state of all individual checkboxes based on the state of the global checkbox
@@ -239,10 +247,117 @@
             });
         });
 
-        // // $('.order_status').change(function () {
-        //     var selectedColor = $('option:selected', '.order_status').css('color');
-        //     $('.order_status').css('background-color', selectedColor);
-        // // });
+        $('.order_live_search input, .order_live_search select').on('keyup change', function() {
+                // Capture form input values
+                var orderId = $('#order_id').val();
+                var customerName = $('#customer_name').val();
+                var status = $('#orderStatus').val();
+                var orderDate = $('#order_date').val();
+
+                // Make AJAX call to the server
+                $.ajax({
+                    url: "{{ route('order.filters') }}",
+                    method: "GET",
+                    data: {
+                        id: orderId,
+                        customer_name: customerName,
+                        status: status,
+                        created_at: orderDate
+                    },
+                    success: function(response) {
+                        var tableBody = $('#pendingOrderTableBody');
+                        tableBody.empty(); // Clear existing table rows
+
+                        response.forEach(function(order, index) {
+                            var createdAtDate = new Date(order.created_at);
+                            var orderDetailUrl = "{{ route('order.details', ['id' => '']) }}" + order.id;
+                            var orderReturnUrl = "{{route('order.details')}}";
+
+                              
+                            // Define options for date formatting
+                            var options = {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit'
+                            };
+
+                            // Format the date using toLocaleDateString() method
+                            var formattedDate = createdAtDate.toLocaleDateString(
+                                'en-GB', options)
+                            var row = $('<tr>');
+
+
+                            row.append($('<td>').html(
+                                '<input type="checkbox" class="form-group order-checkbox" value="' +
+                                order.id + '" id="order_checkbox">'));
+                            row.append($('<td>').text(index + 1));
+                            row.append($('<td>').html('<a href="' +
+                                customerProfileUrl + '" class="itemside">' +
+                                '<div class="info pl-3">' +
+                                '<h6 class="mb-0 title">' + order.customer
+                                .firstName + ' ' + order.customer.lastName +
+                                '</h6>' +
+                                '<small class="text-muted">Order ID: #' + order
+                                .id + '</small>' +
+                                '</div>' +
+                                '</a>'));
+                            row.append($('<td>').html('<a href="tel:' + order.customer
+                                .phone + '">' + order.customer.phone + '</a>'));
+                            row.append($('<td>').text('৳' + order.total));
+                            row.append($('<td>').html('<div class="status-container">' +
+                                '<select class="form-select d-inline-block mb-lg-0 mb-15 mw-200 order_status" id="order_status_' +
+                                order.id + '" ' +
+                                'data-order-id="' + order.id +
+                                '" name="order_status">' +
+                                '<option value="pending" style="color: orange;"' +
+                                (order.status == 'pending' ? ' selected' : '') +
+                                '>Pending</option>' +
+                                '<option value="confirmed" style="color: blue;"' +
+                                (order.status == 'confirmed' ? ' selected' :
+                                    '') + '>Confirmed</option>' +
+                                '<option value="shipped" style="color: green;"' +
+                                (order.status == 'shipped' ? ' selected' : '') +
+                                '>Shipped</option>' +
+                                '<option value="delivered" style="color: #00cc00;"' +
+                                (order.status == 'delivered' ? ' selected' :
+                                    '') + '>Delivered</option>' +
+                                '<option value="completed" style="color: purple;"' +
+                                (order.status == 'completed' ? ' selected' :
+                                    '') + '>Completed</option>' +
+                                '<option value="returned" style="color: gray;"' +
+                                (order.status == 'returned' ? ' selected' :
+                                    '') + '>Returned</option>' +
+                                '<option value="cancelled" style="color: red;"' +
+                                (order.status == 'cancelled' ? ' selected' :
+                                    '') + '>Cancelled</option>' +
+                                '</select>' +
+                                '</div>'));
+
+
+                            row.append($('<td>').text(formattedDate));
+                    
+                            row.append($('<td>').addClass('text-end').html(
+                                '<a href="' + orderDetailUrl + '" class="btn btn-md rounded font-sm me-2">Detail</a>' +
+                                '<div class="dropdown">' +
+                                '<a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>' +
+                                '<div class="dropdown-menu">' +
+                                '<a class="dropdown-item text-primary" href="' + orderReturnUrl + '">Return</a>' +
+                                '</div>' + // end dropdown-menu
+                                '</div>' // end dropdown
+                            ));
+
+
+                            // Append more columns as needed
+
+                            tableBody.append(row);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
     });
 </script>
 @endpush
