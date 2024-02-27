@@ -131,6 +131,7 @@
 
 @endsection
 @push('products_search')
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#productSearchForm').on('submit', function(event) {
@@ -147,6 +148,7 @@
                         tableBody.empty();
 
                         products.forEach(function(product, index) {
+                          
                             var row = $('<tr>');
                             row.append($('<td>').text(index + 1));
                             row.append($('<td>').html('<a class="itemside" href="#">' +
@@ -197,8 +199,8 @@
                             var editLink = $('<a>').attr('href', 'products/' + 'edit/' +
                                     product.id)
                                 .addClass('dropdown-item').text('Edit info');
-                            var deleteLink = $('<a>').attr('href',
-                                    '{{ route('products.destroy', $product->id) }}')
+                            var deleteLink = $('<a>').attr('href', 'products/' + 'destroy/' +
+                                    product.id)
                                 .addClass('dropdown-item text-danger').text('Delete')
                                 .on('click', function(event) {
                                     if (!confirmDelete(event)) {
