@@ -252,7 +252,7 @@ Route::controller(CustomerController::class)->middleware('auth')->group(function
     Route::get('/dashboard/customers', 'index')->name('customer.index');
     Route::get('/dashboard/customers/create_customer', 'create')->name('customer.create');
     Route::get('/dashboard/customers/Customer_profile', 'customer_details')->name('customer.profile');
-    // Route::get('/dashboard/category/create', 'create')->name('category.create');
+    Route::get('/dashboard/customers/customer_filter', 'CustomerFilter')->name('customer.filter');
 });
 
 //offers
