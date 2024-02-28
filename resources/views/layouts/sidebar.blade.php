@@ -111,7 +111,7 @@
                 </a>
                <div class="submenu">
                     <a href="{{route('category_feature')}}">Category</a>
-                    <a href="page-account-register.html">Products</a>
+                    <a href="{{ route('product_feature') }}">Products</a>
                 </div>
             </li>
 

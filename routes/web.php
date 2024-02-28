@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\TrackorderController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
+use App\Http\Controllers\Admin\FeatureProductsController;
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\ForgotPasswordController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
@@ -291,7 +292,7 @@ Route::controller(SupplierController::class)->middleware('auth')->group(function
     Route::get('/dashboard/supplier/edit', 'edit')->name('supplier.edit');
     Route::post('/dashboard/supplier/update', 'update')->name('supplier.update');
     Route::delete('/dashboard/supplier/destroy', 'destroy')->name('supplier.destroy');
-
+    Route::get('/dashboard/supplier/filter', 'SupplierFilter')->name('supplier.filter');
 });
 
 //setting
@@ -322,7 +323,15 @@ Route::controller(FeatureCategoryController::class)->middleware('auth')->group(f
     // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
     Route::get('/dashboard/category_feature/destroy', 'destroy')->name('category_feature.destroy');
 });
-
+// Feature product 
+Route::controller(FeatureProductsController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/product_feature', 'index')->name('product_feature');
+    Route::post('/dashboard/product_feature/store', 'store')->name('product_feature.store');
+    Route::get('/dashboard/product_feature/edit', 'edit')->name('product_feature.edit');
+    Route::post('/dashboard/product_feature/update', 'update')->name('product_feature.update');
+    // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
+    Route::get('/dashboard/product_feature/destroy', 'destroy')->name('product_feature.destroy');
+});
 //Slider
 Route::controller(SliderController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/slider', 'index')->name('slider');
