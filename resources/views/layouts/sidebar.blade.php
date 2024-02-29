@@ -57,17 +57,16 @@
                     {{-- <a href="{{route('customer.profile')}}">Customer profile</a> --}}
                 </div>
             </li>
-
             <li class="menu-item has-submenu">
-                <a class="menu-link" href="page-transactions-1.html"> <i class="icon material-icons md-monetization_on"></i>
+                <a class="menu-link" href="page-sellers-cards.html"><i class="icon material-icons md-monetization_on"></i>
                     <span class="text">Transactions</span>
                 </a>
-                {{-- <div class="submenu">
-                    <a href="page-transactions-1.html">Transaction 1</a>
-                    <a href="page-transactions-2.html">Transaction 2</a>
-                    <a href="page-transactions-details.html">Transaction Details</a>
-                </div> --}}
+                <div class="submenu">
+                    <a href="{{route('transaction.index')}}">Transactions list</a>
+                    {{-- <a href="{{route('customer.profile')}}">Customer profile</a> --}}
+                </div>
             </li>
+          
             <li class="menu-item has-submenu">
                 <a class="menu-link" href="page-brands.html"> <i class="icon material-icons md-stars"></i>
                     <span class="text">Promotions</span>

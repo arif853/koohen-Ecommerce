@@ -22,7 +22,7 @@
         <header class="card-header">
             <div class="row gx-3 supplier_live_search">
                 <div class="col-lg-4 col-md-6 me-auto">
-                    <input type="text" placeholder="Supplier Name..." class="form-control" id="supplier_name"
+                    <input type="text" placeholder="Supplier Name..." class="form-control" id="supplierName"
                         name="supplier_name">
                 </div>
                 <div class="col-lg-4 col-md-6 me-auto">
@@ -156,7 +156,7 @@
 
         $(document).ready(function() {
             $('.supplier_live_search input').on('keyup', function() {
-                let supplierName = $('#supplier_name').val();
+                let supplierName = $('#supplierName').val();
                 let supplierPhone = $('#supplier_phone').val();
                 let supplierEmail = $('#supplier_email').val();
                 $.ajax({
@@ -200,6 +200,7 @@
                                 supplier.id +
                                 '" class="btn btn-sm btn-brand rounded font-sm mt-15 edit-supplier">Edit</a>&nbsp;&nbsp;<a href="#" class="btn btn-sm btn-danger me-2 rounded font-sm mt-15 delete_supplier">Delete</a></form>'
                                 ));
+
 
                             // Append the row to the table body
                             supplierTable.append(row);
