@@ -206,6 +206,7 @@
 
             // Get the track ID from the input field
             var trackId = $('#order_number').val();
+            console.log(trackId);
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

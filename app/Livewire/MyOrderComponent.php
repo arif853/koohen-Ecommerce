@@ -7,6 +7,7 @@ use App\Models\Color;
 use App\Models\Order;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Illuminate\Support\Facades\Auth;
 
 class MyOrderComponent extends Component
 {
@@ -23,8 +24,8 @@ class MyOrderComponent extends Component
         // Retrieve the order details using the order ID
         // $trackedOrder = Order::with('product', 'color', 'size') // Add relationships as needed
         //     ->find($orderId);
-        $trackedOrder = Order::with('customer', 'order_item', 'shipping', 'transaction')
-        ->find($orderId);
+        $trackedOrder = Order::with('customer', 'order_item', 'shipping', 'transaction','orderStatus')
+        ->where('order_track_id', $orderId)->first();
 
         $orderProducts = collect();
         // Iterate through each order and collect the associated products with images
@@ -50,15 +51,21 @@ class MyOrderComponent extends Component
         // Set the tracked order in the component state
         $this->trackedOrder = $trackedOrder;
         $this->trackedProduct = $orderProducts;
+
         return view('livewire.my-order-component');
 
     }
 
     public function render()
     {
+        $user = Auth::guard('customer')->user();
+        $customer_id = $user->customer_id;
+
         //  // Fetch the latest order if $selectedOrder is not set
          if (!$this->trackedOrder) {
-            $latestOrder = Order::with('customer', 'order_item', 'shipping', 'transaction','orderStatus')->latest()->first();
+            $latestOrder = Order::with('customer', 'order_item', 'shipping', 'transaction')
+            ->where('customer_id', $customer_id)
+            ->latest()->first();
 
             $orderProducts = collect();
             // Iterate through each order and collect the associated products with images

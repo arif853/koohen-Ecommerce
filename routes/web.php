@@ -151,6 +151,7 @@ Route::controller(CartController::class)->group(function () {
 Route::controller(TrackorderController::class)->group(function () {
     Route::get('/trackorder', 'index')->name('trackorder');
     Route::post('/trackorder/order_details', 'order_details')->name('order_details');
+    Route::get('/trackorder/track_order/{trackid}', 'orderTrack')->name('myorder.track');
 
 });
 
@@ -365,15 +366,6 @@ Route::controller(InventoryController::class)->middleware('auth')->group(functio
 Route::controller(POSController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/pos', 'index')->name('pos');
     Route::get('/dashboard/search-products', 'searchProducts')->name('search.products');
-    Route::get('/dashboard/pos_cart/{id}', 'pos_cart');
-    Route::get('/dashboard/pos_cart/cart_remove/{id}', 'cart_remove');
-    Route::get('.dashboard/pos/customer', 'searchcustomer')->name('search.customer');
-});
-
-//Pos route
-Route::controller(POSController::class)->middleware('auth')->group(function () {
-    Route::get('/dashboard/pos', 'index')->name('pos');
-    Route::get('/dashboard/search-products', 'searchProducts')->name('search.products');
     Route::get('/dashboard/pos_cart/{id}', 'posCart');
     Route::get('/dashboard/pos_cart/cart_remove/{id}', 'cart_remove');
     Route::get('.dashboard/pos/customer', 'searchcustomer')->name('search.customer');
@@ -387,10 +379,10 @@ Route::get('/dashboard/reviews', function () {
     return view('admin.reviews.index');
 })->name('reviews');
 
-// reviews
-Route::get('/dashboard/mailerview', function () {
-    return view('admin.email.mail');
-})->name('mailer');
+// mail Testing route
+// Route::get('/dashboard/mailerview', function () {
+//     return view('admin.email.mail');
+// })->name('mailer');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

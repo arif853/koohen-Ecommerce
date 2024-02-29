@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class order_items extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = ['product_id', 'color_id', 'size_id' , 'order_id', 'price', 'quantity', 'comment'];
 
     public function order()
