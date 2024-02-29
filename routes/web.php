@@ -321,7 +321,7 @@ Route::controller(FeatureCategoryController::class)->middleware('auth')->group(f
     Route::get('/dashboard/category_feature/edit', 'edit')->name('category_feature.edit');
     Route::post('/dashboard/category_feature/update', 'update')->name('category_feature.update');
     // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
-    Route::get('/dashboard/category_feature/destroy', 'destroy')->name('category_feature.destroy');
+    Route::delete('/dashboard/category_feature/destroy', 'destroy')->name('category_feature.destroy');
 });
 // Feature product 
 Route::controller(FeatureProductsController::class)->middleware('auth')->group(function () {
