@@ -154,32 +154,6 @@
             })
         });
 
-
-        document.querySelectorAll('.delete_supplier').forEach(function(element) {
-            element.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent the default link behavior
-                console.log('click');
-                // Find the closest form element related to the clicked link
-                var form = this.closest('form');
-                // console.log(form);
-                // Display SweetAlert confirmation
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'You won\'t be able to revert this!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    // If confirmed, submit the corresponding form
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            });
-        });
-
         $(document).ready(function() {
             $('.supplier_live_search input').on('keyup', function() {
                 let supplierName = $('#supplier_name').val();
@@ -220,14 +194,40 @@
                                 '<span class="badge rounded-pill alert-danger">' +
                                 supplier.status + '</span>';
                             row.append($('<td>').html(statusBadge));
-                                // some correction this line class delete_supplier not working  
-                            row.append($('<td>').html('<form class="deleteForm" action="{{ route('supplier.destroy', ['id' => $supplier->id]) }}" method="post">@csrf @method('DELETE')<a href="#" data-bs-toggle="modal" data-bs-target="#supplierModalEdit" data-supplier-id="' + supplier.id + '" class="btn btn-sm btn-brand rounded font-sm mt-15 edit-supplier">Edit</a><a href="#" class="btn btn-sm btn-danger me-2 rounded font-sm mt-15 delete_supplier">Delete</a></form>'));
+                            // some correction this line class delete_supplier not working  
+                            row.append($('<td>').html(
+                                '<form class="deleteForm mr-2" action="{{ route('supplier.destroy', ['id' => $supplier->id]) }}" method="post">@csrf @method('DELETE')<a href="#" data-bs-toggle="modal" data-bs-target="#supplierModalEdit" data-supplier-id="' +
+                                supplier.id +
+                                '" class="btn btn-sm btn-brand rounded font-sm mt-15 edit-supplier">Edit</a>&nbsp;&nbsp;<a href="#" class="btn btn-sm btn-danger me-2 rounded font-sm mt-15 delete_supplier">Delete</a></form>'
+                                ));
 
                             // Append the row to the table body
                             supplierTable.append(row);
                         });
                     }
 
+                });
+            });
+
+            $(document).on('click', '.delete_supplier', function(event) {
+                event.preventDefault(); // Prevent the default link behavior
+                console.log('click');
+                // Find the closest form element related to the clicked link
+                var form = $(this).closest('form');
+                // Display SweetAlert confirmation
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You won\'t be able to revert this!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    // If confirmed, submit the corresponding form
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
                 });
             });
         });
