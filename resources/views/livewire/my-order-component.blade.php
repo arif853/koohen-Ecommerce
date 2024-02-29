@@ -30,6 +30,7 @@
                                 <tr>
                                     <th scope="row" class="text-start">{{$trackedOrder->created_at->setTimezone('Asia/Dhaka')->format('M j, Y, g:iA')}}
                                         {{-- <p><small>{{$trackedOrder->order_track_id}}</small></p> --}}
+                                    {{$trackedOrder->orderStatus}}
                                     </th>
                                     <td scope="row" class="text-center">
                                         <a href="#">
@@ -99,7 +100,8 @@
 
   <script>
       // Ensure orderStatus is an object with the expected properties
-      var orderStatus = {!! json_encode($trackedOrder->orderstatus) !!};
+      var orderStatus = {{ json_encode($trackedOrder->orderStatus) }}
+      console.log('order status: ',orderStatus);
       var steps = $('.steps');
       steps.empty();
 

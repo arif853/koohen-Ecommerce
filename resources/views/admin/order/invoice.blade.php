@@ -80,9 +80,22 @@ footer{
     bottom: 30px;
     left: 40px;
 }
+
+.watermark {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    /* transform: translate(-50%, -50%); */
+    opacity: 0.4; /* Adjust the opacity as needed */
+    pointer-events: none; /* Make sure the watermark doesn't interfere with user interactions */
+    z-index: -1;
+}
 </style>
 </head>
 <body>
+    <img class="watermark" src="{{ base_path('public/frontend/assets/imgs/Kohen_Favicon.png')}}" alt="Watermark">
+    {{-- <div class="bg-watermark">
+    </div> --}}
     @php
     $settings = DB::table('settings')->first();
     @endphp
@@ -197,8 +210,6 @@ footer{
             <p style="font-size:10px; margin-bottom:5px;font-family: 'nikosh';">৩.&nbsp;কাস্টমারের কাছে যদি পণ্য ক্ষতিগ্রস্ত অবস্থায় পৌঁছায় । </p>
         </div>
     </footer>
-
-
 
 </body>
 </html>

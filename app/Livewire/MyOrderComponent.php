@@ -58,7 +58,7 @@ class MyOrderComponent extends Component
     {
         //  // Fetch the latest order if $selectedOrder is not set
          if (!$this->trackedOrder) {
-            $latestOrder = Order::with('customer', 'order_item', 'shipping', 'transaction')->latest()->first();
+            $latestOrder = Order::with('customer', 'order_item', 'shipping', 'transaction','orderStatus')->latest()->first();
 
             $orderProducts = collect();
             // Iterate through each order and collect the associated products with images
