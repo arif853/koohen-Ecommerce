@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Products;
 use Illuminate\Http\Request;
+
+use Intervention\Image\Image;
 use App\Models\FeatureProducts;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -22,7 +24,7 @@ class FeatureProductsController extends Controller
     {
         $products = Products::latest('id')->get();
         $fproducts = FeatureProducts::latest('id')->get();
-        return view('admin.feature.product_feature', ['products' => $products,'fproducts'=>$fproducts]);
+        return view('admin.feature.product_feature', ['products' => $products, 'fproducts' => $fproducts]);
     }
 
     /**
@@ -80,16 +82,16 @@ class FeatureProductsController extends Controller
             // Prepare an array to hold multiple insert values
             $insertValues = [];
             $item->save();
-            foreach ($productIdArray as $productId) { 
+            foreach ($productIdArray as $productId) {
                 $insertValues[] = [
-                    'feature_products_id' => $item->id, 
-                    'products_id' => $productId
+                    'feature_products_id' => $item->id,
+                    'products_id' => $productId,
                 ];
             }
 
             // Insert multiple records into the pivot table
             DB::table('feature_products_with_pivot')->insert($insertValues);
-          
+
             // Set success message in session
             Session::flash('success', 'Feature item has been added successfully.');
         }
@@ -108,26 +110,66 @@ class FeatureProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+
     public function edit(Request $request)
     {
         $id = $request->id;
         $feature_products = FeatureProducts::findOrFail($id);
-
         return response()->json($feature_products);
     }
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $id = $request->feature_id;
+        $featureItem = FeatureProducts::find($id);
+    
+    
+        // Check if there's a new image uploaded
+        if ($request->hasFile('image')) {
+            $featureImage = $request->file('image');
+            $featurePath = 'feature/products/' . time() . '.' . $featureImage->getClientOriginalExtension();
+    
+            // Save the image
+            Storage::disk('public')->put($featurePath, file_get_contents($featureImage));
+    
+            // Delete the old image
+            Storage::delete('public/' . $featureItem->image);
+            $featureItem->image = $featurePath;
+        }
+    
+        // Update feature product details
+        $featureItem->feature_products_title = $request->feature_products_title;
+        $featureItem->status = $request->status ? 'Active' : 'Inactive';
+        $featureItem->save();
+    
+        // Sync the products in the pivot table
+        $featureItem->products()->sync($request->input('products_id'));
+    
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Feature Products Updated Successfully!',
+        ]);
     }
+    
+    
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        try{
+            $feature_item = FeatureProducts::find($request->id);
+
+            Storage::delete('public/'.$feature_item->image);
+            $feature_item->delete();
+
+            return redirect()->back()->with('success', 'Item deleted successfully.');
+        } catch (\Exception $e) {
+            // Log the exception or handle it in a way that makes sense for your application
+            return redirect()->back()->with('danger', 'This item can be deleted.');
+        }
     }
 }

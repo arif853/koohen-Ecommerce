@@ -130,6 +130,7 @@
     @stack('products_search')
     @stack('customer_filter')
     @stack('supplier_filter')
+    @stack('product_features')
 
     <script>
         $(document).ready(function() {

@@ -330,7 +330,7 @@ Route::controller(FeatureProductsController::class)->middleware('auth')->group(f
     Route::get('/dashboard/product_feature/edit', 'edit')->name('product_feature.edit');
     Route::post('/dashboard/product_feature/update', 'update')->name('product_feature.update');
     // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
-    Route::get('/dashboard/product_feature/destroy', 'destroy')->name('product_feature.destroy');
+    Route::delete('/dashboard/product_feature/destroy', 'destroy')->name('product_feature.destroy');
 });
 //Slider
 Route::controller(SliderController::class)->middleware('auth')->group(function () {
