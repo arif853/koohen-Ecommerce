@@ -160,7 +160,7 @@
             const selectAllCheckbox = document.getElementById('select-all-checkbox');
             const individualCheckboxes = document.querySelectorAll('.order-checkbox');
             const statusSelect = $('#all_order_status');
-            const customerProfileUrl = "{{ route('customer.profile', ['id' => $order->customer->id]) }}";
+     
             // Add an event listener to the global checkbox
             selectAllCheckbox.addEventListener('change', function() {
                 // Update the state of all individual checkboxes based on the state of the global checkbox
@@ -288,7 +288,9 @@
                             var createdAtDate = new Date(order.created_at);
                             var orderDetailUrl = "{{ route('order.details', ['id' => '']) }}" + order.id;
                             var orderTrackUrl = "{{ route('order.track', ['id' => '']) }}" + order.id;
-                            var orderInvoiceUrl = "{{ route('invoice', ['id' => ':id']) }}".replace(':id', order.id);       
+                            var orderInvoiceUrl = "{{ route('invoice', ['id' => ':id']) }}".replace(':id', order.id);   
+                         
+                           
                             // Define options for date formatting
                             var options = {
                                 year: 'numeric',

@@ -185,7 +185,7 @@
                             <div class="col-md-12 mb-2">
                                 <label for="products_id" class="form-label"> Products <span
                                         class="text-danger">*</span></label>
-                                <select id="products_id" class="form-control select-nice" multiple name="products_id[]">
+                                <select id="products_id" class="form-control select-nice"  multiple="multiple" name="products_id[]">
                                     <option value="">--Select product--</option>
                                     @foreach ($products as $product)
                                         <option value="{{ $product->id }}">{{ $product->product_name }}</option>

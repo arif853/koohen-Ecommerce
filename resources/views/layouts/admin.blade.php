@@ -131,6 +131,7 @@
     @stack('customer_filter')
     @stack('supplier_filter')
     @stack('product_features')
+    @stack('offers')
 
     <script>
         $(document).ready(function() {
@@ -174,7 +175,14 @@
                     $('#variantFields').hide();
                 }
             });
-
+            $('.offer_checkbox input[type="checkbox"]').change(function() {
+        // If it's checked, show the variantFields; otherwise, hide it
+        if ($(this).is(':checked')) {
+            $('#variantFields').show();
+        } else {
+            $('#variantFields').hide();
+        }
+    });
             $('#percentage_checkbox').change(function() {
                 if ($(this).is(':checked')) {
                     $('.offer-price').show();

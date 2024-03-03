@@ -260,9 +260,12 @@ Route::controller(CustomerController::class)->middleware('auth')->group(function
 //offers
 Route::controller(OfferController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/promotion/offers', 'index')->name('offers.index');
-    // Route::get('/dashboard/customers/create_customer', 'create')->name('customer.create');
-    // Route::get('/dashboard/customers/Customer_profile', 'customer_details')->name('customer.profile');
-    // Route::get('/dashboard/category/create', 'create')->name('category.create');
+    Route::post('/dashboard/promotion/create_offers', 'create_offer_type')->name('offerstype.create');
+    Route::post('/dashboard/promotion/offers_data', 'SaveOfferData')->name('offer.saved');
+    Route::get('/dashboard/promotion/edit_offers_data', 'EditOfferData')->name('offer.edit');
+    Route::post('/dashboard/promotion/update_offers_data', 'UpdateOfferData')->name('offer.update');
+    Route::delete('/dashboard/promotion/offers_data', 'delteOfferData')->name('offer.destroy');
+   
 });
 
 //Coupons
