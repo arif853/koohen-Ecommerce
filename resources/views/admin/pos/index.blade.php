@@ -48,6 +48,19 @@
         border-radius: 10px;
         padding: 15px 25px;
     }
+
+    .select-form {
+        background-color: #f4f5f9;
+        border: 2px solid #f4f5f9;
+        font-size: 13px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        color: #4f5d77;
+        /* width: 50%; */
+        border-radius: 4px;
+        height: 45px;
+        padding-left: 15px;
+    }
 </style>
 
 <!-- ========================= SECTION CONTENT ========================= -->
@@ -112,7 +125,7 @@
                                     </td>
                                     <td>
                                     <select name="colors" class="form-control" id="colorSelect" data-product-color>
-                                    <option value="#">Select Color</option>
+                                    <option value="">Select Color</option>
                                         @foreach ($product->colors as $color)
                                             <option value="{{$color->id}}">{{$color->color_name}}</option>
                                         @endforeach
@@ -120,7 +133,7 @@
                                     </td>
                                     <td>
                                     <select name="sizes" class="form-control" id="sizeSelect" data-product-size>
-                                    <option value="#">Select Size</option>
+                                    <option value="">Select Size</option>
                                         @foreach ($product->sizes as $size )
                                             <option value="{{$size->id}}">{{$size->size_name}}</option>
                                         @endforeach
@@ -133,6 +146,7 @@
                                             </var>
                                         </div>
                                     </td>
+
                                     <td class="text-end">
                                     <a href="#" class="btn btn-outline-primary addToCarts" data-product-id="{{$product->id}}"><i class="fa-solid fa-plus"></i></a>
                                     </td>
@@ -150,17 +164,18 @@
                     <div class="customer-wrapper">
                         <div class="customer-body-wrapper">
                             <a class="btn btn-primary mr-10" id="existing_customer_btn">Existing Customer</a>
-                            <a class="btn btn-outline-primary" id="walk_in_customer_btn">Walk In Customer</a>
+                            <a class="btn btn-outline-primary" id="walk_in_customer_btn" data-bs-toggle="modal" data-bs-target="#newCustomer">New Customer</a>
 
-                            <div class="walking_customer mt-10" style="display: none;">
-                                <p>Walk In Customer</p>
-                                <input type="hidden" class="form-control" readonly name="customer" id="walk_customer" value="1">
+                            <div class="new_customer mt-20" style="display: none;">
+                                <ul id="newCustomerList">
+
+                                </ul>
                             </div>
 
                             <div class="customer-search" style="display: none;">
-                                <div class="mt-10 search-box">
+                                <div class="mt-20 search-box">
                                     <input type="text" class="form-control searchInput" id="searchInput" placeholder="Search customer by phone or email">
-                                    <a class="btn btn-primary ml-2" id="addNewCustomer" href="#"><i class="fa-solid fa-plus"></i></a>
+                                    {{-- <a class="btn btn-primary ml-2" id="addNewCustomer" href="#"><i class="fa-solid fa-plus"></i></a> --}}
 
                                     <div id="customerList">
                                         <ul >
@@ -256,7 +271,7 @@
                         <div class="card-body">
                             <table class="table  shopping-cart-wrap text-end">
                                 <tr >
-                                    <td>Subtotal:</td>
+                                    <td colspan="2">Subtotal:</td>
                                     <td >
                                         @if($total > 0)
                                         ৳{{$total}}
@@ -268,19 +283,29 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Delivery Charge:</td>
+                                    <td colspan="2">Delivery Charge:</td>
                                     <td><input type="text" class="form-input" placeholder="Delivery Charge" name="delivery_charge" id="delivery_charge" ></td>
                                 </tr>
                                 <tr>
-                                    <td>Discount:</td>
+                                    <td colspan="2">Discount:</td>
                                     <td><input type="text" class="form-input" placeholder="Discount" name="discount" id="discount" ></td>
                                 </tr>
                                 <tr>
-                                    <td>Total:</td>
+                                    <td colspan="2">Total:</td>
                                     <td id="total">৳{{$total}}</td>
                                     <input type="hidden" name="total" id="g_total" value="{{$total}}">
                                 </tr>
-
+                                <tr>
+                                    <td colspan="2">Order From:</td>
+                                    <td >
+                                        <select name="order_from" id="orderFrom" class="select-form">
+                                            <option value=""> --Select order from-- </option>
+                                            <option value="WalkInCustomer">Walk In Customer</option>
+                                            <option value="Facebook">Facebook</option>
+                                            <option value="Koohen">Koohen</option>
+                                        </select>
+                                    </td>
+                                </tr>
                             </table>
                             <div class="row">
                                 <div class="col-md-5">
@@ -300,7 +325,47 @@
             </div>
         </div>
     </div><!-- container //  -->
+
 </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="newCustomer" tabindex="-1" aria-labelledby="newCustomerLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="newCustomerLabel">New Customer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+
+                        <div class="col-md-12">
+                            <label for="customerName" class="form-label">Customer Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="customerName" name="customerName" required>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="customerPhone" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="customerPhone" name="customerPhone" required>
+                        </div>
+
+                        <div class="col-md-12 ">
+                            <label class="form-label" for="customerAddress">Address</label>
+                            <input class="form-control" type="text" id="customerAddress" name="customerAddress">
+                        </div>
+
+                        {{-- <div class="col-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div> --}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="addNewCustomer" data-bs-dismiss="modal">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
   @endsection
   @push('brand')
@@ -332,12 +397,12 @@
 
         // Show/hide search box based on button click
         $("#walk_in_customer_btn").click(function () {
-            $(".walking_customer").show();
+            $(".new_customer").show();
             $(".customer-search").hide();
         });
 
         $("#existing_customer_btn").click(function () {
-            $(".walking_customer").hide();
+            $(".new_customer").hide();
             $(".customer-search").show();
         });
 
@@ -682,6 +747,79 @@
             });
         }
 
+
+        // Array to store new customer data
+        var newCustomers = [];
+
+        // Function to add a new customer to the array and update the list
+        function addNewCustomer() {
+            var customerName = document.getElementById('customerName').value;
+            var customerPhone = document.getElementById('customerPhone').value;
+            var customerAddress = document.getElementById('customerAddress').value;
+
+            // Validate if required fields are not empty
+            if (customerName.trim() === "" || customerPhone.trim() === "") {
+                alert("Please enter customer name and phone.");
+                return;
+            }
+
+            // Clear the existing customers before adding the new one
+            newCustomers = [];
+
+            // Add new customer to the array
+            newCustomers.push({
+                name: customerName,
+                phone: customerPhone,
+                address: customerAddress
+            });
+
+            // Update the customer list
+            updateCustomerList();
+
+            // Clear the modal fields
+            document.getElementById('customerName').value = '';
+            document.getElementById('customerPhone').value = '';
+            document.getElementById('customerAddress').value = '';
+
+            // Close the modal
+            var modal = new bootstrap.Modal(document.getElementById('newCustomer'));
+            modal.hide();
+        }
+
+        // Function to remove a customer from the array and update the list
+        function removeCustomer(index) {
+            newCustomers.splice(index, 1);
+            updateCustomerList();
+        }
+
+        // Function to update the customer list in the HTML
+        function updateCustomerList() {
+            var customerList = document.getElementById('newCustomerList');
+            customerList.innerHTML = ''; // Clear the existing list
+
+            // Iterate through the new customers array and update the list
+            newCustomers.forEach(function (customer, index) {
+                var listItem = document.createElement('li');
+                listItem.textContent = customer.name + ' - ' + customer.phone;
+
+                // Add a remove button to each customer
+                var removeBtn = document.createElement('button');
+                removeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+                removeBtn.className = 'btn btn-danger btn-sm ';
+                removeBtn.addEventListener('click', function () {
+                    removeCustomer(index);
+                });
+
+
+                listItem.appendChild(removeBtn);
+                customerList.appendChild(listItem);
+            });
+        }
+
+        // Event listener for the "Add" button in the modal
+        document.getElementById('addNewCustomer').addEventListener('click', addNewCustomer);
+
+
         //pos order
 
         $('#proceed_order_btn').on('click', function (e) {
@@ -689,19 +827,25 @@
 
             // var formData = $('#pos_order_form').serialize();
             var selectedCustomerId = $('.selected-customer').find('input').data('customer-id');
+            var customer;
+            var newCustomer;
 
             if (selectedCustomerId !== undefined && selectedCustomerId !== null && selectedCustomerId !== '') {
-                var customer = selectedCustomerId;
-                console.log(customer);
+                // Existing customer selected
+                customer = selectedCustomerId;
+                newCustomer = null; // Set newCustomer to null for clarity
             } else {
-                var customer = $('#walk_customer').val();
-                console.log(customer);
+                // New customer selected
+                customer = null;
+                newCustomer = newCustomers;
+                // console.log(newCustomer);
             }
             // var customer =
             var psubtotal = $('#psubtotal').val();
             var delivery_cost = $('#delivery_charge').val();
             var discount = $('#discount').val();
             var total = $('#g_total').val();
+            var order_from = $('#orderFrom').val();
 
             console.log(psubtotal);
             console.log(delivery_cost);
@@ -718,11 +862,15 @@
                     delivery_charge: delivery_cost,
                     discount: discount,
                     total: total,
+                    newCustomer: newCustomers,
+                    orderFrom : order_from,
                 },
                 success: function (response) {
                     // Handle success response
+                    window.open(response, '_blank');
                     location.reload();
-                    console.log(response);
+                    // console.log(response);
+                    // Open the invoice in a new tab
                 },
                 error: function (error) {
                     // Handle error

@@ -119,12 +119,29 @@
                 id: product,
             },
             success: function (response) {
-                // console.log(response);
+                console.log(response.sizes);
                 // console.log(response.supplier.supplier_name);
                 $('#product_id').val(response.id);
                 $('#old_stock').val(response.stock);
                 $('#product_name').val(response.product_name);
                 $('#supplier').val(response.supplier.supplier_name);
+
+
+            // Create and append input fields for each size
+            var inputContainer = $('#input-container');
+            inputContainer.empty();
+                var i = 0;
+            // Create and append input fields for each size
+            $.each(response.sizes, function (index, size) {
+                // sizeSelect.append('<option value="' + size.id + '">' + size.size_name + '</option>');
+                var inputField = '<div class="input-group mb-3">' +
+                                    '<input type="hidden" value="'+size.id+'" name=size['+i+']>'+
+                                    '<label class="input-group-text" for="quantity_' + size.id + '">S-' + size.size_name + '</label>' +
+                                    '<input type="number" class="form-control" id="quantity_' + i + '" name="quantity[' + i + ']" value="0">' +
+                                '</div>';
+                inputContainer.append(inputField);
+                i++;
+            });
 
             }
         });
@@ -135,25 +152,25 @@
         e.preventDefault();
         const data = new FormData(this);
         console.log(data);
-        $.ajax({
-            url: '/dashboard/inventory/addstock',
-            method: 'post',
-            data: data,
-            cache: false,
-            processData: false,
-            contentType: false,
-            success: function (res) {
-                if (res.status == 200) {
-                    // console.log(res);
-                    location.reload();
-                    // $.Notification.autoHideNotify('success', 'top right', 'Excellent!!', res.message);
-                }
-                else{
-                    $.Notification.autoHideNotify('danger', 'top right', 'Failed', res.message);
+        // $.ajax({
+        //     url: '/dashboard/inventory/addstock',
+        //     method: 'post',
+        //     data: data,
+        //     cache: false,
+        //     processData: false,
+        //     contentType: false,
+        //     success: function (res) {
+        //         if (res.status == 200) {
+        //             // console.log(res);
+        //             location.reload();
+        //             // $.Notification.autoHideNotify('success', 'top right', 'Excellent!!', res.message);
+        //         }
+        //         else{
+        //             $.Notification.autoHideNotify('danger', 'top right', 'Failed', res.message);
 
-                }
-            }
-        })
+        //         }
+        //     }
+        // })
     });
 </script>
 

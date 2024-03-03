@@ -77,8 +77,8 @@ class POSController extends Controller
             $item_slug = $product->slug;
             $data = Cart::instance('pos_cart')->add($id,$item_name,1,$item_price, ['color' => $color,'size' => $size,'slug' => $item_slug]);
 
-            Session::flash('success','Product added To cart.');
-            return response()->json(['status' => 200,'message' => 'Product added to cart', 'data' => $data]);
+            Session::flash('success','Product added To list.');
+            return response()->json(['status' => 200, 'message' => 'Product added to list', 'data' => $data]);
         }
         else{
             Session::flash('success','Product not found.');
@@ -88,10 +88,11 @@ class POSController extends Controller
     }
 
     public function cart_remove($id){
+
         Cart::instance('pos_cart')->remove($id);
         $cartItems = Cart::instance('pos_cart')->content();
 
-        Session::flash('danger','Product removed from cart.');
+        Session::flash('danger','Product removed from list.');
         return response()->json(['status' => 200,'message' => 'Product remove from cart','cartItems' => $cartItems]);
     }
 
@@ -99,7 +100,7 @@ class POSController extends Controller
     public function posOrderCancel()
     {
         Cart::instance('pos_cart')->destroy();
-        Session::flash('danger','Order canceled,Products remove from cart.');
+        Session::flash('danger','Order canceled,Products removed.');
         return response()->json(['status' => 200,'message' => 'Product remove from cart']);
     }
 
@@ -120,24 +121,69 @@ class POSController extends Controller
     } while ($codeExists);
 
         // Concatenate the components to create the final code
-
         return $generatedCode;
     }
 
+    public function generateInvoiceNo()
+    {
 
+    do {
+        // Generate a 2-digit random number
+        $randomNumber = str_pad(mt_rand(1, 99), 2, '0', STR_PAD_LEFT);
+
+        // Get the current year
+        $currentYear = date('y');
+        $currentMonth = date('m');
+
+        // Concatenate the components to create the final code
+        $invoiceNo= $currentMonth.$currentYear.$randomNumber;
+        // Check if the generated code already exists in the database
+        $codeExists = DB::table('orders')->where('invoice_no', $invoiceNo)->exists();
+
+    } while ($codeExists);
+
+        // Concatenate the components to create the final code
+
+        return $invoiceNo;
+    }
 
     public function posOrder(Request $request)
     {
         $track_id = $this->generateCode();
+        $invoiceNo = $this->generateInvoiceNo();
+        $customer_id = null;
+
+        if ($request->input('customer')) {
+            // Existing customer selected
+            $customer_id = $request->input('customer');
+        } else {
+            // New customer selected
+            $newCustomerData = $request->input('newCustomer');
+            foreach($newCustomerData as $customer)
+            {
+                // Save new customer information to the customers table
+                $newCustomer = new Customer();
+                $newCustomer->firstName = $customer['name'];
+                // Add logic to extract last name if available in new customer data
+                $newCustomer->lastName = ' ';
+                $newCustomer->email = ' ';
+                $newCustomer->phone = $customer['phone'];
+                $newCustomer->billing_address = $customer['address'];
+                $newCustomer->save();
+                $customer_id = $newCustomer->id;
+            }
+            // Use the newly created customer's ID for the order
+        }
 
         $order = new Order();
-        $order->customer_id = $request->input('customer');
-        $order->order_track_id = $track_id;
+        $order->customer_id = $customer_id;
+        $order->invoice_no = $invoiceNo;
         $order->subtotal = $request->input('subtotal');
         $order->delivery_charge = $request->input('delivery_charge');
         $order->discount = $request->input('discount');
         $order->total = $request->input('total');
         $order->is_shipping_different =  0;
+        $order->order_from  = $request->input('orderFrom');
         $order->comment = "Pos order";
         $order->status = 'completed';
         $order->save();
@@ -158,7 +204,7 @@ class POSController extends Controller
         }
 
         $transaction = transactions::create([
-            'customer_id' => $request->input('customer'),
+            'customer_id' => $customer_id,
             'order_id' => $order->id,
             'mode' => 'cash',
             'status' => 'paid',
@@ -166,26 +212,12 @@ class POSController extends Controller
 
         Cart::instance('pos_cart')->destroy();
         Session::flash('success','Order has been created.');
+
         // Generate and stream the invoice
-        $invoice = $this->Invoice($order->id)->stream();
+        // $invoice = $this->Invoice($order->id)->stream();
+
         // dd($order);
-        return Redirect::back()->with('success', 'Order processed successfully');
+        return response()->json(route('order.invoice', ['id' => $order->id]));
     }
 
-    public function Invoice($id)
-    {
-
-        $order = Order::where('id', $id)->first();
-
-        if (!$order) {
-            return 'Order not found';
-        }
-        else{
-            $pdf= PDF::loadView('admin.order.pos_invoice', ['order'=>$order]);
-
-            return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
-        }
-
-
-    }
 }

@@ -143,8 +143,9 @@ class OrderController extends Controller
                 ],
             );
         }
+        Session::flash('success', 'Order ' . $selectedStatus . ' updated successfully.');
 
-        return response()->json(['success' => true, 'message' => 'Order ' . $selectedStatus . ' updated successfully.']);
+        return response()->json(['success' => true, ]);
     }
 
     // OrderController.php

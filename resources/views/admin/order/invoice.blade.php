@@ -90,12 +90,23 @@ footer{
     pointer-events: none; /* Make sure the watermark doesn't interfere with user interactions */
     z-index: -1;
 }
+.bg-watermark {
+    position: absolute;
+    top: 35%;
+    left: 90px;
+    /* transform: translate3D(-50%, -50%); */
+    opacity: 0.4; /* Adjust the opacity as needed */
+    pointer-events: none; /* Make sure the watermark doesn't interfere with user interactions */
+    width: 350px;
+    z-index: -1 !important;
+}
+.bg-watermark img{
+    opacity: 0.4;
+}
 </style>
 </head>
 <body>
-    <img class="watermark" src="{{ base_path('public/frontend/assets/imgs/Kohen_Favicon.png')}}" alt="Watermark">
-    {{-- <div class="bg-watermark">
-    </div> --}}
+
     @php
     $settings = DB::table('settings')->first();
     @endphp
@@ -108,7 +119,7 @@ footer{
         <div class="invoice-content"style=" float:right;">
             <h2 style="margin-left:20px; width:70%; background: #e9e9e9b7;  text-align:center;text-transform:uppercase;color:#3abff0; padding:8px;">Invoice</h2>
             <p style="margin-left:20px; text-align:left; "><b class="tera">Date:</b> {{ date('j F y', strtotime($order->created_at)) }}</p>
-            <p style="margin-left:20px; text-align:left;"><b class="tera">Invoice No:#</b> {{ $order->id ?? ' '  }}</p>
+            <p style="margin-left:20px; text-align:left;"><b class="tera">Invoice No:#</b> {{ $order->invoice_no ?? $order->id  }}</p>
                 @if ($order->transaction->status == 'approved')
                     <p class="badge-soft-success">Paid</p>
                 @elseif($order->transaction->status == 'pending')
@@ -133,10 +144,10 @@ footer{
         @else
         <p style="margin-top:4px;"> <strong>Customer Name :</strong>{{ $order->customer->firstName.' '.$order->customer->lastName }}</p>
         <p style="margin-top:4px;"> <strong>Phone :</strong>
-            No need
+           {{ $order->customer->phone}}
         </p>
         <p style="margin-top:4px;"> <strong>Address :</strong>
-        No need
+            {{ $order->customer->billing_address}}
         </p>
         @endif
 
@@ -210,6 +221,8 @@ footer{
             <p style="font-size:10px; margin-bottom:5px;font-family: 'nikosh';">৩.&nbsp;কাস্টমারের কাছে যদি পণ্য ক্ষতিগ্রস্ত অবস্থায় পৌঁছায় । </p>
         </div>
     </footer>
-
+    <div class="bg-watermark">
+        <img class="watermark" style="opacity: 0.08;" src="{{ base_path('public/frontend/assets/imgs/Kohen_Favicon.png')}}" alt="Koohen">
+    </div>
 </body>
 </html>

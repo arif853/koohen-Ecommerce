@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Products;
 use Illuminate\Http\Request;
+use App\Models\Product_stock;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 
@@ -19,8 +21,10 @@ class InventoryController extends Controller
         }])->get();
 
         foreach ($products as $product) {
+
             $soldQuantity = $product->order_item->sum('quantity');
             $product->soldQuantity = ($soldQuantity > 0) ? $soldQuantity : 0;
+
         }
         // dd($products);
         return view('admin.inventory.index',compact('products'));
@@ -31,24 +35,46 @@ class InventoryController extends Controller
     {
         $id = $request->id;
 
-        $product = Products::with(['supplier:id,supplier_name'])->find($id);
+        $product = Products::with(['supplier:id,supplier_name','sizes'])->find($id);
 
-        // dd($product->toSql());
+        // dd($product);
         return response()->json($product);
     }
 
     public function addstock(Request $request)
     {
-        $id = $request->product_id;
-        $product = Products::find($id);
-        $old_stock = $request->old_stock;
+        $productId = $request->product_id;
+        $newStock = $request->new_stock;
 
-        $newstock = $old_stock + $request->new_stock;
+        // Assuming you have an array of size IDs and quantities
+        $sizes = $request->input('size');
+        $quantities = $request->input('quantity');
 
-        $product->stock = $newstock;
-        $product->save();
+
+        if (count($sizes) != count($quantities)) {
+            // Handle the case where the number of sizes and quantities don't match
+            return response()->json(['status' => 400, 'message' => 'Invalid input data.']);
+        }
+
+        // Loop through each size and quantity
+        foreach ($sizes as $index => $sizeId) {
+            $quantity = $quantities[$index];
+
+            // Find or create a product_stock record based on product_id and size_id
+            $stock = Product_stock::updateOrCreate(
+                [
+                    'product_id' => $productId,
+                    'size_id' => $sizeId,
+                ],
+                [
+                    'inStock' => DB::raw("inStock + $quantity"), // Increment the inStock column
+                    'outStock' => 0, // Assuming outStock starts at 0
+                    'price' => null, // Set the price value as needed
+                ]
+            );
+        }
 
         Session::flash('success', 'New Stock added to the inventory.');
-        return response()->json(['status'=> 200, 'message' => 'New Stock added to the inventory!']);
+        return response()->json(['status' => 200, 'message' => 'New Stock added to the inventory!']);
     }
 }
