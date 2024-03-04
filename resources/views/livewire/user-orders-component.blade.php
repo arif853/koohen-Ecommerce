@@ -121,12 +121,20 @@
                                         @endif
                                     </td>
                                     @if ($order->status == "returned")
-                                    <td class="text-center order_status_action" >
-                                        <p>Order Return in proccess.</p>
-                                    </td>
+                                        @if($order->return_confirm == 1)
+                                            <td class="text-center order_status_action" >
+                                                <p class="text-success">Return successful.</p>
+                                            </td>
+                                        @else
+                                            <td class="text-center order_status_action" >
+                                                <p class="text-warning">Order Return in proccess.</p>
+                                            </td>
+                                        @endif
                                     @else
                                     <td class="text-center order_status_action" >
-                                        <a href="#" class="action-btn" wire:click="trackOrder({{ $order->id }})">Track me</a>
+                                        {{-- trackorder/order_details --}}
+                                        {{-- <a href="#" class="action-btn" wire:click="trackOrder('{{ $order->order_track_id }}')">Track me</a> --}}
+                                        <a href="{{url('trackorder/track_order/'.$order->order_track_id)}}" class="action-btn" >Track me</a>
                                         <a href="#" data-order-id="{{ $order->id }}" class="action-btn order_return" data-bs-toggle="tooltip" data-bs-placement="right" title="Return"><i class="fad fa-reply"></i></a>
                                         <a href="#" id="order_cancel" data-order-id="{{ $order->id }}" class="action-btn" data-bs-toggle="tooltip" data-bs-placement="right" title="Cancel"> <i class="fal fa-window-close"></i></a>
                                     </td>
@@ -188,7 +196,7 @@
                         success: function (response) {
                             // Handle success, if needed
                             location.reload();
-                            
+
                             // if (response.success) {
                             //     $.Notification.autoHideNotify('success', 'top right', 'Success', response.message);
                             // }

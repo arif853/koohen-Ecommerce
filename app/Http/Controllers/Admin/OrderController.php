@@ -112,7 +112,8 @@ class OrderController extends Controller
 
     public function order_return()
     {
-        return view('admin.order.order_return.index');
+        $order_return = Order::with('customer')->where('status','returned')->get();
+        return view('admin.order.order_return.index',compact('order_return'));
     }
 
     // OrderController.php
@@ -143,8 +144,9 @@ class OrderController extends Controller
                 ],
             );
         }
+        Session::flash('success', 'Order ' . $selectedStatus . ' updated successfully.');
 
-        return response()->json(['success' => true, 'message' => 'Order ' . $selectedStatus . ' updated successfully.']);
+        return response()->json(['success' => true, ]);
     }
 
     // OrderController.php
@@ -387,9 +389,20 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function return_confirm(string $id)
     {
-        //
+        $order = Order::find($id);
+
+        if (!$order) {
+            return response()->json(['success' => false, 'message' => 'Order not found']);
+        }
+
+        // Update the order status
+        $order->return_confirm = 1;
+        $order->save();
+
+        Session::flash('success', ' Order return confirmation done.');
+        return redirect()->back();
     }
 
     /**
@@ -416,36 +429,13 @@ class OrderController extends Controller
         if (!$order) {
             return 'Order not found';
         }
+        else{
+            $pdf= PDF::loadView('admin.order.invoice',['order'=>$order]);
+            // $pdf->SetWatermarkText('DRAFT');
+            // $pdf->showWatermarkText = true;
+            return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
+        }
 
-        $pdf =PDF::loadView('invoice', ['data' => $data], [], [
-                'mode' => '',
-                'format' => 'A5-P',
-                'default_font_size' => '12',
-                'default_font' => 'nikosh',
-                'margin_left' => 10,
-                'margin_right' => 10,
-                'margin_top' => 15,
-                'margin_bottom' => 15,
-                'margin_header' => 2,
-                'margin_footer' => 5,
-                'orientation' => 'L',
-                'title' => 'Laravel mPDF',
-                'author' => '',
-                'watermark' => '',
-                'show_watermark' => false,
-                'watermark_font' => 'SutonnyMJRegular',
-                'display_mode' => 'fullpage',
-                'watermark_text_alpha' => 0.1,
-                'custom_font_dir' => '',
-                'custom_font_data' => [],
-                'auto_language_detection' => false,
-                'temp_dir' => rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR),
-                'pdfa' => false,
-                'pdfaauto' => false,
-            ],
-        );
-
-        return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
     }
 
 

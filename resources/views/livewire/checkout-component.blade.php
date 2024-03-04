@@ -42,7 +42,7 @@
                     @php
                     $subtotal = $item->subtotal;
                     $total += $subtotal;
-                    $discount = 50;
+                    $discount = 0;
                     @endphp
                 @endforeach
                 {{-- cart loop end --}}

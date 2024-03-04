@@ -33,7 +33,7 @@ class TrackorderController extends Controller
         if ($trackedOrder) {
             // Process and prepare data for the response
             $orderProducts = $this->prepareOrderProducts($trackedOrder->order_item);
-            
+
             // Convert created_at to Asia/Dhaka timezone and format it
             $trackedOrder->created_at_formatted = Carbon::parse($trackedOrder->created_at)
             ->setTimezone('Asia/Dhaka')
@@ -46,6 +46,38 @@ class TrackorderController extends Controller
             ];
 
             return response()->json($responseData);
+        } else {
+            // Return a response indicating that no order was found
+            return response()->json(['error' => 'No order found for the provided track ID'], 404);
+        }
+    }
+
+    public function orderTrack(string $trackid)
+    {
+        // $trackNo = $request->trackid;
+
+        // Fetch tracked order details
+        $trackedOrder = Order::with('customer', 'order_item', 'shipping', 'transaction', 'orderStatus')
+            ->where('order_track_id', $trackid)->first();
+
+        if ($trackedOrder) {
+            // Process and prepare data for the response
+            $orderProducts = $this->prepareOrderProducts($trackedOrder->order_item);
+
+            // Convert created_at to Asia/Dhaka timezone and format it
+            $trackedOrder->created_at_formatted = Carbon::parse($trackedOrder->created_at)
+            ->setTimezone('Asia/Dhaka')
+            ->format('M j, Y, g:iA');
+
+            // You can add more data if needed
+            $responseData = [
+                'order' => $trackedOrder,
+                'orderProducts' => $orderProducts,
+            ];
+
+            // return response()->json($responseData);
+            // dd($responseData);
+            return view('frontend.trackorder.myordertrack',compact('responseData'));
         } else {
             // Return a response indicating that no order was found
             return response()->json(['error' => 'No order found for the provided track ID'], 404);

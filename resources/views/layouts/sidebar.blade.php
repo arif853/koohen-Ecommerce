@@ -15,7 +15,7 @@
                 </a>
             </li>
             <li class="menu-item has-submenu">
-                <a class="menu-link" href="page-products-list.html"> <i class="icon material-icons md-shopping_bag"></i>
+                <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_bag"></i>
                     <span class="text">Products</span>
                 </a>
                 <div class="submenu">
@@ -28,7 +28,7 @@
                 </div>
             </li>
             <li class="menu-item has-submenu">
-                <a class="menu-link" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
+                <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_cart"></i>
                     <span class="text">Orders</span>
                 </a>
                 <div class="submenu">
@@ -39,7 +39,7 @@
                 </div>
             </li>
             <li class="menu-item has-submenu">
-                <a class="menu-link" href="page-sellers-cards.html"> <i class="icon material-icons md-store"></i>
+                <a class="menu-link" href="#"> <i class="icon material-icons md-supervisor_account"></i>
                     <span class="text">Customers</span>
                 </a>
                 <div class="submenu">
@@ -49,7 +49,7 @@
             </li>
 
             <li class="menu-item has-submenu">
-                <a class="menu-link" href="page-sellers-cards.html"> <i class="icon material-icons md-widgets"></i>
+                <a class="menu-link" href="#"> <i class="icon material-icons md-supervised_user_circle"></i>
                     <span class="text">Suppliers</span>
                 </a>
                 <div class="submenu">
@@ -59,7 +59,7 @@
             </li>
 
             <li class="menu-item has-submenu">
-                <a class="menu-link" href="page-transactions-1.html"> <i class="icon material-icons md-monetization_on"></i>
+                <a class="menu-link" href="#"> <i class="icon material-icons md-monetization_on"></i>
                     <span class="text">Transactions</span>
                 </a>
                 {{-- <div class="submenu">
@@ -69,12 +69,21 @@
                 </div> --}}
             </li>
             <li class="menu-item has-submenu">
-                <a class="menu-link" href="page-brands.html"> <i class="icon material-icons md-stars"></i>
+                <a class="menu-link" href="#"> <i class="icon material-icons md-trending_up"></i>
                     <span class="text">Promotions</span>
                 </a>
                 <div class="submenu">
                     <a href="{{route('offers.index')}}">Offers</a>
                     <a href="{{route('coupon.index')}}">Coupons</a>
+                </div>
+            </li>
+            <li class="menu-item has-submenu">
+                <a class="menu-link" href="#"> <i class="icon material-icons md-card_membership"></i>
+                    <span class="text">Feature item</span>
+                </a>
+               <div class="submenu">
+                    <a href="{{route('category_feature')}}">Category</a>
+                    <a href="page-account-register.html">Products</a>
                 </div>
             </li>
             {{-- <li class="menu-item has-submenu">
@@ -98,22 +107,19 @@
                     <span class="text">Media</span> </a>
             </li> --}}
             <li class="menu-item">
-                <a class="menu-link" href="{{route('inventory')}}"> <i class="icon material-icons md-stars"></i>
+                <a class="menu-link" href="{{route('inventory')}}"> <i class="icon material-icons md-store"></i>
                     <span class="text">Inventory</span> </a>
             </li>
             <li class="menu-item">
-                <a class="menu-link" href="{{route('campaign')}}"> <i class="icon material-icons md-stars"></i>
+                <a class="menu-link" href="{{route('purchase')}}"> <i class="icon material-icons md-add_shopping_cart"></i>
+                    {{-- <i class="md md-add-shopping-cart"></i> --}}
+                    <span class="text">Purchase</span> </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="{{route('campaign')}}"> <i class="icon material-icons md-analytics"></i>
                     <span class="text">Campaign</span> </a>
             </li>
-            <li class="menu-item has-submenu">
-                <a class="menu-link" href="#"> <i class="icon material-icons md-person"></i>
-                    <span class="text">Feature item</span>
-                </a>
-               <div class="submenu">
-                    <a href="{{route('category_feature')}}">Category</a>
-                    <a href="page-account-register.html">Products</a>
-                </div>
-            </li>
+
 
             <li class="menu-item">
                 <a class="menu-link"  href="{{route('zone.index')}}"> <i class="icon material-icons md-pie_chart"></i>

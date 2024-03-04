@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\TrackorderController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
+use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\ForgotPasswordController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
@@ -152,6 +153,7 @@ Route::controller(CartController::class)->group(function () {
 Route::controller(TrackorderController::class)->group(function () {
     Route::get('/trackorder', 'index')->name('trackorder');
     Route::post('/trackorder/order_details', 'order_details')->name('order_details');
+    Route::get('/trackorder/track_order/{trackid}', 'orderTrack')->name('myorder.track');
 
 });
 
@@ -245,6 +247,7 @@ Route::controller(OrderController::class)->middleware('auth')->group(function ()
     Route::post('/update-one-order-status', 'updateOneOrderStatus');
     Route::get('/orders/invoice/{id}', 'orderInvoice')->name('order.invoice');
     Route::get('/orders/invoice-page/{id}', 'invoicePage')->name('invoice');
+    Route::get('/dashboard/order/{id}', 'return_confirm')->name('return.confirm');
 });
 
 //Customer
@@ -363,13 +366,11 @@ Route::controller(InventoryController::class)->middleware('auth')->group(functio
     Route::post('/dashboard/inventory/addstock', 'addstock')->name('add.stock');
 });
 
-//Pos route
-Route::controller(POSController::class)->middleware('auth')->group(function () {
-    Route::get('/dashboard/pos', 'index')->name('pos');
-    Route::get('/dashboard/search-products', 'searchProducts')->name('search.products');
-    Route::get('/dashboard/pos_cart/{id}', 'pos_cart');
-    Route::get('/dashboard/pos_cart/cart_remove/{id}', 'cart_remove');
-    Route::get('.dashboard/pos/customer', 'searchcustomer')->name('search.customer');
+//Purchase route
+Route::controller(PurchaseController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/purchase', 'index')->name('purchase');
+    Route::get('/dashboard/purchase/create', 'create')->name('purchase.create');
+
 });
 
 //Pos route
@@ -389,10 +390,10 @@ Route::get('/dashboard/reviews', function () {
     return view('admin.reviews.index');
 })->name('reviews');
 
-// reviews
-Route::get('/dashboard/mailerview', function () {
-    return view('admin.email.mail');
-})->name('mailer');
+// mail Testing route
+// Route::get('/dashboard/mailerview', function () {
+//     return view('admin.email.mail');
+// })->name('mailer');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
