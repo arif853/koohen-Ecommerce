@@ -112,7 +112,8 @@ class OrderController extends Controller
 
     public function order_return()
     {
-        return view('admin.order.order_return.index');
+        $order_return = Order::with('customer')->where('status','returned')->get();
+        return view('admin.order.order_return.index',compact('order_return'));
     }
 
     // OrderController.php
