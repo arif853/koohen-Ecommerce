@@ -125,14 +125,38 @@ class POSController extends Controller
     }
 
 
+    public function generateInvoiceNo()
+    {
+
+    do {
+        // Generate a 2-digit random number
+        $randomNumber = str_pad(mt_rand(1, 99), 2, '0', STR_PAD_LEFT);
+
+        // Get the current year
+        $currentYear = date('y');
+        $currentMonth = date('m');
+
+        // Concatenate the components to create the final code
+        $invoiceNo= $currentMonth.$currentYear.$randomNumber;
+        // Check if the generated code already exists in the database
+        $codeExists = DB::table('orders')->where('invoice_no', $invoiceNo)->exists();
+
+    } while ($codeExists);
+
+        // Concatenate the components to create the final code
+
+        return $invoiceNo;
+    }
+
 
     public function posOrder(Request $request)
     {
-        $track_id = $this->generateCode();
+        // $track_id = $this->generateCode();
+        $invoiceNo = $this->generateInvoiceNo();
 
         $order = new Order();
         $order->customer_id = $request->input('customer');
-        $order->order_track_id = $track_id;
+        $order->invoice_no = $invoiceNo;
         $order->subtotal = $request->input('subtotal');
         $order->delivery_charge = $request->input('delivery_charge');
         $order->discount = $request->input('discount');
@@ -167,15 +191,7 @@ class POSController extends Controller
         Cart::instance('pos_cart')->destroy();
         Session::flash('success','Order has been created.');
         // Generate and stream the invoice
-        $invoice = $this->Invoice($order->id)->stream();
-        // dd($order);
-        return Redirect::back()->with('success', 'Order processed successfully');
-    }
-
-    public function Invoice($id)
-    {
-
-        $order = Order::where('id', $id)->first();
+        $order = Order::where('id', $order->id)->first();
 
         if (!$order) {
             return 'Order not found';
@@ -183,9 +199,17 @@ class POSController extends Controller
         else{
             $pdf= PDF::loadView('admin.order.pos_invoice', ['order'=>$order]);
 
-            return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
+            // return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
+            $mpdf = $pdf->output('Koohen Invoice-'.$order->id.'.pdf','I');
+            return $mpdf;
         }
-
-
     }
+
+    // public function Invoice($id)
+    // {
+
+
+
+
+    // }
 }

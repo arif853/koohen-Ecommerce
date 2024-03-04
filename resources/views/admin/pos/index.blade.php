@@ -147,6 +147,9 @@
 
             <div class="col-md-5">
                 <form action="#" id="pos_order_form">
+                    {{-- @csrf
+                        {{url('dashboard/pos/store')}}
+                    @method('POST') --}}
                     <div class="customer-wrapper">
                         <div class="customer-body-wrapper">
                             <a class="btn btn-primary mr-10" id="existing_customer_btn">Existing Customer</a>
