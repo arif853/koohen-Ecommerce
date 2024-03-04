@@ -7,7 +7,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         {{-- <div class="category_form" id="category_form"></div> --}}
-        <form id="newStock">
+        {{-- <form id="newStock"> --}}
 
             <div class="modal-body">
                 <input type="hidden" name="product_id" id="product_id" >
@@ -46,12 +46,12 @@
                     </div>
 
                     <div class="col-12 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary">Add</button>
+                        {{-- <button type="submit" class="btn btn-primary">Add</button> --}}
                       {{-- <button class="btn btn-primary" type="submit">Submit form</button> --}}
                     </div>
                 </div>
             </div>
-        </form>
+        {{-- </form> --}}
         {{-- <div class="modal-footer">
         </div> --}}
       </div>

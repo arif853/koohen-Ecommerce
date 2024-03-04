@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\TrackorderController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
+use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\ForgotPasswordController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
@@ -360,6 +361,13 @@ Route::controller(InventoryController::class)->middleware('auth')->group(functio
     //add new stock
     Route::get('/dashboard/inventory/newstock', 'newstock')->name('new.stock');
     Route::post('/dashboard/inventory/addstock', 'addstock')->name('add.stock');
+});
+
+//Purchase route
+Route::controller(PurchaseController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/purchase', 'index')->name('purchase');
+    Route::get('/dashboard/purchase/create', 'create')->name('purchase.create');
+
 });
 
 //Pos route

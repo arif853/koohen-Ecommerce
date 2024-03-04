@@ -61,20 +61,23 @@ class InventoryController extends Controller
             $quantity = $quantities[$index];
 
             // Find or create a product_stock record based on product_id and size_id
-            $stock = Product_stock::updateOrCreate(
-                [
-                    'product_id' => $productId,
-                    'size_id' => $sizeId,
-                ],
-                [
-                    'inStock' => DB::raw("inStock + $quantity"), // Increment the inStock column
-                    'outStock' => 0, // Assuming outStock starts at 0
-                    'price' => null, // Set the price value as needed
-                ]
-            );
+            // $stock = Product_stock::updateOrCreate(
+            //     [
+            //         'product_id' => $productId,
+            //         'size_id' => $sizeId,
+            //     ],
+            //     [
+            //         'inStock' => DB::raw("inStock + $quantity"), // Increment the inStock column
+            //         'outStock' => 0, // Assuming outStock starts at 0
+            //         'price' => null, // Set the price value as needed
+            //     ]
+            // );
         }
 
+        dd($sizes);
+        dd($quantities);
+
         Session::flash('success', 'New Stock added to the inventory.');
-        return response()->json(['status' => 200, 'message' => 'New Stock added to the inventory!']);
+        // return response()->json(['status' => 200, 'message' => 'New Stock added to the inventory!']);
     }
 }

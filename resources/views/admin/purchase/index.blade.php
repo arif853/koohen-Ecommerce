@@ -7,7 +7,7 @@
 <div>
     <div class="content-header">
         <div>
-            <h2 class="content-title card-title">Inventory</h2>
+            <h2 class="content-title card-title">Purchase</h2>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="{{'/dashborad'}}">Dashborad</a></li>
@@ -35,17 +35,16 @@
                             <table class="table table-striped" id="datatable">
                                 <thead>
                                     <tr>
-                                        <th width=5%>ID</th>
-                                        <th>Product</th>
+                                        <th>ID</th>
+                                        <th>Ref#</th>
                                         <th>Supplier</th>
                                         <th>Last Update</th>
-                                        <th>In </th>
-                                        <th>Out</th>
-                                        <th>Balance</th>
+                                        <th>Purchase item </th>
+                                        <th>Total Amount</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                {{-- <tbody>
                                     @foreach ($products as $key => $product)
                                         <tr>
                                             <td>{{$key+1}}</td>
@@ -81,7 +80,7 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                </tbody>
+                                </tbody> --}}
                             </table>
                         </div>
                     </div>
@@ -92,9 +91,6 @@
 
 </div>
 @include('admin.inventory.new-stock')
-
-<h6>It is not the man who has too little, but the man who craves more, that is poor. - Seneca</h6>
-<h6>I have not failed. I've just found 10,000 ways that won't work. - Thomas Edison</h6>
 
 
 @endsection
@@ -152,25 +148,25 @@
         e.preventDefault();
         const data = new FormData(this);
         console.log(data);
-        $.ajax({
-            url: '/dashboard/inventory/addstock',
-            method: 'post',
-            data: data,
-            cache: false,
-            processData: false,
-            contentType: false,
-            success: function (res) {
-                if (res.status == 200) {
-                    // console.log(res);
-                    location.reload();
-                    // $.Notification.autoHideNotify('success', 'top right', 'Excellent!!', res.message);
-                }
-                else{
-                    $.Notification.autoHideNotify('danger', 'top right', 'Failed', res.message);
+        // $.ajax({
+        //     url: '/dashboard/inventory/addstock',
+        //     method: 'post',
+        //     data: data,
+        //     cache: false,
+        //     processData: false,
+        //     contentType: false,
+        //     success: function (res) {
+        //         if (res.status == 200) {
+        //             // console.log(res);
+        //             location.reload();
+        //             // $.Notification.autoHideNotify('success', 'top right', 'Excellent!!', res.message);
+        //         }
+        //         else{
+        //             $.Notification.autoHideNotify('danger', 'top right', 'Failed', res.message);
 
-                }
-            }
-        })
+        //         }
+        //     }
+        // })
     });
 </script>
 
