@@ -109,6 +109,9 @@
                                     <th scope="col" class="text-end" >Action</th>
                                 </tr>
                             </thead>
+                            @php
+                                $balance = 0;
+                            @endphp
                             <tbody>
                                 @foreach ($products as $product)
                                 <tr>
@@ -120,9 +123,11 @@
                                             </figcaption>
                                         </figure>
                                     </td>
+
                                     <td class="">
-                                    <span>{{$product->stock}}</span>
+                                        <span>{{$product->inStock - $product->soldQuantity}}</span>
                                     </td>
+
                                     <td>
                                     <select name="colors" class="form-control" id="colorSelect" data-product-color>
                                     <option value="">Select Color</option>
@@ -131,11 +136,27 @@
                                         @endforeach
                                     </select>
                                     </td>
+
                                     <td>
                                     <select name="sizes" class="form-control" id="sizeSelect" data-product-size>
                                     <option value="">Select Size</option>
                                         @foreach ($product->sizes as $size )
-                                            <option value="{{$size->id}}">{{$size->size_name}}</option>
+                                            @php
+                                                $sizeStock = DB::table('product_stocks')
+                                                    ->where('product_id', $product->id)
+                                                    ->where('size_id', $size->id)
+                                                    ->first();
+
+                                                    if ($sizeStock) {
+                                                        # code...
+                                                        $b_stock = $sizeStock->inStock - $sizeStock->outStock;
+                                                    }
+
+                                            @endphp
+                                            @if ($sizeStock && $b_stock > 0)
+                                                <option value="{{ $size->id }}">{{ $size->size_name }}</option>
+                                            @endif
+
                                         @endforeach
                                     </select>
                                     </td>
@@ -146,9 +167,15 @@
                                             </var>
                                         </div>
                                     </td>
-
+                                    @php
+                                        $balance = $product->inStock - $product->soldQuantity;
+                                    @endphp
                                     <td class="text-end">
-                                    <a href="#" class="btn btn-outline-primary addToCarts" data-product-id="{{$product->id}}"><i class="fa-solid fa-plus"></i></a>
+                                        @if($balance > 0)
+                                        <a href="#" class="btn btn-outline-primary addToCarts" data-product-id="{{$product->id}}"><i class="fa-solid fa-plus"></i></a>
+                                        @else
+                                        <p class="text-danger">Out of stock</p>
+                                        @endif
                                     </td>
                                     </tr>
                                 @endforeach
@@ -407,27 +434,6 @@
         });
 
 
-        $('#product_search').on('input', function () {
-            var searchTerm = $(this).val().trim();
-            console.log(searchTerm)
-
-            if (searchTerm.length > 2) { // Adjust the minimum characters for search as needed
-                $.ajax({
-                    url: '{{ route('search.products') }}',
-                    type: 'GET',
-                    data: { term: searchTerm },
-                    success: function (response) {
-                        displaySearchResults(response);
-                        console.log(response)
-                    },
-                    error: function (error) {
-                        console.error('Error fetching search results:', error);
-                    }
-                });
-            }
-        });
-
-
         function handleSearch() {
             var searchTerm = $(this).val().trim();
             // console.log(searchTerm)
@@ -514,6 +520,26 @@
             $('#searchInput').on('input', handleSearch);
         });
 
+        $('#product_search').on('input', function () {
+            var searchTerm = $(this).val().trim();
+            console.log(searchTerm)
+
+            if (searchTerm.length > 2) { // Adjust the minimum characters for search as needed
+                $.ajax({
+                    url: '{{ route('search.products') }}',
+                    type: 'GET',
+                    data: { term: searchTerm },
+                    success: function (response) {
+                        displaySearchResults(response);
+                        console.log(response)
+                    },
+                    error: function (error) {
+                        console.error('Error fetching search results:', error);
+                    }
+                });
+            }
+        });
+
         function displaySearchResults(products) {
             var tableBody = $('#productTable tbody');
             tableBody.empty();
@@ -536,6 +562,7 @@
 
                     // Loop through product sizes
                     $.each(product.sizes, function (i, size) {
+
                         sizes += '<option value="' + size.id + '">' + size.size_name + '</option>';
                     });
 
@@ -550,7 +577,7 @@
                             '</figure>' +
                             '</td>' +
                             '<td class="">' +
-                            '<span>' + product.stock + '</span>' +
+                            '<span>' + product.product_stocks.inStock + '</span>' +
                             '</td>' +
                             '<td>' +
                             '<select name="colors" class="form-control" id="colorSelect" data-product-color>' +

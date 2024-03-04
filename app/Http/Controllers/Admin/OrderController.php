@@ -389,9 +389,20 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function return_confirm(string $id)
     {
-        //
+        $order = Order::find($id);
+
+        if (!$order) {
+            return response()->json(['success' => false, 'message' => 'Order not found']);
+        }
+
+        // Update the order status
+        $order->return_confirm = 1;
+        $order->save();
+
+        Session::flash('success', ' Order return confirmation done.');
+        return redirect()->back();
     }
 
     /**

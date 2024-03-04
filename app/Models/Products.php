@@ -126,7 +126,7 @@ class Products extends Model
         return $this->hasMany(Camp_product::class, 'product_id');
     }
 
-    public function stock()
+    public function product_stocks()
     {
         return $this->hasMany(Product_stock::class, 'product_id');
     }

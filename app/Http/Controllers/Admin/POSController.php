@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\DB;
 use PDF;
 use App\Models\Order;
 use App\Models\Campaign;
@@ -11,7 +12,7 @@ use App\Models\order_items;
 use App\Models\transactions;
 use Illuminate\Http\Request;
 use App\Models\Product_image;
-use Illuminate\Support\Facades\DB;
+use App\Models\Product_stock;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
@@ -27,7 +28,20 @@ class POSController extends Controller
                             'category',
                             'product_price',
                             'product_thumbnail'
-                        ])->paginate(10);
+                        ])->paginate(5);
+
+        foreach ($products as $product) {
+            $stock = Product_stock::where('product_id',$product->id)->get();
+
+            $inStock = $stock->sum('inStock');
+            $soldQuantity = $stock->sum('outStock');
+
+            $product->inStock = $inStock;
+            $product->balance =  $inStock - $soldQuantity;
+
+            $product->soldQuantity = ($soldQuantity > 0) ? $soldQuantity : 0;
+
+        }
 
         return view('admin.pos.index',compact('products'));
     }
@@ -39,11 +53,18 @@ class POSController extends Controller
         $products = Products::where('product_name', 'like', "%{$searchTerm}%")
                           ->orWhere('sku', 'like', "%{$searchTerm}%")
                           ->with([
-                            'sizes',
+                            'sizes' => function ($query) { // Load only sizes with available stock
+                                $query->whereExists(function ($subQuery) {
+                                    $subQuery->select(DB::raw(1))
+                                             ->from('product_stocks')
+                                             ->whereRaw('product_stocks.size_id = sizes.id')
+                                             ->whereRaw('product_stocks.inStock - product_stocks.outStock > 0');
+                                });
+                            },
                             'colors',
                             'category',
                             'product_price',
-                            'product_thumbnail'
+                            'product_thumbnail',
                         ])->get();
 
         return response()->json($products);
@@ -170,6 +191,7 @@ class POSController extends Controller
                 $newCustomer->phone = $customer['phone'];
                 $newCustomer->billing_address = $customer['address'];
                 $newCustomer->save();
+
                 $customer_id = $newCustomer->id;
             }
             // Use the newly created customer's ID for the order
@@ -201,6 +223,17 @@ class POSController extends Controller
                 'price' => $cartItem->price,
                 'quantity' => $cartItem->qty,
             ]);
+
+            Product_stock::updateOrCreate(
+                [
+                    'product_id' => $cartItem->id,
+                    'size_id' => $cartItem->options->size,
+                ],
+                [
+                    // 'inStock' => \DB::raw("inStock"), // Increment the inStock column
+                    'outStock' => \DB::raw("outStock + $cartItem->qty"), // Assuming outStock starts at 0
+                ]
+            );
         }
 
         $transaction = transactions::create([

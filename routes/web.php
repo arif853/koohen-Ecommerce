@@ -230,7 +230,6 @@ Route::controller(ProductController::class)->middleware('auth')->group(function 
     Route::delete('/dashboard/products/thumb_destroy/{id}', 'thumb_destroy')->name('productsthumb.destroy');
 
     Route::get('/dashboard/products/{slug}', 'show')->name('products.show');
-
 });
 
 //Order
@@ -245,6 +244,7 @@ Route::controller(OrderController::class)->middleware('auth')->group(function ()
     Route::post('/update-one-order-status', 'updateOneOrderStatus');
     Route::get('/orders/invoice/{id}', 'orderInvoice')->name('order.invoice');
     Route::get('/orders/invoice-page/{id}', 'invoicePage')->name('invoice');
+    Route::get('/dashboard/order/{id}', 'return_confirm')->name('return.confirm');
 });
 
 //Customer

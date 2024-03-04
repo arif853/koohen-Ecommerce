@@ -64,7 +64,13 @@
                                         <td><span class="badge rounded-pill alert-success">{{ $value->status }}</span></td>
                                         <td>{{ $value->created_at->format('d/m/Y') }}</td>
                                         <td>
-                                            <a href="#" class="btn btn-warning btn-sm">Confirm Return</a>
+                                            @if($value->return_confirm == 0)
+                                            <a href="{{url('dashboard/order',$value->id)}}" class="btn btn-warning btn-sm">Confirm Return</a>
+
+                                            @else
+                                            <a href="#" class="text-danger">Order has been returned.</a>
+
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach

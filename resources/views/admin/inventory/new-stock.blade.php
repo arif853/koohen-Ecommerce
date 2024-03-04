@@ -7,7 +7,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         {{-- <div class="category_form" id="category_form"></div> --}}
-        {{-- <form id="newStock"> --}}
+        <form id="newStock">
 
             <div class="modal-body">
                 <input type="hidden" name="product_id" id="product_id" >
@@ -23,8 +23,13 @@
                       <input type="text" class="form-control" id="supplier" name="supplier" readonly>
                     </div>
 
+                    <div class="col-md-12 mb-2">
+                        <label for="purchase_date" class="form-label">Purchase Date</label>
+                        <input type="date" class="form-control " id="purchase_date" name="purchase_date" >
+                      </div>
+
                     <div class="col-md-6 mb-2">
-                        <label for="size" class="form-label">Size<span class="text-danger">*</span></label>
+                        <label for="size" class="form-label">Size ---- Balance ---- New<span class="text-danger">*</span></label>
                      <div id="input-container">
 
                      </div>
@@ -46,12 +51,12 @@
                     </div>
 
                     <div class="col-12 d-flex justify-content-end">
-                        {{-- <button type="submit" class="btn btn-primary">Add</button> --}}
+                        <button type="submit" class="btn btn-primary">Add</button>
                       {{-- <button class="btn btn-primary" type="submit">Submit form</button> --}}
                     </div>
                 </div>
             </div>
-        {{-- </form> --}}
+        </form>
         {{-- <div class="modal-footer">
         </div> --}}
       </div>
