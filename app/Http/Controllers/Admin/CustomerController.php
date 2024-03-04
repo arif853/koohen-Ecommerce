@@ -88,9 +88,9 @@ class CustomerController extends Controller
      */
     public function CustomerFilter(Request $request)
     {
-        $customerName = $request->customer_name;
-        $customerPhone = $request->customer_phone;
-        $customerEmail = $request->customer_email;
+        $customerName = $request->customerName;
+        $customerPhone = $request->customerPhone;
+        $customerEmail = $request->customerEmail;
     
         // Debugging output to see the received parameters
       //  dd($customerName, $customerPhone, $customerEmail);
