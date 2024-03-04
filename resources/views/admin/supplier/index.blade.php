@@ -20,18 +20,15 @@
     </div>
     <div class="card mb-4">
         <header class="card-header">
-            <div class="row gx-3 supplier_live_search">
+            <div class="row gx-3 " id="supplier_live_search">
                 <div class="col-lg-4 col-md-6 me-auto">
-                    <input type="text" placeholder="Supplier Name..." class="form-control" id="supplierName"
-                        name="supplier_name">
+                    <input type="text" placeholder="Supplier Name..." class="form-control" id="supplierName">
                 </div>
                 <div class="col-lg-4 col-md-6 me-auto">
-                    <input type="text" placeholder="Supplier Phone..." class="form-control" id="supplier_phone"
-                        name="supplier_phone">
+                    <input type="text" placeholder="Supplier Phone..." class="form-control" id="supplier_phone">
                 </div>
                 <div class="col-lg-4 col-md-6 me-auto">
-                    <input type="email" placeholder="Supplier Email..." class="form-control" id="supplier_email"
-                        name="supplier_email">
+                    <input type="email" placeholder="Supplier Email..." class="form-control" id="supplier_email">
                 </div>
             </div>
         </header> <!-- card-header end// -->
@@ -155,7 +152,7 @@
         });
 
         $(document).ready(function() {
-            $('.supplier_live_search input').on('keyup', function() {
+            $('#supplier_live_search input').on('keyup', function() {
                 let supplierName = $('#supplierName').val();
                 let supplierPhone = $('#supplier_phone').val();
                 let supplierEmail = $('#supplier_email').val();
@@ -163,9 +160,9 @@
                     url: "{{ route('supplier.filter') }}",
                     type: 'GET',
                     data: {
-                        supplier_name: supplierName,
-                        supplier_phone: supplierPhone,
-                        supplier_email: supplierEmail,
+                        supplierName: supplierName,
+                        supplierPhone: supplierPhone,
+                        supplierEmail: supplierEmail,
                     },
 
                     success: function(response) {

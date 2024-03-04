@@ -69,11 +69,11 @@ class SupplierController extends Controller
      */
     public function SupplierFilter(Request $request)
     {
-        $supplierName = $request->supplier_name;
+        $supplierName = $request->supplierName;
       
-        $supplierPhone = $request->supplier_phone;
+        $supplierPhone = $request->supplierPhone;
         
-        $supplierEmail = $request->supplier_email;
+        $supplierEmail = $request->supplierEmail;
 
         // Construct the query without fetching any records yet
         $query = Supplier::query();
