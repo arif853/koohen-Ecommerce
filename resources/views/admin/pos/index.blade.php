@@ -552,6 +552,16 @@
                     var images = '';
                     var colors = '';
                     var sizes = '';
+                    var totalStock = 0; // Variable to store the total stock for the current product
+                    // Loop through product stocks to calculate the total stock
+                    product.product_stocks.forEach(function (element) {
+                        // Convert 'inStock' to a number before adding
+                        totalStock += parseInt(element.inStock, 10) || 0; // Use parseInt() with a fallback of 0
+                        console.log(totalStock);
+                    });
+                        // Now, 'totalStock' contains the sum of 'inStock' values for the product
+                    var stockStatus = totalStock > 0 ? 'In Stock' : 'Out of Stock';
+
 
                     // Loop through product thumbnails
                     // $.each(product.product_thumbnail, function (i, thumbnail) {
@@ -565,9 +575,22 @@
 
                     // Loop through product sizes
                     $.each(product.sizes, function (i, size) {
+                        // Check if there are any product_stocks associated with the current product and size
+                        var matchingStocks = product.product_stocks.filter(function (element) {
+                            return element.size_id === size.id;
+                        });
 
-                        sizes += '<option value="' + size.id + '">' + size.size_name + '</option>';
-                    });
+                        // Check if there is at least one stock with a positive balance for the current size
+                        var hasAvailableStock = matchingStocks.some(function (element) {
+                            var balance = element.inStock - element.outStock;
+                            return balance > 0;
+                        });
+
+                        // If there is available stock, add the size to the options
+                        if (hasAvailableStock) {
+                                sizes += '<option value="' + size.id + '">' + size.size_name + '</option>';
+                            }
+                        });
 
                     var row = '<tr>' +
                             '<td>' +
@@ -580,7 +603,7 @@
                             '</figure>' +
                             '</td>' +
                             '<td class="">' +
-                            '<span>' + product.product_stocks.inStock + '</span>' +
+                            '<span>' + totalStock + '</span>' +
                             '</td>' +
                             '<td>' +
                             '<select name="colors" class="form-control" id="colorSelect" data-product-color>' +
@@ -602,7 +625,10 @@
                             '</div>' +
                             '</td>' +
                             '<td class="text-end">' +
-                            '<a href="#" class="btn btn-outline-primary addToCart" data-product-id="' + product.id + '"><i class="fa-solid fa-plus"></i></a>' +
+                            (totalStock > 0 ?
+                            '<a href="#" class="btn btn-outline-primary addToCart" data-product-id="' + product.id + '"><i class="fa-solid fa-plus"></i></a>' :
+                            '<span class="text-danger">Out of Stock</span>'
+                            ) +
                             '</td>' +
                             '</tr>';
 

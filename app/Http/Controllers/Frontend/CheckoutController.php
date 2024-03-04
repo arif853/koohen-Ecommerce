@@ -86,7 +86,7 @@ class CheckoutController extends Controller
             // order details store to order
             $order = new Order;
             $order->customer_id = $customer_id;
-                
+            $order->invoice_no = $invoiceNo;
             $order->order_track_id = $track_id;
             $order->subtotal = $request->subtotal;
             $order->discount = 0;

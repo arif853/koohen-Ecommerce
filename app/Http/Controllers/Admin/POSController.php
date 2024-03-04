@@ -28,7 +28,7 @@ class POSController extends Controller
                             'category',
                             'product_price',
                             'product_thumbnail'
-                        ])->paginate(5);
+                        ])->paginate(15);
 
         foreach ($products as $product) {
             $stock = Product_stock::where('product_id',$product->id)->get();
@@ -53,19 +53,22 @@ class POSController extends Controller
         $products = Products::where('product_name', 'like', "%{$searchTerm}%")
                           ->orWhere('sku', 'like', "%{$searchTerm}%")
                           ->with([
-                            'sizes' => function ($query) { // Load only sizes with available stock
-                                $query->whereExists(function ($subQuery) {
-                                    $subQuery->select(DB::raw(1))
-                                             ->from('product_stocks')
-                                             ->whereRaw('product_stocks.size_id = sizes.id')
-                                             ->whereRaw('product_stocks.inStock - product_stocks.outStock > 0');
-                                });
-                            },
+                            'sizes',
                             'colors',
                             'category',
                             'product_price',
                             'product_thumbnail',
+                            'product_stocks',
                         ])->get();
+
+                        // => function ($query) { // Load only sizes with available stock
+                        //     $query->whereExists(function ($subQuery) {
+                        //         $subQuery->select(DB::raw(1))
+                        //                  ->from('product_stocks')
+                        //                  ->whereRaw('product_stocks.size_id = sizes.id')
+                        //                  ->whereRaw('product_stocks.inStock - product_stocks.outStock > 0');
+                        //     });
+                        // }
 
         return response()->json($products);
     }
@@ -145,7 +148,28 @@ class POSController extends Controller
         return $generatedCode;
     }
 
+    public function generateInvoiceNo()
+    {
 
+    do {
+        // Generate a 2-digit random number
+        $randomNumber = str_pad(mt_rand(1, 99), 2, '0', STR_PAD_LEFT);
+
+        // Get the current year
+        $currentYear = date('y');
+        $currentMonth = date('m');
+
+        // Concatenate the components to create the final code
+        $invoiceNo= $currentMonth.$currentYear.$randomNumber;
+        // Check if the generated code already exists in the database
+        $codeExists = DB::table('orders')->where('invoice_no', $invoiceNo)->exists();
+
+    } while ($codeExists);
+
+        // Concatenate the components to create the final code
+
+        return $invoiceNo;
+    }
 
     public function posOrder(Request $request)
     {
@@ -178,7 +202,8 @@ class POSController extends Controller
 
         $order = new Order();
         $order->customer_id = $request->input('customer');
-        $order->order_track_id = $track_id;
+        $order->invoice_no = $invoiceNo;
+        $order->order_track_id = null;
         $order->subtotal = $request->input('subtotal');
         $order->delivery_charge = $request->input('delivery_charge');
         $order->discount = $request->input('discount');
