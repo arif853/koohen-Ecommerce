@@ -3,7 +3,7 @@
 
     <div class="content-header">
         <div>
-            <h2 class="content-title card-title">Order Return List </h2>
+            <h2 class="content-title card-title">Order Return</h2>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="{{'/dashborad'}}">Dashboard</a></li>
@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-4">
-                <header class="card-header">
+                {{-- <header class="card-header">
                     <h5 class="mb-3">Filter by</h5>
                     <form>
                         <div class="row">
@@ -37,7 +37,7 @@
                     </div>
                 </form>
 
-                </header>
+                </header> --}}
 
                 <!-- card-header end// -->
                 <div class="card-body">
@@ -50,190 +50,31 @@
                                     <th>Price</th>
                                     <th>Status</th>
                                     <th>Return Date</th>
-                                    <th class="text-end"> Action </th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
+                            </thead>
                             <tbody>
-                                <tr>
-                                    <td>452</td>
-                                    <td><b>Devon Lane</b></td>
-                                    <td>$948.55</td>
-                                    <td><span class="badge rounded-pill alert-success">Returned</span></td>
-                                    <td>07.05.2022</td>
-                                    <td class="text-end">
-                                        <a href="{{route('order.details')}}" class="btn btn-md rounded font-sm">Detail</a>
-                                        <div class="dropdown">
-                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('order.details')}}">View detail</a>
-                                                <a class="dropdown-item" href="#">Edit info</a>
-                                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                                            </div>
-                                        </div> <!-- dropdown //end -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>789</td>
-                                    <td><b>Guy Hawkins</b></td>
-                                    <td>$0.00</td>
-                                    <td><span class="badge rounded-pill alert-success">Returned</span></td>
-                                    <td>25.05.2022</td>
-                                    <td class="text-end">
-                                        <a href="{{route('order.details')}}" class="btn btn-md rounded font-sm">Detail</a>
-                                        <div class="dropdown">
-                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('order.details')}}">View detail</a>
-                                                <a class="dropdown-item" href="#">Edit info</a>
-                                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                                            </div>
-                                        </div> <!-- dropdown //end -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>478</td>
-                                    <td><b>Leslie Alexander</b></td>
-                                    <td>$293.01</td>
-                                    <td><span class="badge rounded-pill alert-success">Returned</span></td>
-                                    <td>18.05.2022</td>
-                                    <td class="text-end">
-                                        <a href="{{route('order.details')}}" class="btn btn-md rounded font-sm">Detail</a>
-                                        <div class="dropdown">
-                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('order.details')}}">View detail</a>
-                                                <a class="dropdown-item" href="#">Edit info</a>
-                                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                                            </div>
-                                        </div> <!-- dropdown //end -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>589</td>
-                                    <td><b>Albert Flores</b></td>
-                                    <td>$105.55</td>
-                                    <td><span class="badge rounded-pill alert-success">Returned</span></td>
-                                    <td>07.02.2022</td>
-                                    <td class="text-end">
-                                        <a href="{{route('order.details')}}" class="btn btn-md rounded font-sm">Detail</a>
-                                        <div class="dropdown">
-                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('order.details')}}">View detail</a>
-                                                <a class="dropdown-item" href="#">Edit info</a>
-                                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                                            </div>
-                                        </div> <!-- dropdown //end -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>345</td>
-                                    <td><b>Eleanor Pena</b></td>
-                                    <td>$779.58</td>
-                                    <td><span class="badge rounded-pill alert-success">Returned</span></td>
-                                    <td>18.03.2022</td>
-                                    <td class="text-end">
-                                        <a href="{{route('order.details')}}" class="btn btn-md rounded font-sm">Detail</a>
-                                        <div class="dropdown">
-                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('order.details')}}">View detail</a>
-                                                <a class="dropdown-item" href="#">Edit info</a>
-                                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                                            </div>
-                                        </div> <!-- dropdown //end -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>456</td>
-                                    <td><b>Dianne Russell</b></td>
-                                    <td>$576.28</td>
-                                    <td><span class="badge rounded-pill alert-success">Returned</span></td>
-                                    <td>23.04.2022</td>
-                                    <td class="text-end">
-                                        <a href="{{route('order.details')}}" class="btn btn-md rounded font-sm">Detail</a>
-                                        <div class="dropdown">
-                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('order.details')}}">View detail</a>
-                                                <a class="dropdown-item" href="#">Edit info</a>
-                                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                                            </div>
-                                        </div> <!-- dropdown //end -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>768</td>
-                                    <td><b>Savannah Nguyen</b></td>
-                                    <td>$589.99</td>
-                                    <td><span class="badge rounded-pill alert-success">Returned</span></td>
-                                    <td>18.05.2022</td>
-                                    <td class="text-end">
-                                        <a href="{{route('order.details')}}" class="btn btn-md rounded font-sm">Detail</a>
-                                        <div class="dropdown">
-                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('order.details')}}">View detail</a>
-                                                <a class="dropdown-item" href="#">Edit info</a>
-                                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                                            </div>
-                                        </div> <!-- dropdown //end -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>977</td>
-                                    <td><b>Kathryn Murphy</b></td>
-                                    <td>$169.43</td>
-                                    <td><span class="badge rounded-pill alert-success">Returned</span></td>
-                                    <td>23.03.2022</td>
-                                    <td class="text-end">
-                                        <a href="{{route('order.details')}}" class="btn btn-md rounded font-sm">Detail</a>
-                                        <div class="dropdown">
-                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('order.details')}}">View detail</a>
-                                                <a class="dropdown-item" href="#">Edit info</a>
-                                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                                            </div>
-                                        </div> <!-- dropdown //end -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>687</td>
-                                    <td><b>Jacob Jones</b></td>
-                                    <td>$219.78</td>
-                                    <td><span class="badge rounded-pill alert-success">Returned</span></td>
-                                    <td>07.05.2022</td>
-                                    <td class="text-end">
-                                        <a href="{{route('order.details')}}" class="btn btn-md rounded font-sm">Detail</a>
-                                        <div class="dropdown">
-                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('order.details')}}">View detail</a>
-                                                <a class="dropdown-item" href="#">Edit info</a>
-                                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                                            </div>
-                                        </div> <!-- dropdown //end -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>688</td>
-                                    <td><b>Jacob Jones</b></td>
-                                    <td>$219.78</td>
-                                    <td><span class="badge rounded-pill alert-success">Returned</span></td>
-                                    <td>07.05.2022</td>
-                                    <td class="text-end">
-                                        <a href="{{route('order.details')}}" class="btn btn-md rounded font-sm">Detail</a>
-                                        <div class="dropdown">
-                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('order.details')}}">View detail</a>
-                                                <a class="dropdown-item" href="#">Edit info</a>
-                                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                                            </div>
-                                        </div> <!-- dropdown //end -->
-                                    </td>
-                                </tr>
+                                @if ($order_return->isNotEmpty())
+                                    @foreach ($order_return as $key => $value)
+                                    <tr>
+                                        <td>{{ $key+1 }}</td>
+                                        <td><b>{{ $value->customer->firstName.' '.$value->customer->lastName }}</b></td>
+                                        <td> {{ $value->total }} &#2547;</td>
+                                        <td><span class="badge rounded-pill alert-success">{{ $value->status }}</span></td>
+                                        <td>{{ $value->created_at->format('d/m/Y') }}</td>
+                                        <td>
+                                            @if($value->return_confirm == 0)
+                                            <a href="{{url('dashboard/order',$value->id)}}" class="btn btn-warning btn-sm">Confirm Return</a>
+
+                                            @else
+                                            <a href="#" class="text-danger">Order has been returned.</a>
+
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div> <!-- table-responsive //end -->

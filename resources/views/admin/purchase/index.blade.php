@@ -7,7 +7,7 @@
 <div>
     <div class="content-header">
         <div>
-            <h2 class="content-title card-title">Inventory</h2>
+            <h2 class="content-title card-title">Purchase</h2>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="{{'/dashborad'}}">Dashborad</a></li>
@@ -35,17 +35,16 @@
                             <table class="table table-striped" id="datatable">
                                 <thead>
                                     <tr>
-                                        <th width=5%>ID</th>
-                                        <th>Product</th>
+                                        <th>ID</th>
+                                        <th>Ref#</th>
                                         <th>Supplier</th>
                                         <th>Last Update</th>
-                                        <th>In </th>
-                                        <th>Out</th>
-                                        <th>Balance</th>
+                                        <th>Purchase item </th>
+                                        <th>Total Amount</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                {{-- <tbody>
                                     @foreach ($products as $key => $product)
                                         <tr>
                                             <td>{{$key+1}}</td>
@@ -64,24 +63,24 @@
                                             @endif
 
                                             <td>{{$product->updated_at}}</td>
-                                            <td>{{$product->inStock}}</td>
+                                            <td>{{$product->stock}}</td>
                                             <td>{{ $product->soldQuantity }}</td>
                                             @php
-                                                $stock_balance = $product->inStock - $product->soldQuantity;
+                                                $stock_balance = $product->stock - $product->soldQuantity;
                                             @endphp
                                             <td>
-                                                @if ($product->balance > 0 )
-                                                {{$product->balance}}
+                                                @if ($stock_balance > 0 )
+                                                {{$stock_balance}}
                                                 @else
                                                 <span class="text-danger"> Out of Stock</span>
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#NewStockModal" data-product-id="{{ $product->id}}" class="btn btn-brand btn-sm add-stock">Add Stock</a>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#NewStockModal" data-product-id="{{ $product->id}}" class="btn btn-brand btn-sm add-stock">View Stock</a>
                                             </td>
                                         </tr>
                                     @endforeach
-                                </tbody>
+                                </tbody> --}}
                             </table>
                         </div>
                     </div>
@@ -92,6 +91,7 @@
 
 </div>
 @include('admin.inventory.new-stock')
+
 
 @endsection
 @push('product')
@@ -115,44 +115,29 @@
                 id: product,
             },
             success: function (response) {
-                console.log(response.stock);
+                console.log(response.sizes);
+                // console.log(response.supplier.supplier_name);
+                $('#product_id').val(response.id);
+                $('#old_stock').val(response.stock);
+                $('#product_name').val(response.product_name);
+                $('#supplier').val(response.supplier.supplier_name);
 
-                // Update other fields
-                $('#product_id').val(response.product.id);
-                $('#old_stock').val(response.stock ? response.stock.inStock : 0);
-                $('#product_name').val(response.product.product_name);
-                $('#supplier').val(response.product.supplier.supplier_name);
 
-
-                // Create and append input fields for each size
-                var inputContainer = $('#input-container');
-                inputContainer.empty();
-
+            // Create and append input fields for each size
+            var inputContainer = $('#input-container');
+            inputContainer.empty();
                 var i = 0;
-                // Create and append input fields for each size
-                $.each(response.product.sizes, function (index, size) {
-                    var balanceQuantity = 0;
-
-                    $.each(response.stock, function (index, stock) {
-                        // Check if stock information is available for the size
-                        if (stock.size_id === size.id) {
-                            // Calculate balance quantity
-                            balanceQuantity = stock.inStock - stock.outStock;
-                            // console.log(balanceQuantity);
-                        }
-                    });
-
-                    // sizeSelect.append('<option value="' + size.id + '">' + size.size_name + '</option>');
-                    var inputField = '<div class="input-group mb-3">' +
-                                        '<input type="hidden" value="'+size.id+'" name=size['+i+']>'+
-                                        '<label class="input-group-text" for="quantity_' + size.id + '">'+ size.size_name + '</label>' +
-                                        '<input type="text" readonly class="form-control" id="" name="" value="' + balanceQuantity + '">' +
-                                        '<input type="number" class="form-control" id="quantity_' + i + '" name="quantity[' + i + ']" value="0">' +
-                                    '</div>';
-                    inputContainer.append(inputField);
-
-                    i++;
-                });
+            // Create and append input fields for each size
+            $.each(response.sizes, function (index, size) {
+                // sizeSelect.append('<option value="' + size.id + '">' + size.size_name + '</option>');
+                var inputField = '<div class="input-group mb-3">' +
+                                    '<input type="hidden" value="'+size.id+'" name=size['+i+']>'+
+                                    '<label class="input-group-text" for="quantity_' + size.id + '">'+ size.size_name + '</label>' +
+                                    '<input type="text" disabled class="form-control" id="quantity_' + i + '" name="quantity[' + i + ']" value="0">' +
+                                '</div>';
+                inputContainer.append(inputField);
+                i++;
+            });
 
             }
         });
@@ -163,25 +148,25 @@
         e.preventDefault();
         const data = new FormData(this);
         console.log(data);
-        $.ajax({
-            url: '/dashboard/inventory/addstock',
-            method: 'post',
-            data: data,
-            cache: false,
-            processData: false,
-            contentType: false,
-            success: function (res) {
-                if (res.status == 200) {
-                    // console.log(res);
-                    location.reload();
-                    // $.Notification.autoHideNotify('success', 'top right', 'Excellent!!', res.message);
-                }
-                else{
-                    $.Notification.autoHideNotify('danger', 'top right', 'Failed', res.message);
+        // $.ajax({
+        //     url: '/dashboard/inventory/addstock',
+        //     method: 'post',
+        //     data: data,
+        //     cache: false,
+        //     processData: false,
+        //     contentType: false,
+        //     success: function (res) {
+        //         if (res.status == 200) {
+        //             // console.log(res);
+        //             location.reload();
+        //             // $.Notification.autoHideNotify('success', 'top right', 'Excellent!!', res.message);
+        //         }
+        //         else{
+        //             $.Notification.autoHideNotify('danger', 'top right', 'Failed', res.message);
 
-                }
-            }
-        })
+        //         }
+        //     }
+        // })
     });
 </script>
 

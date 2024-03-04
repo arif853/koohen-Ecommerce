@@ -121,9 +121,15 @@
                                         @endif
                                     </td>
                                     @if ($order->status == "returned")
-                                    <td class="text-center order_status_action" >
-                                        <p>Order Return in proccess.</p>
-                                    </td>
+                                        @if($order->return_confirm == 1)
+                                            <td class="text-center order_status_action" >
+                                                <p class="text-success">Return successful.</p>
+                                            </td>
+                                        @else
+                                            <td class="text-center order_status_action" >
+                                                <p class="text-warning">Order Return in proccess.</p>
+                                            </td>
+                                        @endif
                                     @else
                                     <td class="text-center order_status_action" >
                                         {{-- trackorder/order_details --}}

@@ -96,55 +96,69 @@ footer{
 .bg-watermark img{
     opacity: 0.4;
 }
+.bg-watermark {
+    position: absolute;
+    top: 35%;
+    left: 90px;
+    /* transform: translate3D(-50%, -50%); */
+    opacity: 0.4; /* Adjust the opacity as needed */
+    pointer-events: none; /* Make sure the watermark doesn't interfere with user interactions */
+    width: 350px;
+    z-index: -1 !important;
+}
+.bg-watermark img{
+    opacity: 0.4;
+}
 </style>
 </head>
 
 <body>
-
-    <div class="invoice-wrapper" >
-        @php
-        $settings = DB::table('settings')->first();
-        @endphp
-        <div class="row" style="width: 100%; margin-bottom:25px;">
-            <div class="content-address" style="width:60%; float:left;">
-                <img src="{{ base_path('public/frontend/assets/imgs/Kohen_Logo_Main.png')}}" alt="Logo" style="width:120px;"><br>
-                <address style="margin-top:4px; font-size:8px;">{{ $settings->company_address }}</address>
-                <p style="margin-top:4px; font-size:8px;">{{ $settings->secondary_mobile_no }},  {{ $settings->email }}</p>
-            </div>
-            <div class="invoice-content"style=" float:right;">
-                <h2 style="margin-left:20px; width:70%; background: #e9e9e9b7;  text-align:center;text-transform:uppercase;color:#3abff0; padding:8px;">Invoice</h2>
-                <p style="margin-left:20px; text-align:left; "><b class="tera">Date:</b> {{ date('j F y', strtotime($order->created_at)) }}</p>
-                <p style="margin-left:20px; text-align:left;"><b class="tera">Invoice No:#</b> {{ $order->invoice_no ?? ' '  }}</p>
-                    @if ($order->transaction->status == 'approved')
-                        <p class="badge-soft-success">Paid</p>
-                    @elseif($order->transaction->status == 'pending')
-                    <p class="badge-soft-danger">Unpaid</p>
+    <img class="watermark" src="{{ base_path('public/frontend/assets/imgs/Kohen_Favicon.png')}}" alt="Watermark">
+    {{-- <div class="bg-watermark">
+    </div> --}}
+    @php
+    $settings = DB::table('settings')->first();
+    @endphp
+    <div class="row" style="width: 100%; margin-bottom:25px;">
+        <div class="content-address" style="width:60%; float:left;">
+            <img src="{{ base_path('public/frontend/assets/imgs/Kohen_Logo_Main.png')}}" alt="Logo" style="width:120px;"><br>
+            <address style="margin-top:4px; font-size:8px;">{{ $settings->company_address }}</address>
+            <p style="margin-top:4px; font-size:8px;">{{ $settings->secondary_mobile_no }},  {{ $settings->email }}</p>
+        </div>
+        <div class="invoice-content"style=" float:right;">
+            <h2 style="margin-left:20px; width:70%; background: #e9e9e9b7;  text-align:center;text-transform:uppercase;color:#3abff0; padding:8px;">Invoice</h2>
+            <p style="margin-left:20px; text-align:left; "><b class="tera">Date:</b> {{ date('j F y', strtotime($order->created_at)) }}</p>
+            <p style="margin-left:20px; text-align:left;"><b class="tera">Invoice No:#</b> {{ $order->id ?? ' '  }}</p>
+                @if ($order->transaction->status == 'approved')
+                    <p class="badge-soft-success">Paid</p>
+                @elseif($order->transaction->status == 'pending')
+                <p class="badge-soft-danger">Unpaid</p>
 
                     @endif
             </div>
         </div>
 
-        <h3 class="tera" style="margin-bottom:0%;text-transform:uppercase;">Ship To:-</h3>
-        <div class="customer" style="display: flex; justify-content: space-between; align-items: center;">
-            @if ($order->customer->shipping->isNotEmpty())
-                <p style="margin-top:4px;"> <strong>Customer Name :</strong>
-                    {{ $order->customer->shipping[0]->first_name.' '.$order->customer->shipping[0]->last_name }}
-                </p>
-                <p style="margin-top:4px;"> <strong>Phone :</strong>
-                    {{ $order->customer->shipping[0]->s_phone }}
-                </p>
-                <p style="margin-top:4px;"> <strong>Address :</strong>
-                    {{ $order->customer->shipping[0]->shipping_add }}
-                </p>
-            @else
-            <p style="margin-top:4px;"> <strong>Customer Name :</strong>{{ $order->customer->firstName.' '.$order->customer->lastName }}</p>
+    <h3 class="tera" style="margin-bottom:0%;text-transform:uppercase;">Ship To:-</h3>
+    <div class="customer" style="display: flex; justify-content: space-between; align-items: center;">
+        @if ($order->customer->shipping->isNotEmpty())
+            <p style="margin-top:4px;"> <strong>Customer Name :</strong>
+                {{ $order->customer->shipping[0]->first_name.' '.$order->customer->shipping[0]->last_name }}
+            </p>
             <p style="margin-top:4px;"> <strong>Phone :</strong>
-                No need
+                {{ $order->customer->shipping[0]->s_phone }}
             </p>
             <p style="margin-top:4px;"> <strong>Address :</strong>
-            No need
+                {{ $order->customer->shipping[0]->shipping_add }}
             </p>
-            @endif
+        @else
+        <p style="margin-top:4px;"> <strong>Customer Name :</strong>{{ $order->customer->firstName.' '.$order->customer->lastName }}</p>
+        <p style="margin-top:4px;"> <strong>Phone :</strong>
+            No need
+        </p>
+        <p style="margin-top:4px;"> <strong>Address :</strong>
+        No need
+        </p>
+        @endif
 
 
         </div>

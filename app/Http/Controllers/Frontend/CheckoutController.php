@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use DB;
 use App\Models\Order;
+use App\Mail\AdminMail;
 use App\Models\Customer;
 use App\Models\shipping;
+use App\Mail\customerMail;
 use App\Models\order_items;
 use App\Models\Orderstatus;
 use App\Models\transactions;
 use Illuminate\Http\Request;
+use App\Models\Product_stock;
 use App\Models\Register_customer;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Mail\AdminMail;
-use App\Mail\customerMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -115,6 +116,17 @@ class CheckoutController extends Controller
                     'price' => $cartItem->price,
                     'quantity' => $cartItem->qty,
                 ]);
+
+                Product_stock::updateOrCreate(
+                    [
+                        'product_id' => $cartItem->id,
+                        'size_id' => $cartItem->options->size,
+                    ],
+                    [
+                        // 'inStock' => \DB::raw("inStock"), // Increment the inStock column
+                        'outStock' => \DB::raw("outStock + $cartItem->qty"), // Assuming outStock starts at 0
+                    ]
+                );
             }
 
             $transaction = transactions::create([

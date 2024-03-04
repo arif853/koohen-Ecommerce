@@ -112,7 +112,8 @@ class OrderController extends Controller
 
     public function order_return()
     {
-        return view('admin.order.order_return.index');
+        $order_return = Order::with('customer')->where('status','returned')->get();
+        return view('admin.order.order_return.index',compact('order_return'));
     }
 
     // OrderController.php
@@ -143,8 +144,9 @@ class OrderController extends Controller
                 ],
             );
         }
+        Session::flash('success', 'Order ' . $selectedStatus . ' updated successfully.');
 
-        return response()->json(['success' => true, 'message' => 'Order ' . $selectedStatus . ' updated successfully.']);
+        return response()->json(['success' => true, ]);
     }
 
     // OrderController.php
@@ -387,9 +389,20 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function return_confirm(string $id)
     {
-        //
+        $order = Order::find($id);
+
+        if (!$order) {
+            return response()->json(['success' => false, 'message' => 'Order not found']);
+        }
+
+        // Update the order status
+        $order->return_confirm = 1;
+        $order->save();
+
+        Session::flash('success', ' Order return confirmation done.');
+        return redirect()->back();
     }
 
     /**

@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\TrackorderController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
+use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\ForgotPasswordController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
@@ -229,7 +230,6 @@ Route::controller(ProductController::class)->middleware('auth')->group(function 
     Route::delete('/dashboard/products/thumb_destroy/{id}', 'thumb_destroy')->name('productsthumb.destroy');
 
     Route::get('/dashboard/products/{slug}', 'show')->name('products.show');
-
 });
 
 //Order
@@ -244,6 +244,7 @@ Route::controller(OrderController::class)->middleware('auth')->group(function ()
     Route::post('/update-one-order-status', 'updateOneOrderStatus');
     Route::get('/orders/invoice/{id}', 'orderInvoice')->name('order.invoice');
     Route::get('/orders/invoice-page/{id}', 'invoicePage')->name('invoice');
+    Route::get('/dashboard/order/{id}', 'return_confirm')->name('return.confirm');
 });
 
 //Customer
@@ -360,6 +361,13 @@ Route::controller(InventoryController::class)->middleware('auth')->group(functio
     //add new stock
     Route::get('/dashboard/inventory/newstock', 'newstock')->name('new.stock');
     Route::post('/dashboard/inventory/addstock', 'addstock')->name('add.stock');
+});
+
+//Purchase route
+Route::controller(PurchaseController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/purchase', 'index')->name('purchase');
+    Route::get('/dashboard/purchase/create', 'create')->name('purchase.create');
+
 });
 
 //Pos route
