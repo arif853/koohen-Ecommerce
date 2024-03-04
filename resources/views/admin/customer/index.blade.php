@@ -18,17 +18,17 @@
     </div>
     <div class="card mb-4">
         <header class="card-header">
-            <div class="row gx-3 customer_live_search">
+            <div class="row gx-3" id="customer_live_search">
                 <div class="col-lg-4 col-md-6 me-auto">
-                    <input type="text" placeholder="Customer name..." class="form-control" name="customer_name"
+                    <input type="text" placeholder="Customer name..." class="form-control" 
                         id="customer_name">
                 </div>
                 <div class="col-lg-4 col-md-6 me-auto">
-                    <input type="text" placeholder="Customer mobile number..." class="form-control" name="customer_phone"
+                    <input type="text" placeholder="Customer mobile number..." class="form-control" 
                         id="customer_phone">
                 </div>
                 <div class="col-lg-4 col-md-6 me-auto">
-                    <input type="email" placeholder="Customer email..." class="form-control" name="customer_email"
+                    <input type="email" placeholder="Customer email..." class="form-control"
                         id="customer_email">
                 </div>
 
@@ -86,7 +86,7 @@
 
 @push('customer_filter')
     <script type="text/javascript">
-        $('.customer_live_search input').on('keyup', function() {
+        $('#customer_live_search input').on('keyup', function() {
             let customerName = $('#customer_name').val();
             let customerPhone = $('#customer_phone').val();
             let customerEmail = $('#customer_email').val();
@@ -95,9 +95,9 @@
                 url: "{{ route('customer.filter') }}",
                 method: "GET",
                 data: {
-                    customer_name: customerName,
-                    customer_phone: customerPhone, // Corrected parameter name to match the server-side code
-                    customer_email: customerEmail // Corrected parameter name to match the server-side code
+                    customerName: customerName,
+                    customerPhone: customerPhone, // Corrected parameter name to match the server-side code
+                    customerEmail: customerEmail // Corrected parameter name to match the server-side code
                 },
                 success: function(response) {
                     let customerTableBody = $('#CustomerTable');

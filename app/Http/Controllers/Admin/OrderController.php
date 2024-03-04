@@ -110,41 +110,39 @@ class OrderController extends Controller
     }
     public function OrderFilter(Request $request)
     {
-        $orderId = $request->input('id');
-
-        $customerName = $request->input('customer_name');
-
-        $status = $request->input('status');
-
-        $orderDate = $request->input('created_at');
-
-        $query = Order::with('customer');
-
-        // Filter based on provided criteria
-        if ($orderId) {
-            $query->where('id','like',"%$orderId%");
+        if($request->ajax()) {
+            $orderId = $request->orderId;
+            $customerName = $request->customerName;
+            $status = $request->status;
+            $orderDate = $request->orderDate;
+    
+            $query = Order::with('customer');
+    
+            if ($orderId) {
+                $query->where('id', $orderId);
+            }
+            if ($customerName) {
+                $query->whereHas('customer', function ($query) use ($customerName) {
+                    $query->where('firstName', 'LIKE', '%' . $customerName . '%')
+                          ->orWhere('lastName', 'LIKE', '%' . $customerName . '%');
+                });
+            }
+            if ($status) {
+                $query->where('status', $status);
+            }
+            if ($orderDate) {
+                $query->whereDate('created_at', $orderDate);
+            }
+    
+            $orders = $query->get();
+            return response()->json($orders);
         }
-
-        if ($customerName) {
-            $query->whereHas('customer', function ($query) use ($customerName) {
-                $query->where('firstName', 'like', "%$customerName%")->orWhere('lastName', 'like', "%$customerName%");
-            });
-        }
-
-        if ($status) {
-            $query->where('status', $status);
-        }
-
-        if ($orderDate) {
-            $query->whereDate('created_at','like',"%$orderDate%");
-        }
-
-        // Execute the query to get the filtered orders
-        $filteredOrders = $query->get();
-     
-        // Return the filtered orders to the view or as JSON response
-        return response()->json($filteredOrders);
     }
+    
+    
+    
+    
+    
     public function order_return()
     {
         $order_return = Order::with('customer')->where('status','returned')->get();

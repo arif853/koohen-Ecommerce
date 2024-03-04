@@ -18,21 +18,20 @@
             <div class="card mb-4">
                 <header class="card-header">
                     <h5 class="mb-3">Filter by</h5>
-                    <form>
+                    <form id="orderIdFilterForm">
                         <div class="row order_live_search">
                             <div class="col-md-3 mb-4">
-                                <label for="order_id" class="form-label">Order ID</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="order_id"
-                                    name="id">
+                                <label for="Order" class="form-label">Order ID</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="order_id">
                             </div>
                             <div class="col-md-3 mb-4">
-                                <label for="order_customer" class="form-label">Customer</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="customer_name"
-                                    name="customer_name">
+                                <label for="c_label" class="form-label">Customer</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="customer_name">
                             </div>
                             <div class="col-md-3 mb-4">
                                 <label for="orderStatus" class="form-label">Order Status</label>
-                                <select class="form-select" id="orderStatus" name="status">
+                                <select class="form-select" id="orderStatus">
+                                    <option value="0">Change Status</option>
                                     <option value="pending" style="color: orange;">Pending</option>
                                     <option value="confirmed" style="color: blue;">Confirmed</option>
                                     <option value="shipped" style="color: green;">Shipped</option>
@@ -43,9 +42,8 @@
                                 </select>
                             </div>
                             <div class="col-md-3 mb-4">
-                                <label for="created_at" class="form-label">Order Date</label>
-                                <input type="date" placeholder="Type here" class="form-control" id="order_date"
-                                    name="created_at">
+                                <label for="order_date" class="form-label">Order Date</label>
+                                <input type="date" placeholder="Type here" class="form-control" id="order_date">
                             </div>
                         </div>
                     </form>
@@ -147,7 +145,7 @@
         const selectAllCheckbox = document.getElementById('select-all-checkbox');
         const individualCheckboxes = document.querySelectorAll('.order-checkbox');
         const statusSelect = $('#all_order_status');
-        const customerProfileUrl = "{{ route('customer.profile', ['id' => $order->customer->id]) }}";
+       
         // Add an event listener to the global checkbox
         selectAllCheckbox.addEventListener('change', function () {
             // Update the state of all individual checkboxes based on the state of the global checkbox
@@ -247,33 +245,47 @@
             });
         });
 
-        $('.order_live_search input, .order_live_search select').on('keyup change', function() {
+        $('#orderIdFilterForm input, #orderIdFilterForm select').on('keyup change', function() {
                 // Capture form input values
                 var orderId = $('#order_id').val();
+                console.log(orderId);
                 var customerName = $('#customer_name').val();
+                console.log(customerName);
                 var status = $('#orderStatus').val();
+                console.log(status);
                 var orderDate = $('#order_date').val();
-
-                // Make AJAX call to the server
+                console.log(orderDate);
                 $.ajax({
                     url: "{{ route('order.filters') }}",
                     method: "GET",
                     data: {
-                        id: orderId,
-                        customer_name: customerName,
+                        orderId: orderId,
+                        customerName: customerName,
                         status: status,
-                        created_at: orderDate
+                        orderDate: orderDate,
+                        _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
+                        // Handle success, if needed
+                        console.log(response);
+
                         var tableBody = $('#pendingOrderTableBody');
                         tableBody.empty(); // Clear existing table rows
-
                         response.forEach(function(order, index) {
                             var createdAtDate = new Date(order.created_at);
-                            var orderDetailUrl = "{{ route('order.details', ['id' => '']) }}" + order.id;
-                            var orderReturnUrl = "{{route('order.details')}}";
-
-                              
+                            var orderDetailUrl =
+                                "{{ route('order.details', ['id' => '']) }}" +
+                                order.id;
+                            var orderTrackUrl =
+                                "{{ route('order.track', ['id' => '']) }}" + order
+                                .id;
+                            var orderInvoiceUrl =
+                                "{{ route('invoice', ['id' => ':id']) }}".replace(
+                                    ':id', order.id);
+                            //   var customerProfileUrl = "{{ route('customer.profile', ['id' => ':id']) }}".replace(':id', order.customer_id);
+                            var customerProfileUrl =
+                                "{{ route('customer.profile', ['id' => '']) }}" +
+                                order.customer_id;
                             // Define options for date formatting
                             var options = {
                                 year: 'numeric',
@@ -297,26 +309,32 @@
                                 '<h6 class="mb-0 title">' + order.customer
                                 .firstName + ' ' + order.customer.lastName +
                                 '</h6>' +
-                                '<small class="text-muted">Order ID: #' + order
+                                '<small class="text-muted">Order ID: #' +
+                                order
                                 .id + '</small>' +
                                 '</div>' +
                                 '</a>'));
-                            row.append($('<td>').html('<a href="tel:' + order.customer
-                                .phone + '">' + order.customer.phone + '</a>'));
+                            row.append($('<td>').html('<a href="tel:' + order
+                                .customer
+                                .phone + '">' + order.customer.phone +
+                                '</a>'));
                             row.append($('<td>').text('৳' + order.total));
-                            row.append($('<td>').html('<div class="status-container">' +
+                            row.append($('<td>').html(
+                                '<div class="status-container">' +
                                 '<select class="form-select d-inline-block mb-lg-0 mb-15 mw-200 order_status" id="order_status_' +
                                 order.id + '" ' +
                                 'data-order-id="' + order.id +
                                 '" name="order_status">' +
                                 '<option value="pending" style="color: orange;"' +
-                                (order.status == 'pending' ? ' selected' : '') +
+                                (order.status == 'pending' ? ' selected' :
+                                    '') +
                                 '>Pending</option>' +
                                 '<option value="confirmed" style="color: blue;"' +
                                 (order.status == 'confirmed' ? ' selected' :
                                     '') + '>Confirmed</option>' +
                                 '<option value="shipped" style="color: green;"' +
-                                (order.status == 'shipped' ? ' selected' : '') +
+                                (order.status == 'shipped' ? ' selected' :
+                                    '') +
                                 '>Shipped</option>' +
                                 '<option value="delivered" style="color: #00cc00;"' +
                                 (order.status == 'delivered' ? ' selected' :
@@ -333,30 +351,26 @@
                                 '</select>' +
                                 '</div>'));
 
-
                             row.append($('<td>').text(formattedDate));
-                    
                             row.append($('<td>').addClass('text-end').html(
-                                '<a href="' + orderDetailUrl + '" class="btn btn-md rounded font-sm me-2">Detail</a>' +
-                                '<div class="dropdown">' +
-                                '<a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>' +
-                                '<div class="dropdown-menu">' +
-                                '<a class="dropdown-item text-primary" href="' + orderReturnUrl + '">Return</a>' +
-                                '</div>' + // end dropdown-menu
-                                '</div>' // end dropdown
+                                '<a href="' + orderDetailUrl +
+                                '" class="btn btn-md rounded font-sm me-2">Detail</a>' +
+                                '<a href="' + orderTrackUrl +
+                                '" class="btn btn-md rounded font-sm me-2">Track me</a>' +
+                                '<a href="' + orderInvoiceUrl +
+                                '" target="__blank" class="btn btn-facebook rounded font-sm">Invoice</a>'
                             ));
-
-
                             // Append more columns as needed
 
                             tableBody.append(row);
                         });
                     },
-                    error: function(xhr, status, error) {
-                        // Handle errors
-                        console.error(xhr.responseText);
+                    error: function(error) {
+                        // Handle error, if needed
+                        console.error(error);
                     }
-                });
+                })
+              
             });
     });
 </script>
