@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use DB;
 use PDF;
 use Carbon\Carbon;
 use App\Models\Size;
@@ -16,9 +17,9 @@ use App\Models\order_items;
 use App\Models\Orderstatus;
 use App\Models\transactions;
 use Illuminate\Http\Request;
+use App\Models\Product_stock;
 use Illuminate\Validation\Rule;
 use App\Models\Register_customer;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -143,6 +144,26 @@ class OrderController extends Controller
                     $statusColumn => Carbon::now(),
                 ],
             );
+
+            if($selectedStatus == 'confirmed')
+            {
+                foreach ($order->order_item as $item) {
+
+                    if($item && $item->size_id){
+                        Product_stock::updateOrCreate(
+                            [
+                                'product_id' => $item->product_id,
+                                'size_id' => $item->size_id,
+                            ],
+                            [
+                                // 'inStock' => \DB::raw("inStock"), // Increment the inStock column
+                                'outStock' => \DB::raw("outStock + $item->quantity"), // Assuming outStock starts at 0
+                            ]
+                        );
+                        Session::flash('success','stock counted..');
+                    }
+                }
+            }
         }
         Session::flash('success', 'Order ' . $selectedStatus . ' updated successfully.');
 
@@ -172,6 +193,26 @@ class OrderController extends Controller
         // Update the OrderStatus table
         $statusColumn = $newStatus . '_date_time';
         Orderstatus::updateOrCreate(['order_id' => $orderId], ['status' => $newStatus, $statusColumn => Carbon::now()]);
+
+        if($newStatus == 'confirmed')
+        {
+            foreach ($order->order_item as $item) {
+
+                if($item && $item->size_id){
+                    Product_stock::updateOrCreate(
+                        [
+                            'product_id' => $item->product_id,
+                            'size_id' => $item->size_id,
+                        ],
+                        [
+                            // 'inStock' => \DB::raw("inStock"), // Increment the inStock column
+                            'outStock' => \DB::raw("outStock + $item->quantity"), // Assuming outStock starts at 0
+                        ]
+                    );
+                    Session::flash('success','stock counted..');
+                }
+            }
+        }
 
         return response()->json([
             'success' => true,
@@ -423,9 +464,9 @@ class OrderController extends Controller
 
     public function orderInvoice($id)
     {
+
        // ini_set('max_execution_time',3600);
         $order = Order::where('id', $id)->first();
-
         if (!$order) {
             return 'Order not found';
         }

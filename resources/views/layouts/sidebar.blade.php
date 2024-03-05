@@ -110,11 +110,11 @@
                 <a class="menu-link" href="{{route('inventory')}}"> <i class="icon material-icons md-store"></i>
                     <span class="text">Inventory</span> </a>
             </li>
-            <li class="menu-item">
+            {{-- <li class="menu-item">
                 <a class="menu-link" href="{{route('purchase')}}"> <i class="icon material-icons md-add_shopping_cart"></i>
-                    {{-- <i class="md md-add-shopping-cart"></i> --}}
+
                     <span class="text">Purchase</span> </a>
-            </li>
+            </li> --}}
             <li class="menu-item">
                 <a class="menu-link" href="{{route('campaign')}}"> <i class="icon material-icons md-analytics"></i>
                     <span class="text">Campaign</span> </a>

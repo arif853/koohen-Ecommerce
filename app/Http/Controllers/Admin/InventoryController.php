@@ -14,21 +14,17 @@ class InventoryController extends Controller
 
     public function index()
     {
-        $products = Products::with(['order_item' => function ($query) {
-            $query->whereHas('order', function ($query) {
-                $query->where('status', 'confirmed');
-            });
-        }])->get();
+        $products = Products::get();
 
         foreach ($products as $product) {
-            $stock = Product_stock::where('product_id',$product->id)->get();
+            $stock = $product->product_stocks;
 
             $inStock = $stock->sum('inStock');
             $soldQuantity = $stock->sum('outStock');
 
             $product->inStock = $inStock;
             $product->balance =  $inStock - $soldQuantity;
-            
+
             $product->soldQuantity = ($soldQuantity > 0) ? $soldQuantity : 0;
 
         }
@@ -41,7 +37,7 @@ class InventoryController extends Controller
     {
         $id = $request->id;
         $product = Products::with(['supplier:id,supplier_name','sizes'])->find($id);
-        $stock = Product_stock::where('product_id',$id)->get();
+        $stock = $product->product_stocks;
         // dd($product);
         return response()->json(['product' => $product, 'stock' =>$stock]);
     }

@@ -92,16 +92,6 @@ class CheckoutController extends Controller
                     'quantity' => $cartItem->qty,
                 ]);
 
-                Product_stock::updateOrCreate(
-                    [
-                        'product_id' => $cartItem->id,
-                        'size_id' => $cartItem->options->size,
-                    ],
-                    [
-                        // 'inStock' => \DB::raw("inStock"), // Increment the inStock column
-                        'outStock' => \DB::raw("outStock + $cartItem->qty"), // Assuming outStock starts at 0
-                    ]
-                );
             }
 
             $transaction = transactions::create([

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 class SelectSizeComponent extends Component
 {
     public $sizes;
+    public $productId;
 
     public $product_size = null;
 

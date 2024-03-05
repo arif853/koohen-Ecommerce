@@ -49,7 +49,13 @@ class ProductController extends Controller
             'colors',
             'brand',
             'category',
+            'product_stocks',
         ])->get();
+
+        foreach($products as $product)
+        {
+            $product->balance = $product->product_stocks->sum('inStock') - $product->product_stocks->sum('outStock');
+        }
 
         return view('admin.products.index',compact('products'));
     }
@@ -181,7 +187,7 @@ class ProductController extends Controller
             // $product->offer_price = $request->offer_price;
             $product->description = $request->description;
             $product->sku = $request->sku;
-            $product->stock = $request->stock;
+            // $product->stock = $request->stock;
             $product->status = $request->status;
             $product->save();
 
@@ -441,7 +447,7 @@ class ProductController extends Controller
                 'regular_price' => $request->regular_price,
                 'description' => $request->description,
                 // 'sku' => $request->sku,
-                'stock' => $request->stock,
+                // 'stock' => $request->stock,
                 'status' => $request->status,
             ]);
 
