@@ -68,10 +68,19 @@ class ShopComponent extends Component
         else{
             $item_price = $product->regular_price;
         }
-            // $item_price = $product->regular_price;
+
+        // $item_price = $product->regular_price;
+        // $size = $product->sizes[0]->id;
+        // if($product->colors){
+        //     $color = $product->colors[0]->id;
+        // }
+        // else{
+        //     $color = null;
+        // }
+
         $item_slug = $product->slug;
         $item_image = Product_image::where('product_id',$id)->select('product_image')->first();
-        $data = Cart::instance('cart')->add($id,$item_name,1,$item_price, ['image' => $item_image,'slug' => $item_slug]);
+        Cart::instance('cart')->add($id,$item_name,1,$item_price, ['image' => $item_image,'slug' => $item_slug]);
 
         Session::flash('success','Product added To cart.');
         // return response()->json($data);

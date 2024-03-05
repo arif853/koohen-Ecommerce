@@ -109,9 +109,7 @@
                                     <th scope="col" class="text-end" >Action</th>
                                 </tr>
                             </thead>
-                            @php
-                                $balance = 0;
-                            @endphp
+
                             <tbody>
                                 @foreach ($products as $product)
                                 <tr>
@@ -125,7 +123,7 @@
                                     </td>
 
                                     <td class="">
-                                        <span>{{$product->inStock - $product->soldQuantity}}</span>
+                                        <span>{{$product->balance}}</span>
                                     </td>
 
                                     <td>
@@ -167,12 +165,10 @@
                                             </var>
                                         </div>
                                     </td>
-                                    @php
-                                        $balance = $product->inStock - $product->soldQuantity;
-                                    @endphp
+
                                     <td class="text-end">
-                                        @if($balance > 0)
-                                        <a href="#" class="btn btn-outline-primary addToCarts" data-product-id="{{$product->id}}"><i class="fa-solid fa-plus"></i></a>
+                                        @if($product->balance > 0)
+                                        <a href="#" class="btn btn-outline-primary addToCarts" data-product-id="{{$product->id}}"><i class="fal fa-plus"></i></a>
                                         @else
                                         <p class="text-danger">Out of stock</p>
                                         @endif
@@ -237,6 +233,7 @@
                                         @endphp
                                         @foreach (Cart::instance('pos_cart')->content() as $item)
                                         <tr>
+                                            <input type="hidden" value="{{$item->rowId}}">
                                             <td>
                                             <figure class="media">
 
@@ -246,7 +243,14 @@
                                             </figure>
                                             </td>
                                             <td class="text-center">
-                                            <span>{{$item->qty}}</span>
+                                            {{-- <span>{{$item->qty}}</span> --}}
+                                            <span class="product-qty mt-4">
+                                                <a href="{{url('dashboard/pos_cart/remove/'.$item->rowId)}}" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
+
+                                                <span class="qty-val">{{$item->qty}}</span>
+
+                                                <a href="{{url('dashboard/pos_cart/add/'.$item->rowId)}}" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
+                                            </span>
                                             </td>
                                             <td>
                                             <div class="price-wrap">
@@ -281,7 +285,7 @@
 
                                             </td>
                                             <td class="text-right">
-                                            <a href="#" class="btn btn-outline-danger removeCartItems" data-row-id="{{$item->rowId}}"> <i class="fa-solid fa-xmark"></i></a>
+                                            <a href="#" class="btn btn-outline-danger removeCartItems" data-row-id="{{$item->rowId}}"><i class="fal fa-times"></i></a>
                                             </td>
                                             </tr>
                                         <tr>
@@ -314,11 +318,11 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2">Delivery Charge:</td>
-                                    <td><input type="text" class="form-input" placeholder="Delivery Charge" name="delivery_charge" id="delivery_charge" ></td>
+                                    <td><input type="text" class="form-input" placeholder="Delivery Charge" name="delivery_charge" id="delivery_charge" value="0"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">Discount:</td>
-                                    <td><input type="text" class="form-input" placeholder="Discount" name="discount" id="discount" ></td>
+                                    <td><input type="text" class="form-input" placeholder="Discount" name="discount" id="discount" value="0"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">Total:</td>
@@ -342,9 +346,8 @@
 
                                 </div>
                                 <div class="col-md-7">
-                                    <a href="#" class="btn btn-danger btn-block" id="order_cancel">
-                                        <i class="fa-solid fa-xmark"></i> Cancel </a>
-                                    <a href="#" class="btn btn-primary " id="proceed_order_btn"><i class="fa-solid fa-bag-shopping"></i>Procced order </a>
+                                    <a href="#" class="btn btn-danger btn-block" id="order_cancel"><i class="fal fa-times"></i> Cancel </a>
+                                    <a href="#" class="btn btn-primary" id="proceed_order_btn"><i class="fal fa-shopping-bag mr-5"></i>Procced order </a>
                                 </div>
                             </div>
                         </div>
@@ -478,7 +481,7 @@
                                 var selectedCustomerHTML = '<div class="selected-customer">' +
                                                                 '<p class="mt-5">' + selectedCustomer + '</p>' +
                                                                 '<input type="hidden" id="ex_customer" name="customer_id" data-customer-id="'+selectedCustomerId+'">'+
-                                                                '<a href="#" class="remove-customer"><i class="fa-solid fa-xmark"></i> Remove</a>' +
+                                                                '<a href="#" class="remove-customer"><i class="fal fa-times"></i> Remove</a>' +
                                                             '</div>';
 
                                 $('.customer-search').empty().html(selectedCustomerHTML);
@@ -512,7 +515,7 @@
             // Clear the selected customer and re-bind the search input
             $('.customer-search').empty().html('<div class="mt-10 search-box">' +
                 '<input type="text" class="form-control searchInput" name="customer" id="searchInput" placeholder="Search customer by phone or email">' +
-                '<a class="btn btn-primary ml-2" id="addNewCustomer" href="#"><i class="fa-solid fa-plus"></i></a>' +
+                '<a class="btn btn-primary ml-2" id="addNewCustomer" href="#"><i class="fal fa-plus"></i></a>' +
                 '<div id="customerList">' +
                 ' <ul ></ul>' +
                 '</div>' +
@@ -527,7 +530,7 @@
             var searchTerm = $(this).val().trim();
             console.log(searchTerm)
 
-            if (searchTerm.length > 2) { // Adjust the minimum characters for search as needed
+            if (searchTerm.length > 1) { // Adjust the minimum characters for search as needed
                 $.ajax({
                     url: '{{ route('search.products') }}',
                     type: 'GET',
@@ -556,17 +559,13 @@
                     // Loop through product stocks to calculate the total stock
                     product.product_stocks.forEach(function (element) {
                         // Convert 'inStock' to a number before adding
-                        totalStock += parseInt(element.inStock, 10) || 0; // Use parseInt() with a fallback of 0
+                        var balance = parseInt(element.inStock, 10) - parseInt(element.outStock, 10) || 0; // Use parseInt() with a fallback of 0
+
+                        totalStock += balance;
                         console.log(totalStock);
                     });
                         // Now, 'totalStock' contains the sum of 'inStock' values for the product
                     var stockStatus = totalStock > 0 ? 'In Stock' : 'Out of Stock';
-
-
-                    // Loop through product thumbnails
-                    // $.each(product.product_thumbnail, function (i, thumbnail) {
-                    //     images += '<img src="' + thumbnail.image_path + '" class="img-thumbnail img-xs" alt="Thumbnail">';
-                    // });
 
                     // Loop through product colors
                     $.each(product.colors, function (i, color) {
@@ -577,7 +576,7 @@
                     $.each(product.sizes, function (i, size) {
                         // Check if there are any product_stocks associated with the current product and size
                         var matchingStocks = product.product_stocks.filter(function (element) {
-                            return element.size_id === size.id;
+                            return element.size_id == size.id;
                         });
 
                         // Check if there is at least one stock with a positive balance for the current size
@@ -626,7 +625,7 @@
                             '</td>' +
                             '<td class="text-end">' +
                             (totalStock > 0 ?
-                            '<a href="#" class="btn btn-outline-primary addToCart" data-product-id="' + product.id + '"><i class="fa-solid fa-plus"></i></a>' :
+                            '<a href="#" class="btn btn-outline-primary addToCart" data-product-id="' + product.id + '"><i class="fal fa-plus"></i></a>' :
                             '<span class="text-danger">Out of Stock</span>'
                             ) +
                             '</td>' +
@@ -774,7 +773,7 @@
                     // '<p>' + cartItem.options.size + '</p>' +
                     '</td>' +
                     '<td class="text-right">' +
-                    '<a href="#" class="btn btn-outline-danger removeCartItem" data-row-id="' + cartItem.rowId + '"> <i class="fa-solid fa-xmark"></i></a>' +
+                    '<a href="#" class="btn btn-outline-danger removeCartItem" data-row-id="' + cartItem.rowId + '"> <i class="fal fa-times"></i></a>' +
                     '</td>' +
                     '</tr>';
 
@@ -860,8 +859,8 @@
 
                 // Add a remove button to each customer
                 var removeBtn = document.createElement('button');
-                removeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-                removeBtn.className = 'btn btn-danger btn-sm ';
+                removeBtn.innerHTML = '<i class="fal fa-times"></i>';
+                removeBtn.className = 'btn btn-danger btn-sm ml-2';
                 removeBtn.addEventListener('click', function () {
                     removeCustomer(index);
                 });
@@ -875,9 +874,7 @@
         // Event listener for the "Add" button in the modal
         document.getElementById('addNewCustomer').addEventListener('click', addNewCustomer);
 
-
         //pos order
-
         $('#proceed_order_btn').on('click', function (e) {
             e.preventDefault();
 

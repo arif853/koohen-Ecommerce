@@ -30,7 +30,7 @@
 
                     <div class="col-md-6 mb-2">
                         <label for="size" class="form-label">Size ---- Balance ---- New<span class="text-danger">*</span></label>
-                     <div id="input-container">
+                     <div id="input_container">
 
                      </div>
                     </div>

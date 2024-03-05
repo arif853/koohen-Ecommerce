@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Support\Facades\DB;
+use DB;
 use PDF;
 use App\Models\Order;
 use App\Models\Campaign;
@@ -27,11 +27,12 @@ class POSController extends Controller
                             'colors',
                             'category',
                             'product_price',
-                            'product_thumbnail'
+                            'product_thumbnail',
+                            'product_stocks',
                         ])->paginate(15);
 
         foreach ($products as $product) {
-            $stock = Product_stock::where('product_id',$product->id)->get();
+            $stock = $product->product_stocks;
 
             $inStock = $stock->sum('inStock');
             $soldQuantity = $stock->sum('outStock');
@@ -39,8 +40,7 @@ class POSController extends Controller
             $product->inStock = $inStock;
             $product->balance =  $inStock - $soldQuantity;
 
-            $product->soldQuantity = ($soldQuantity > 0) ? $soldQuantity : 0;
-
+            $product->balance = ($product->balance > 0) ? $product->balance : 0;
         }
 
         return view('admin.pos.index',compact('products'));
@@ -60,15 +60,6 @@ class POSController extends Controller
                             'product_thumbnail',
                             'product_stocks',
                         ])->get();
-
-                        // => function ($query) { // Load only sizes with available stock
-                        //     $query->whereExists(function ($subQuery) {
-                        //         $subQuery->select(DB::raw(1))
-                        //                  ->from('product_stocks')
-                        //                  ->whereRaw('product_stocks.size_id = sizes.id')
-                        //                  ->whereRaw('product_stocks.inStock - product_stocks.outStock > 0');
-                        //     });
-                        // }
 
         return response()->json($products);
     }
@@ -126,6 +117,22 @@ class POSController extends Controller
         Cart::instance('pos_cart')->destroy();
         Session::flash('danger','Order canceled,Products removed.');
         return response()->json(['status' => 200,'message' => 'Product remove from cart']);
+    }
+
+    public function increaseQuantity($rowId)
+    {
+        $item = Cart::instance('pos_cart')->get($rowId);
+        $qty = $item->qty + 1;
+        Cart::instance('pos_cart')->update($rowId, $qty);
+        return redirect()->back()->with('success','Item quantity updated.');
+    }
+
+    public function decreaseQuantity($rowId)
+    {
+        $item = Cart::instance('pos_cart')->get($rowId);
+        $qty = $item->qty - 1;
+        Cart::instance('pos_cart')->update($rowId,$qty);
+        return redirect()->back()->with('success','Item quantity updated.');
     }
 
 

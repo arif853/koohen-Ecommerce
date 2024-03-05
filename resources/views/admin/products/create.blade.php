@@ -357,10 +357,10 @@
             <div class="right-bar" id="right_bar">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <div class="mb-4">
+                        {{-- <div class="mb-4">
                             <label class="form-label">Stock<span class="text-danger">*</span></label>
                            <input type="number" name="stock" class="form-control" id="stock" placeholder="Add Stock" required>
-                        </div>
+                        </div> --}}
                         <div class="mb-4">
                             <label class="form-label">Status<span class="text-danger">*</span></label>
                             <select class="select-nice" name="status" required>

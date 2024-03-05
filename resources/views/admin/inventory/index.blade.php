@@ -125,20 +125,20 @@
 
 
                 // Create and append input fields for each size
-                var inputContainer = $('#input-container');
+                var inputContainer = $('#input_container');
                 inputContainer.empty();
 
                 var i = 0;
+                var balanceQuantity = 0;
                 // Create and append input fields for each size
                 $.each(response.product.sizes, function (index, size) {
-                    var balanceQuantity = 0;
 
                     $.each(response.stock, function (index, stock) {
                         // Check if stock information is available for the size
                         if (stock.size_id === size.id) {
                             // Calculate balance quantity
                             balanceQuantity = stock.inStock - stock.outStock;
-                            // console.log(balanceQuantity);
+                            console.log(balanceQuantity);
                         }
                     });
 

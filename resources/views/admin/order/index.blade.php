@@ -232,10 +232,10 @@
                 },
                 success: function (response) {
                     // Handle success, if needed
-                    location.reload();
-                    if (response.success) {
-                        $.Notification.autoHideNotify('success', 'top right', 'Success', response.message);
-                    }
+                    // location.reload();
+                    // if (response.success) {
+                    //     $.Notification.autoHideNotify('success', 'top right', 'Success', response.message);
+                    // }
                     console.log(response);
                 },
                 error: function (error) {

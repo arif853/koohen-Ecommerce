@@ -85,7 +85,7 @@
                     <td>
                         {{$product->category->category_name}}
                     </td>
-                    <td>{{$product->stock}}</td>
+                    <td>{{$product->balance}}</td>
                     <td>
                         @foreach ($product->overviews as $overview)
                         <span>{{$overview->overview_name}} {{$overview->overview_value}}</span><br>
