@@ -160,109 +160,158 @@
                         <!--Main Menu Bar-->
                     </div>
                     <style>
-                        // Search Toggle
-                        .header {
-                        border-bottom: 1px solid #ccc;
-                        padding: 10px 0;
-                        position: relative;
+                        .searchbar {
+                            margin-top: 10px;
                         }
-                        .header .search-toggle {
-                            appearance: none;
-                            background: transparent;
-                            border: none;
-                            color: #333;
-                            cursor: pointer;
-                            display: inline-block;
-                            font-size: 22px;
-                            font-weight: bold;
-                            line-height: 50px;
-                            width: 50px;
-                            height: 50px;
-                            /* border: 1px solid #fff; */
-                            /* border-radius: 50%; */
-                            text-align: center;
-                            vertical-align: middle;
+                        .searchbar i{
+                            font-size: 23px;
+                            font-weight: 300;
                         }
-                        .header #form-open {
-                            opacity: 1;
-                            position: absolute;
-                            top: 10px;
-                            right: 70px;
-                            transition: all 0.4s ease;
-                        }
-                        .header #form-open.hidden {
-                        opacity: 0;
-                        }
-                        .header .search-holder {
-                            display: none;
-                            overflow: hidden;
-                            height: 60px;
-                            width: 700px;
-                            position: absolute;
-                            top: 3px;
-                            right: 95px;
-                            z-index: 99999;
-                        }
-                        .header .search-form {
-                        opacity: 0;
-                        width: 180px;
-                        position: absolute;
-                        top: 10px;
-                        right: -216px;
-                        transition-property: opacity, transform;
-                        transition-duration: 0.4s;
-                        transition-timing-function: ease;
-                        }
-                        .header .search-form.active {
-                        opacity: 1;
-                        }
-                        .header .search-form .search-input {
-                            appearance: none;
-                            background: #f1f1f1;
-                            border: none;
-                            font-size: 13px;
-                            padding: 20px 20px 20px 20px;
-                            width: 100%;
-                        }
-                        .header .search-form > .search-toggle {
-                        position: absolute;
-                        top: 0;
-                        right: 0;
-                        }
-                        .header .search-form > .search-close {
-                            appearance: none;
-                            background: none;
-                            border: none;
-                            color: #333;
-                            cursor: pointer;
-                            display: inline-block;
-                            font-size: 16px;
-                            font-weight: bold;
-                            line-height: 1;
-                            padding: 5px;
-                            text-align: center;
-                            vertical-align: middle;
-                            position: absolute;
-                            top: 10px;
-                            right: 12px;
-                        }
+                            .togglesearch {
+                                background: #ffffff;
+                                position: absolute;
+                                top: 70px;
+                                right: 66px;
+                                width: 100%;
+                                height: 60px;
+                                line-height: 50px;
+                                /* box-shadow: 0 0 10px rgba(0,0,0,0.5); */
+                                border-top: 4px solid #FF8B13;
+                                display: none;
+                                z-index: 999;
+                                text-align: center;
+                            }
+
+                            .togglesearch:before{
+                                content: "";
+                                position: absolute;
+                                top: -32px;
+                                right: 13px;
+                                border-left: 12px solid transparent;
+                                border-right: 12px solid transparent;
+                                border-top: 14px solid transparent;
+                                border-bottom: 14px solid #FF8B13;
+                            }
+
+                            .togglesearch input[type="text"]{
+                                width: 600px;
+                                padding: 0px 10px;
+                                padding-left: 50px;
+                                border: 1px solid #FF8B13;
+                                outline: none;
+                                margin: 5px 0;
+                            }
+
+                            .togglesearch input[type="button"]{
+                                width: 80px;
+                                padding: 5px 0;
+                                background: #FF8B13;
+                                color: #fff;
+                                margin-left: -6px;
+                                border: 1px solid #FF8B13;
+                                outline: none;
+                                cursor: pointer;
+                            }
+                            /* @media only screen and (min-width:240px) and (max-width: 768px){
+                                .navbar ul li{
+                                    float:none;
+                                    display:block;
+                                    text-align:center;
+                                    margin:0 auto;
+                                }
+                            } */
+                            .input-search-icon {
+                                position: absolute;
+                                top: 6px;
+                                left: 365px;
+                            }
+                            .show-product{
+                                background-color: #ffffff;
+                                padding: 15px 15px;
+                                width: 600px;
+                                /* height: 100%; */
+                                margin: 0 auto;
+                            }
+                            .show-product ul li {
+                                text-align: left;
+                                padding: 5px 0px 5px 5px;
+                                border-bottom: 1px solid #636363;
+                            }
+                            .show-product ul li a{
+                               font-size: 22px;
+                               font-weight: 700;
+                               display: flex;
+                            }
+                            .item_img {
+                                height: 50px;
+                                margin-right: 15px;
+                            }
+                            .item_img img{
+                                height: 100%;
+                            }
+                            .item_tile{
+                                margin: auto 0;
+                            }
+                            .item_tile p.text-sm{
+                                color: #636363 !important;
+                                font-size: 12px !important;
+                            }
+                            .item_tile p{
+                                margin-bottom: 0;
+                            }
                     </style>
                     <div class="hotline d-none d-lg-block">
                         <div class="header-action-2 header">
-                            <span id="form-open" class="search-toggle">
+                            {{-- <span id="form-open" class="search-toggle">
                                 <i class="fal fa-search"></i>
-                              </span>
-                              <div class="search-holder">
-                                <form id="search-form" class="search-form">
-                                  <input type="text" name="qwrd" placeholder="Type your keyword(s)" class="search-input">
-                                  {{-- <button type="submit" id="form-submit" class="search-toggle">
-                                    <i class="fa fa-search"></i>
-                                  </button> --}}
-                                  <button type="reset" id="form-close" class="search-close">
-                                    <i class="fa fa-times"></i>
-                                  </button>
-                                </form>
-                              </div>
+                            </span> --}}
+                              <div class="searchbar">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                                 <div class="togglesearch">
+                                    <span class="input-search-icon" id=""><i class="fa fa-search" aria-hidden="true"></i></span>
+                                    <input type="text" placeholder=" Search product by name or sku."/>
+                                    {{-- <input type="button" value="Search"/> --}}
+
+                                    <div class="show-product">
+                                        <ul>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="item_img">
+                                                        <img src="{{asset('frontend/assets/imgs/shop/w-product-3.webp')}}" alt="Product Image" width="60px" >
+                                                    </div>
+                                                    <div class="item_tile">
+                                                        <p class="product_title">Product 1</p>
+                                                        <p class="text-sm">Price: 1250.00</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="item_img">
+                                                        <img src="{{asset('frontend/assets/imgs/shop/w-product-3.webp')}}" alt="Product Image" width="60px" >
+                                                    </div>
+                                                    <div class="item_tile">
+                                                        <p class="product_title">Product 1</p>
+                                                        <p class="text-sm">Price: 1250.00</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="item_img">
+                                                        <img src="{{asset('frontend/assets/imgs/shop/w-product-3.webp')}}" alt="Product Image" width="60px" >
+                                                    </div>
+                                                    <div class="item_tile">
+                                                        <p class="product_title">Product 1</p>
+                                                        <p class="text-sm">Price: 1250.00</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
 
                             @livewire('wishlist-icon-component')
 
@@ -279,6 +328,7 @@
                                     <span class="pro-count white">4</span>
                                 </a>
                             </div> --}}
+
                             @livewire('wishlist-icon-component')
                             @livewire('cart-icon-component')
                             <div class="header-action-icon-2 d-block d-lg-none">
@@ -588,77 +638,14 @@
     @livewireScripts
 
 <script>
-    var headerContainer = $('.header-wrap');
-    var topPanel = headerContainer.find('#header-nav');
-    var searchHolder = headerContainer.find('.search-holder');
-    var searchForm = headerContainer.find('#search-form');
-    var openToggle = headerContainer.find('#form-open');
-    var closeToggle = searchForm.find('#form-close');
-
-    function calculateAnimationProps () {
-        var vpWidth = $(window).outerWidth(true);
-        var width = 0;
-
-        if (vpWidth < 1000) {
-            width = headerContainer.outerWidth(true) - 40; // Minus container side padding
-        } else {
-            width = topPanel.outerWidth(true);
-        }
-
-        var right = width - openToggle.outerWidth(true);
-
-        return {
-            formWidth: width,
-            formRight: right,
-            toggleRight: right / 2
-        };
-    }
-
     $(document).ready(function() {
-    // Show search form
-    openToggle.on('click', function() {
-        var animProps = calculateAnimationProps();
 
-        searchHolder.show().css({
-        width: animProps.formWidth,
-        height: headerContainer.outerHeight(true)
+        $(".fa-search").click(function() {
+            $(".togglesearch").toggle();
+            $("input[type='text']").focus();
         });
 
-        searchForm.css({
-        width: animProps.formWidth,
-        right: -(animProps.formRight),
-        transform: 'translatex(-' + animProps.formRight + 'px)'
-        }).addClass('active');
-
-        $(this).css({
-        right: animProps.toggleRight,
-        transform: 'translatex(-' + animProps.toggleRight + 'px)'
-        }).addClass('hidden');
     });
-
-    // Hide search form
-    closeToggle.on('click', function() {
-        searchForm.css('transform', '')
-        .removeClass('active');
-
-        // Let the animation finished first then hide the holder
-        setTimeout(function () {
-        searchHolder.hide();
-        }, 500);
-
-        openToggle.removeAttr('style')
-        .removeClass('hidden');
-    });
-
-        // Disable search form
-        searchForm.on('submit', function (e) {
-            e.preventDefault();
-
-            $(this).find('[name="qwrd"]')
-            .val('This form has been disabled');
-        });
-    });
-
 
     $(document).on('click', '.quickview', function (e) {
 
