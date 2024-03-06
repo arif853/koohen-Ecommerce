@@ -225,6 +225,7 @@
                                 top: 6px;
                                 left: 365px;
                             }
+                            #loading-indicator,
                             .show-product{
                                 background-color: #ffffff;
                                 padding: 15px 15px;
@@ -235,7 +236,7 @@
                             .show-product ul li {
                                 text-align: left;
                                 padding: 5px 0px 5px 5px;
-                                border-bottom: 1px solid #636363;
+                                border-bottom: 2px solid #e1e1e1;
                             }
                             .show-product ul li a{
                                font-size: 22px;
@@ -257,7 +258,11 @@
                                 font-size: 12px !important;
                             }
                             .item_tile p{
-                                margin-bottom: 0;
+                                margin-bottom: 0 !important;
+                                line-height: 20px !important;
+                            }
+                            .header-style-4 .stick .item_tile p{
+                                color: #636363 !important;
                             }
                     </style>
                     <div class="hotline d-none d-lg-block">
@@ -265,14 +270,16 @@
                             {{-- <span id="form-open" class="search-toggle">
                                 <i class="fal fa-search"></i>
                             </span> --}}
-                              <div class="searchbar">
+                            <div class="searchbar">
                                 <i class="fa fa-search" aria-hidden="true"></i>
                                  <div class="togglesearch">
                                     <span class="input-search-icon" id=""><i class="fa fa-search" aria-hidden="true"></i></span>
-                                    <input type="text" placeholder=" Search product by name or sku."/>
+                                    <input type="text" id="search-input" name="product_search" placeholder=" Search product by name or sku."/>
                                     {{-- <input type="button" value="Search"/> --}}
-
-                                    <div class="show-product">
+                                    <div id="loading-indicator" style="display: none; ">
+                                        Loading...
+                                    </div>
+                                    <div class="show-product" id="show-product" style="display: none">
                                         <ul>
                                             <li>
                                                 <a href="#">
@@ -280,33 +287,12 @@
                                                         <img src="{{asset('frontend/assets/imgs/shop/w-product-3.webp')}}" alt="Product Image" width="60px" >
                                                     </div>
                                                     <div class="item_tile">
-                                                        <p class="product_title">Product 1</p>
+                                                        <h4 class="product_title">Product 1</h4>
                                                         <p class="text-sm">Price: 1250.00</p>
                                                     </div>
                                                 </a>
                                             </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="item_img">
-                                                        <img src="{{asset('frontend/assets/imgs/shop/w-product-3.webp')}}" alt="Product Image" width="60px" >
-                                                    </div>
-                                                    <div class="item_tile">
-                                                        <p class="product_title">Product 1</p>
-                                                        <p class="text-sm">Price: 1250.00</p>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="item_img">
-                                                        <img src="{{asset('frontend/assets/imgs/shop/w-product-3.webp')}}" alt="Product Image" width="60px" >
-                                                    </div>
-                                                    <div class="item_tile">
-                                                        <p class="product_title">Product 1</p>
-                                                        <p class="text-sm">Price: 1250.00</p>
-                                                    </div>
-                                                </a>
-                                            </li>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -322,15 +308,10 @@
                     <p class="mobile-promotion">Happy <span class="text-brand">Mother's Day</span>. Big Sale Up to 40%</p>
                     <div class="header-action-right d-block d-lg-none">
                         <div class="header-action-2">
-                            {{-- <div class="header-action-icon-2">
-                                <a href="wishlist.php">
-                                    <i class="fal fa-heart"></i>
-                                    <span class="pro-count white">4</span>
-                                </a>
-                            </div> --}}
 
                             @livewire('wishlist-icon-component')
                             @livewire('cart-icon-component')
+
                             <div class="header-action-icon-2 d-block d-lg-none">
                                 <div class="burger-icon burger-icon-white">
                                     <span class="burger-icon-top"></span>
@@ -638,14 +619,7 @@
     @livewireScripts
 
 <script>
-    $(document).ready(function() {
 
-        $(".fa-search").click(function() {
-            $(".togglesearch").toggle();
-            $("input[type='text']").focus();
-        });
-
-    });
 
     $(document).on('click', '.quickview', function (e) {
 
@@ -774,6 +748,81 @@
             }
         });
     });
+
+    $(document).ready(function() {
+
+        $(".fa-search").click(function() {
+            $(".togglesearch").toggle();
+            $("input[type='text']").focus();
+        });
+
+        var searchInput = $('#search-input');
+        var showProductDiv = $('#show-product');
+        var loadingIndicator = $('#loading-indicator');
+
+        searchInput.keyup(function(event) {
+            var searchTerm = searchInput.val().trim();
+
+            // Check if the search term is not empty
+            if (searchTerm !== '') {
+                // Show loading indicator
+                loadingIndicator.show();
+
+                $.ajax({
+                    url: "{{ route('search') }}",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        search: searchTerm
+                    },
+                    success: function(data) {
+                        var ul = showProductDiv.find('ul');
+                        ul.empty();
+
+                        if (data.products.length === 0) {
+                            ul.append('<li>No products found</li>');
+                        } else {
+                            data.products.forEach(function(product) {
+                                var imageUrl = '{{asset('storage/product_images/thumbnail/')}}'+'/'+product.product_thumbnail[0].product_thumbnail;
+                                var slug = product.slug;
+                                var productUrl = '{{ url('products') }}'+ '/'+ slug;
+                                // console.log(slug);
+                                // console.log(productUrl);
+                                var li = $('<li>'+
+                                    '<a href="'+productUrl+'">'+
+                                    '<div class="item_img">'+
+                                    '<img src="'+imageUrl+'" alt="'+product.slug+'" width="60px" >'+
+                                    '</div>'+
+                                    '<div class="item_tile">'+
+                                    '<h4 class="product_title">'+product.product_name+'</h4>'+
+                                    '<p class="text-sm">Price: ৳'+product.regular_price+'</p>'+
+                                    '<p class="text-sm">'+product.sku+'</p>'+
+                                    '</div>'+
+                                    '</a>'+
+                                    '</li>');
+
+                                ul.append(li);
+                            });
+                        }
+
+                        // Hide loading indicator after displaying results
+                        loadingIndicator.hide();
+                        // Show the product div
+                        showProductDiv.show();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching product suggestions:', error);
+                        // Hide loading indicator on error
+                        loadingIndicator.hide();
+                    }
+                });
+            } else {
+                // Hide the product div if the search term is empty
+                showProductDiv.hide();
+            }
+        });
+    });
+
 </script>
     @if(Session::has('success'))
     <script>

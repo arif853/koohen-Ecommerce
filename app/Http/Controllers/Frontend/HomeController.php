@@ -9,10 +9,10 @@ use App\Models\Campaign;
 use App\Models\Category;
 use App\Models\Division;
 use App\Models\Products;
+use Illuminate\Http\Request;
 use Termwind\Components\Raw;
 use App\Models\Feature_category;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Request;
 
 class HomeController extends Controller
 {
@@ -174,6 +174,21 @@ class HomeController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function searchBar(Request $request)
+    {
+        $searchTerm = $request->input('search');
+
+        // Query the products table to find matching products along with their images
+        $products = Products::where('product_name', 'like', '%' . $searchTerm . '%')
+                            ->orWhere('sku', 'like', '%' . $searchTerm . '%')
+                            ->with(['product_thumbnail','product_price']) // Eager load product images
+                            ->limit(5) // Limit the number of results
+                            ->get();
+
+        // Return the response as JSON
+        return response()->json(['products' => $products]);
     }
 
 }
