@@ -39,6 +39,7 @@ use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\TrackorderController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
 use App\Http\Controllers\Admin\PurchaseController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\ForgotPasswordController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
@@ -384,6 +385,12 @@ Route::controller(POSController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/pos_cart/add/{rowId}','increaseQuantity');
     Route::get('/dashboard/pos_cart/remove/{rowId}','decreaseQuantity');
 
+});
+
+//reports
+Route::controller(ReportController::class)->middleware('auth')->group(function(){
+    Route::get('/dashboard/reports/sale', 'saleReport')->name('sale.report');
+    Route::get('/dashboard/report/sale_search', 'searchSale')->name('search.sale');
 });
 
 // reviews

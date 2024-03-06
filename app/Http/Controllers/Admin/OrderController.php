@@ -145,6 +145,13 @@ class OrderController extends Controller
                 ],
             );
 
+            if($selectedStatus == 'completed')
+            {
+                $transaction = transactions::where('order', $order->id);
+                $transaction->status = 'paid';
+                $transaction->save();
+            }
+
             if($selectedStatus == 'confirmed')
             {
                 foreach ($order->order_item as $item) {
@@ -212,6 +219,13 @@ class OrderController extends Controller
                     Session::flash('success','stock counted..');
                 }
             }
+        }
+
+        if($newStatus == 'completed')
+        {
+            $transaction = transactions::where('order', $order->id);
+            $transaction->status = 'paid';
+            $transaction->save();
         }
 
         return response()->json([
