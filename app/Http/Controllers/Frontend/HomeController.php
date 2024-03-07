@@ -9,10 +9,11 @@ use App\Models\Campaign;
 use App\Models\Category;
 use App\Models\Division;
 use App\Models\Products;
+use Illuminate\Http\Request;
 use Termwind\Components\Raw;
 use App\Models\Feature_category;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Request;
+
 
 class HomeController extends Controller
 {
@@ -171,32 +172,23 @@ class HomeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    public function destroy(string $id)
+    {
+        //
+    }
     public function searchBar(Request $request)
     {
-        $searchTerm = $request->input('qwrd');
+        $searchTerm = $request->input('search');
 
         // Query the products table to find matching products along with their images
         $products = Products::where('product_name', 'like', '%' . $searchTerm . '%')
                             ->orWhere('sku', 'like', '%' . $searchTerm . '%')
-                            ->orWhere('regular_price', 'like', '%' . $searchTerm . '%')
-                            ->with('product_images') // Eager load product images
+                            ->with(['product_thumbnail','product_price']) // Eager load product images
                             ->limit(5) // Limit the number of results
                             ->get();
 
-        // Prepare the response data
-        $response = [];
-        foreach ($products as $product) {
-            $response[] = [
-                'product_name' => $product->product_name,
-                'sku' => $product->sku,
-                'regular_price' => $product->regular_price,
-                'image_url' => asset('storage/product_images/' . $product->product_images->first()->product_image), // Assuming product_images is a relation and product_image is the image field
-                // Add more fields as needed
-            ];
-        }
-
         // Return the response as JSON
-        return response()->json(['products' => $response]);
+        return response()->json(['products' => $products]);
     }
 
 }

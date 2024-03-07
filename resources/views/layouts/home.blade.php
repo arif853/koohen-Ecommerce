@@ -14,21 +14,26 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/imgs/favicon_128x128.ico') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend/assets/imgs/favicon_128x128.ico')}}">
     <!--Font-->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
 
-    <link href="{{ asset('frontend/assets/notifications/notification.css') }}" rel="stylesheet" />
+    <link href="{{asset('frontend/assets/notifications/notification.css')}}" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/vendors/animate.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/vendor/slick/slick.css') }}">
-    <link rel="stylesheet" type="text/css"
-        href="{{ asset('frontend/assets/vendor/jquery.countdown/css/jquery.countdown.css') }}">
-
+	<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/css/vendors/animate.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/vendor/slick/slick.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/vendor/jquery.countdown/css/jquery.countdown.css')}}">
+    {{-- sweet alert --}}
+    <link rel="stylesheet" href="{{asset('admin/assets/css/vendors/sweetalert2.min.css')}}">
     <!-- Template CSS -->
-    <link rel="stylesheet" href="{{ asset('/') }}frontend/assets/css/main.css?v=3.4">
-
+    <link rel="stylesheet" href="{{asset('/')}}frontend/assets/css/main.css?v=3.4">
     <!--Font-->
+    <style>
+        .product-cart-wrap .product-img-action-wrap .product-img{
+            width: 100%;
+            height: 280px;
+        }
+    </style>
     @livewireStyles
 </head>
 
@@ -45,10 +50,8 @@
                                 $settings = DB::table('settings')->first();
                             @endphp
                             <ul>
-                                <li><i class="far fa-phone-alt"></i> <a
-                                        href="tel:{{ (@$settings->secondary_mobile_no)?$settings->secondary_mobile_no:"+8809639174502"}}">{{ (@$settings->secondary_mobile_no)?$settings->secondary_mobile_no:"+8809639174502"}}</a></li>
-                                <li><i class="fal fa-envelope"></i><a
-                                        href="mailto:{{(@$settings->email)?$settings->email:"support@koohen.com" }}">{{(@$settings->email)?$settings->email:"support@koohen.com" }}</a></li>
+                                <li><i class="far fa-phone-alt"></i> <a href="tel:<?php echo $settings->secondary_mobile_no?>">{{$settings->secondary_mobile_no}}</a></li>
+                                <li><i class="fal fa-envelope"></i><a  href="mailto:<?php echo $settings->email?>">{{$settings->email}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -57,11 +60,9 @@
                         <div class="text-center">
                             <div id="news-flash" class="d-inline-block">
                                 <ul>
-                                    <li>Get great devices up to 50% off <a href="shop-grid-right.html">View details</a>
-                                    </li>
+                                    <li>Get great devices up to 50% off <a href="shop-grid-right.html">View details</a></li>
                                     <li>Supper Value Deals - Save more with coupons</li>
-                                    <li>Trendy 25silver jewelry, save up 35% off today <a
-                                            href="shop-grid-right.html">Shop now</a></li>
+                                    <li>Trendy 25silver jewelry, save up 35% off today <a href="shop-grid-right.html">Shop now</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -72,7 +73,7 @@
                         }
 
                         .dropdown>.dropdown-toggle:active {
-                            /*Without this, clicking will make it sticky*/
+                        /*Without this, clicking will make it sticky*/
                             pointer-events: none;
                         }
                     </style>
@@ -81,34 +82,29 @@
                         <div class="header-info header-info-right">
                             <ul>
                                 <li>
-                                    <a class="language-dropdown-active" href="{{ route('trackorder') }}"> <i
-                                            class="fi-rs-world"></i> Track My Order</a>
+                                    <a class="language-dropdown-active" href="{{route('trackorder')}}"> <i class="fi-rs-world"></i> Track My Order</a>
                                 </li>
                                 <li>
                                     <i class="fi-rs-user"></i>
                                     @auth('customer')
                                         @php
-                                            $user = Auth::guard('customer')->user();
-                                            $fullName = $user->customer->firstName . ' ' . $user->customer->lastName;
+                                        $user = Auth::guard('customer')->user();
+                                        $fullName = $user->customer->firstName . ' ' . $user->customer->lastName;
                                         @endphp
+                                    <a class="customer_info " href="{{route('customer.dashboard')}}" >{{ $fullName }}</a>
 
-                                        <div class="dropdown">
-                                            <a class="customer_info dropdown-toggle" href="#" id="dropdownMenuButton"
-                                                data-mdb-toggle="dropdown" aria-expanded="false">{{ $fullName }}</a>
+                                        {{-- <div class="dropdown">
 
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <li><a class="dropdown-item"
-                                                        href="{{ route('customer.dashboard') }}">Profile</a></li>
+                                                <li><a class="dropdown-item" href="{{route('customer.dashboard')}}">Profile</a></li>
                                                 <li>
-                                                    <a class="dropdown-item" href="#"
-                                                        onclick="document.getElementById('logout_form').submit();">Logout</a>
-                                                    <form method="post" id="logout_form"
-                                                        action="{{ route('customer.logout') }}">
+                                                    <a class="dropdown-item" href="#" onclick="document.getElementById('logout_form').submit();">Logout</a>
+                                                    <form method="post" id="logout_form" action="{{ route('customer.logout') }}">
                                                         @csrf
                                                     </form>
                                                 </li>
                                             </ul>
-                                        </div>
+                                          </div> --}}
                                         {{-- <form method="post" action="{{ route('customer.logout') }}">
                                             @csrf
                                             <button type="submit">Logout</button>
@@ -140,12 +136,10 @@
             <div class="container">
                 <div class="header-wrap header-space-between position-relative">
                     <div class="logo logo-width-1 d-block d-lg-none">
-                        <a href="{{ route('home') }}"><img
-                                src="{{ asset('') }}frontend/assets/imgs/Kohen_Logo_Main.png" alt="logo"></a>
+                        <a href="{{route('home')}}"><img src="{{asset('')}}frontend/assets/imgs/Kohen_Logo_Main.png" alt="logo"></a>
                     </div>
                     <div class="logo logo-width-1 d-block d-sm-none">
-                        <a href="{{ route('home') }}"><img
-                                src="{{ asset('') }}frontend/assets/imgs/Kohen_Logo_Main.png" alt="logo"></a>
+                        <a href="{{route('home')}}"><img src="{{asset('')}}frontend/assets/imgs/Kohen_Logo_Main.png" alt="logo"></a>
                     </div>
 
                     <div class="header-nav d-none d-lg-flex" id="header-nav">
@@ -155,20 +149,16 @@
                             <nav>
                                 <ul>
                                     <li>
-                                        <a class="{{ request()->is('/') ? 'active' : '' }}"
-                                            href="{{ '/' }}">Home</a>
+                                        <a class="{{ request()->is('/') ? 'active' : '' }}" href="{{('/')}}">Home</a>
                                     </li>
                                     <li>
-                                        <a class="{{ request()->is('shop') ? 'active' : '' }}"
-                                            href="{{ route('shop') }}">Shop</a>
+                                        <a class="{{ request()->is('shop') ? 'active' : '' }}" href="{{route('shop')}}">Shop</a>
                                     </li>
                                     <li>
-                                        <a class="{{ request()->is('aboutus') ? 'active' : '' }}"
-                                            href="{{ route('aboutus') }}">About Us</a>
+                                        <a class="{{ request()->is('aboutus') ? 'active' : '' }}" href="{{route('aboutus')}}">About Us</a>
                                     </li>
                                     <li>
-                                        <a class="{{ request()->is('contactus') ? 'active' : '' }}"
-                                            href="{{ route('contactus') }}">Contact Us</a>
+                                        <a class="{{ request()->is('contactus') ? 'active' : '' }}" href="{{route('contactus')}}">Contact Us</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -176,149 +166,158 @@
                         <!--Main Menu Bar-->
                     </div>
                     <style>
-                        .header {
-                            border-bottom: 1px solid #ccc;
-                            padding: 10px 0;
-                            position: relative;
+                        .searchbar {
+                            margin-top: 10px;
                         }
-
-                        .header .search-toggle {
-                            appearance: none;
-                            background: transparent;
-                            border: none;
-                            color: #333;
-                            cursor: pointer;
-                            display: inline-block;
-                            font-size: 22px;
-                            font-weight: bold;
-                            line-height: 50px;
-                            width: 50px;
-                            height: 50px;
-                            /* border: 1px solid #fff; */
-                            /* border-radius: 50%; */
-                            text-align: center;
-                            vertical-align: middle;
+                        .searchbar i{
+                            font-size: 23px;
+                            font-weight: 300;
                         }
+                            .togglesearch {
+                                background: #ffffff;
+                                position: absolute;
+                                top: 70px;
+                                right: 66px;
+                                width: 100%;
+                                height: 60px;
+                                line-height: 50px;
+                                /* box-shadow: 0 0 10px rgba(0,0,0,0.5); */
+                                border-top: 4px solid #FF8B13;
+                                display: none;
+                                z-index: 999;
+                                text-align: center;
+                            }
 
-                        .header #form-open {
-                            opacity: 1;
-                            position: absolute;
-                            top: 10px;
-                            right: 70px;
-                            transition: all 0.4s ease;
-                        }
+                            .togglesearch:before{
+                                content: "";
+                                position: absolute;
+                                top: -32px;
+                                right: 13px;
+                                border-left: 12px solid transparent;
+                                border-right: 12px solid transparent;
+                                border-top: 14px solid transparent;
+                                border-bottom: 14px solid #FF8B13;
+                            }
 
-                        .header #form-open.hidden {
-                            opacity: 0;
-                        }
+                            .togglesearch input[type="text"]{
+                                width: 600px;
+                                padding: 0px 10px;
+                                padding-left: 50px;
+                                border: 1px solid #FF8B13;
+                                outline: none;
+                                margin: 5px 0;
+                            }
 
-                        .header .search-holder {
-                            display: none;
-                            overflow: hidden;
-                            height: 60px;
-                            width: 700px;
-                            position: absolute;
-                            top: 3px;
-                            right: 95px;
-                            z-index: 99999;
-                        }
-
-                        .header .search-form {
-                            opacity: 0;
-                            width: 180px;
-                            position: absolute;
-                            top: 10px;
-                            right: -216px;
-                            transition-property: opacity, transform;
-                            transition-duration: 0.4s;
-                            transition-timing-function: ease;
-                        }
-
-                        .header .search-form.active {
-                            opacity: 1;
-                        }
-
-                        .header .search-form .search-input {
-                            appearance: none;
-                            background: #f1f1f1;
-                            border: none;
-                            font-size: 13px;
-                            padding: 20px 20px 20px 20px;
-                            width: 100%;
-                        }
-
-                        .header .search-form>.search-toggle {
-                            position: absolute;
-                            top: 0;
-                            right: 0;
-                        }
-
-                        .header .search-form>.search-close {
-                            appearance: none;
-                            background: none;
-                            border: none;
-                            color: #333;
-                            cursor: pointer;
-                            display: inline-block;
-                            font-size: 16px;
-                            font-weight: bold;
-                            line-height: 1;
-                            padding: 5px;
-                            text-align: center;
-                            vertical-align: middle;
-                            position: absolute;
-                            top: 10px;
-                            right: 12px;
-                        }
-                        .search-holder {
-    position: relative; /* Position the search-holder relative */
-}
-
-.search-elements {
-    position: absolute; /* Position the search-elements absolutely */
-    width: 100%; /* Set the width to 100% */
-    margin-top: 3px; /* Add margin top */
-    /* Additional styling as needed */
-}
+                            .togglesearch input[type="button"]{
+                                width: 80px;
+                                padding: 5px 0;
+                                background: #FF8B13;
+                                color: #fff;
+                                margin-left: -6px;
+                                border: 1px solid #FF8B13;
+                                outline: none;
+                                cursor: pointer;
+                            }
+                            /* @media only screen and (min-width:240px) and (max-width: 768px){
+                                .navbar ul li{
+                                    float:none;
+                                    display:block;
+                                    text-align:center;
+                                    margin:0 auto;
+                                }
+                            } */
+                            .input-search-icon {
+                                position: absolute;
+                                top: 6px;
+                                left: 365px;
+                            }
+                            #loading-indicator,
+                            .show-product{
+                                background-color: #ffffff;
+                                padding: 15px 15px;
+                                width: 600px;
+                                /* height: 100%; */
+                                margin: 0 auto;
+                            }
+                            .show-product ul li {
+                                text-align: left;
+                                padding: 5px 0px 5px 5px;
+                                border-bottom: 2px solid #e1e1e1;
+                            }
+                            .show-product ul li a{
+                               font-size: 22px;
+                               font-weight: 700;
+                               display: flex;
+                            }
+                            .item_img {
+                                height: 50px;
+                                margin-right: 15px;
+                            }
+                            .item_img img{
+                                height: 100%;
+                            }
+                            .item_tile{
+                                margin: auto 0;
+                            }
+                            .item_tile p.text-sm{
+                                color: #636363 !important;
+                                font-size: 12px !important;
+                            }
+                            .item_tile p{
+                                margin-bottom: 0 !important;
+                                line-height: 20px !important;
+                            }
+                            .header-style-4 .stick .item_tile p{
+                                color: #636363 !important;
+                            }
                     </style>
                     <div class="hotline d-none d-lg-block">
                         <div class="header-action-2 header">
-                            <span id="form-open" class="search-toggle">
+                            {{-- <span id="form-open" class="search-toggle">
                                 <i class="fal fa-search"></i>
-                            </span>
-                            <div class="search-holder">
-                                <form id="search-form" class="search-form searchForm" method="get">
-                                    @csrf
-                                    <input type="text" name="qwrd" placeholder="Type your keyword(s)"
-                                        class="search-input">
-                                    <button type="reset" id="form-close" class="search-close">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                    <div id="product-suggestions" class="search-elements" style="width: 100%; margin-top:3px;"></div>
-                                </form>
-                               
+                            </span> --}}
+                            <div class="searchbar">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                                 <div class="togglesearch">
+                                    <span class="input-search-icon" id=""><i class="fa fa-search" aria-hidden="true"></i></span>
+                                    <input type="text" id="search-input" name="product_search" placeholder=" Search product by name or sku."/>
+                                    {{-- <input type="button" value="Search"/> --}}
+                                    <div id="loading-indicator" style="display: none; ">
+                                        Loading...
+                                    </div>
+                                    <div class="show-product" id="show-product" style="display: none">
+                                        <ul>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="item_img">
+                                                        <img src="{{asset('frontend/assets/imgs/shop/w-product-3.webp')}}" alt="Product Image" width="60px" >
+                                                    </div>
+                                                    <div class="item_tile">
+                                                        <h4 class="product_title">Product 1</h4>
+                                                        <p class="text-sm">Price: 1250.00</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
                             </div>
-                          
 
                             @livewire('wishlist-icon-component')
 
                             @livewire('cart-icon-component')
 
                         </div>
-
                     </div>
-                    <p class="mobile-promotion">Happy <span class="text-brand">Mother's Day</span>. Big Sale Up to 40%
-                    </p>
+                    <p class="mobile-promotion">Happy <span class="text-brand">Mother's Day</span>. Big Sale Up to 40%</p>
                     <div class="header-action-right d-block d-lg-none">
                         <div class="header-action-2">
-                            {{-- <div class="header-action-icon-2">
-                                <a href="wishlist.php">
-                                    <i class="fal fa-heart"></i>
-                                    <span class="pro-count white">4</span>
-                                </a>
-                            </div> --}}
+
                             @livewire('wishlist-icon-component')
                             @livewire('cart-icon-component')
+
                             <div class="header-action-icon-2 d-block d-lg-none">
                                 <div class="burger-icon burger-icon-white">
                                     <span class="burger-icon-top"></span>
@@ -337,8 +336,7 @@
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
                 <div class="mobile-header-logo">
-                    <a href="{{ route('home') }}"><img
-                            src="{{ asset('') }}frontend/assets/imgs/Kohen_Logo_Main.png" alt="logo"></a>
+                    <a href="{{route('home')}}"><img src="{{asset('')}}frontend/assets/imgs/Kohen_Logo_Main.png" alt="logo"></a>
                 </div>
                 <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
                     <button class="close-style search-close">
@@ -361,23 +359,19 @@
                         <ul class="mobile-menu">
                             <li class="menu-item-has-children">
                                 <span class="menu-expand"></span>
-                                <a class="{{ request()->is('/') ? 'active' : '' }}"
-                                    href="{{ route('home') }}">Home</a>
+                                <a class="{{ request()->is('/') ? 'active' : '' }}" href="{{route('home')}}">Home</a>
                             </li>
                             <li class="menu-item-has-children">
                                 <span class="menu-expand"></span>
-                                <a class="{{ request()->is('shop') ? 'active' : '' }}"
-                                    href="{{ route('shop') }}">Shop</a>
+                                <a class="{{ request()->is('shop') ? 'active' : '' }}" href="{{route('shop')}}">Shop</a>
                             </li>
                             <li class="menu-item-has-children">
                                 <span class="menu-expand"></span>
-                                <a class="{{ request()->is('aboutus') ? 'active' : '' }}"
-                                    href="{{ route('aboutus') }}">About Us</a>
+                                <a class="{{ request()->is('aboutus') ? 'active' : '' }}" href="{{route('aboutus')}}">About Us</a>
                             </li>
                             <li class="menu-item-has-children">
                                 <span class="menu-expand"></span>
-                                <a class="{{ request()->is('contactus') ? 'active' : '' }}"
-                                    href="{{ route('contactus') }}">Contact Us</a>
+                                <a class="{{ request()->is('contactus') ? 'active' : '' }}" href="{{route('contactus')}}">Contact Us</a>
                             </li>
                         </ul>
                     </nav>
@@ -387,78 +381,70 @@
 
                     <div class="single-mobile-header-info">
                         @auth('customer')
-                            <i class="fi-rs-user"></i>
+                        <i class="fi-rs-user"></i>
                             @php
-                                $user = Auth::guard('customer')->user();
-                                $fullName = $user->customer->firstName . ' ' . $user->customer->lastName;
+                            $user = Auth::guard('customer')->user();
+                            $fullName = $user->customer->firstName . ' ' . $user->customer->lastName;
                             @endphp
 
-                            <div class="dropdown">
-                                <a class="customer_info dropdown-toggle" href="#" id="dropdownMenuButton"
-                                    data-mdb-toggle="dropdown" aria-expanded="false">{{ $fullName }}</a>
+                            <a class="customer_info " href="{{route('customer.dashboard')}}" >{{ $fullName }}</a>
+
+                            {{-- <div class="dropdown">
+                                <a class="customer_info dropdown-toggle" href="#"  id="dropdownMenuButton"
+                                data-mdb-toggle="dropdown"
+                                aria-expanded="false">{{ $fullName }}</a>
 
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a class="dropdown-item" href="{{ route('customer.dashboard') }}">Profile</a>
-                                    </li>
+                                    <li><a class="dropdown-item" href="{{route('customer.dashboard')}}">Profile</a></li>
                                     <li>
-                                        <a class="dropdown-item" href="#"
-                                            onclick="document.getElementById('logout_form').submit();">Logout</a>
+                                        <a class="dropdown-item" href="#" onclick="document.getElementById('logout_form').submit();">Logout</a>
                                         <form method="post" id="logout_form" action="{{ route('customer.logout') }}">
                                             @csrf
                                         </form>
                                     </li>
                                 </ul>
-                            </div>
+                              </div> --}}
+
                         @else
                             {{-- Show login/register links --}}
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#login" style="display: inline">Log
-                                In / </a>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#signup" style="display: inline">
-                                Sign Up</a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#login" style="display: inline">Log In / </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#signup" style="display: inline"> Sign Up</a>
                         @endauth
                     </div>
                     <div class="single-mobile-header-info">
-                        <a href="tel:{{(@$settings->secondary_mobile_no)?$settings->secondary_mobile_no:"+880 1751218778"}}">{{(@$settings->secondary_mobile_no)?$settings->secondary_mobile_no:"+880 1751218778"}}</a>
+                        <a href="tel:<?php echo $settings->secondary_mobile_no?>">{{ $settings->secondary_mobile_no }}</a>
                     </div>
                     <div class="single-mobile-header-info mt-30">
-                        <a href="{{ route('contactus') }}"> Our location: <p>{{(@$settings->company_address)? $settings->company_address:"Company Address" }}</p></a>
+                        <a  href="{{route('contactus')}}"> Our location: <p>{{ $settings->company_address }}</p></a>
                     </div>
                 </div>
                 <div class="mobile-social-icon">
                     <h5 class="mb-15 text-grey-4">Follow Us</h5>
-                    <a href="#"><img
-                            src="{{ asset('') }}frontend/assets/imgs/theme/icons/icon-facebook.svg"
-                            alt=""></a>
-                    <a href="#"><img src="{{ asset('') }}frontend/assets/imgs/theme/icons/icon-twitter.svg"
-                            alt=""></a>
-                    <a href="#"><img
-                            src="{{ asset('') }}frontend/assets/imgs/theme/icons/icon-instagram.svg"
-                            alt=""></a>
-                    <a href="#"><img
-                            src="{{ asset('') }}frontend/assets/imgs/theme/icons/icon-pinterest.svg"
-                            alt=""></a>
-                    <a href="#"><img src="{{ asset('') }}frontend/assets/imgs/theme/icons/icon-youtube.svg"
-                            alt=""></a>
+                    <a href="#"><img src="{{asset('')}}frontend/assets/imgs/theme/icons/icon-facebook.svg" alt=""></a>
+                    <a href="#"><img src="{{asset('')}}frontend/assets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
+                    <a href="#"><img src="{{asset('')}}frontend/assets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
+                    <a href="#"><img src="{{asset('')}}frontend/assets/imgs/theme/icons/icon-pinterest.svg" alt=""></a>
+                    <a href="#"><img src="{{asset('')}}frontend/assets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
                 </div>
             </div>
         </div>
     </div>
 
 
-    {{-- @if ($errors->any())
+            {{-- @if($errors->any())
                 <div style="color: red;">
                     <ul>
-                        @foreach ($errors->all() as $error)
+                        @foreach($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
             @endif --}}
-    @if (View::hasSection('main'))
-        @yield('main')
-    @else
-        {{ $slot }}
-    @endif
+            @if(View::hasSection('main'))
+                @yield('main')
+            @else
+                {{ $slot }}
+            @endif
 
     <footer class="main">
         <section class="newsletter p-30 text-white wow fadeIn animated">
@@ -477,8 +463,7 @@
                     <div class="col-lg-4">
                         <!-- Subscribe Form -->
                         <form class="form-subcriber d-flex wow fadeIn animated">
-                            <input type="email" class="form-control bg-white font-small"
-                                placeholder="Enter your email">
+                            <input type="email" class="form-control bg-white font-small" placeholder="Enter your email">
                             <button class="btn text-white" type="submit">Subscribe</button>
                         </form>
                         <!-- End Subscribe Form -->
@@ -492,16 +477,14 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="widget-about font-md mb-md-5 mb-lg-0">
                             <div class="logo logo-width-1 wow fadeIn animated">
-                                <a href="index.html"><img
-                                        src="{{ asset('frontend/assets/imgs/Kohen_Logo_Main.png') }}"
-                                        alt="logo"></a>
+                                <a href="index.html"><img src="{{asset('frontend/assets/imgs/Kohen_Logo_Main.png')}}" alt="logo"></a>
                             </div>
-                            <p class="footer-desc">{{ (@$settings->company_short_details)? $settings->company_short_details: "Company Short Description" }}</p>
+                            <p class="footer-desc">{{$settings->company_short_details}}</p>
 
                         </div>
                     </div>
                     <style>
-                        .footer-list li a span {
+                        .footer-list li a span{
                             font-size: 17px;
                             margin-right: 8px
                         }
@@ -510,54 +493,41 @@
                         <h5 class="widget-title wow fadeIn animated">Contact</h5>
                         <ul class="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
                             <li>
-                                <a href="https://wa.link/3qi05h"><span><i class="fab fa-whatsapp"></i></span>
-                                    {{ (@$settings->primary_mobile_no)? $settings->primary_mobile_no:" +880 1751218778"}}</a>
+                                <a href="https://wa.link/3qi05h"><span><i class="fab fa-whatsapp"></i></span> {{ $settings->primary_mobile_no }}</a>
 
                             </li>
-                            <li><a href="tel:{{ (@$settings->secondary_mobile_no)? $settings->secondary_mobile_no:"+8809639174502" }}"><span><i class="fal fa-phone-alt"></i></span>
-                                    {{ (@$settings->secondary_mobile_no)? $settings->secondary_mobile_no:"+8809639174502" }}</a></li>
-                            <li><a href="mailto:{{(@$settings->email)? $settings->email:"support@koohen.com" }}"><span><i class="fal fa-envelope"></i></span>
-                                    {{(@$settings->email)? $settings->email:"support@koohen.com" }}</a></li>
-                            <li><a href="#"><span><i class="fal fa-map-marker-alt"></i></span>
-                                    {{ (@$settings->company_address)? $settings->company_address:"Company Address"}}</a></li>
+                            <li><a href="tel:<?php echo $settings->secondary_mobile_no?>"><span><i class="fal fa-phone-alt"></i></span> {{ $settings->secondary_mobile_no }}</a></li>
+                            <li><a href="mailto:<?php echo $settings->email?>"><span><i class="fal fa-envelope"></i></span> {{ $settings->email }}</a></li>
+                            <li><a href="#"><span><i class="fal fa-map-marker-alt"></i></span> {{ $settings->company_address }}</a></li>
 
                         </ul>
                         <h5 class="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">Follow Us</h5>
-                        <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
-                            <a href="{{(@$settings->facebook_url)? $settings->facebook_url:"https://www.facebook.com"}}" target="_blank"><img
-                                    src="{{ asset('frontend/assets/imgs/theme/icons/icon-facebook.svg') }}"
-                                    alt=""></a>
-                            <a href="{{(@$settings->twiter_url)? $settings->twiter_url:"https://www.twitter.com"}}" target="_blank"><img
-                                    src="{{ asset('frontend/assets/imgs/theme/icons/icon-twitter.svg') }}"
-                                    alt=""></a>
-                            <a href="{{ (@$settings->instagram_url)? $settings->instagram_url:"https://www.instagram.com/"}}" target="_blank"><img
-                                    src="{{ asset('frontend/assets/imgs/theme/icons/icon-instagram.svg') }}"
-                                    alt=""></a>
-                            <a href="{{ (@$settings->youtube_url)? $settings->youtube_url:"https://www.youtube.com" }}" target="_blank"><img
-                                    src="{{ asset('frontend/assets/imgs/theme/icons/icon-youtube.svg') }}"
-                                    alt=""></a>
-                        </div>
+                            <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
+                                <a href="#"><img src="{{asset('frontend/assets/imgs/theme/icons/icon-facebook.svg')}}" alt=""></a>
+                                <a href="#"><img src="{{asset('frontend/assets/imgs/theme/icons/icon-twitter.svg')}}" alt=""></a>
+                                <a href="#"><img src="{{asset('frontend/assets/imgs/theme/icons/icon-instagram.svg')}}" alt=""></a>
+                                <a href="#"><img src="{{asset('frontend/assets/imgs/theme/icons/icon-pinterest.svg')}}" alt=""></a>
+                                <a href="#"><img src="{{asset('frontend/assets/imgs/theme/icons/icon-youtube.svg')}}" alt=""></a>
+                            </div>
                     </div>
                     <div class="col-lg-3  col-md-3">
                         <h5 class="widget-title wow fadeIn animated">Usefull Links</h5>
                         <ul class="footer-list wow fadeIn animated">
-                            <li><a href="{{ url('/delivery_information') }}">Delivery Information</a></li>
+                            <li><a href="{{url('/delivery_information')}}">Delivery Information</a></li>
                             {{-- <li><a href="{{url('/terms-and-condition')}}">Terms & Conditions</a></li> --}}
-                            <li><a href="{{ url('/privacy_and_policy') }}">Privacy Policy</a></li>
-                            <li><a href="{{ url('/cancellation_and_return') }}">Cancellation & Return</a></li>
+                            <li><a href="{{url('/privacy_and_policy')}}">Privacy Policy</a></li>
+                            <li><a href="{{url('/cancellation_and_return')}}">Cancellation & Return</a></li>
                             {{-- <li><a href="#">FAQS</a></li> --}}
-                            <li><a href="{{ route('trackorder') }}">Track My Order</a></li>
+                            <li><a href="{{route('trackorder')}}">Track My Order</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-3">
                         <h5 class="widget-title wow fadeIn animated">Trusted member of - </h5>
-                        <a href="https://e-cab.net"><img src="{{ asset('frontend/assets/imgs/ecab.png') }}"
-                                alt="ecab" width="80px"></a>
+                        <a href="https://e-cab.net"><img src="{{asset('frontend/assets/imgs/ecab.png')}}" alt="ecab" width="80px"></a>
                         <div class="row">
                             <div class="col-md-4 col-lg-12 mt-md-3 mt-lg-3">
                                 <p class="mb-20 wow fadeIn animated">Secured Payment Gateways</p>
-                                <img class="wow fadeIn animated"
-                                    src="{{ asset('frontend/assets/imgs/pay_image.png') }}" alt="pay_image">
+                                <img class="wow fadeIn animated" src="{{asset('frontend/assets/imgs/pay_image.png')}}" alt="pay_image">
                             </div>
                         </div>
                     </div>
@@ -571,19 +541,14 @@
                 </div>
                 <div class="col-lg-6">
                     <p class="float-md-left font-sm text-muted mb-0 d-flex">&copy;
-                        <script>
-                            document.write(new Date().getFullYear())
-                        </script> ,
-                        <strong class="text-brand mr-10 ml-10">
-                            <img width="40" src="{{ asset('frontend/assets/imgs/Kohen_Logo_Main.png') }}"
-                                alt="logo">
-                        </strong><span style="text-transform:uppercase"> - Your ultimate Lifestyle.</span>
-                    </p>
+                    <script>document.write(new Date().getFullYear())</script> ,
+                    <strong class="text-brand mr-10 ml-10">
+                        <img width="40" src="{{asset('frontend/assets/imgs/Kohen_Logo_Main.png')}}" alt="logo">
+                    </strong><span style="text-transform:uppercase"> - Your ultimate Lifestyle.</span> </p>
                 </div>
                 <div class="col-lg-6">
                     <p class="text-lg-end text-start font-sm text-muted mb-0">
-                        Developed by <a href="https://qbit-tech.com/" target="_blank">QBitTech </a>. All rights
-                        reserved
+                        Developed by <a href="https://qbit-tech.com/" target="_blank">QBitTech </a>. All rights reserved
                     </p>
                 </div>
             </div>
@@ -612,313 +577,273 @@
 
     @include('auth.registermodal')
 
-
     @include('auth.loginmodal')
 
 
     <!-- Vendor JS-->
-    <script src="{{ asset('') }}frontend/assets/js/vendor/modernizr-3.6.0.min.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/vendor/jquery-3.6.0.min.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/vendor/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/plugins/slick.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/plugins/jquery.syotimer.min.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/plugins/wow.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/plugins/jquery-ui.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/plugins/perfect-scrollbar.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/plugins/magnific-popup.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/plugins/select2.min.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/plugins/waypoints.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/plugins/counterup.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/plugins/jquery.countdown.min.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/plugins/images-loaded.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/plugins/isotope.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/plugins/scrollup.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/plugins/jquery.vticker-min.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/plugins/jquery.theia.sticky.js"></script>
-    <script src="{{ asset('') }}frontend/assets/js/plugins/jquery.elevatezoom.js"></script>
-    <script src="{{ asset('frontend/assets/notifications/bootstrap-notify.min.js') }}"></script>
-    <script src="{{ asset('frontend/assets/notifications/notifications.js') }}"></script>
-    {{-- <script src="{{asset('frontend/assets/vendor/slick/slick.min.js')}}"></script> --}}
-    <script src="{{ asset('frontend/assets/js/vendor/slick-custom.js') }}"></script>
-    <script src="{{ asset('frontend/assets/js/vendor/moment.js') }}"></script>
-    <script src="{{ asset('frontend/assets/js/vendor/moment-with-locales.js') }}"></script>
+    <script src="{{asset('')}}frontend/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/plugins/slick.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/plugins/jquery.syotimer.min.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/plugins/wow.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/plugins/jquery-ui.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/plugins/perfect-scrollbar.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/plugins/magnific-popup.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/plugins/select2.min.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/plugins/waypoints.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/plugins/counterup.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/plugins/jquery.countdown.min.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/plugins/images-loaded.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/plugins/isotope.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/plugins/scrollup.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/plugins/jquery.vticker-min.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/plugins/jquery.theia.sticky.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/plugins/jquery.elevatezoom.js"></script>
+    <script src="{{asset('frontend/assets/notifications/bootstrap-notify.min.js')}}"></script>
+    <script src="{{asset('frontend/assets/notifications/notifications.js')}}"></script>
+	{{-- <script src="{{asset('frontend/assets/vendor/slick/slick.min.js')}}"></script> --}}
+    <script src="{{asset('frontend/assets/js/vendor/slick-custom.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/vendor/moment.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/vendor/moment-with-locales.js')}}"></script>
 
-    <script src="{{ asset('frontend/assets/vendor/jquery.countdown/js/jquery.plugin.min.js') }}"></script>
-    <script src="{{ asset('frontend/assets/vendor/jquery.countdown/js/jquery.countdown.js') }}"></script>
-
+    <script src="{{asset('frontend/assets/vendor/jquery.countdown/js/jquery.plugin.min.js')}}"></script>
+    <script src="{{asset('frontend/assets/vendor/jquery.countdown/js/jquery.countdown.js')}}"></script>
+    {{-- sweet alert --}}
+    <script src="{{asset('admin/assets/js/vendors/sweetalert2.all.min.js')}}"></script>
     <!-- Template  JS -->
-    <script src="{{ asset('') }}frontend/assets/js/main.js?v=3.4"></script>
-    <script src="{{ asset('') }}frontend/assets/js/shop.js?v=3.4"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="{{asset('')}}frontend/assets/js/main.js?v=3.4"></script>
+    <script src="{{asset('')}}frontend/assets/js/shop.js?v=3.4"></script>
 
-    @livewireScripts
 
     @stack('dashboard')
     @stack('checkout')
     @stack('shop')
     @stack('camp')
+    @stack('order')
+    @livewireScripts
 
-    <script>
-        var headerContainer = $('.header-wrap');
-        var topPanel = headerContainer.find('#header-nav');
-        var searchHolder = headerContainer.find('.search-holder');
-        var searchForm = headerContainer.find('#search-form');
-        var openToggle = headerContainer.find('#form-open');
-        var closeToggle = searchForm.find('#form-close');
+<script>
 
-        function calculateAnimationProps() {
-            var vpWidth = $(window).outerWidth(true);
-            var width = 0;
 
-            if (vpWidth < 1000) {
-                width = headerContainer.outerWidth(true) - 40; // Minus container side padding
-            } else {
-                width = topPanel.outerWidth(true);
+    $(document).on('click', '.quickview', function (e) {
+
+        e.preventDefault();
+        var Slug = $(this).data('product-slug');
+        console.log(Slug);
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+        });
+        $.ajax({
+            url: '/home/quickview',
+            method: 'GET',
+            data: {
+                slug: Slug,
+            },
+            success: function (response) {
+                console.log(response);
+                $('#p_name').text(response.product_name);
+                $('#brand_name').text(response.brand.brand_name);
 
-            var right = width - openToggle.outerWidth(true);
+                $('#product_price').empty();
+                if(response.product_price.offer_price > 0){
+                    var row = '<ins><span class="text-brand">৳'+response.product_price.offer_price +'</span></ins>'+
+                    '<ins><span class="old-price font-md ml-15">৳'+response.regular_price+'</span></ins>'+
+                    '<span class="save-price  font-md color3 ml-15">'+ response.product_price.percentage +'% Off</span>';
+                    $('#product_price').append(row);
+                }
+                else{
+                    var row = '<ins><span class="text-brand">৳'+ response.regular_price +'</span></ins>';
+                    $('#product_price').append(row);
+                }
 
-            return {
-                formWidth: width,
-                formRight: right,
-                toggleRight: right / 2
-            };
-        }
+                $("#overview").empty();
 
-        $(document).ready(function() {
-            // Show search form
-            openToggle.on('click', function() {
-                var animProps = calculateAnimationProps();
-
-                searchHolder.show().css({
-                    width: animProps.formWidth,
-                    height: headerContainer.outerHeight(true)
+                $.each(response.overviews, function (index, overview) {
+                    var li = '<li><span>' + overview.overview_name + '</span>' + overview.overview_value + '</li>';
+                    $("#overview").append(li);
                 });
 
-                searchForm.css({
-                    width: animProps.formWidth,
-                    right: -(animProps.formRight),
-                    transform: 'translatex(-' + animProps.formRight + 'px)'
-                }).addClass('active');
+                $("#color").empty();
 
-                $(this).css({
-                    right: animProps.toggleRight,
-                    transform: 'translatex(-' + animProps.toggleRight + 'px)'
-                }).addClass('hidden');
-            });
+                $.each(response.colors, function(index, color){
+                    var li = $('<li><a href="#" data-color="'+color.color_name+'"><span class="'+color.color_code+'" style="background-color:'+color.color_code+'"></span></a></li>');
 
-            // Hide search form
-            closeToggle.on('click', function() {
-                searchForm.css('transform', '')
-                    .removeClass('active');
+                    li.find('a').click(function() {
+                        // Remove "active" class from all list items
+                        $("#color li").removeClass("active");
 
-                // Let the animation finished first then hide the holder
-                setTimeout(function() {
-                    searchHolder.hide();
-                }, 500);
+                        // Add "active" class to the parent list item
+                        $(this).parent().addClass("active");
+                    });
 
-                openToggle.removeAttr('style')
-                    .removeClass('hidden');
-            });
+                    $("#color").append(li);
+                })
 
-            // Disable search form
-            searchForm.on('submit', function(e) {
-                e.preventDefault();
+                $("#size").empty();
 
-                $(this).find('[name="qwrd"]')
-                    .val('This form has been disabled');
-            });
-        });
+                $.each(response.sizes, function(index, size) {
+                    var li = $('<li><a href="#">' + size.size + '</a></li>');
 
-        $(document).on('click', '.quickview', function(e) {
+                    // Add a click event handler to the anchor tag inside the list item
+                    li.find('a').click(function() {
+                        // Remove "active" class from all list items
+                        $("#size li").removeClass("active");
 
-            e.preventDefault();
-            var Slug = $(this).data('product-slug');
-            console.log(Slug);
+                        // Add "active" class to the parent list item
+                        $(this).parent().addClass("active");
+                    });
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    // Append the list item to the #size element
+                    $("#size").append(li);
+                });
+
+                $("#product_sku").text(response.sku);
+                $("#stock").text(response.stock + ' Items In Stock');
+
+                $("#tags").empty();
+                $("#tags").html('Tags: ');
+                $.each(response.tags, function(index, tag){
+                    var a = '<a href="#" rel="tag">'+ tag.tag+'</a>,';
+                    $("#tags").append(a);
+                });
+
+                Livewire.dispatch('buyNow', response.product_id);
+
+                // $(".slider-nav-thumbnails").empty();
+
+                // $.each(response.product_images, function(index, image){
+                //     var baseUrl = "{{ asset('storage/product_images/') }}";
+                //     var imageUrl = baseUrl + '/' + image.product_image;
+                //     var image_Div = '<div><img src="' + imageUrl + '" alt="'+response.slug+'"></div>';
+                //     $(".slider-nav-thumbnails").append(image_Div);
+
+
+                // });
+                //     $(".product-image-slider").slick();
+
+                //     // $('.slider-nav-thumbnails').slick();
+                //     $(".slider-nav-thumbnails").slick({
+                //         slidesToShow: 4,
+                //         slidesToScroll: 1,
+                //         asNavFor: '.product-image-slider',
+                //         dots: false,
+                //         centerMode: false,
+                //         focusOnSelect: true
+                //     });
+
+                $(".product-image-slider").empty();
+                if (response.product_thumbnail && response.product_thumbnail.length > 0) {
+                    var baseUrl = "{{ asset('storage/product_images/thumbnail/') }}";
+                    var imageUrl = baseUrl + '/' + response.product_thumbnail[0].product_thumbnail;
+
+                    var imageDiv = '<figure class="border-radius-10" >' +
+                                        '<img src="' + imageUrl + '" alt="' + response.slug + '">' +
+                                    '</figure>';
+
+                    $(".product-image-slider").append(imageDiv);
                 }
-            });
-            $.ajax({
-                url: '/home/quickview',
-                method: 'GET',
-                data: {
-                    slug: Slug,
-                },
-                success: function(response) {
-                    console.log(response);
-                    $('#p_name').text(response.product_name);
-                    $('#brand_name').text(response.brand.brand_name);
-
-                    $('#product_price').empty();
-                    if (response.product_price.offer_price > 0) {
-                        var row = '<ins><span class="text-brand">৳' + response.product_price
-                            .offer_price + '</span></ins>' +
-                            '<ins><span class="old-price font-md ml-15">৳' + response.regular_price +
-                            '</span></ins>' +
-                            '<span class="save-price  font-md color3 ml-15">' + response.product_price
-                            .percentage + '% Off</span>';
-                        $('#product_price').append(row);
-                    } else {
-                        var row = '<ins><span class="text-brand">৳' + response.regular_price +
-                            '</span></ins>';
-                        $('#product_price').append(row);
-                    }
-
-                    $("#overview").empty();
-
-                    $.each(response.overviews, function(index, overview) {
-                        var li = '<li><span>' + overview.overview_name + '</span>' + overview
-                            .overview_value + '</li>';
-                        $("#overview").append(li);
-                    });
-
-                    $("#color").empty();
-
-                    $.each(response.colors, function(index, color) {
-                        var li = $('<li><a href="#" data-color="' + color.color_name +
-                            '"><span class="' + color.color_code +
-                            '" style="background-color:' + color.color_code +
-                            '"></span></a></li>');
-
-                        li.find('a').click(function() {
-                            // Remove "active" class from all list items
-                            $("#color li").removeClass("active");
-
-                            // Add "active" class to the parent list item
-                            $(this).parent().addClass("active");
-                        });
-
-                        $("#color").append(li);
-                    })
-
-                    $("#size").empty();
-
-                    $.each(response.sizes, function(index, size) {
-                        var li = $('<li><a href="#">' + size.size + '</a></li>');
-
-                        // Add a click event handler to the anchor tag inside the list item
-                        li.find('a').click(function() {
-                            // Remove "active" class from all list items
-                            $("#size li").removeClass("active");
-
-                            // Add "active" class to the parent list item
-                            $(this).parent().addClass("active");
-                        });
-
-                        // Append the list item to the #size element
-                        $("#size").append(li);
-                    });
-
-                    $("#product_sku").text(response.sku);
-                    $("#stock").text(response.stock + ' Items In Stock');
-
-                    $("#tags").empty();
-                    $("#tags").html('Tags: ');
-                    $.each(response.tags, function(index, tag) {
-                        var a = '<a href="#" rel="tag">' + tag.tag + '</a>,';
-                        $("#tags").append(a);
-                    });
-
-                    Livewire.dispatch('buyNow', response.product_id);
-
-                    // $(".slider-nav-thumbnails").empty();
-
-                    // $.each(response.product_images, function(index, image){
-                    //     var baseUrl = "{{ asset('storage/product_images/') }}";
-                    //     var imageUrl = baseUrl + '/' + image.product_image;
-                    //     var image_Div = '<div><img src="' + imageUrl + '" alt="'+response.slug+'"></div>';
-                    //     $(".slider-nav-thumbnails").append(image_Div);
 
 
-                    // });
-                    //     $(".product-image-slider").slick();
-
-                    //     // $('.slider-nav-thumbnails').slick();
-                    //     $(".slider-nav-thumbnails").slick({
-                    //         slidesToShow: 4,
-                    //         slidesToScroll: 1,
-                    //         asNavFor: '.product-image-slider',
-                    //         dots: false,
-                    //         centerMode: false,
-                    //         focusOnSelect: true
-                    //     });
-
-                    $(".product-image-slider").empty();
-                    if (response.product_thumbnail && response.product_thumbnail.length > 0) {
-                        var baseUrl = "{{ asset('storage/product_images/thumbnail/') }}";
-                        var imageUrl = baseUrl + '/' + response.product_thumbnail[0].product_thumbnail;
-
-                        var imageDiv = '<figure class="border-radius-10" >' +
-                            '<img src="' + imageUrl + '" alt="' + response.slug + '">' +
-                            '</figure>';
-
-                        $(".product-image-slider").append(imageDiv);
-                    }
-
-
-                    // const outputImage = document.getElementById('output-image2');
-                    // outputImage.src = "{{ asset('storage') }}"+'/'+response.image
-                }
-            });
-        });
-     $(document).ready(function() {
-    $('.search-input').keyup(function(event) {
-        var searchTerm = $(this).val();
-        console.log(searchTerm); // Log the value to the console
-
-        $.ajax({
-            url: "{{ route('search') }}",
-            type: 'GET',
-            dataType: 'json',
-            data: {
-                search: searchTerm
-            },
-            success: function(data) {
-                var suggestionsContainer = $('#product-suggestions');
-                suggestionsContainer.empty();
-
-                if (data.products.length === 0) {
-                    suggestionsContainer.append('<p>No products found</p>');
-                } else {
-                    data.products.forEach(function(product) {
-                        var suggestion = $('<div class="product-suggestion">');
-                        var img = $('<img>');
-                        img.attr('src', product.image_url);
-                        img.attr('alt', product.product_name);
-                        img.css('width', '100%'); // Set the width of the image to 100%
-                        var productName = $('<p>').css('font-size', '12px').text(product.product_name); // Set the font size of the product name to 12px
-                        suggestion.append(img, productName); // Append both image and product name to the same div
-                        suggestionsContainer.append(suggestion);
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching product suggestions:', error);
+                // const outputImage = document.getElementById('output-image2');
+                // outputImage.src = "{{asset('storage')}}"+'/'+response.image
             }
         });
-
     });
-});
 
+    $(document).ready(function() {
+
+        $(".fa-search").click(function() {
+            $(".togglesearch").toggle();
+            $("input[type='text']").focus();
+        });
+
+        var searchInput = $('#search-input');
+        var showProductDiv = $('#show-product');
+        var loadingIndicator = $('#loading-indicator');
+
+        searchInput.keyup(function(event) {
+            var searchTerm = searchInput.val().trim();
+
+            // Check if the search term is not empty
+            if (searchTerm !== '') {
+                // Show loading indicator
+                loadingIndicator.show();
+
+                $.ajax({
+                    url: "{{ route('search') }}",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        search: searchTerm
+                    },
+                    success: function(data) {
+                        var ul = showProductDiv.find('ul');
+                        ul.empty();
+
+                        if (data.products.length === 0) {
+                            ul.append('<li>No products found</li>');
+                        } else {
+                            data.products.forEach(function(product) {
+                                var imageUrl = '{{asset('storage/product_images/thumbnail/')}}'+'/'+product.product_thumbnail[0].product_thumbnail;
+                                var slug = product.slug;
+                                var productUrl = '{{ url('products') }}'+ '/'+ slug;
+                                // console.log(slug);
+                                // console.log(productUrl);
+                                var li = $('<li>'+
+                                    '<a href="'+productUrl+'">'+
+                                    '<div class="item_img">'+
+                                    '<img src="'+imageUrl+'" alt="'+product.slug+'" width="60px" >'+
+                                    '</div>'+
+                                    '<div class="item_tile">'+
+                                    '<h4 class="product_title">'+product.product_name+'</h4>'+
+                                    '<p class="text-sm">Price: ৳'+product.regular_price+'</p>'+
+                                    '<p class="text-sm">'+product.sku+'</p>'+
+                                    '</div>'+
+                                    '</a>'+
+                                    '</li>');
+
+                                ul.append(li);
+                            });
+                        }
+
+                        // Hide loading indicator after displaying results
+                        loadingIndicator.hide();
+                        // Show the product div
+                        showProductDiv.show();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching product suggestions:', error);
+                        // Hide loading indicator on error
+                        loadingIndicator.hide();
+                    }
+                });
+            } else {
+                // Hide the product div if the search term is empty
+                showProductDiv.hide();
+            }
+        });
+    });
+
+</script>
+    @if(Session::has('success'))
+    <script>
+        $.Notification.autoHideNotify('success', 'top right', 'Success', '{{ Session::get('success') }}');
     </script>
-    @if (Session::has('success'))
-        <script>
-            $.Notification.autoHideNotify('success', 'top right', 'Success', '{{ Session::get('success') }}');
-        </script>
     @endif
-    @if (Session::has('danger'))
+    @if(Session::has('danger'))
         <script>
             $.Notification.autoHideNotify('danger', 'top right', 'Danger', '{{ Session::get('danger') }}');
         </script>
     @endif
-    @if (Session::has('warning'))
-        <script>
-            $.Notification.autoHideNotify('warning', 'top right', 'Warning', '{{ Session::get('warning') }}');
-        </script>
+    @if(Session::has('warning'))
+    <script>
+        $.Notification.autoHideNotify('warning', 'top right', 'Warning', '{{ Session::get('warning') }}');
+    </script>
     @endif
 
 
