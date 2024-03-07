@@ -127,12 +127,13 @@ footer{
             <h2 style="margin-left:20px; width:70%; background: #e9e9e9b7;  text-align:center;text-transform:uppercase;color:#3abff0; padding:8px;">Invoice</h2>
             <p style="margin-left:20px; text-align:left; "><b class="tera">Date:</b> {{ date('j F y', strtotime($order->created_at)) }}</p>
             <p style="margin-left:20px; text-align:left;"><b class="tera">Invoice No:#</b> {{ $order->invoice_no ?? $order->id  }}</p>
+
                 @if ($order->transaction->status == 'paid')
                     <p class="badge-soft-success">Paid</p>
                 @elseif($order->transaction->status == 'unpaid')
                 <p class="badge-soft-danger">Unpaid</p>
 
-                    @endif
+                @endif
             </div>
         </div>
 

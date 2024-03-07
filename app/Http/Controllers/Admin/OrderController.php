@@ -216,16 +216,19 @@ class OrderController extends Controller
                             'outStock' => \DB::raw("outStock + $item->quantity"), // Assuming outStock starts at 0
                         ]
                     );
-                    Session::flash('success','stock counted..');
+
                 }
             }
         }
 
-        if($newStatus == 'completed')
+        if($order->status == 'completed')
         {
-            $transaction = transactions::where('order', $order->id);
-            $transaction->status = 'paid';
-            $transaction->save();
+            $transaction = transactions::where('order_id', $order->id);
+            // $transaction->status = 'paid';
+            $transaction->update([
+                'status' => 'paid',
+            ]);
+            Session::flash('success', 'Transaction Status updated.');
         }
 
         return response()->json([

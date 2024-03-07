@@ -184,7 +184,7 @@ class HomeController extends Controller
         $products = Products::where('product_name', 'like', '%' . $searchTerm . '%')
                             ->orWhere('sku', 'like', '%' . $searchTerm . '%')
                             ->with(['product_thumbnail','product_price']) // Eager load product images
-                            ->limit(5) // Limit the number of results
+                            // ->limit(5) // Limit the number of results
                             ->get();
 
         // Return the response as JSON

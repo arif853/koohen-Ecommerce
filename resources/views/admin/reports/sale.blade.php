@@ -172,17 +172,18 @@
                     } else {
                         var totalAmount = 0;
                         response.forEach(function(order, index) {
+                            var invoiceUrl = '{{ url('orders/invoice/') }}' + '/' + order.id;
                             var formattedDate = new Date(order.created_at).toLocaleDateString('en-US', {
                                 year: 'numeric',
                                 month: 'long',
                                 day: 'numeric'
                             });
                             var tr = $('<tr>' +
-                                '<td>' + index + '</td>' +
-                                '<td>' + formattedDate + '</td>' +
-                                '<td>' + order.invoice_no + '</td>' +
-                                '<td>' + order.customer.firstName + ' ' + order.customer.lastName + '</td>' +
-                                '<td>' + order.total + '</td>' +
+                                '<td>' + (index +1 ) + '</td>' +
+                                '<td class="text-center">' + formattedDate + '</td>' +
+                                '<td class="text-center"><a href="'+invoiceUrl+'" target="__blank">' + order.invoice_no + '</a></td>' +
+                                '<td class="text-center">' + order.customer.firstName + ' ' + order.customer.lastName + '</td>' +
+                                '<td class="text-center">' + order.total + '</td>' +
                                 '</tr>');
                                 totalAmount += parseFloat(order.total);
                             tbody.append(tr);
@@ -241,11 +242,11 @@
                                 day: 'numeric'
                             });
                             var tr = $('<tr>' +
-                                '<td>' + index + '</td>' +
-                                '<td>' + formattedDate + '</td>' +
-                                '<td>' + order.invoice_no + '</td>' +
-                                '<td>' + order.customer.firstName + ' ' + order.customer.lastName + '</td>' +
-                                '<td>' + order.total + '</td>' +
+                                '<td>' + (index +1 ) + '</td>' +
+                                '<td class="text-center">' + formattedDate + '</td>' +
+                                '<td class="text-center"><a href="'+invoiceUrl+'" target="__blank">' + order.invoice_no + '</a></td>' +
+                                '<td class="text-center">' + order.customer.firstName + ' ' + order.customer.lastName + '</td>' +
+                                '<td class="text-center">' + order.total + '</td>' +
                                 '</tr>');
                                 totalAmount += parseFloat(order.total);
                             tbody.append(tr);
@@ -286,6 +287,7 @@
     printWindow.document.write('table { width: 100%; border-collapse: collapse; }');
     printWindow.document.write('table, th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }');
     printWindow.document.write('th { background-color: #f2f2f2; }');
+    printWindow.document.write('a { text-decoration: none; color:#000; }');
     printWindow.document.write('</style>');
 
     printWindow.document.write('</head><body>');

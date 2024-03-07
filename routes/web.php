@@ -64,6 +64,7 @@ Route::get('/cache_clear',function(){
     return redirect()->back();
 });
 
+
 Route::get('/storage',function(){
     Artisan::call('storage:link');
 });
