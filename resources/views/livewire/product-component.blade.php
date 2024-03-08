@@ -72,7 +72,12 @@
                         <span class="font-small ml-5 text-muted"> (25 reviews)</span>
                     </div>
                 </div>
-
+                @php
+                    // $inStock = $product->product_stocks->inStock;
+                    $inStock = $product->product_stocks->sum('inStock');
+                    $outStock = $product->product_stocks->sum('outStock');
+                    $balance = $inStock - $outStock;
+                @endphp
                 <div class="clearfix product-price-cover">
                     <div class="product-price primary-color float-left">
                         @php
@@ -127,7 +132,7 @@
 
                     </ul>
                 </div>
-
+                @if($balance > 0)
                 <div class="attr-detail attr-color mt-20 mb-15">
                     <strong class="color-size mr-10">Color</strong>
                     @livewire('select-color-component', ['colors' => $product->colors])
@@ -136,10 +141,14 @@
                 <div class="attr-detail attr-size">
                     <strong class="color-size mr-10">Size</strong>
 
-                    @livewire('select-size-component', ['sizes' => $product->sizes])
+                    @livewire('select-size-component', ['sizes' => $product->sizes, 'productId' => $product->id])
 
                 </div>
+                @endif
                 <div class="bt-1 border-color-1 mt-30 mb-30"></div>
+
+                
+                @if($balance > 0)
                 <div class="detail-extralink">
 
                     {{-- Quantity field --}}
@@ -153,6 +162,8 @@
                             class="button add-cart-button">Add to cart</button>
                     </div>
                 </div>
+                @endif
+
                 <div class="row product-tag-info">
                     <div class="col-lg-6">
                         <div class="product_sort_info font-xs">
@@ -164,9 +175,8 @@
                                 @endforeach
                                 <li class=""><strong>EMI:</strong> <span
                                         class="in-stock ml-5">{{$extrainfo->emi}}</span></li>
-                                <li><strong>Availability:</strong><span
-                                        class="in-stock ml-5">{{$product->stock}} Items In
-                                        Stock</span></li>
+                                <li><strong>Availability:</strong>
+                                    <span class="in-stock ml-5">{{$balance > 0 ? $balance: 'Out of Stock'}} </span></li>
                             </ul>
                         </div>
                     </div>
@@ -242,7 +252,7 @@
                                 </tr>
 
                                 @endforeach
-                                
+
                             </tbody>
                         </table>
                     </div>

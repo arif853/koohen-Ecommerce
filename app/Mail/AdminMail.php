@@ -41,6 +41,24 @@ class AdminMail extends Mailable
         ->attachData($pdf, 'invoice.pdf', [
             'mime' => 'application/pdf',
         ]);
+
+    }
+
+
+    public function generateInvoicePDF($id)
+    {
+       // ini_set('max_execution_time',3600);
+        $order = Order::where('id', $id)->first();
+
+        if (!$order) {
+            return 'Order not found';
+        }
+
+        $pdf= PDF::loadView('admin.order.invoice',['order'=>$order]);
+
+         $mpdf = $pdf->Output('', 'S');
+
+        return $mpdf;
     }
 
     public function generateInvoicePDF($id)

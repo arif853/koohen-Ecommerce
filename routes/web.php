@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\VarientController;
@@ -30,6 +31,7 @@ use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -63,6 +65,7 @@ Route::get('/cache_clear',function(){
     Session::flash('success','Cached clear successfully!');
     return redirect()->back();
 });
+
 
 Route::get('/storage',function(){
     Artisan::call('storage:link');
@@ -136,6 +139,7 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth:customer']], functi
     Route::post('/customerAuth_update/{id}', [CustomerDashboardController::class, 'customerAuth_update']);
     Route::post('/userNameUpdate/{id}', [CustomerDashboardController::class, 'userNameUpdate']);
     Route::post('/newShipping', [CustomerDashboardController::class, 'newShipping']);
+    Route::post('/customer-order-return', [CustomerDashboardController::class, 'orderReturn']);
     Route::post('/logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
 });
 
@@ -153,6 +157,7 @@ Route::controller(CartController::class)->group(function () {
 Route::controller(TrackorderController::class)->group(function () {
     Route::get('/trackorder', 'index')->name('trackorder');
     Route::post('/trackorder/order_details', 'order_details')->name('order_details');
+    Route::get('/trackorder/track_order/{trackid}', 'orderTrack')->name('myorder.track');
 
 });
 
@@ -230,8 +235,6 @@ Route::controller(ProductController::class)->middleware('auth')->group(function 
     Route::delete('/dashboard/products/thumb_destroy/{id}', 'thumb_destroy')->name('productsthumb.destroy');
 
     Route::get('/dashboard/products/{slug}', 'show')->name('products.show');
-    Route::post('/dashboard/products/filter', 'ProductFilter')->name('products.filter');
-
 });
 
 //Order
@@ -246,7 +249,7 @@ Route::controller(OrderController::class)->middleware('auth')->group(function ()
     Route::post('/update-one-order-status', 'updateOneOrderStatus');
     Route::get('/orders/invoice/{id}', 'orderInvoice')->name('order.invoice');
     Route::get('/orders/invoice-page/{id}', 'invoicePage')->name('invoice');
-    Route::get('/orders/filters', 'OrderFilter')->name('order.filters');
+    Route::get('/dashboard/order/{id}', 'return_confirm')->name('return.confirm');
 });
 
 //Customer
@@ -384,6 +387,12 @@ Route::controller(InventoryController::class)->middleware('auth')->group(functio
     Route::post('/dashboard/inventory/addstock', 'addstock')->name('add.stock');
 });
 
+//Purchase route
+Route::controller(PurchaseController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/purchase', 'index')->name('purchase');
+    Route::get('/dashboard/purchase/create', 'create')->name('purchase.create');
+
+});
 
 //Pos route
 Route::controller(POSController::class)->middleware('auth')->group(function () {
@@ -391,9 +400,19 @@ Route::controller(POSController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/search-products', 'searchProducts')->name('search.products');
     Route::get('/dashboard/pos_cart/{id}', 'posCart');
     Route::get('/dashboard/pos_cart/cart_remove/{id}', 'cart_remove');
-    Route::get('.dashboard/pos/customer', 'searchcustomer')->name('search.customer');
+    Route::get('/dashboard/pos/customer', 'searchcustomer')->name('search.customer');
     Route::get('/dashboard/pos/order_cancel', 'posOrderCancel')->name('pos.cancel');
+    Route::post('/dashboard/pos/store','posOrder')->name('pos.order');
 
+    Route::get('/dashboard/pos_cart/add/{rowId}','increaseQuantity');
+    Route::get('/dashboard/pos_cart/remove/{rowId}','decreaseQuantity');
+
+});
+
+//reports
+Route::controller(ReportController::class)->middleware('auth')->group(function(){
+    Route::get('/dashboard/reports/sale', 'saleReport')->name('sale.report');
+    Route::get('/dashboard/report/sale_search', 'searchSale')->name('search.sale');
 });
 
 // reviews
@@ -401,10 +420,10 @@ Route::get('/dashboard/reviews', function () {
     return view('admin.reviews.index');
 })->name('reviews');
 
-// reviews
-Route::get('/dashboard/mailerview', function () {
-    return view('admin.email.mail');
-})->name('reviews');
+// mail Testing route
+// Route::get('/dashboard/mailerview', function () {
+//     return view('admin.email.mail');
+// })->name('mailer');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -128,6 +128,100 @@
         </div> <!-- card-body end// -->
     </div> <!-- card end// -->
 
+<<<<<<< HEAD
+=======
+            </div>
+        </form>
+
+    </header>
+    <style>
+        .table tr td{
+            vertical-align: middle;
+        }
+    </style>
+    <div class="card-body">
+        <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>#SN</th>
+                    <th>Products</th>
+                    <th>Brand</th>
+                    <th>Category</th>
+                    <th>Stock</th>
+                    <th>overviews</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($products as $key=> $product)
+                <tr>
+                    <td>{{$key+1}}</td>
+                    <td>
+                        <a class="itemside" href="#">
+                            <div class="left">
+                                <img src="{{asset('storage/product_images/'.$product->product_images->first()->product_image)}}" class="img-sm img-thumbnail" alt="{{$product->slug}}">
+                            </div>
+                            <div class="info">
+                                <h6 class="mb-0">{{$product->product_name}}</h6>
+                            </div>
+
+
+                        </a>
+                    </td>
+                    <td>{{$product->brand->brand_name}}</td>
+                    <td>
+                        {{$product->category->category_name}}
+                    </td>
+                    <td>{{$product->balance}}</td>
+                    <td>
+                        @foreach ($product->overviews as $overview)
+                        <span>{{$overview->overview_name}} {{$overview->overview_value}}</span><br>
+                        @endforeach
+                    </td>
+                    <td>
+                        @if ($product->status == "active")
+
+                        <span class="badge rounded-pill alert-success">Active</span>
+                        @else
+                        <span class="badge rounded-pill alert-danger">Inactive</span>
+
+                        @endif
+                    </td>
+                    <td class="text-end">
+                        <a href="{{route('products.show',$product->slug)}}" class="btn btn-md rounded font-sm">Detail</a>
+                        <div class="dropdown">
+                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                            <div class="dropdown-menu">
+                                {{-- <a class="dropdown-item text-primary" href="{{route('order.details')}}">Return</a> --}}
+                                <a class="dropdown-item" href="{{route('products.edit',$product->id)}}">Edit info</a>
+
+                                <a class="dropdown-item text-danger" href="{{route('products.destroy',$product->id)}}" onclick="confirmDelete(event)">Delete</a>
+                            </div>
+                        </div> <!-- dropdown //end -->
+                    </td>
+
+                </tr>
+                @endforeach
+
+            </tbody>
+
+        </table>
+    </div> <!-- card-body end// -->
+</div> <!-- card end// -->
+{{-- <div class="pagination-area mt-30 mb-50">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-start">
+            <li class="page-item active"><a class="page-link" href="#">01</a></li>
+            <li class="page-item"><a class="page-link" href="#">02</a></li>
+            <li class="page-item"><a class="page-link" href="#">03</a></li>
+            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+            <li class="page-item"><a class="page-link" href="#">16</a></li>
+            <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
+        </ul>
+    </nav>
+</div> --}}
+>>>>>>> 7b889c3e71bd880253d355f55631a2d5e36efbc8
 
 @endsection
 @push('products_search')

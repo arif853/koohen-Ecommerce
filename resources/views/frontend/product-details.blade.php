@@ -114,8 +114,12 @@
                    </div>
                    <!--Related Product-->
                    <!--Advertise-->
+<<<<<<< HEAD
                    {{-- @if ($adsbanner)
                    @foreach ($adsbanner as $ads)
+=======
+                   {{-- @foreach ($adsbanner as $ads)
+>>>>>>> 7b889c3e71bd880253d355f55631a2d5e36efbc8
 
                    @endforeach
                    @if ($ads)
@@ -137,6 +141,10 @@
 
                    @endif --}}
 
+<<<<<<< HEAD
+=======
+                    @endif --}}
+>>>>>>> 7b889c3e71bd880253d355f55631a2d5e36efbc8
                    <!--Advertise-->
                 </div>
              </div>

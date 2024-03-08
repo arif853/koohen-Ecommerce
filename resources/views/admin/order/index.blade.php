@@ -88,62 +88,40 @@
                             </thead>
                             <tbody id="orderTableBody">
                                 @foreach ($orders as $key => $order)
-                                    <tr>
-                                        <td><input type="checkbox" class="form-group order-checkbox"
-                                                value="{{ $order->id }}" id="order_checkbox"></td>
-                                        <td>{{ $key + 1 }}</td>
-                                        <td>
-                                            <a href="{{ route('customer.profile', ['id' => $order->customer->id]) }}"
-                                                class="itemside">
-                                                <div class="info pl-3">
-                                                    <h6 class="mb-0 title">{{ $order->customer->firstName }}
-                                                        {{ $order->customer->lastName }}</h6>
-                                                    <small class="text-muted">Order ID: #{{ $order->id }}</small>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="tel:{{ $order->customer->phone }}">{{ $order->customer->phone }}</a>
-                                        </td>
-                                        <td>৳{{ $order->total }}</td>
-                                        <td>
-                                            <div class="status-container">
-                                                <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200 order_status"
-                                                    id="order_status" data-order-id="{{ $order->id }}"
-                                                    name="order_status">
-                                                    <option value="pending" style="color: orange;"
-                                                        {{ $order->status == 'pending' ? 'selected' : '' }}>Pending
-                                                    </option>
-                                                    <option value="confirmed" style="color: blue;"
-                                                        {{ $order->status == 'confirmed' ? 'selected' : '' }}>Confirmed
-                                                    </option>
-                                                    <option value="shipped" style="color: green;"
-                                                        {{ $order->status == 'shipped' ? 'selected' : '' }}>Shipped
-                                                    </option>
-                                                    <option value="delivered" style="color: #00cc00;"
-                                                        {{ $order->status == 'delivered' ? 'selected' : '' }}>Delivered
-                                                    </option>
-                                                    <option value="completed" style="color: purple;"
-                                                        {{ $order->status == 'completed' ? 'selected' : '' }}>Completed
-                                                    </option>
-                                                    <option value="returned" style="color: gray;"
-                                                        {{ $order->status == 'returned' ? 'selected' : '' }}>Returned
-                                                    </option>
-                                                    <option value="cancelled" style="color: red;"
-                                                        {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </td>
-                                        <td>{{ $order->created_at->format('d-m-Y') }}</td>
-                                        <td class="text-end">
-                                            <a href="{{ route('order.details', ['id' => $order->id]) }}"
-                                                class="btn btn-md rounded font-sm">Detail</a>
-                                            <a class="btn btn-md rounded font-sm"
-                                                href="{{ route('order.track', ['id' => $order->id]) }}">Track me</a>
-                                            <a href="{{ route('invoice', ['id' => $order->id]) }}" target="__blank"
-                                                class="btn btn-facebook rounded font-sm">Invoice</a>
-                                            {{-- <div class="dropdown">
+                                <tr>
+                                    <td><input type="checkbox" class="form-group order-checkbox" value="{{$order->id}}" id="order_checkbox"></td>
+                                    <td>{{$key+1}}</td>
+                                    <td>
+                                        <a href="{{route('customer.profile', ['id' => $order->customer->id])}}" class="itemside">
+                                        <div class="info pl-3">
+                                            <h6 class="mb-0 title">{{$order->customer->firstName}} {{$order->customer->lastName}}</h6>
+                                            <small class="text-muted">Order ID: #{{$order->id}}</small>
+                                        </div>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="tel:{{$order->customer->phone}}">{{$order->customer->phone}}</a>
+                                    </td>
+                                    <td>৳{{$order->total}}</td>
+                                    <td>
+                                        <div class="status-container">
+                                            <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200 order_status" id="order_status" data-order-id="{{ $order->id }}" name="order_status">
+                                                <option value="pending" style="color: orange;" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                <option value="confirmed" style="color: blue;" {{ $order->status == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
+                                                <option value="shipped" style="color: green;" {{ $order->status == 'shipped' ? 'selected' : '' }}>Shipped</option>
+                                                <option value="delivered" style="color: #00cc00;" {{ $order->status == 'delivered' ? 'selected' : '' }}>Delivered</option>
+                                                <option value="completed" style="color: purple;" {{ $order->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                                <option value="returned" style="color: gray;" {{ $order->status == 'returned' ? 'selected' : '' }}>Returned</option>
+                                                <option value="cancelled" style="color: red;" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>{{ $order->created_at->format('d-m-Y') }}</td>
+                                    <td class="text-end">
+                                        <a href="{{route('order.details', ['id' => $order->id])}}" class="btn btn-md rounded font-sm">Detail</a>
+                                        <a class="btn btn-md rounded font-sm" href="{{route('order.track', ['id' => $order->id])}}">Track me</a>
+                                        <a href="{{ url('/orders/invoice/'.$order->id) }}" target="__blank" class="btn btn-facebook rounded font-sm">Invoice</a>
+                                        {{-- <div class="dropdown">
                                             <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item text-primary" href="{{route('order.details', ['id' => $order->id])}}">Return</a>

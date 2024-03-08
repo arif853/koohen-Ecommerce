@@ -90,9 +90,9 @@
                             <li class="nav-item" role="presentation">
                               <button class="nav-link text-primary fw-semibold active position-relative" id="pills-Profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Profile</button>
                             </li>
-                            <li class="nav-item" role="presentation">
+                            {{-- <li class="nav-item" role="presentation">
                               <button class="nav-link text-primary fw-semibold position-relative" id="pills-orders-tab" data-bs-toggle="pill" data-bs-target="#pills-orders" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">My Order</button>
-                            </li>
+                            </li> --}}
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link text-primary fw-semibold position-relative" id="pills-orders-history-tab" data-bs-toggle="pill" data-bs-target="#pills-orders-history" type="button" role="tab" aria-controls="pills-orders-history" aria-selected="false">Orders History</button>
                             </li>
@@ -118,7 +118,7 @@
                             @livewire('user-profile-component')
 
                             {{-- my order --}}
-                            @livewire('my-order-component')
+                            {{-- @livewire('my-order-component') --}}
 
                             {{-- order history tab --}}
                             @livewire('user-orders-component')

@@ -3,7 +3,7 @@
 
     <div class="content-header">
         <div>
-            <h2 class="content-title card-title">Order Return List </h2>
+            <h2 class="content-title card-title">Order Return</h2>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="{{'/dashborad'}}">Dashboard</a></li>
@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-4">
-                <header class="card-header">
+                {{-- <header class="card-header">
                     <h5 class="mb-3">Filter by</h5>
                     <form>
                         <div class="row">
@@ -37,7 +37,7 @@
                     </div>
                 </form>
 
-                </header>
+                </header> --}}
 
                 <!-- card-header end// -->
                 <div class="card-body">
@@ -50,8 +50,9 @@
                                     <th>Price</th>
                                     <th>Status</th>
                                     <th>Return Date</th>
-                                
+                                    <th>Action</th>
                                 </tr>
+                            </thead>
                             </thead>
                             <tbody>
                                 @if ($order_return->isNotEmpty())
@@ -62,12 +63,18 @@
                                         <td> {{ $value->total }} &#2547;</td>
                                         <td><span class="badge rounded-pill alert-success">{{ $value->status }}</span></td>
                                         <td>{{ $value->created_at->format('d/m/Y') }}</td>
-                                       
+                                        <td>
+                                            @if($value->return_confirm == 0)
+                                            <a href="{{url('dashboard/order',$value->id)}}" class="btn btn-warning btn-sm">Confirm Return</a>
+
+                                            @else
+                                            <a href="#" class="text-danger">Order has been returned.</a>
+
+                                            @endif
+                                        </td>
                                     </tr>
                                     @endforeach
                                 @endif
-                               
-                            
                             </tbody>
                         </table>
                     </div> <!-- table-responsive //end -->

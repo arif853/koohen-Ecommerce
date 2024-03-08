@@ -23,10 +23,15 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/css/vendors/animate.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/vendor/slick/slick.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/vendor/jquery.countdown/css/jquery.countdown.css')}}">
+
     {{-- sweet alert --}}
     <link rel="stylesheet" href="{{asset('admin/assets/css/vendors/sweetalert2.min.css')}}">
+
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{asset('/')}}frontend/assets/css/main.css?v=3.4">
+    <link rel="stylesheet" href="{{asset('frontend/assets/css/responsive.css')}}">
+    <link rel="stylesheet" href="{{asset('frontend/assets/css/helper.css')}}">
+
     <!--Font-->
     <style>
         .product-cart-wrap .product-img-action-wrap .product-img{
@@ -166,110 +171,6 @@
                         <!--Main Menu Bar-->
                     </div>
                     <style>
-                        .searchbar {
-                            margin-top: 10px;
-                        }
-                        .searchbar i{
-                            font-size: 23px;
-                            font-weight: 300;
-                        }
-                            .togglesearch {
-                                background: #ffffff;
-                                position: absolute;
-                                top: 70px;
-                                right: 66px;
-                                width: 100%;
-                                height: 60px;
-                                line-height: 50px;
-                                /* box-shadow: 0 0 10px rgba(0,0,0,0.5); */
-                                border-top: 4px solid #FF8B13;
-                                display: none;
-                                z-index: 999;
-                                text-align: center;
-                            }
-
-                            .togglesearch:before{
-                                content: "";
-                                position: absolute;
-                                top: -32px;
-                                right: 13px;
-                                border-left: 12px solid transparent;
-                                border-right: 12px solid transparent;
-                                border-top: 14px solid transparent;
-                                border-bottom: 14px solid #FF8B13;
-                            }
-
-                            .togglesearch input[type="text"]{
-                                width: 600px;
-                                padding: 0px 10px;
-                                padding-left: 50px;
-                                border: 1px solid #FF8B13;
-                                outline: none;
-                                margin: 5px 0;
-                            }
-
-                            .togglesearch input[type="button"]{
-                                width: 80px;
-                                padding: 5px 0;
-                                background: #FF8B13;
-                                color: #fff;
-                                margin-left: -6px;
-                                border: 1px solid #FF8B13;
-                                outline: none;
-                                cursor: pointer;
-                            }
-                            /* @media only screen and (min-width:240px) and (max-width: 768px){
-                                .navbar ul li{
-                                    float:none;
-                                    display:block;
-                                    text-align:center;
-                                    margin:0 auto;
-                                }
-                            } */
-                            .input-search-icon {
-                                position: absolute;
-                                top: 6px;
-                                left: 365px;
-                            }
-                            #loading-indicator,
-                            .show-product{
-                                background-color: #ffffff;
-                                padding: 15px 15px;
-                                width: 600px;
-                                /* height: 100%; */
-                                margin: 0 auto;
-                            }
-                            .show-product ul li {
-                                text-align: left;
-                                padding: 5px 0px 5px 5px;
-                                border-bottom: 2px solid #e1e1e1;
-                            }
-                            .show-product ul li a{
-                               font-size: 22px;
-                               font-weight: 700;
-                               display: flex;
-                            }
-                            .item_img {
-                                height: 50px;
-                                margin-right: 15px;
-                            }
-                            .item_img img{
-                                height: 100%;
-                            }
-                            .item_tile{
-                                margin: auto 0;
-                            }
-                            .item_tile p.text-sm{
-                                color: #636363 !important;
-                                font-size: 12px !important;
-                            }
-                            .item_tile p{
-                                margin-bottom: 0 !important;
-                                line-height: 20px !important;
-                            }
-                            .header-style-4 .stick .item_tile p{
-                                color: #636363 !important;
-                            }
                     </style>
                     <div class="hotline d-none d-lg-block">
                         <div class="header-action-2 header">
@@ -311,10 +212,37 @@
 
                         </div>
                     </div>
-                    <p class="mobile-promotion">Happy <span class="text-brand">Mother's Day</span>. Big Sale Up to 40%</p>
+                    {{-- <p class="mobile-promotion">Happy <span class="text-brand">Mother's Day</span>. Big Sale Up to 40%</p> --}}
                     <div class="header-action-right d-block d-lg-none">
                         <div class="header-action-2">
+                            <div class="searchbar">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                                 <div class="togglesearch">
+                                    <span class="input-search-icon" id=""><i class="fa fa-search" aria-hidden="true"></i></span>
+                                    <input type="text" id="search-input2" name="product_search" placeholder=" Search product by name or sku."/>
+                                    {{-- <input type="button" value="Search"/> --}}
+                                    <div id="loading-indicator" style="display: none; ">
+                                        Loading...
+                                    </div>
+                                    <div class="show-product" id="show-product2" style="display: none">
+                                        <ul>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="item_img">
+                                                        <img src="{{asset('frontend/assets/imgs/shop/w-product-3.webp')}}" alt="Product Image" width="60px" >
+                                                    </div>
+                                                    <div class="item_tile">
+                                                        <h4 class="product_title">Product 1</h4>
+                                                        <p class="text-sm">Price: 1250.00</p>
+                                                    </div>
+                                                </a>
+                                            </li>
 
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
                             @livewire('wishlist-icon-component')
                             @livewire('cart-icon-component')
 
@@ -471,10 +399,16 @@
                 </div>
             </div>
         </section>
+        <style>
+            .footer-list li a span{
+                font-size: 17px;
+                margin-right: 8px
+            }
+        </style>
         <section class="section-padding footer-mid">
             <div class="container pt-15 pb-20">
                 <div class="row">
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-3 col-md-3 col-sm-3">
                         <div class="widget-about font-md mb-md-5 mb-lg-0">
                             <div class="logo logo-width-1 wow fadeIn animated">
                                 <a href="index.html"><img src="{{asset('frontend/assets/imgs/Kohen_Logo_Main.png')}}" alt="logo"></a>
@@ -483,13 +417,7 @@
 
                         </div>
                     </div>
-                    <style>
-                        .footer-list li a span{
-                            font-size: 17px;
-                            margin-right: 8px
-                        }
-                    </style>
-                    <div class="col-lg-3 col-md-3">
+                    <div class="col-lg-3 col-md-3 col-sm-3">
                         <h5 class="widget-title wow fadeIn animated">Contact</h5>
                         <ul class="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
                             <li>
@@ -510,7 +438,7 @@
                                 <a href="#"><img src="{{asset('frontend/assets/imgs/theme/icons/icon-youtube.svg')}}" alt=""></a>
                             </div>
                     </div>
-                    <div class="col-lg-3  col-md-3">
+                    <div class="col-lg-3 col-md-3 col-sm-3">
                         <h5 class="widget-title wow fadeIn animated">Usefull Links</h5>
                         <ul class="footer-list wow fadeIn animated">
                             <li><a href="{{url('/delivery_information')}}">Delivery Information</a></li>
@@ -521,7 +449,7 @@
                             <li><a href="{{route('trackorder')}}">Track My Order</a></li>
                         </ul>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 col-md-3 col-sm-3">
                         <h5 class="widget-title wow fadeIn animated">Trusted member of - </h5>
                         <a href="https://e-cab.net"><img src="{{asset('frontend/assets/imgs/ecab.png')}}" alt="ecab" width="80px"></a>
                         <div class="row">
@@ -762,12 +690,23 @@
             $("input[type='text']").focus();
         });
 
+<<<<<<< HEAD
         var searchInput = $('#search-input');
         var showProductDiv = $('#show-product');
         var loadingIndicator = $('#loading-indicator');
 
         searchInput.keyup(function(event) {
             var searchTerm = searchInput.val().trim();
+=======
+        // var searchInput = $('#search-input');
+
+
+        function searchHandel(searchInput, showProductDiv) {
+            
+            var loadingIndicator = $('#loading-indicator');
+            var searchTerm = searchInput.val().trim();
+            console.log(searchTerm);
+>>>>>>> 7b889c3e71bd880253d355f55631a2d5e36efbc8
 
             // Check if the search term is not empty
             if (searchTerm !== '') {
@@ -782,6 +721,7 @@
                         search: searchTerm
                     },
                     success: function(data) {
+                        console.log(data);
                         var ul = showProductDiv.find('ul');
                         ul.empty();
 
@@ -809,6 +749,7 @@
 
                                 ul.append(li);
                             });
+                            console.log(ul);
                         }
 
                         // Hide loading indicator after displaying results
@@ -826,6 +767,15 @@
                 // Hide the product div if the search term is empty
                 showProductDiv.hide();
             }
+        };
+
+        // Call the function for each search input
+        $('#search-input').keyup(function(event) {
+            searchHandel($('#search-input'), $('#show-product'));
+        });
+
+        $('#search-input2').keyup(function(event) {
+            searchHandel($('#search-input2'), $('#show-product2'));
         });
     });
 

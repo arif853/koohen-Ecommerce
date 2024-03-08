@@ -1,18 +1,23 @@
 /* ========================
 INCLUDE STYLES AND COMPONENTS
 ===================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;500;600;700&display=swap");
 /*import vendors*/
 @import url(vendors/normalize.css);
 @import url(vendors/bootstrap.css);
 @import url(vendors/material-icon-round.css);
 @import url(vendors/perfect-scrollbar.css);
 @import url(vendors/select2.min.css);
-@import url(vendors/all.min.css);
-@import url(vendors/fontawesome.min.css);
+/* @import url(vendors/all.min.css);
+@import url(vendors/fontawesome.min.css); */
 @import url(vendors/colorpicker/jquery.minicolors.css);
+@import url(../../../frontend/assets/css/vendors/uicons-regular-straight.css);
+@import url(../../../frontend/assets/css/vendors/fontawesome-all.min.css);
+/* @import url(vendors/fontawesome-all.min.css); */
 
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;500;600;700&display=swap");
+
 /*RESET*/
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,

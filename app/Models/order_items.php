@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class order_items extends Model
 {
     use HasFactory;
+
     protected $fillable = ['product_id', 'color_id', 'size_id' , 'order_id', 'price', 'quantity', 'comment'];
 
     public function order()
@@ -21,9 +22,15 @@ class order_items extends Model
     }
 
     public function product_sizes(){
+
         return $this->belongsTo(Size::class,'size_id');
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b889c3e71bd880253d355f55631a2d5e36efbc8
     public function product_colors(){
+
         return $this->belongsTo(Color::class,'color_id');
     }
 

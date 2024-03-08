@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
+use DB;
 use PDF;
 use Carbon\Carbon;
 use App\Models\Size;
@@ -9,16 +11,16 @@ use App\Models\Order;
 use App\Models\Customer;
 use App\Models\District;
 use App\Models\Postcode;
+use App\Models\Products;
 use App\Models\shipping;
 use App\Models\order_items;
 use App\Models\Orderstatus;
 use App\Models\transactions;
 use Illuminate\Http\Request;
+use App\Models\Product_stock;
 use Illuminate\Validation\Rule;
 use App\Models\Register_customer;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Products;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -176,9 +178,37 @@ class OrderController extends Controller
                     $statusColumn => Carbon::now(),
                 ],
             );
-        }
 
-        return response()->json(['success' => true, 'message' => 'Order ' . $selectedStatus . ' updated successfully.']);
+            if($selectedStatus == 'completed')
+            {
+                $transaction = transactions::where('order', $order->id);
+                $transaction->status = 'paid';
+                $transaction->save();
+            }
+
+            if($selectedStatus == 'confirmed')
+            {
+                foreach ($order->order_item as $item) {
+
+                    if($item && $item->size_id){
+                        Product_stock::updateOrCreate(
+                            [
+                                'product_id' => $item->product_id,
+                                'size_id' => $item->size_id,
+                            ],
+                            [
+                                // 'inStock' => \DB::raw("inStock"), // Increment the inStock column
+                                'outStock' => \DB::raw("outStock + $item->quantity"), // Assuming outStock starts at 0
+                            ]
+                        );
+                        Session::flash('success','stock counted..');
+                    }
+                }
+            }
+        }
+        Session::flash('success', 'Order ' . $selectedStatus . ' updated successfully.');
+
+        return response()->json(['success' => true, ]);
     }
 
     // OrderController.php
@@ -204,6 +234,36 @@ class OrderController extends Controller
         // Update the OrderStatus table
         $statusColumn = $newStatus . '_date_time';
         Orderstatus::updateOrCreate(['order_id' => $orderId], ['status' => $newStatus, $statusColumn => Carbon::now()]);
+
+        if($newStatus == 'confirmed')
+        {
+            foreach ($order->order_item as $item) {
+
+                if($item && $item->size_id){
+                    Product_stock::updateOrCreate(
+                        [
+                            'product_id' => $item->product_id,
+                            'size_id' => $item->size_id,
+                        ],
+                        [
+                            // 'inStock' => \DB::raw("inStock"), // Increment the inStock column
+                            'outStock' => \DB::raw("outStock + $item->quantity"), // Assuming outStock starts at 0
+                        ]
+                    );
+
+                }
+            }
+        }
+
+        if($order->status == 'completed')
+        {
+            $transaction = transactions::where('order_id', $order->id);
+            // $transaction->status = 'paid';
+            $transaction->update([
+                'status' => 'paid',
+            ]);
+            Session::flash('success', 'Transaction Status updated.');
+        }
 
         return response()->json([
             'success' => true,
@@ -421,9 +481,20 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function return_confirm(string $id)
     {
-        //
+        $order = Order::find($id);
+
+        if (!$order) {
+            return response()->json(['success' => false, 'message' => 'Order not found']);
+        }
+
+        // Update the order status
+        $order->return_confirm = 1;
+        $order->save();
+
+        Session::flash('success', ' Order return confirmation done.');
+        return redirect()->back();
     }
 
     /**
@@ -444,42 +515,19 @@ class OrderController extends Controller
 
     public function orderInvoice($id)
     {
+
        // ini_set('max_execution_time',3600);
         $order = Order::where('id', $id)->first();
-
         if (!$order) {
             return 'Order not found';
         }
+        else{
+            $pdf= PDF::loadView('admin.order.invoice',['order'=>$order]);
+            // $pdf->SetWatermarkText('DRAFT');
+            // $pdf->showWatermarkText = true;
+            return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
+        }
 
-        $pdf= PDF::loadView('invoice',['order'=>$order],[],
-            [
-                'mode'                 => '',
-                'format'               => 'A5',
-                'default_font_size'    => '10',
-                'margin_left'          => 8,
-                'margin_right'         => 8,
-                'margin_top'           => 10,
-                'margin_bottom'        => 10,
-                'margin_header'        => 0,
-                'margin_footer'        => 0,
-                'orientation'          => 'P',
-                'title'                => 'Koohen',
-                'author'               => 'koohen Ecommerce',
-                'watermark'            => 'KOOHEN',
-                'show_watermark'       => false,
-                'watermark_font'       => 'sans-serif',
-                'display_mode'         => 'fullpage',
-                'watermark_text_alpha' => 0.1,
-                'custom_font_dir'      => '',
-                'custom_font_data'     => [],
-                'auto_language_detection'  => false,
-                'temp_dir'               => rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR),
-                'pdfa'          => false,
-                'pdfaauto'      => false,
-            ]
-        );
-
-        return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
     }
 
 
@@ -488,4 +536,6 @@ class OrderController extends Controller
         $order = Order::with('customer', 'order_item', 'order_item.product', 'order_item.product_sizes')->where('id', $id)->first();
         return view('admin.order.print-invoice', compact('order'));
     }
+
+
 }

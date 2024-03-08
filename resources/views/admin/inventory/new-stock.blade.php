@@ -24,9 +24,21 @@
                     </div>
 
                     <div class="col-md-12 mb-2">
-                        <label for="new_stock" class="form-label">Quantity<span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="new_stock" name="new_stock" value="0">
+                        <label for="purchase_date" class="form-label">Purchase Date</label>
+                        <input type="date" class="form-control " id="purchase_date" name="purchase_date" >
+                      </div>
+
+                    <div class="col-md-6 mb-2">
+                        <label for="size" class="form-label">Size ---- Balance ---- New<span class="text-danger">*</span></label>
+                     <div id="input_container">
+
+                     </div>
                     </div>
+
+                    {{-- <div class="col-md-6 mb-2">
+                        <label for="new_stock" class="form-label">Quantity<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control new_stock" id="new_stock" name="new_stock" value="0">
+                    </div> --}}
 
                     {{-- <div class="col-12 mb-2">
                       <div class="form-check ml-20">

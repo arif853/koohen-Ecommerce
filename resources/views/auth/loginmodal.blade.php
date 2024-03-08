@@ -7,7 +7,7 @@
                     <div class=" mx-auto my-auto card-login">
                         <div class="auth-header text-center">
                             <div class="codex-brand"><a href="#">
-                                <img class="img-fluid light-logo" width="100" src="{{asset('admin/assets/imgs/theme/logo.svg')}}" alt="Evara"></a>
+                                <img class="img-fluid light-logo" width="100" src="{{asset('frontend/assets/imgs/Kohen_Logo_Main.png')}}" alt="Evara"></a>
                             </div>
                             <h3>Welcome back </h3>
                             <h6>Login to access dashboard.</h6>
@@ -39,7 +39,7 @@
                                 </div> <!-- form-group// -->
                                 <div class="mb-3">
                                     <a href="{{ route('forget.password.get') }}" class="float-end font-sm text-muted">Forgot password?</a>
-                                 
+
 
                                     <label class="form-check">
                                         <input type="checkbox" class="form-check-input" checked=""  name="remember">

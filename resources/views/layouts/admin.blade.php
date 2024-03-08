@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>@yield('title') - Evara</title>
+    <title>@yield('title') - Koohen</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -127,11 +127,7 @@
     @stack('supplier')
     @stack('zone')
     @stack('coupons_type')
-    @stack('products_search')
-    @stack('customer_filter')
-    @stack('supplier_filter')
-    @stack('product_features')
-    @stack('offers')
+    @stack('report')
 
     <script>
         $(document).ready(function() {

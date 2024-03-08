@@ -64,14 +64,14 @@
                                             @endif
 
                                             <td>{{$product->updated_at}}</td>
-                                            <td>{{$product->stock}}</td>
+                                            <td>{{$product->inStock}}</td>
                                             <td>{{ $product->soldQuantity }}</td>
                                             @php
-                                                $stock_balance = $product->stock - $product->soldQuantity;
+                                                $stock_balance = $product->inStock - $product->soldQuantity;
                                             @endphp
                                             <td>
-                                                @if ($stock_balance > 0 )
-                                                {{$stock_balance}}
+                                                @if ($product->balance > 0 )
+                                                {{$product->balance}}
                                                 @else
                                                 <span class="text-danger"> Out of Stock</span>
                                                 @endif
@@ -92,10 +92,6 @@
 
 </div>
 @include('admin.inventory.new-stock')
-
-<h6>It is not the man who has too little, but the man who craves more, that is poor. - Seneca</h6>
-<h6>I have not failed. I've just found 10,000 ways that won't work. - Thomas Edison</h6>
-
 
 @endsection
 @push('product')
@@ -119,12 +115,44 @@
                 id: product,
             },
             success: function (response) {
-                // console.log(response);
-                // console.log(response.supplier.supplier_name);
-                $('#product_id').val(response.id);
-                $('#old_stock').val(response.stock);
-                $('#product_name').val(response.product_name);
-                $('#supplier').val(response.supplier.supplier_name);
+                console.log(response.stock);
+
+                // Update other fields
+                $('#product_id').val(response.product.id);
+                $('#old_stock').val(response.stock ? response.stock.inStock : 0);
+                $('#product_name').val(response.product.product_name);
+                $('#supplier').val(response.product.supplier.supplier_name);
+
+
+                // Create and append input fields for each size
+                var inputContainer = $('#input_container');
+                inputContainer.empty();
+
+                var i = 0;
+                var balanceQuantity = 0;
+                // Create and append input fields for each size
+                $.each(response.product.sizes, function (index, size) {
+
+                    $.each(response.stock, function (index, stock) {
+                        // Check if stock information is available for the size
+                        if (stock.size_id === size.id) {
+                            // Calculate balance quantity
+                            balanceQuantity = stock.inStock - stock.outStock;
+                            console.log(balanceQuantity);
+                        }
+                    });
+
+                    // sizeSelect.append('<option value="' + size.id + '">' + size.size_name + '</option>');
+                    var inputField = '<div class="input-group mb-3">' +
+                                        '<input type="hidden" value="'+size.id+'" name=size['+i+']>'+
+                                        '<label class="input-group-text" for="quantity_' + size.id + '">'+ size.size_name + '</label>' +
+                                        '<input type="text" readonly class="form-control" id="" name="" value="' + balanceQuantity + '">' +
+                                        '<input type="number" class="form-control" id="quantity_' + i + '" name="quantity[' + i + ']" value="0">' +
+                                    '</div>';
+                    inputContainer.append(inputField);
+
+                    i++;
+                });
 
             }
         });
