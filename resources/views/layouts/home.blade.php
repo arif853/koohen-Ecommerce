@@ -33,12 +33,6 @@
     <link rel="stylesheet" href="{{asset('frontend/assets/css/helper.css')}}">
 
     <!--Font-->
-    <style>
-        .product-cart-wrap .product-img-action-wrap .product-img{
-            width: 100%;
-            height: 280px;
-        }
-    </style>
     @livewireStyles
 </head>
 
@@ -55,8 +49,8 @@
                                 $settings = DB::table('settings')->first();
                             @endphp
                             <ul>
-                                <li><i class="far fa-phone-alt"></i> <a href="tel:<?php echo $settings->secondary_mobile_no?>">{{$settings->secondary_mobile_no}}</a></li>
-                                <li><i class="fal fa-envelope"></i><a  href="mailto:<?php echo $settings->email?>">{{$settings->email}}</a></li>
+                                <li><i class="far fa-phone-alt"></i> <a href="tel:{{$settings->secondary_mobile_no}}">{{$settings->secondary_mobile_no}}</a></li>
+                                <li><i class="fal fa-envelope"></i><a  href="mailto:{{$settings->email}}">{{$settings->email}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -171,6 +165,7 @@
                         <!--Main Menu Bar-->
                     </div>
                     <style>
+
                     </style>
                     <div class="hotline d-none d-lg-block">
                         <div class="header-action-2 header">
@@ -340,7 +335,7 @@
                         @endauth
                     </div>
                     <div class="single-mobile-header-info">
-                        <a href="tel:<?php echo $settings->secondary_mobile_no?>">{{ $settings->secondary_mobile_no }}</a>
+                        <a href="tel:{{ $settings->secondary_mobile_no }}">{{ $settings->secondary_mobile_no }}</a>
                     </div>
                     <div class="single-mobile-header-info mt-30">
                         <a  href="{{route('contactus')}}"> Our location: <p>{{ $settings->company_address }}</p></a>
@@ -424,8 +419,8 @@
                                 <a href="https://wa.link/3qi05h"><span><i class="fab fa-whatsapp"></i></span> {{ $settings->primary_mobile_no }}</a>
 
                             </li>
-                            <li><a href="tel:<?php echo $settings->secondary_mobile_no?>"><span><i class="fal fa-phone-alt"></i></span> {{ $settings->secondary_mobile_no }}</a></li>
-                            <li><a href="mailto:<?php echo $settings->email?>"><span><i class="fal fa-envelope"></i></span> {{ $settings->email }}</a></li>
+                            <li><a href="tel:{{ $settings->secondary_mobile_no }}"><span><i class="fal fa-phone-alt"></i></span> {{ $settings->secondary_mobile_no }}</a></li>
+                            <li><a href="mailto:{{ $settings->email }}"><span><i class="fal fa-envelope"></i></span> {{ $settings->email }}</a></li>
                             <li><a href="#"><span><i class="fal fa-map-marker-alt"></i></span> {{ $settings->company_address }}</a></li>
 
                         </ul>
@@ -690,14 +685,6 @@
             $("input[type='text']").focus();
         });
 
-<<<<<<< HEAD
-        var searchInput = $('#search-input');
-        var showProductDiv = $('#show-product');
-        var loadingIndicator = $('#loading-indicator');
-
-        searchInput.keyup(function(event) {
-            var searchTerm = searchInput.val().trim();
-=======
         // var searchInput = $('#search-input');
 
 
@@ -706,7 +693,6 @@
             var loadingIndicator = $('#loading-indicator');
             var searchTerm = searchInput.val().trim();
             console.log(searchTerm);
->>>>>>> 7b889c3e71bd880253d355f55631a2d5e36efbc8
 
             // Check if the search term is not empty
             if (searchTerm !== '') {
