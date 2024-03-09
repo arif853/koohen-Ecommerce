@@ -129,7 +129,7 @@
                     <span class="text">Settings</span>
                 </a>
                 <div class="submenu">
-                    <a href="{{ route('settings.index') }}">Contact Info</a>
+                    <a href="{{ route('settings.index') }}">Website Settings</a>
                     {{-- <a href="#">Contact Info</a> --}}
                 </div>
             </li>
