@@ -115,31 +115,22 @@
                    <!--Related Product-->
                    <!--Advertise-->
                    {{-- @foreach ($adsbanner as $ads)
-                   {{-- @if ($adsbanner)
-                   @foreach ($adsbanner as $ads)
-                   {{-- @foreach ($adsbanner as $ads)
 
                    @endforeach
-                   @if ($ads)
                    @if($ads->is_featured == 1 )
-                   <div class="banner-img banner-big wow fadeIn animated f-none">
-                       <img src="{{asset('storage/'.$ads->image)}}" alt="$ads->title">
-                       <div class="banner-text d-md-block d-none">
-                           <h4 class="mb-15 text-brand">{{$ads->header}}</h4>
-                           <h1 class="fw-600 mb-20" style="width: 450px; color:#fff">{{$ads->title}}</h1>
+                    <div class="banner-img banner-big wow fadeIn animated f-none">
+                        <img src="{{asset('storage/'.$ads->image)}}" alt="$ads->title">
+                        <div class="banner-text d-md-block d-none">
+                            <h4 class="mb-15 text-brand">{{$ads->header}}</h4>
+                            <h1 class="fw-600 mb-20" style="width: 450px; color:#fff">{{$ads->title}}</h1>
 
-                           @if($ads->shop_url != null)
-                           <a href="{{$ads->shop_url}}" class="btn">Shop Now <i class="fi-rs-arrow-right"></i></a>
-                           @endif
-                       </div>
-                   </div>
+                            @if($ads->shop_url != null)
+                            <a href="{{$ads->shop_url}}" class="btn">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                            @endif
+                        </div>
+                    </div>
 
-                   @endif
-                   @endif
-
-                   @endif --}}
-                    {{-- @endif  --}}
-                    {{-- @endif --}}
+                    @endif --}}
                    <!--Advertise-->
                 </div>
              </div>

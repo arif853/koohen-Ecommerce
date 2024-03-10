@@ -309,7 +309,7 @@
             contentType: false,
             success: function (res) {
                 if (res.status == 200) {
-                  
+                    $("#brandEditForm").modal('hide');
                     location.reload();
                     // $.Notification.autoHideNotify('success', 'top right', 'Success', res.message);
                 }

@@ -11,6 +11,7 @@
     <meta property="og:type" content="">
     <meta property="og:url" content="">
     <meta property="og:image" content="">
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('admin/assets/imgs/favicon_48x48.ico')}}">
@@ -127,6 +128,7 @@
     @stack('zone')
     @stack('coupons_type')
     @stack('report')
+    @stack('products_search')
 
     <script>
         $(document).ready(function() {
@@ -170,14 +172,7 @@
                     $('#variantFields').hide();
                 }
             });
-            $('.offer_checkbox input[type="checkbox"]').change(function() {
-        // If it's checked, show the variantFields; otherwise, hide it
-        if ($(this).is(':checked')) {
-            $('#variantFields').show();
-        } else {
-            $('#variantFields').hide();
-        }
-    });
+
             $('#percentage_checkbox').change(function() {
                 if ($(this).is(':checked')) {
                     $('.offer-price').show();

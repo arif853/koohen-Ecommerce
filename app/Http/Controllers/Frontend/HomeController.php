@@ -176,7 +176,6 @@ class HomeController extends Controller
         //
     }
 
-
     public function searchBar(Request $request)
     {
         $searchTerm = $request->input('search');
