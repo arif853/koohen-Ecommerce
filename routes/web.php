@@ -235,11 +235,8 @@ Route::controller(ProductController::class)->middleware('auth')->group(function 
     Route::delete('/dashboard/products/thumb_destroy/{id}', 'thumb_destroy')->name('productsthumb.destroy');
 
     Route::get('/dashboard/products/{slug}', 'show')->name('products.show');
-<<<<<<<<< Temporary merge branch 1
     Route::post('/dashboard/products/search', 'ProductFilter')->name('products.filter');
 
-=========
->>>>>>>>> Temporary merge branch 2
 });
 
 //Order
