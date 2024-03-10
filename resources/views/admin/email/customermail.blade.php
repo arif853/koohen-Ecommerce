@@ -69,7 +69,7 @@
                     <p>Email: <a href="#">{{$shipping->s_email}}</a></p>
                 </p>
             </div>
-            <p>Track Your order <a href="https://www.koohen.com/trackorder" class="">Click on.</a></p>
+            <p>User your phone or email as usename and phone number as password for login. <a href="https://www.koohen.com" class="">Click on.</a></p>
         </div>
     </div>
 </body>

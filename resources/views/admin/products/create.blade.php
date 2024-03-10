@@ -550,4 +550,3 @@
 </script>
 <script src="{{asset('admin/assets/js/script.js')}}"></script>
 @endsection
-

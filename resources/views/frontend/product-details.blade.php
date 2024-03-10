@@ -115,6 +115,9 @@
                    <!--Related Product-->
                    <!--Advertise-->
                    {{-- @foreach ($adsbanner as $ads)
+                   {{-- @if ($adsbanner)
+                   @foreach ($adsbanner as $ads)
+                   {{-- @foreach ($adsbanner as $ads)
 
                    @endforeach
                    @if ($ads)
@@ -135,8 +138,8 @@
                    @endif
 
                    @endif --}}
-
                     {{-- @endif  --}}
+                    {{-- @endif --}}
                    <!--Advertise-->
                 </div>
              </div>

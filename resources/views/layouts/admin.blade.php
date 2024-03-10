@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>@yield('title') - Evara</title>
+    <title>@yield('title') - Koohen</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +11,6 @@
     <meta property="og:type" content="">
     <meta property="og:url" content="">
     <meta property="og:image" content="">
-
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('admin/assets/imgs/favicon_48x48.ico')}}">
@@ -127,7 +126,7 @@
     @stack('supplier')
     @stack('zone')
     @stack('coupons_type')
-    @stack('products_search')
+    @stack('report')
 
     <script>
         $(document).ready(function() {
@@ -171,7 +170,14 @@
                     $('#variantFields').hide();
                 }
             });
-
+            $('.offer_checkbox input[type="checkbox"]').change(function() {
+        // If it's checked, show the variantFields; otherwise, hide it
+        if ($(this).is(':checked')) {
+            $('#variantFields').show();
+        } else {
+            $('#variantFields').hide();
+        }
+    });
             $('#percentage_checkbox').change(function() {
                 if ($(this).is(':checked')) {
                     $('.offer-price').show();
