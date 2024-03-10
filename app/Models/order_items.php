@@ -25,10 +25,7 @@ class order_items extends Model
 
         return $this->belongsTo(Size::class,'size_id');
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> 7b889c3e71bd880253d355f55631a2d5e36efbc8
     public function product_colors(){
 
         return $this->belongsTo(Color::class,'color_id');

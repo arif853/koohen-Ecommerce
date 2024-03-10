@@ -86,41 +86,10 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function CustomerFilter(Request $request)
+    public function show(string $id)
     {
-        $customerName = $request->customerName;
-        $customerPhone = $request->customerPhone;
-        $customerEmail = $request->customerEmail;
-    
-        // Debugging output to see the received parameters
-      //  dd($customerName, $customerPhone, $customerEmail);
-      
-        $query = Customer::query();
-    
-        if ($customerName) {
-            $query->where(function ($q) use ($customerName) {
-                $q->where('firstName', 'like', "%$customerName%")
-                  ->orWhere('lastName', 'like', "%$customerName%");
-            });
-        }
-      
-        if ($customerPhone) {
-            $query->where('phone', 'like', "%$customerPhone%");
-        }
-    
-        if ($customerEmail) {
-            $query->where('email', 'like', "%$customerEmail%");
-        }
-        
-        // Debugging output to see the generated query
-      //  dd($query->toSql(), $query->getBindings());
-    
-        $customerFilters = $query->get();
-       // dd(json_encode($customrFilters));
-        return response()->json($customerFilters);
+        //
     }
-    
-    
 
     /**
      * Show the form for editing the specified resource.

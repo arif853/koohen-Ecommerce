@@ -68,7 +68,7 @@
                             </div>
                             <figcaption class="card-body text-center">
                                 <h6 class="card-title m-0">{{$brand->brand_name}}</h6>
-                                <a href="#"> {{ $brand->product()->count() }} items </a>
+                                <a href="#"> 398 items </a>
                             </figcaption>
                         </figure>
                     </div> <!-- col.// -->

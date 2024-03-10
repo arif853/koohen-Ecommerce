@@ -57,16 +57,17 @@
                     {{-- <a href="{{route('customer.profile')}}">Customer profile</a> --}}
                 </div>
             </li>
+
             <li class="menu-item has-submenu">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-monetization_on"></i>
                     <span class="text">Transactions</span>
                 </a>
-                <div class="submenu">
-                    <a href="{{route('transaction.index')}}">Transactions list</a>
-                    {{-- <a href="{{route('customer.profile')}}">Customer profile</a> --}}
-                </div>
+                {{-- <div class="submenu">
+                    <a href="page-transactions-1.html">Transaction 1</a>
+                    <a href="page-transactions-2.html">Transaction 2</a>
+                    <a href="page-transactions-details.html">Transaction Details</a>
+                </div> --}}
             </li>
-          
             <li class="menu-item has-submenu">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-trending_up"></i>
                     <span class="text">Promotions</span>
@@ -82,7 +83,7 @@
                 </a>
                <div class="submenu">
                     <a href="{{route('category_feature')}}">Category</a>
-                    <a href="{{ route('product_feature') }}">Products</a>
+                    <a href="page-account-register.html">Products</a>
                 </div>
             </li>
             <li class="menu-item has-submenu">
@@ -129,7 +130,7 @@
                     <span class="text">Settings</span>
                 </a>
                 <div class="submenu">
-                    <a href="{{ route('settings.index') }}">Website Settings</a>
+                    <a href="{{ route('settings.index') }}">Contact Info</a>
                     {{-- <a href="#">Contact Info</a> --}}
                 </div>
             </li>

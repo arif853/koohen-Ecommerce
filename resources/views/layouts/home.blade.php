@@ -33,12 +33,6 @@
     <link rel="stylesheet" href="{{asset('frontend/assets/css/helper.css')}}">
 
     <!--Font-->
-    <style>
-        .product-cart-wrap .product-img-action-wrap .product-img{
-            width: 100%;
-            height: 280px;
-        }
-    </style>
     @livewireStyles
 </head>
 
@@ -171,6 +165,7 @@
                         <!--Main Menu Bar-->
                     </div>
                     <style>
+
                     </style>
                     <div class="hotline d-none d-lg-block">
                         <div class="header-action-2 header">
@@ -690,14 +685,6 @@
             $("input[type='text']").focus();
         });
 
-<<<<<<< HEAD
-        var searchInput = $('#search-input');
-        var showProductDiv = $('#show-product');
-        var loadingIndicator = $('#loading-indicator');
-
-        searchInput.keyup(function(event) {
-            var searchTerm = searchInput.val().trim();
-=======
         // var searchInput = $('#search-input');
 
 
@@ -706,7 +693,6 @@
             var loadingIndicator = $('#loading-indicator');
             var searchTerm = searchInput.val().trim();
             console.log(searchTerm);
->>>>>>> 7b889c3e71bd880253d355f55631a2d5e36efbc8
 
             // Check if the search term is not empty
             if (searchTerm !== '') {
