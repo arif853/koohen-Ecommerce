@@ -128,6 +128,7 @@
     @stack('zone')
     @stack('coupons_type')
     @stack('report')
+    @stack('products_search')
 
     <script>
         $(document).ready(function() {

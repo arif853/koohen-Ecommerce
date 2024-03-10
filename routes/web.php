@@ -232,6 +232,8 @@ Route::controller(ProductController::class)->middleware('auth')->group(function 
     Route::delete('/dashboard/products/image_destroy/{id}', 'image_destroy')->name('productsimage.destroy');
     Route::delete('/dashboard/products/thumb_destroy/{id}', 'thumb_destroy')->name('productsthumb.destroy');
 
+    Route::post('/dashboard/product/products_filter', 'ProductFilter')->name('products.filter');
+
     Route::get('/dashboard/products/{slug}', 'show')->name('products.show');
 });
 
