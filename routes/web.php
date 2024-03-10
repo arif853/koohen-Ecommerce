@@ -228,18 +228,19 @@ Route::controller(ProductController::class)->middleware('auth')->group(function 
     Route::get('/dashboard/products', 'index')->name('products.index');
     Route::get('/dashboard/products/create', 'create')->name('products.create');
     Route::post('/dashboard/products/store', 'store')->name('products.store');
+    Route::post('/dashboard/products_filter', 'ProductFilter')->name('products.filter');
     Route::get('/dashboard/products/edit/{id}', 'edit')->name('products.edit');
     Route::patch('/dashboard/products/update/{id}', 'update')->name('products.update');
     Route::delete('/dashboard/products/destroy/{id}', 'destroy')->name('products.destroy');
     Route::delete('/dashboard/products/image_destroy/{id}', 'image_destroy')->name('productsimage.destroy');
     Route::delete('/dashboard/products/thumb_destroy/{id}', 'thumb_destroy')->name('productsthumb.destroy');
-
-    Route::get('/dashboard/products/{slug}', 'show')->name('products.show');
+    Route::get('/dashboard/products/{slug}', 'ProductFilter')->name('products.show');
 });
 
 //Order
 Route::controller(OrderController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/orders', 'index')->name('order.index');
+    Route::get('/dashboard/orders/filter', 'OrderFilter')->name('order.filters');
     Route::get('/dashboard/orders/pending_order', 'pending_order')->name('order.pending');
     Route::get('/dashboard/orders/completed_order', 'completed_order')->name('order.completed');
     Route::get('/dashboard/orders/orders_track', 'order_track')->name('order.track');

@@ -120,34 +120,7 @@
                     $('#EditvariantFields').hide();
                 }
             });
-            $('#OfferTypeForm').on('submit', function(event) {
-                event.preventDefault();
-                let offerName = $('#Offer_typeName').val();
-                $.ajax({
-                    url: "{{ route('offerstype.create') }}",
-                    method: "POST",
-                    data: {
-                        offer_type_name: offerName
-                    },
-                    success: function(data) {
-                        console.log(data);
-                        if (data.status == 'success') { // Check for 'success' instead of 200
-                            $('#OfferTypeForm')[0].reset();
-                            $('#typeModal').modal('hide'); // Correct modal ID
-                            $.Notification.autoHideNotify('success', 'top right', 'Excellent!!',
-                                data.message);
-                            location.reload();
-                        } else {
-                            $.Notification.autoHideNotify('danger', 'top right', 'Danger!!',
-                                data.message);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                    }
-                });
-            });
-
+           
             $('#OfferProductForm').on('submit', function(event) {
                 event.preventDefault();
                 let formData = new FormData(this); // Use 'FormData', capitalize the 'D'
@@ -180,7 +153,7 @@
             $('.edit-offer').on('click', function(e) {
                 e.preventDefault();
                 var offerId = $(this).data('offer-id');
-
+console.log(offerId);
                 $.ajax({
                     url: '/dashboard/promotion/edit_offers_data',
                     method: 'GET',
@@ -188,6 +161,8 @@
                         id: offerId,
                     },
                     success: function(response) {
+                        console.log(response);
+                        $('#offer_name').val
                         $('#offer_id').val(response.id);
                         $('#OffersName').val(response.offer_name);
                         $('#offer_percent').val(response.offer_percent);

@@ -8,11 +8,11 @@
           <h5 class="modal-title" id="exampleModalLabel">Type of Offer</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="category_form" id="category_form"></div>
-        <form id="OfferTypeForm">
-          @csrf
+      
+        <form method="post" action="{{ route('offerstype.create') }}">
+           @csrf
             <div class="modal-body">
-                <form class="row g-3">
+                <div class="row g-3">
                     <div class="col-md-12 mb-4">
                       <label for="validationDefault01" class="form-label">Offer type Name <span class="text-danger">*</span></label>
                       <input type="text" class="form-control" id="Offer_typeName" required name="offer_type_name">
@@ -21,7 +21,7 @@
                         <button type="submit" class="btn btn-primary">Save</button>
                       {{-- <button class="btn btn-primary" type="submit">Submit form</button> --}}
                     </div>
-                </form>
+                </div>
             </div>
         </form>
         {{-- <div class="modal-footer">

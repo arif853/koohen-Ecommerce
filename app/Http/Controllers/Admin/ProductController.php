@@ -67,7 +67,7 @@ class ProductController extends Controller
         $startDate = $request->input('created_at');
         $endDate = $request->input('updated_at');
 
-        $query = Products::query()->with(['overviews', 'product_infos', 'product_images', 'product_extras', 'tags', 'sizes', 'colors', 'brand', 'category']);
+        $query = Products::query()->with(['overviews', 'product_infos', 'product_images', 'product_extras', 'tags', 'sizes', 'colors', 'brand', 'category',  'product_stocks',]);
 
         $query->where(function ($query) use ($product_name, $productSku, $startDate, $endDate) {
             if ($product_name) {
@@ -89,6 +89,10 @@ class ProductController extends Controller
             }
         });
         $products = $query->get();
+        foreach($products as $product)
+        {
+            $product->balance = $product->product_stocks->sum('inStock') - $product->product_stocks->sum('outStock');
+        }
         return response()->json(['products' => $products]);
     }
     

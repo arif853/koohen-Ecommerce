@@ -39,7 +39,6 @@ class CouponController extends Controller
             'end_date' => 'required|string',
             'quantity' => 'required|integer',
             'discounts_type' => 'required',
-            'free_shipping' => 'required',
             'status' => 'required',
         ];
         $validator = Validator::make($request->all(), $rules);

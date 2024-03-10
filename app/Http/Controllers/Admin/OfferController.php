@@ -30,6 +30,7 @@ class OfferController extends Controller
      */
     public function create_offer_type(Request $request)
     {
+       
         $rules = [
             'offer_type_name' => 'required|string|max:255',
         ];
@@ -47,11 +48,8 @@ class OfferController extends Controller
             OfferType::create([
                 'offer_type_name' => $request->offer_type_name,
             ]);
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Offer Type Created Successfully .!',
-            ]);
+            Session::flash('success', 'Offer Type Created successfully.');
+            return redirect()->route('offers.index');
         }
     }
 
