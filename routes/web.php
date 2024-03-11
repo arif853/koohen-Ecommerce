@@ -21,7 +21,6 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\CouponController;
-use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\VarientController;
@@ -31,17 +30,16 @@ use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\SubcategoryController;
-use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\TrackorderController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
-use App\Http\Controllers\Admin\FeatureProductsController;
+use App\Http\Controllers\Admin\PurchaseController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\ForgotPasswordController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
@@ -234,7 +232,10 @@ Route::controller(ProductController::class)->middleware('auth')->group(function 
     Route::delete('/dashboard/products/destroy/{id}', 'destroy')->name('products.destroy');
     Route::delete('/dashboard/products/image_destroy/{id}', 'image_destroy')->name('productsimage.destroy');
     Route::delete('/dashboard/products/thumb_destroy/{id}', 'thumb_destroy')->name('productsthumb.destroy');
-    Route::get('/dashboard/products/{slug}', 'ProductFilter')->name('products.show');
+
+    Route::post('/dashboard/product/products_filter', 'ProductFilter')->name('products.filter');
+
+    Route::get('/dashboard/products/{slug}', 'show')->name('products.show');
 });
 
 //Order
@@ -258,18 +259,15 @@ Route::controller(CustomerController::class)->middleware('auth')->group(function
     Route::get('/dashboard/customers', 'index')->name('customer.index');
     Route::get('/dashboard/customers/create_customer', 'create')->name('customer.create');
     Route::get('/dashboard/customers/Customer_profile', 'customer_details')->name('customer.profile');
-    Route::get('/dashboard/customers/customer_filter', 'CustomerFilter')->name('customer.filter');
+    // Route::get('/dashboard/category/create', 'create')->name('category.create');
 });
 
 //offers
 Route::controller(OfferController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/promotion/offers', 'index')->name('offers.index');
-    Route::post('/dashboard/promotion/create_offers', 'create_offer_type')->name('offerstype.create');
-    Route::post('/dashboard/promotion/offers_data', 'SaveOfferData')->name('offer.saved');
-    Route::get('/dashboard/promotion/edit_offers_data', 'EditOfferData')->name('offer.edit');
-    Route::post('/dashboard/promotion/update_offers_data', 'UpdateOfferData')->name('offer.update');
-    Route::delete('/dashboard/promotion/offers_data', 'delteOfferData')->name('offer.destroy');
-   
+    // Route::get('/dashboard/customers/create_customer', 'create')->name('customer.create');
+    // Route::get('/dashboard/customers/Customer_profile', 'customer_details')->name('customer.profile');
+    // Route::get('/dashboard/category/create', 'create')->name('category.create');
 });
 
 //Coupons
@@ -300,7 +298,7 @@ Route::controller(SupplierController::class)->middleware('auth')->group(function
     Route::get('/dashboard/supplier/edit', 'edit')->name('supplier.edit');
     Route::post('/dashboard/supplier/update', 'update')->name('supplier.update');
     Route::delete('/dashboard/supplier/destroy', 'destroy')->name('supplier.destroy');
-    Route::get('/dashboard/supplier/filter', 'SupplierFilter')->name('supplier.filter');
+
 });
 
 //setting
@@ -329,25 +327,9 @@ Route::controller(FeatureCategoryController::class)->middleware('auth')->group(f
     Route::get('/dashboard/category_feature/edit', 'edit')->name('category_feature.edit');
     Route::post('/dashboard/category_feature/update', 'update')->name('category_feature.update');
     // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
-    Route::delete('/dashboard/category_feature/destroy', 'destroy')->name('category_feature.destroy');
+    Route::get('/dashboard/category_feature/destroy', 'destroy')->name('category_feature.destroy');
 });
-// Feature product 
-Route::controller(FeatureProductsController::class)->middleware('auth')->group(function () {
-    Route::get('/dashboard/product_feature', 'index')->name('product_feature');
-    Route::post('/dashboard/product_feature/store', 'store')->name('product_feature.store');
-    Route::get('/dashboard/product_feature/edit', 'edit')->name('product_feature.edit');
-    Route::post('/dashboard/product_feature/update', 'update')->name('product_feature.update');
-    // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
-    Route::delete('/dashboard/product_feature/destroy', 'destroy')->name('product_feature.destroy');
-});
-Route::controller(TransactionController::class)->middleware('auth')->group(function () {
-    Route::get('/dashboard/transaction', 'index')->name('transaction.index');
-  //  Route::post('/dashboard/product_feature/store', 'store')->name('product_feature.store');
-  //  Route::get('/dashboard/product_feature/edit', 'edit')->name('product_feature.edit');
-  //  Route::post('/dashboard/product_feature/update', 'update')->name('product_feature.update');
-  //  // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
-  //  Route::delete('/dashboard/product_feature/destroy', 'destroy')->name('product_feature.destroy');
-});
+
 //Slider
 Route::controller(SliderController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/slider', 'index')->name('slider');
