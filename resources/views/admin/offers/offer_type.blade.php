@@ -15,7 +15,7 @@
                 <div class="row g-3">
                     <div class="col-md-12 mb-4">
                       <label for="validationDefault01" class="form-label">Offer type Name <span class="text-danger">*</span></label>
-                      <input type="text" class="form-control" id="validationDefault01" required>
+                      <input type="text" class="form-control" id="offer_type_name"  name="offer_type_name">
                     </div>
                     <div class="col-12 d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary">Save</button>
