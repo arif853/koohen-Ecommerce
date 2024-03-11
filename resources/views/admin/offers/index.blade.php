@@ -153,7 +153,7 @@
             $('.edit-offer').on('click', function(e) {
                 e.preventDefault();
                 var offerId = $(this).data('offer-id');
-console.log(offerId);
+
                 $.ajax({
                     url: '/dashboard/promotion/edit_offers_data',
                     method: 'GET',

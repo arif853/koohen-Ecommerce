@@ -60,42 +60,7 @@ class ProductController extends Controller
         return view('admin.products.index',compact('products'));
     }
 
-    public function ProductFilter(Request $request)
-    {
-        $product_name = $request->input('product_name');
-        $productSku = $request->input('sku');
-        $startDate = $request->input('created_at');
-        $endDate = $request->input('updated_at');
-
-        $query = Products::query()->with(['overviews', 'product_infos', 'product_images', 'product_extras', 'tags', 'sizes', 'colors', 'brand', 'category',  'product_stocks',]);
-
-        $query->where(function ($query) use ($product_name, $productSku, $startDate, $endDate) {
-            if ($product_name) {
-                $query->where('product_name', 'like', "%{$product_name}%");
-            }
-            if ($productSku) {
-                $query->orWhere('sku', 'like', "%{$productSku}%");
-            }
-            if ($startDate && $endDate) {
-                $query
-                    ->whereBetween('created_at', [$startDate, $endDate])
-                    ->orWhereBetween('updated_at', [$startDate, $endDate])
-                    ->whereDate('created_at', $startDate)
-                    ->orWhereDate('updated_at', $endDate);
-            } elseif ($startDate) {
-                $query->whereDate('created_at', $startDate);
-            } elseif ($endDate) {
-                $query->whereDate('updated_at', $endDate);
-            }
-        });
-        $products = $query->get();
-        foreach($products as $product)
-        {
-            $product->balance = $product->product_stocks->sum('inStock') - $product->product_stocks->sum('outStock');
-        }
-        return response()->json(['products' => $products]);
-    }
-    
+   
     
 
     /**
@@ -690,6 +655,41 @@ class ProductController extends Controller
             // Return a JSON response indicating failure
             return response()->json(['error' => 'Product image not found'], Response::HTTP_NOT_FOUND);
         }
+    }
+    public function ProductFilter(Request $request)
+    {
+        $product_name = $request->input('product_name');
+        $productSku = $request->input('sku');
+        $startDate = $request->input('created_at');
+        $endDate = $request->input('updated_at');
+
+        $query = Products::query()->with(['overviews', 'product_infos', 'product_images', 'product_extras', 'tags', 'sizes', 'colors', 'brand', 'category',  'product_stocks',]);
+
+        $query->where(function ($query) use ($product_name, $productSku, $startDate, $endDate) {
+            if ($product_name) {
+                $query->where('product_name', 'like', "%{$product_name}%");
+            }
+            if ($productSku) {
+                $query->orWhere('sku', 'like', "%{$productSku}%");
+            }
+            if ($startDate && $endDate) {
+                $query
+                    ->whereBetween('created_at', [$startDate, $endDate])
+                    ->orWhereBetween('updated_at', [$startDate, $endDate])
+                    ->whereDate('created_at', $startDate)
+                    ->orWhereDate('updated_at', $endDate);
+            } elseif ($startDate) {
+                $query->whereDate('created_at', $startDate);
+            } elseif ($endDate) {
+                $query->whereDate('updated_at', $endDate);
+            }
+        });
+        $products = $query->get();
+        foreach($products as $product)
+        {
+            $product->balance = $product->product_stocks->sum('inStock') - $product->product_stocks->sum('outStock');
+        }
+        return response()->json(['products' => $products]);
     }
     
 
