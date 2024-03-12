@@ -65,9 +65,26 @@
                             <span>৳{{$item->camp_price}} </span>
                             <span class="old-price">৳{{$item->regular_price}}</span>
                         </div>
+                        @php
+                            $balance = null;
+
+                            if ($item->product_id) {
+                                $product_stock = DB::table('product_stocks')->where('product_id', $item->product_id)->first();
+
+                                if ($product_stock) {
+                                    $balance = $product_stock->inStock - $product_stock->outStock;
+                                }
+                            }
+                        @endphp
+
+                        {{ $balance }}
                         <div>
                             <div class="text-center">
+                                {{-- @if($balance>0) --}}
                                 <a href="#" wire:click.prevent="store({{$item->product->id}})" onclick="cartNotify()"><button type="button" class="adto-cart-btn">Add To Cart</button></a>
+                                {{-- @else
+                                <p class="text-danger">Out of stock</p>
+                                @endif --}}
                             </div>
                         </div>
                     </div>
