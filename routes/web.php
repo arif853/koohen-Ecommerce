@@ -40,6 +40,7 @@ use App\Http\Controllers\Frontend\TrackorderController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
 use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\WebmessageController;
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\ForgotPasswordController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
@@ -372,7 +373,6 @@ Route::controller(InventoryController::class)->middleware('auth')->group(functio
 Route::controller(PurchaseController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/purchase', 'index')->name('purchase');
     Route::get('/dashboard/purchase/create', 'create')->name('purchase.create');
-
 });
 
 //Pos route
@@ -395,6 +395,17 @@ Route::controller(ReportController::class)->middleware('auth')->group(function()
     Route::get('/dashboard/reports/sale', 'saleReport')->name('sale.report');
     Route::get('/dashboard/report/sale_search', 'searchSale')->name('search.sale');
 });
+
+Route::controller(WebmessageController::class)->middleware('auth')->group(function(){
+
+});
+
+Route::post('/contact/webmessage/store' , [WebmessageController::class,'store'])->name('webmessage.store');
+Route::get('/contact/webmessage/destroy' ,  [WebmessageController::class,'destroy'])->name('webmessage.destroy');
+
+Route::get('/thankyou',function(){
+    return view('frontend.thankyou');
+})->name('thankyou');
 
 // reviews
 Route::get('/dashboard/reviews', function () {
