@@ -307,7 +307,7 @@ class CheckoutController extends Controller
         Mail::to('arifhossen853@gmail.com')->send( new AdminMail($order));
 
         Cart::instance('cart')->destroy();
-        return redirect()->route('shop')->with('success', 'Your order has been placed');
+        return redirect()->route('thankyou')->with('success', 'Your order has been placed');
     }
 
 

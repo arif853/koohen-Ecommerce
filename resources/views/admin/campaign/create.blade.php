@@ -114,7 +114,7 @@
                                                             <select name="product[]" id="product" class="select-nice" onchange="updateRegularPrice(this)">
                                                                 <option value="">-- Select Product --</option>
                                                                 @foreach ($products as $product)
-                                                                <option value="{{$product->id}}"  data-stock="{{$product->stock}}" data-regular-price ="{{$product->regular_price}}">{{$product->product_name}}</option>
+                                                                <option value="{{$product->id}}"  data-stock="{{$product->totalStock}}" data-regular-price ="{{$product->regular_price}}">{{$product->product_name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -165,20 +165,34 @@
     </div>
 </div>
 
-
+{{-- {{$products}} --}}
 @endsection
 @push('product')
 <script>
     var i = 1;
     function addfield(){
         // Assuming you have a variable 'products' containing the encoded product data
+        // var productData = {!! json_encode($products) !!};
+        // console.log(productData);
+        // // Generate product options dynamically
+        // var productOptions = '<option value="">-- Select Product --</option>';
+        // productData.forEach(function (product) {
+        //     productOptions += '<option value="' + product.id + '" data-stock="' + product.stock + '" data-regular-price="' + product.regular_price + '">' + product.product_name + '</option>';
+        // });
+
         var productData = {!! json_encode($products) !!};
+        // console.log(productData);
 
         // Generate product options dynamically
         var productOptions = '<option value="">-- Select Product --</option>';
-        productData.forEach(function (product) {
-            productOptions += '<option value="' + product.id + '" data-stock="' + product.stock + '" data-regular-price="' + product.regular_price + '">' + product.product_name + '</option>';
-        });
+
+        for (var productId in productData) {
+            if (productData.hasOwnProperty(productId)) {
+                var product = productData[productId];
+                productOptions += '<option value="' + product.id + '" data-stock="' + product.totalStock + '" data-regular-price="' + product.regular_price + '">' + product.product_name + '</option>';
+            }
+        }
+        // console.log(productOptions);
     i++;
     var data = '<div class="card">'+
                     '<div class="card-body">'+
@@ -251,7 +265,7 @@
 
     function syncAll() {
         var campaignOfferPercentage = parseFloat($("#camp_offer").val());
-        
+
         if (isNaN(campaignOfferPercentage)) {
             alert("Please enter a valid campaign offer percentage.");
             return;

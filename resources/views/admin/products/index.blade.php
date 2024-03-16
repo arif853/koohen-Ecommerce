@@ -20,28 +20,30 @@
 <div class="card mb-4">
     <header class="card-header">
         <h5 class="mb-3">Filter by</h5>
-        <form>
+        <form method="post" id="productSearchForm">
+            @csrf
             <div class="row">
                 <div class="col-md-3 mb-4">
-                    <label for="order_id" class="form-label">Product ID</label>
-                    <input type="text" placeholder="Type here" class="form-control" id="order_id">
+                    <label for="order_id" class="form-label">Product Name</label>
+                    <input type="text" placeholder="Type product name here" name="product_name" class="form-control">
                 </div>
                 <div class="col-md-3 mb-4">
-                    <label for="order_customer" class="form-label">Product Name</label>
-                    <input type="text" placeholder="Type here" class="form-control" id="order_customer">
+                    <label for="order_customer" class="form-label">Product SKU Code</label>
+                    <input type="text" placeholder="Type product SKU code here" name="sku" class="form-control">
                 </div>
-                <div class="col-md-3 mb-4">
-                    <label for="order_created_date" class="form-label">Brand</label>
-                    <input type="text" placeholder="Type here" class="form-control" id="order_created_date">
+                <div class="col-md-2 mb-4">
+                    <label for="order_created_date" class="form-label">Starting Date</label>
+                    <input type="date" placeholder="Type created date here" id="start_date" name="created_at"
+                        class="form-control" id="order_created_date">
                 </div>
-                <div class="col-md-3 mb-4">
-                    <label class="form-label">Status</label>
-                    <select class="form-select">
-                        <option>Published</option>
-                        <option>Draft</option>
-                    </select>
+                <div class="col-md-2 mb-4">
+                    <label for="order_created_date" class="form-label">Ending Date</label>
+                    <input type="date" placeholder="Type updated  date here" id="update_date" name="updated_at"
+                        class="form-control" id="order_created_date">
                 </div>
-
+                <div class="col-md-2 pt-4 mt-1">
+                    <button type="submit" class="btn btn-sm btn-primary"> Search </button>
+                </div>
             </div>
         </form>
 
@@ -65,7 +67,7 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="productBody">
                 @foreach ($products as $key=> $product)
                 <tr>
                     <td>{{$key+1}}</td>
@@ -135,3 +137,104 @@
 </div> --}}
 
 @endsection
+
+@push('products_search')
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#productSearchForm').on('submit', function(event) {
+                event.preventDefault();
+
+                var formData = $(this).serialize();
+                // console.log(formData);
+
+                $.ajax({
+                    url: "{{ route('products.filter') }}",
+                    type: 'POST',
+                    data: formData, // Sending form data directly
+                    dataType: 'json', // Expecting JSON response
+                    success: function(response) {
+                    // console.log(response);
+
+                        var products = response.products;
+                        var tableBody = $('#productBody');
+                        tableBody.empty();
+
+                        products.forEach(function(product, index) {
+
+                            var row = $('<tr>');
+                            row.append($('<td>').text(index + 1));
+                            row.append($('<td>').html('<a class="itemside" href="#">' +
+                                '<div class="left">' +
+                                '<img src="{{ asset('storage/product_images/') }}' +
+                                '/' + product.product_images[0].product_image +
+                                '" class="img-sm img-thumbnail" alt="' + product
+                                .slug + '">' +
+                                '</div>' +
+                                '<div class="info">' +
+                                '<h6 class="mb-0">' + product.product_name +
+                                '</h6>' +
+                                '</div>' +
+                                '</a>'));
+
+                            row.append($('<td>').text(product.brand.brand_name));
+                            row.append($('<td>').text(product.category.category_name));
+                            row.append($('<td>').text(product.balance));
+
+                            var overviews = product.overviews && product.overviews
+                                .length > 0 ?
+                                product.overviews.map(function(overview) {
+                                    return overview.overview_name + ' ' + overview
+                                        .overview_value;
+                                }).join('<br>') :
+                                'No overviews available';
+
+                            row.append($('<td>').html(overviews));
+
+                            var statusBadge = product.status == 'active' ?
+                                '<span class="badge rounded-pill alert-success">Active</span>' :
+                                '<span class="badge rounded-pill alert-danger">Inactive</span>';
+
+                            row.append($('<td>').html(statusBadge));
+
+                            var action = $('<td>').addClass('text-end');
+                            var detailLink = $('<a>').attr('href', 'products/' + product
+                                    .slug)
+                                .addClass('btn btn-md rounded font-sm').text('Detail');
+                            var dropdown = $('<div>').addClass('dropdown');
+                            var dropdownButton = $('<a>').attr('href', '#').attr(
+                                    'data-bs-toggle', 'dropdown')
+                                .addClass('btn btn-light rounded btn-sm font-sm').html(
+                                    '<i class="material-icons md-more_horiz"></i>');
+                            var dropdownMenu = $('<div>').addClass('dropdown-menu');
+                            // Adding your dropdown menu items
+
+                            var editLink = $('<a>').attr('href', 'products/' + 'edit/' +
+                                    product.id)
+                                .addClass('dropdown-item').text('Edit info');
+                            var deleteLink = $('<a>').attr('href', 'products/' + 'destroy/' +
+                                    product.id)
+                                .addClass('dropdown-item text-danger').text('Delete')
+                                .on('click', function(event) {
+                                    if (!confirmDelete(event)) {
+                                        event
+                                    .preventDefault(); // Prevent navigation if delete is cancelled
+                                    }
+                                });
+                            dropdownMenu.append(editLink, deleteLink);
+                            dropdown.append(dropdownButton, dropdownMenu);
+                            // Appending detail link and dropdown to the action
+                            action.append(detailLink, dropdown);
+                            row.append(action);
+                            tableBody.append(row);
+
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error occurred while fetching products:', error);
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

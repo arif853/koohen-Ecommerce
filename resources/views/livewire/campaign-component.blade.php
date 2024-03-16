@@ -68,6 +68,7 @@
                         <div>
                             <div class="text-center">
                                 <a href="#" wire:click.prevent="store({{$item->product->id}})" onclick="cartNotify()"><button type="button" class="adto-cart-btn">Add To Cart</button></a>
+                                
                             </div>
                         </div>
                     </div>
@@ -80,7 +81,7 @@
         <!--End product-grid-4-->
     </div>
 <!--End tab-content-->
-    <div class="row mt-30">s
+    <div class="row mt-30">
         <div class="col-12 text-center">
             <p class="wow fadeIn animated">
                 <a class="btn btn-brand text-white btn-shadow-brand hover-up btn-lg">Load More</a>

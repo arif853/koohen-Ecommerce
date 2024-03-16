@@ -25,6 +25,7 @@ class CustomerAuthController extends Controller
             'phone' => ['required', 'string', 'max:255','unique:'.Register_customer::class],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.Register_customer::class],
             'password' => ['required', Password::defaults()],
+            'captcha' => 'required|captcha'
         ];
         $customMessages = [
             'firstname.required' => 'Please fill up first name field.',
