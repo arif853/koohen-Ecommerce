@@ -50,9 +50,33 @@ class CheckoutController extends Controller
         return $generatedCode;
     }
 
+    public function generateInvoiceNo()
+    {
+
+    do {
+        // Generate a 2-digit random number
+        $randomNumber = str_pad(mt_rand(1, 99), 2, '0', STR_PAD_LEFT);
+
+        // Get the current year
+        $currentYear = date('y');
+        $currentMonth = date('m');
+
+        // Concatenate the components to create the final code
+        $invoiceNo= $currentMonth.$currentYear.$randomNumber;
+        // Check if the generated code already exists in the database
+        $codeExists = DB::table('orders')->where('invoice_no', $invoiceNo)->exists();
+
+    } while ($codeExists);
+
+        // Concatenate the components to create the final code
+
+        return $invoiceNo;
+    }
+
     public function store(Request $request)
     {
         $track_id = $this->generateCode();
+        $invoiceNo = $this->generateInvoiceNo();
 
         if (Auth::guard('customer')->check()) {
 
@@ -62,6 +86,7 @@ class CheckoutController extends Controller
             // order details store to order
             $order = new Order;
             $order->customer_id = $customer_id;
+            $order->invoice_no = $invoiceNo;
             $order->order_track_id = $track_id;
             $order->subtotal = $request->subtotal;
             $order->discount = 0;
@@ -182,11 +207,29 @@ class CheckoutController extends Controller
 
                     Session::flash('warning','Your registration complete successfully, Please login to user dashboard.');
                 }
+                else{
+                    $customer_reg = new Register_customer;
+                    $customer_reg->customer_id = $customer_id;
+                    $customer_reg->phone = $customerPhone;
+                    $customer_reg->email = $customerEmail;
+                    $customer_reg->password = Hash::make($customerPhone);
+                    $customer_reg->status = 'registerd';
+                    $customer_reg->save();
+
+                    $registration_status = $customer_reg->status;
+                    $register_customer = Customer::find($customer_reg->customer_id);
+                    $register_customer->update([
+                    'status' => $registration_status,
+                    ]);
+
+                    Session::flash('warning','Use your Phone number as password to login.');
+                }
 
                 // $product = Cart::get();
                 // order details store to order
                 $order = new Order;
                 $order->customer_id = $customer_id;
+                $order->invoice_no = $invoiceNo;
                 $order->order_track_id = $track_id;
                 $order->subtotal = $request->subtotal;
                 $order->discount = 0;

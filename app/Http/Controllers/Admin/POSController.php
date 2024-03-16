@@ -53,18 +53,12 @@ class POSController extends Controller
         $products = Products::where('product_name', 'like', "%{$searchTerm}%")
                           ->orWhere('sku', 'like', "%{$searchTerm}%")
                           ->with([
-                            'sizes' => function ($query) { // Load only sizes with available stock
-                                $query->whereExists(function ($subQuery) {
-                                    $subQuery->select(DB::raw(1))
-                                             ->from('product_stocks')
-                                             ->whereRaw('product_stocks.size_id = sizes.id')
-                                             ->whereRaw('product_stocks.inStock - product_stocks.outStock > 0');
-                                });
-                            },
+                            'sizes',
                             'colors',
                             'category',
                             'product_price',
                             'product_thumbnail',
+                            'product_stocks',
                         ])->get();
 
         return response()->json($products);
@@ -214,8 +208,9 @@ class POSController extends Controller
         }
 
         $order = new Order();
-        $order->customer_id = $customer_id;
+        $order->customer_id = $request->input('customer');
         $order->invoice_no = $invoiceNo;
+        $order->order_track_id = null;
         $order->subtotal = $request->input('subtotal');
         $order->delivery_charge = $request->input('delivery_charge');
         $order->discount = $request->input('discount');

@@ -184,6 +184,9 @@
 
             <div class="col-md-5">
                 <form action="#" id="pos_order_form">
+                    {{-- @csrf
+                        {{url('dashboard/pos/store')}}
+                    @method('POST') --}}
                     <div class="customer-wrapper">
                         <div class="customer-body-wrapper">
                             <a class="btn btn-primary mr-10" id="existing_customer_btn">Existing Customer</a>
@@ -576,8 +579,17 @@
                             return element.size_id == size.id;
                         });
 
-                        sizes += '<option value="' + size.id + '">' + size.size_name + '</option>';
-                    });
+                        // Check if there is at least one stock with a positive balance for the current size
+                        var hasAvailableStock = matchingStocks.some(function (element) {
+                            var balance = element.inStock - element.outStock;
+                            return balance > 0;
+                        });
+
+                        // If there is available stock, add the size to the options
+                        if (hasAvailableStock) {
+                                sizes += '<option value="' + size.id + '">' + size.size_name + '</option>';
+                            }
+                        });
 
                     var row = '<tr>' +
                             '<td>' +
@@ -590,7 +602,7 @@
                             '</figure>' +
                             '</td>' +
                             '<td class="">' +
-                            '<span>' + product.product_stocks.inStock + '</span>' +
+                            '<span>' + totalStock + '</span>' +
                             '</td>' +
                             '<td>' +
                             '<select name="colors" class="form-control" id="colorSelect" data-product-color>' +

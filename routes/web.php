@@ -39,6 +39,7 @@ use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\TrackorderController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
 use App\Http\Controllers\Admin\PurchaseController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\ForgotPasswordController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
@@ -62,6 +63,7 @@ Route::get('/cache_clear',function(){
     Session::flash('success','Cached clear successfully!');
     return redirect()->back();
 });
+
 
 Route::get('/storage',function(){
     Artisan::call('storage:link');
@@ -230,6 +232,8 @@ Route::controller(ProductController::class)->middleware('auth')->group(function 
     Route::delete('/dashboard/products/image_destroy/{id}', 'image_destroy')->name('productsimage.destroy');
     Route::delete('/dashboard/products/thumb_destroy/{id}', 'thumb_destroy')->name('productsthumb.destroy');
 
+    Route::post('/dashboard/product/products_filter', 'ProductFilter')->name('products.filter');
+
     Route::get('/dashboard/products/{slug}', 'show')->name('products.show');
     Route::post('/dashboard/products/search', 'ProductFilter')->name('products.filter');
 
@@ -261,9 +265,12 @@ Route::controller(CustomerController::class)->middleware('auth')->group(function
 //offers
 Route::controller(OfferController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/promotion/offers', 'index')->name('offers.index');
-    // Route::get('/dashboard/customers/create_customer', 'create')->name('customer.create');
-    // Route::get('/dashboard/customers/Customer_profile', 'customer_details')->name('customer.profile');
-    // Route::get('/dashboard/category/create', 'create')->name('category.create');
+    Route::post('/dashboard/promotion/create_offers', 'create_offer_type')->name('offerstype.create');
+    Route::post('/dashboard/promotion/offers_data', 'SaveOfferData')->name('offer.saved');
+    Route::get('/dashboard/promotion/edit_offers_data', 'EditOfferData')->name('offer.edit');
+    Route::post('/dashboard/promotion/update_offers_data', 'UpdateOfferData')->name('offer.update');
+    Route::delete('/dashboard/promotion/offers_data', 'delteOfferData')->name('offer.destroy');
+
 });
 
 //Coupons
@@ -323,7 +330,25 @@ Route::controller(FeatureCategoryController::class)->middleware('auth')->group(f
     Route::get('/dashboard/category_feature/edit', 'edit')->name('category_feature.edit');
     Route::post('/dashboard/category_feature/update', 'update')->name('category_feature.update');
     // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
-    Route::get('/dashboard/category_feature/destroy', 'destroy')->name('category_feature.destroy');
+    Route::delete('/dashboard/category_feature/destroy', 'destroy')->name('category_feature.destroy');
+});
+// Feature product
+Route::controller(FeatureProductsController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/product_feature', 'index')->name('product_feature');
+    Route::post('/dashboard/product_feature/store', 'store')->name('product_feature.store');
+    Route::get('/dashboard/product_feature/edit', 'edit')->name('product_feature.edit');
+    Route::post('/dashboard/product_feature/update', 'update')->name('product_feature.update');
+    // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
+    Route::delete('/dashboard/product_feature/destroy', 'destroy')->name('product_feature.destroy');
+});
+
+Route::controller(TransactionController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/transaction', 'index')->name('transaction.index');
+  //  Route::post('/dashboard/product_feature/store', 'store')->name('product_feature.store');
+  //  Route::get('/dashboard/product_feature/edit', 'edit')->name('product_feature.edit');
+  //  Route::post('/dashboard/product_feature/update', 'update')->name('product_feature.update');
+  //  // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
+  //  Route::delete('/dashboard/product_feature/destroy', 'destroy')->name('product_feature.destroy');
 });
 
 //Slider
@@ -382,9 +407,6 @@ Route::controller(POSController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/pos/customer', 'searchcustomer')->name('search.customer');
     Route::get('/dashboard/pos/order_cancel', 'posOrderCancel')->name('pos.cancel');
     Route::post('/dashboard/pos/store','posOrder')->name('pos.order');
-
-    Route::get('/dashboard/pos_cart/add/{rowId}','increaseQuantity');
-    Route::get('/dashboard/pos_cart/remove/{rowId}','decreaseQuantity');
 
 });
 

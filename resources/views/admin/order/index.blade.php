@@ -179,11 +179,34 @@
             }
         });
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+        $('.order_status').change(function() {
+            var orderId = $(this).data('order-id');
+            var newStatus = $(this).val();
+
+            console.log(newStatus);
+            console.log(orderId);
+            // Perform an AJAX request to update the status of selected orders
+            $.ajax({
+                type: 'POST',
+                url: '/update-one-order-status', // Update with your route
+                data: {
+                    orderId: orderId,
+                    newStatus: newStatus,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    // Handle success, if needed
+                    // location.reload();
+                    // if (response.success) {
+                    //     $.Notification.autoHideNotify('success', 'top right', 'Success', response.message);
+                    // }
+                    console.log(response);
+                },
+                error: function (error) {
+                    // Handle error, if needed
+                    console.error(error);
+                }
+            });
 
         $('.all_order_status').change(function() {
             var selectedStatus = $(this).val();
@@ -232,10 +255,10 @@
                 },
                 success: function (response) {
                     // Handle success, if needed
-                    // location.reload();
-                    // if (response.success) {
-                    //     $.Notification.autoHideNotify('success', 'top right', 'Success', response.message);
-                    // }
+                    location.reload();
+                    if (response.success) {
+                        $.Notification.autoHideNotify('success', 'top right', 'Success', response.message);
+                    }
                     console.log(response);
                 },
                 error: function (error) {
@@ -245,10 +268,137 @@
             });
         });
 
-        // // $('.order_status').change(function () {
-        //     var selectedColor = $('option:selected', '.order_status').css('color');
-        //     $('.order_status').css('background-color', selectedColor);
-        // // });
-    });
-</script>
+            $('#orderFilterForm input, #orderFilterForm select').on('keyup change', function() {
+                // Capture form input values
+                var orderId = $('#order_id').val();
+                console.log(orderId);
+                var customerName = $('#customer_name').val();
+                console.log(customerName);
+                var status = $('#orderStatus').val();
+                console.log(status);
+                var orderDate = $('#order_date').val();
+                console.log(orderDate);
+                $.ajax({
+                    url: "{{ route('order.filters') }}",
+                    method: "GET",
+                    data: {
+                        orderId: orderId,
+                        customerName: customerName,
+                        status: status,
+                        orderDate: orderDate,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        // Handle success, if needed
+                        console.log(response);
+
+                        var tableBody = $('#orderTableBody');
+                        tableBody.empty(); // Clear existing table rows
+                        response.forEach(function(order, index) {
+                            var createdAtDate = new Date(order.created_at);
+                            var orderDetailUrl =
+                                "{{ route('order.details', ['id' => '']) }}" +
+                                order.id;
+                            var orderTrackUrl =
+                                "{{ route('order.track', ['id' => '']) }}" + order
+                                .id;
+                            var orderInvoiceUrl =
+                                "{{ route('invoice', ['id' => ':id']) }}".replace(
+                                    ':id', order.id);
+                            //   var customerProfileUrl = "{{ route('customer.profile', ['id' => ':id']) }}".replace(':id', order.customer_id);
+                            var customerProfileUrl =
+                                "{{ route('customer.profile', ['id' => '']) }}" +
+                                order.customer_id;
+                            // Define options for date formatting
+                            var options = {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit'
+                            };
+
+                            // Format the date using toLocaleDateString() method
+                            var formattedDate = createdAtDate.toLocaleDateString(
+                                'en-GB', options)
+                            var row = $('<tr>');
+
+
+                            row.append($('<td>').html(
+                                '<input type="checkbox" class="form-group order-checkbox" value="' +
+                                order.id + '" id="order_checkbox">'));
+                            row.append($('<td>').text(index + 1));
+                            row.append($('<td>').html('<a href="' +
+                                customerProfileUrl + '" class="itemside">' +
+                                '<div class="info pl-3">' +
+                                '<h6 class="mb-0 title">' + order.customer
+                                .firstName + ' ' + order.customer.lastName +
+                                '</h6>' +
+                                '<small class="text-muted">Order ID: #' +
+                                order
+                                .id + '</small>' +
+                                '</div>' +
+                                '</a>'));
+                            row.append($('<td>').html('<a href="tel:' + order
+                                .customer
+                                .phone + '">' + order.customer.phone +
+                                '</a>'));
+                            row.append($('<td>').text('৳' + order.total));
+                            row.append($('<td>').html(
+                                '<div class="status-container">' +
+                                '<select class="form-select d-inline-block mb-lg-0 mb-15 mw-200 order_status" id="order_status_' +
+                                order.id + '" ' +
+                                'data-order-id="' + order.id +
+                                '" name="order_status">' +
+                                '<option value="pending" style="color: orange;"' +
+                                (order.status == 'pending' ? ' selected' :
+                                    '') +
+                                '>Pending</option>' +
+                                '<option value="confirmed" style="color: blue;"' +
+                                (order.status == 'confirmed' ? ' selected' :
+                                    '') + '>Confirmed</option>' +
+                                '<option value="shipped" style="color: green;"' +
+                                (order.status == 'shipped' ? ' selected' :
+                                    '') +
+                                '>Shipped</option>' +
+                                '<option value="delivered" style="color: #00cc00;"' +
+                                (order.status == 'delivered' ? ' selected' :
+                                    '') + '>Delivered</option>' +
+                                '<option value="completed" style="color: purple;"' +
+                                (order.status == 'completed' ? ' selected' :
+                                    '') + '>Completed</option>' +
+                                '<option value="returned" style="color: gray;"' +
+                                (order.status == 'returned' ? ' selected' :
+                                    '') + '>Returned</option>' +
+                                '<option value="cancelled" style="color: red;"' +
+                                (order.status == 'cancelled' ? ' selected' :
+                                    '') + '>Cancelled</option>' +
+                                '</select>' +
+                                '</div>'));
+
+                            row.append($('<td>').text(formattedDate));
+                            row.append($('<td>').addClass('text-end').html(
+                                '<a href="' + orderDetailUrl +
+                                '" class="btn btn-md rounded font-sm me-2">Detail</a>' +
+                                '<a href="' + orderTrackUrl +
+                                '" class="btn btn-md rounded font-sm me-2">Track me</a>' +
+                                '<a href="' + orderInvoiceUrl +
+                                '" target="__blank" class="btn btn-facebook rounded font-sm">Invoice</a>'
+                            ));
+                            // Append more columns as needed
+
+                            tableBody.append(row);
+                        });
+                    },
+                    error: function(error) {
+                        // Handle error, if needed
+                        console.error(error);
+                    }
+                })
+
+            });
+
+
+
+        });
+        });
+    </script>
 @endpush
