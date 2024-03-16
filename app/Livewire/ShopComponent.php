@@ -129,67 +129,71 @@ class ShopComponent extends Component
         $this->dispatch('cartRefresh')->to('wishlist-icon-component');
     }
 
-    use WithPagination;
 
     public $selectedColors = [], $colorBadge = [];
     public $selectedSizes = [], $sizeBadge = [];
-    public $perPage = 20;
-    public $products, $groupedCategories ;
+    // // public $perPage = 20;
+    // public $products,
+    public $groupedCategories ;
     public $selectedBadges = [];
     public $selectedCategory ;
-    public $priceRange = [1, 1000000]; // Initial price range
+    // public $priceRange = [1, 1000000]; // Initial price range
 
 
 
     public function mount()
     {
-        $this->perPage = 20;
+        // $this->perPage = 20;
         $this->selectedSizes = [];
         $this->selectedColors = [];
-        $this->products = Products::all();
+        // $this->products = Products::paginate(5);
 
     }
+    use WithPagination;
+
     public function render()
     {
-        $product_count = Products::count();
+        // $product_count = Products::count();
 
-        $productsQuery = Products::query();
+        // $productsQuery = Products::query();
 
-         // Apply category filter if selected
-         if ($this->selectedCategory) {
-            // Assuming you have a relationship between products and categories
-            $productsQuery->whereHas('category', function ($query) {
-                $query->where('category_name', $this->selectedCategory);
-            });
-        }
-
-        // Apply color filter if selected
-        if (!empty($this->selectedColors)) {
-            $productsQuery->whereHas('colors', function ($query) {
-                $query->whereIn('color_id', $this->selectedColors);
-            });
-        }
-
-        // Apply size filter if selected
-        if (!empty($this->selectedSizes)) {
-            $productsQuery->whereHas('sizes', function ($query) {
-                $query->whereIn('size_id', $this->selectedSizes);
-            });
-        }
-
-        // $this->products = $productsQuery->get();
-        $this->products = $productsQuery->get();
-        // Convert Eloquent Collection to array
-        // $this->products = $products->toArray();
-
-        $colors = Color::all();
-        $sizes = Size::all();
-
-        // if (!empty($this->priceRange)) {
-        //     $this->products = $this->getFilteredProducts();
+        //  // Apply category filter if selected
+        //  if ($this->selectedCategory) {
+        //     // Assuming you have a relationship between products and categories
+        //     $productsQuery->whereHas('category', function ($query) {
+        //         $query->where('category_name', $this->selectedCategory);
+        //     });
         // }
 
+        // // Apply color filter if selected
+        // if (!empty($this->selectedColors)) {
+        //     $productsQuery->whereHas('colors', function ($query) {
+        //         $query->whereIn('color_id', $this->selectedColors);
+        //     });
+        // }
+
+        // // Apply size filter if selected
+        // if (!empty($this->selectedSizes)) {
+        //     $productsQuery->whereHas('sizes', function ($query) {
+        //         $query->whereIn('size_id', $this->selectedSizes);
+        //     });
+        // }
+
+        // // $this->products = $productsQuery->get();
+        // $this->products = $productsQuery->get();
+        // // Convert Eloquent Collection to array
+        // // $this->products = $products->toArray();
+
+        // $colors = Color::all();
+        // $sizes = Size::all();
+
+        // // if (!empty($this->priceRange)) {
+        // //     $this->products = $this->getFilteredProducts();
+        // // }
+
         $this->groupedCategories = $this->getGroupedCategories();
+
+        $products =Products::paginate(5);
 
         if(Auth::guard('customer')->check()){
 
@@ -201,11 +205,11 @@ class ShopComponent extends Component
 
 
         return view('livewire.shop-component', [
-            'product_count' => $product_count,
-            'products' => $this->products,
+            // 'product_count' => $product_count,
+            'products' => $products,
             'groupedCategories' => $this->groupedCategories,
-            'colors' => $colors,
-            'sizes' => $sizes,
+            // 'colors' => $colors,
+            // 'sizes' => $sizes,
             'campaign' => $campaign,
         ]);
     }
@@ -215,10 +219,11 @@ class ShopComponent extends Component
     //     return Products::whereBetween('regular_price', $this->priceRange)->get();
     // }
 
-    public function changePerPage($value)
-    {
-        $this->perPage = $value;
-    }
+    // public function changePerPage($value)
+    // {
+    //     $this->perPage = $value;
+    // }
+
     public function applyCategoryFilter($categoryName)
     {
         $this->selectedCategory = $categoryName;

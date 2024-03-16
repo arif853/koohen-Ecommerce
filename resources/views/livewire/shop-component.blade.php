@@ -95,7 +95,7 @@
                             <div class="col-lg-3 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
                                 <h5 class="mb-20">By Color</h5>
                                 <ul class="list-filter color-filter">
-                                    @foreach ($colors as $color)
+                                    {{-- @foreach ($colors as $color)
                                     @if($color->status == 1)
                                     <li>
                                         <a wire:model="selectedColors.{{ $color->id }}" id="color_{{ $color->id }}"
@@ -106,11 +106,11 @@
                                         </a>
                                     </li>
                                     @endif
-                                    @endforeach
+                                    @endforeach --}}
                                 </ul>
                                 <h5 class="mb-15 mt-20">By Size</h5>
                                 <ul class="list-filter size-filter font-small">
-                                    @foreach ($sizes as $size)
+                                    {{-- @foreach ($sizes as $size)
                                     @if($size->status == 1)
                                     <li>
                                         <a href="#" wire:model="selectedSizes.{{ $size->id }}"
@@ -120,7 +120,7 @@
                                         </a>
                                     </li>
                                     @endif
-                                    @endforeach
+                                    @endforeach --}}
                                     {{-- <li class="active pb-2"><a href="#">All</a></li>
                                     <li class="pb-2"><a href="#">S</a></li>
                                     <li class="pb-2"><a href="#">M</a></li>
@@ -150,13 +150,13 @@
                 <div class="col-lg-12">
                     <div class="shop-product-fillter">
                         <div class="totall-product">
-                            <p> We found <strong class="text-brand">{{$product_count}}</strong> items for you!</p>
-                            @foreach($selectedBadges as $badge)
+                            <p> We found <strong class="text-brand">{{$products->total()}}</strong> items for you!</p>
+                            {{-- @foreach($selectedBadges as $badge)
                             <div class="filterbadge">
                                 {{ $badge }}
                                 <a wire:click.prevent="removeBadge('{{ $badge }}')" class="filterclosebtn"><i class="fal fa-times"></i></a>
                             </div>
-                        @endforeach
+                        @endforeach --}}
                         </div>
 
                         <div class="sort-by-product-area">
@@ -289,6 +289,7 @@
                         </div>
                     </div>
                     @endif
+                    {{$products->links()}}
                     <!--pagination-->
                     {{-- <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
                         <nav aria-label="Page navigation example">
