@@ -48,7 +48,7 @@
                                     {{-- {{$children}} --}}
                                         {{-- <li class="has_sub"> --}}
                                             {{-- <a href="#" wire:click.prevent="applyCategoryFilter('{{ $parentCategory }}')">{{ $parentCategory }}</a> --}}
-                                            <input class="form-check-input category_check" type="checkbox" wire:click.prevent="applyCategoryFilter('{{ $parentCategory }}')" id="exampleCheckbox{{$parentCategory}}" value="">
+                                            <input class="form-check-input category_check" type="checkbox" wire:click="applyCategoryFilter('{{ $parentCategory }}')" id="exampleCheckbox{{$parentCategory}}" value="">
                                             <label class="form-check-label" for="exampleCheckbox{{$parentCategory}}"><span>{{ $parentCategory }}</span></label>
                                             <br>
                                             {{-- @if(count($children) > 0)
@@ -68,7 +68,23 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
-                                <h5 class="mb-20">Price range</h5>
+                                <div class="widget-header position-relative mb-20 pb-10">
+                                    <h5 class="widget-title mb-10">Fill by price</h5>
+                                    <div class="bt-1 border-color-1"></div>
+                                </div>
+                                <div class="price-filter">
+                                    <div class="price-filter-inner">
+                                        <div id="slider-range" wire:ignore></div>
+                                        <div class="price_slider_amount mt-25">
+                                            <div class="label-input">
+                                                <span>Range:</span>
+                                                <span class="text-price">৳{{$min_value}}</span> - <span class="text-price">৳{{$max_value}}</span>
+                                                {{-- <input type="text" id="amount" name="price" placeholder="Add Your Price" /> --}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- <h5 class="mb-20">Price range</h5>
                                 <div class="custome-checkbox">
                                     <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox1" value="">
                                     <label class="form-check-label pb-1" for="exampleCheckbox1"><span>All</span></label>
@@ -90,27 +106,13 @@
                                     </br>
                                     <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox7" value="">
                                     <label class="form-check-label pb-1" for="exampleCheckbox7"><span>2500.00৳ + </span></label>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="col-lg-3 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
-                                <h5 class="mb-20">By Color</h5>
-                                <ul class="list-filter color-filter">
-                                    {{-- @foreach ($colors as $color)
-                                    @if($color->status == 1)
-                                    <li>
-                                        <a wire:model="selectedColors.{{ $color->id }}" id="color_{{ $color->id }}"
-                                            wire:click.prevent="applyColorFilter({{ $color->id }})"
-                                            href="#" style="color: #fff; ">
 
-                                            <span style="background-color: {{$color->color_code}};"></span>
-                                        </a>
-                                    </li>
-                                    @endif
-                                    @endforeach --}}
-                                </ul>
                                 <h5 class="mb-15 mt-20">By Size</h5>
                                 <ul class="list-filter size-filter font-small">
-                                    {{-- @foreach ($sizes as $size)
+                                    @foreach ($sizes as $size)
                                     @if($size->status == 1)
                                     <li>
                                         <a href="#" wire:model="selectedSizes.{{ $size->id }}"
@@ -120,7 +122,7 @@
                                         </a>
                                     </li>
                                     @endif
-                                    @endforeach --}}
+                                    @endforeach
                                     {{-- <li class="active pb-2"><a href="#">All</a></li>
                                     <li class="pb-2"><a href="#">S</a></li>
                                     <li class="pb-2"><a href="#">M</a></li>
@@ -135,14 +137,29 @@
                                 </ul>
                             </div>
                             <div class="col-lg-3 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
-                                <h5 class="mb-20">Product Type</h5>
+                                <h5 class="mb-20">By Color</h5>
+                                <ul class="list-filter color-filter">
+                                    @foreach ($colors as $color)
+                                    @if($color->status == 1)
+                                    <li>
+                                        <a wire:model="selectedColors.{{ $color->id }}" id="color_{{ $color->id }}"
+                                            wire:click="applyColorFilter({{ $color->id }})"
+                                            href="#" style="color: #fff; ">
+
+                                            <span style="background-color: {{$color->color_code}};"></span>
+                                        </a>
+                                    </li>
+                                    @endif
+                                    @endforeach
+                                </ul>
+                                {{-- <h5 class="mb-20">Product Type</h5>
                                 <div class="custome-checkbox">
                                     <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox1" value="">
                                     <label class="form-check-label" for="exampleCheckbox1"><span>Regular Fit</span></label>
                                     <br>
                                     <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox2" value="">
                                     <label class="form-check-label" for="exampleCheckbox2"><span>Slim Fit</span></label>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -151,12 +168,12 @@
                     <div class="shop-product-fillter">
                         <div class="totall-product">
                             <p> We found <strong class="text-brand">{{$products->total()}}</strong> items for you!</p>
-                            {{-- @foreach($selectedBadges as $badge)
+                            @foreach($selectedBadges as $badge)
                             <div class="filterbadge">
                                 {{ $badge }}
                                 <a wire:click.prevent="removeBadge('{{ $badge }}')" class="filterclosebtn"><i class="fal fa-times"></i></a>
                             </div>
-                        @endforeach --}}
+                        @endforeach
                         </div>
 
                         <div class="sort-by-product-area">
@@ -168,15 +185,18 @@
                                         <span><i class="fi-rs-apps"></i>Show:</span>
                                     </div>
                                     <div class="sort-by-dropdown-wrap">
-                                        <span>
-                                            <select wire:model="perPage" wire:change="changePerPage($event.target.value)">
-                                                <option value="20">20</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                                <option value="all">All</option>
-                                            </select>
-                                        </span>
+                                        <span> 8 <i class="fi-rs-angle-small-down"></i></span>
                                     </div>
+                                </div>
+                                <div class="sort-by-dropdown">
+                                    <ul>
+                                        <li><a class="active" href="#" wire:click.prevent= "changePerPage(8)">8</a></li>
+                                        <li><a href="#" wire:click.prevent= "changePerPage(12)">12</a></li>
+                                        <li><a href="#" wire:click.prevent= "changePerPage(24)">24</a></li>
+                                        <li><a href="#" wire:click.prevent= "changePerPage(48)">48</a></li>
+                                        <li><a href="#" wire:click.prevent= "changePerPage(60)">60</a></li>
+                                        {{-- <li><a href="#">All</a></li> --}}
+                                    </ul>
                                 </div>
                             </div>
                         </form>
@@ -340,15 +360,34 @@ $(document).ready(function () {
     //     $(this).find('i').toggleClass('fa-plus fa-minus');
     //     $(this).next('ul').slideToggle();
     // });
-    $('.category_check').click(function () {
-        if ($(this).is(':checked')) {
+    // $('.category_check').click(function () {
+    //     if ($(this).is(':checked')) {
 
-            console.log('Checkbox is checked');
-        } else {
+    //         console.log('Checkbox is checked');
+    //     } else {
 
-            console.log('Checkbox is not checked');
-        }
-    });
+    //         console.log('Checkbox is not checked');
+    //     }
+    // });
 });
+
+    var sliderrange = $('#slider-range');
+        var amountprice = $('#amount');
+        $(function() {
+            sliderrange.slider({
+                range: true,
+                min: 0,
+                max: 10000,
+                values: [0, 5000],
+                slide: function(event, ui) {
+                    // amountprice.val("$" + ui.values[0] + " - $" + ui.values[1]);
+                    @this.set('min_value',ui.values[0])
+                    @this.set('max_value',ui.values[1])
+                }
+            });
+        // amountprice.val("$" + sliderrange.slider("values", 0) +
+        //         " - $" + sliderrange.slider("values", 1));
+    });
+
 </script>
 @endpush

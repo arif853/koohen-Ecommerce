@@ -562,7 +562,7 @@
             }
         });
         $.ajax({
-            url: '/home/quickview',
+            url: '{{url('/home/quickview')}}',
             method: 'GET',
             data: {
                 slug: Slug,
@@ -689,7 +689,7 @@
 
 
         function searchHandel(searchInput, showProductDiv) {
-            
+
             var loadingIndicator = $('#loading-indicator');
             var searchTerm = searchInput.val().trim();
             console.log(searchTerm);
