@@ -40,6 +40,7 @@
                         </select>
                         {{-- <input type="text" class="form-control" id="validationDefault01" required> --}}
                     </div>
+                    
                     <div class="col-md-12 mb-4">
                         <input type="checkbox"  id="showVariantFields" >
                         <label for="showVariantFields" class="form-label ml-2">Check if offer time limited</label>

@@ -88,7 +88,7 @@
                                                     <input type="text" placeholder="Type here" class="form-control tag-input" spellcheck="false">
                                                     <div class="tag-details d-flex justify-content-between">
                                                         <p><span>10</span> tags are remaining</p>
-                                                        <button><i class="fa-solid fa-times"></i></button>
+                                                        <button><i class="fa fa-times"></i></button>
                                                     </div>
                                                     <ul class="tag-content">
                                                     </ul>
