@@ -328,26 +328,28 @@ Route::controller(ZoneController::class)->middleware('auth')->group(function () 
 });
 
 
-//Feature category
+//category Feature
 Route::controller(FeatureCategoryController::class)->middleware('auth')->group(function () {
-    Route::get('/dashboard/category_feature', 'index')->name('category_feature');
-    Route::post('/dashboard/category_feature/store', 'store')->name('category_feature.store');
-    Route::get('/dashboard/category_feature/edit', 'edit')->name('category_feature.edit');
-    Route::post('/dashboard/category_feature/update', 'update')->name('category_feature.update');
+    Route::get('/dashboard/feature/category_feature', 'index')->name('category_feature');
+    Route::post('/dashboard/feature/category_feature/store', 'store')->name('category_feature.store');
+    Route::get('/dashboard/feature/category_feature/edit', 'edit')->name('category_feature.edit');
+    Route::post('/dashboard/feature/category_feature/update', 'update')->name('category_feature.update');
     // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
-    Route::delete('/dashboard/category_feature/destroy', 'destroy')->name('category_feature.destroy');
+    Route::delete('/dashboard/feature/category_feature/destroy', 'destroy')->name('category_feature.destroy');
 });
 
-// Feature product
+//product Feature
 Route::controller(FeatureProductsController::class)->middleware('auth')->group(function () {
-    Route::get('/dashboard/product_feature', 'index')->name('product_feature');
-    Route::post('/dashboard/product_feature/store', 'store')->name('product_feature.store');
-    Route::get('/dashboard/product_feature/edit', 'edit')->name('product_feature.edit');
-    Route::post('/dashboard/product_feature/update', 'update')->name('product_feature.update');
+    Route::get('/dashboard/feature/product_feature', 'index')->name('product_feature');
+    Route::post('/dashboard/feature/product_feature/store', 'store')->name('product_feature.store');
+    Route::get('/dashboard/feature/product_feature/edit', 'edit')->name('product_feature.edit');
+    Route::post('/dashboard/feature/product_feature/update', 'update')->name('product_feature.update');
     // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
-    Route::delete('/dashboard/product_feature/destroy', 'destroy')->name('product_feature.destroy');
+    Route::delete('/dashboard/feature/product_feature/destroy', 'destroy')->name('product_feature.destroy');
 });
 
+
+// transaction controller
 Route::controller(TransactionController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/transaction', 'index')->name('transaction.index');
   //  Route::post('/dashboard/product_feature/store', 'store')->name('product_feature.store');
@@ -413,6 +415,8 @@ Route::controller(POSController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/pos/order_cancel', 'posOrderCancel')->name('pos.cancel');
     Route::post('/dashboard/pos/store','posOrder')->name('pos.order');
 
+    Route::get('/dashboard/pos_cart/add/{rowId}','increaseQuantity');
+    Route::get('/dashboard/pos_cart/remove/{rowId}','decreaseQuantity');
 });
 
 //reports

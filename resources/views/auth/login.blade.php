@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Evara Dashboard</title>
+    <title>Koohen Login</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,7 +12,7 @@
     <meta property="og:url" content="">
     <meta property="og:image" content="">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('admin/assets/imgs/theme/favicon.svg')}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('admin/assets/imgs/favicon_128x128.ico')}}">
     <!-- Template CSS -->
     <link href="{{asset('admin/assets/css/main.css')}}" rel="stylesheet" type="text/css" />
 </head>
@@ -23,7 +23,7 @@
         <section class="auth-main ">
             <div class="card codex-authbox ">
                 <div class="auth-header text-center">
-                    <div class="codex-brand"><a href="#"><img class="img-fluid light-logo" src="{{asset('admin/assets/imgs/theme/logo.svg')}}" alt="Evara"></a>
+                    <div class="codex-brand"><a href="#"><img class="img-fluid light-logo" src="{{asset('admin/assets/imgs/Kohen_Logo_Main.png')}}" alt="Koohen"></a>
                     </div>
                     <h3>Welcome back </h3>
                     <h6>Login to access dashboard.</h6>
@@ -53,7 +53,7 @@
 
                         </div> <!-- form-group// -->
                         <div class="mb-4">
-                        
+
                             <label class="form-check">
                                 <input type="checkbox" class="form-check-input" checked=""  name="remember">
                                 <span class="form-check-label">Remember</span>

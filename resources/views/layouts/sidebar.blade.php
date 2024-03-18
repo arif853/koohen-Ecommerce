@@ -9,12 +9,12 @@
     </div>
     <nav>
         <ul class="menu-aside">
-            <li class="menu-item active">
+            <li class="menu-item {{ request()->is('dashboard') ? 'active' : '' }}">
                 <a class="menu-link" href="{{('/dashboard')}}"> <i class="icon material-icons md-home"></i>
                     <span class="text">Dashboard</span>
                 </a>
             </li>
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/products') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_bag"></i>
                     <span class="text">Products</span>
                 </a>
@@ -27,7 +27,7 @@
                     <a href="{{route('varient.index')}}">Varient</a>
                 </div>
             </li>
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/orders/*') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_cart"></i>
                     <span class="text">Orders</span>
                 </a>
@@ -38,7 +38,7 @@
                     <a href="{{route('order.return')}}">Order return</a>
                 </div>
             </li>
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/customers') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-supervisor_account"></i>
                     <span class="text">Customers</span>
                 </a>
@@ -48,7 +48,7 @@
                 </div>
             </li>
 
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/suppliers') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-supervised_user_circle"></i>
                     <span class="text">Suppliers</span>
                 </a>
@@ -57,7 +57,7 @@
                     {{-- <a href="{{route('customer.profile')}}">Customer profile</a> --}}
                 </div>
             </li>
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/transaction') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-monetization_on"></i>
                     <span class="text">Transactions</span>
                 </a>
@@ -66,7 +66,7 @@
                     {{-- <a href="{{route('customer.profile')}}">Customer profile</a> --}}
                 </div>
             </li>
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/promotion/*') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-trending_up"></i>
                     <span class="text">Promotions</span>
                 </a>
@@ -75,7 +75,7 @@
                     <a href="{{route('coupon.index')}}">Coupons</a>
                 </div>
             </li>
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/feature/*') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-card_membership"></i>
                     <span class="text">Feature item</span>
                 </a>

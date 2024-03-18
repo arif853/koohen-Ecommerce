@@ -4,10 +4,10 @@
 @section('content')
     <div class="content-header">
         <div>
-            <h2 class="content-title card-title">Feature Items</h2>
+            <h2 class="content-title card-title">Feature Products</h2>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ '/dashborad' }}">Dashborad</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url('/dashborad') }}">Dashborad</a></li>
                     <li class="breadcrumb-item active" aria-current="page"> Feature Items</li>
                 </ol>
             </nav>
@@ -237,9 +237,9 @@
             $('.productFeaturedUpdate').on('click',function(e) {
                 e.preventDefault();
                 var itemId = $(this).data('item-id');
-             
+
                 $.ajax({
-                    url: '/dashboard/product_feature/edit',
+                    url: '{{url('/dashboard/feature/product_feature/edit')}}',
                     method: 'GET',
                     data: {
                         id: itemId
@@ -268,7 +268,7 @@
                 const data = new FormData(this);
 
                 $.ajax({
-                    url: '/dashboard/product_feature/update',
+                    url: '{{url('/dashboard/feature/product_feature/update')}}',
                     method: 'post',
                     data: data,
                     cache: false,
