@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<<<<<<<<< Temporary merge branch 1
-<style>
-      body, h1, h2, h3, h4, h5, h6, p, div, ul, ol, li, table, tr, th, td {
-            margin: 0;
-            padding: 0;
-        }
-
-    body{
-        font-size:12px;
-        font-weight:400;
-        color:#25252515 !important;
-
-=========
 
 <style>
     body{

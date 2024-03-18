@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Termwind\Components\Raw;
 use App\Models\Feature_category;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {

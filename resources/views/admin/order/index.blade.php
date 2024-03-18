@@ -220,7 +220,7 @@
                             $.Notification.autoHideNotify('success', 'top right', 'Success',
                                 response.message);
                         }
-                        console.log(response);
+                        // console.log(response);
                     },
                     error: function(error) {
                         // Handle error, if needed
@@ -251,7 +251,7 @@
                             $.Notification.autoHideNotify('success', 'top right', 'Success',
                                 response.message);
                         }
-                        console.log(response);
+                        // console.log(response);
                     },
                     error: function(error) {
                         // Handle error, if needed
@@ -282,7 +282,7 @@
                     },
                     success: function(response) {
                         // Handle success, if needed
-                        console.log(response);
+                        // console.log(response);
 
                         var tableBody = $('#orderTableBody');
                         tableBody.empty(); // Clear existing table rows
@@ -389,7 +389,6 @@
 
 
 
-        });
         });
     </script>
 @endpush
