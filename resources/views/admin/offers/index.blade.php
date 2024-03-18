@@ -1,36 +1,36 @@
 @extends('layouts.admin')
 @section('content')
-
-<div class="content-header">
-    <div>
-        <h2 class="content-title card-title">Offers List</h2>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="{{'/dashborad'}}">Dashborad</a></li>
-              <li class="breadcrumb-item active" aria-current="page">offers</li>
-            </ol>
-        </nav>
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Offers List</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ '/dashborad' }}">Dashborad</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">offers</li>
+                </ol>
+            </nav>
+        </div>
+        <div>
+            {{-- <a href="#" class="btn btn-primary btn-sm rounded">Add New category</a> --}}
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary btn-sm rounded" data-bs-toggle="modal" data-bs-target="#typeModal">
+                Add offer Type
+            </button>
+            <button type="button" class="btn btn-primary btn-sm rounded" data-bs-toggle="modal"
+                data-bs-target="#offerModal">
+                Add New Offer
+            </button>
+        </div>
     </div>
-    <div>
-        {{-- <a href="#" class="btn btn-primary btn-sm rounded">Add New category</a> --}}
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary btn-sm rounded" data-bs-toggle="modal" data-bs-target="#typeModal">
-            Add offer Type
-        </button>
-        <button type="button" class="btn btn-primary btn-sm rounded" data-bs-toggle="modal" data-bs-target="#offerModal">
-            Add New Offer
-        </button>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-12 col-md-12">
-        <div class="card mb-4">
-            <header class="card-header">
-                <div class="row gx-3">
-                    <div class="col-lg-4 mb-lg-0 mb-15 me-auto">
-                        <input type="text" placeholder="Search..." class="form-control">
-                    </div>
-                    {{-- <div class="col-lg-2 col-6">
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="card mb-4">
+                <header class="card-header">
+                    <div class="row gx-3">
+                        <div class="col-lg-4 mb-lg-0 mb-15 me-auto">
+                            <input type="text" placeholder="Search..." class="form-control">
+                        </div>
+                        {{-- <div class="col-lg-2 col-6">
                         <div class="custom_select">
                             <select class="form-select select-nice">
                                 <option selected>Categories</option>
@@ -43,328 +43,201 @@
                             </select>
                         </div>
                     </div> --}}
-                    <div class="col-lg-2 col-6">
-                        <input type="date" class="form-control" name="">
+                        <div class="col-lg-2 col-6">
+                            <input type="date" class="form-control" name="">
+                        </div>
                     </div>
+                </header> <!-- card-header end// -->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#ID</th>
+                                    <th>Offer Name</th>
+                                    <th>Offer Type</th>
+                                    <th>Products Name</th>
+                                    <th>Days</th>
+                                    <th class="text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="OfferTable">
+                                @if ($offers->isNotEmpty())
+                                    @foreach ($offers as $list)
+                                        <tr>
+                                            <td>{{ $loop->index + 1 }}</td>
+                                            <td><b>{{ $list->offer_name }}</b></td>
+                                            <td>
+                                                {{ $list->OfferType->offer_type_name }}
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    @foreach ($list->products as $product)
+                                                        <li>{{ $product->product_name }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </td>
+                                            <td>{{ $list->day }}</td>
+                                            <td class="text-end">
+                                                <form class="deleteForm"
+                                                    action="{{ route('offer.destroy', ['id' => $list->id]) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <a href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#offerModalEdit" data-offer-id="{{ $list->id }}"
+                                                        class="btn btn-sm btn-brand rounded font-sm mt-15 edit-offer">Edit</a>
+                                                    <a href="#"
+                                                        class="btn btn-sm btn-danger rounded font-sm mt-15 delete_offer">Delete</a>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                    </div> <!-- table-responsive//end -->
                 </div>
-            </header> <!-- card-header end// -->
-            <div class="card-body">
-                <div class="row gx-3">
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                    <form action="#" method="post" id="deleteForm"></form>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-1.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">Cardinal</h6>
-                                <a href="#"> 398 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-2.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">BirdFly</h6>
-                                <a href="#"> 13 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-3.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">Cocorico</h6>
-                                <a href="#"> 13 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-4.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">Yogilist</h6>
-                                <a href="#"> 87 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-5.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">Acerie</h6>
-                                <a href="#"> 10 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-6.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">Shivakin</h6>
-                                <a href="#"> 398 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-7.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">Acera</h6>
-                                <a href="#"> 398 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-8.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">Lion electronics</h6>
-                                <a href="#"> 398 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-9.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">TwoHand</h6>
-                                <a href="#"> 398 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-10.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">Kiaomin</h6>
-                                <a href="#"> 398 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-11.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">Nokine</h6>
-                                <a href="#"> 398 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-12.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">Company name</h6>
-                                <a href="#"> 13 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-13.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">Company name</h6>
-                                <a href="#"> 398 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-14.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">Company name</h6>
-                                <a href="#"> 13 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-15.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">Company name</h6>
-                                <a href="#"> 398 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-16.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">Company name</h6>
-                                <a href="#"> 13 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-17.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">Company name</h6>
-                                <a href="#"> 13 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                        <figure class="card border-1">
-                            <div class="brand-overlay">
-                                <div class="action-icon">
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#categorymodify"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#" onclick="confirmDelete()" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-header bg-white text-center">
-                                <img height="76" src="{{asset('')}}admin/assets/imgs/brands/brand-18.jpg" class="img-fluid" alt="Logo">
-                            </div>
-                            <figcaption class="card-body text-center">
-                                <h6 class="card-title m-0">Company name</h6>
-                                <a href="#"> 13 items </a>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col.// -->
-                </div> <!-- row.// -->
-            </div> <!-- card-body end// -->
-        </div> <!-- card end// -->
+            </div> <!-- card end// -->
+        </div>
     </div>
-</div>
-
-@include('admin.offers.create_offer')
-@include('admin.offers.offer_type')
-
+    @include('admin.offers.offer_type')
+    @include('admin.offers.create_offer')
+    @include('admin.offers.edit_offer')
 @endsection
+@push('offers')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('#CheckBoxFields').change(function() {
+                if ($(this).is(':checked')) {
+                    $('#EditvariantFields').show();
+                } else {
+                    $('#EditvariantFields').hide();
+                }
+            });
+           
+            $('#OfferProductForm').on('submit', function(event) {
+                event.preventDefault();
+                let formData = new FormData(this); // Use 'FormData', capitalize the 'D'
+                $.ajax({
+                    url: "{{ route('offer.saved') }}",
+                    method: "POST",
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(data) {
+                        console.log(data);
+                        if (data.status == 'success') { // Check for 'success' instead of 200
+                            $('#OfferProductForm')[0].reset();
+                            $('#offerModal').modal('hide'); // Correct modal ID
+                            $.Notification.autoHideNotify('success', 'top right', 'Excellent!!',
+                                data.message);
+                            location.reload();
+                        } else {
+                            $.Notification.autoHideNotify('danger', 'top right', 'Danger!!',
+                                data.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
 
+            $('.edit-offer').on('click', function(e) {
+                e.preventDefault();
+                var offerId = $(this).data('offer-id');
+
+                $.ajax({
+                    url: '/dashboard/promotion/edit_offers_data',
+                    method: 'GET',
+                    data: {
+                        id: offerId,
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        $('#offer_name').val
+                        $('#offer_id').val(response.id);
+                        $('#OffersName').val(response.offer_name);
+                        $('#offer_percent').val(response.offer_percent);
+                        $('.fDate').val(response.from_date);
+                        $('.toDate').val(response.to_date);
+                        // Iterate through each option in the select element
+                        $('#editOffertype').find('option').each(function() {
+                            // Check if the value of the option matches the offer_type_id from the response
+                            if ($(this).val() == response.offer_type_id) {
+                                // Set the selected attribute for the matching option
+                                $(this).prop('selected', true);
+                            } else {
+                                // Remove the selected attribute for other options
+                                $(this).prop('selected', false);
+                            }
+                        });
+
+                    }
+                });
+
+             
+            });
+
+            //Update Brand
+            $("#UpdateOfferProductForm").submit(function(e) {
+                e.preventDefault();
+                const data = new FormData(this);
+                $.ajax({
+                    url: '/dashboard/promotion/update_offers_data',
+                    method: 'post',
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function(res) {
+                        if (res.status == 'success') {
+                            // Hide the edit modal
+                            $('#offerModalEdit').modal('hide');
+                            // Reload the page
+                            location.reload();
+                            $.Notification.autoHideNotify('success', 'top right', 'Success', res
+                                .message);
+                        } else {
+                            $.Notification.autoHideNotify('danger', 'top right', 'Danger', res
+                                .message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error
+                        console.error(xhr.responseText);
+                    }
+                })
+            });
+
+            $(document).on('click', '.delete_offer', function(event) {
+                event.preventDefault(); // Prevent the default link behavior
+                console.log('click');
+                // Find the closest form element related to the clicked link
+                var form = $(this).closest('form');
+                // Display SweetAlert confirmation
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You won\'t be able to revert this!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    // If confirmed, submit the corresponding form
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

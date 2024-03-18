@@ -129,6 +129,9 @@
     @stack('coupons_type')
     @stack('report')
     @stack('products_search')
+    @stack('customer_filter')
+    @stack('product_features')
+    @stack('offers')
 
     <script>
         $(document).ready(function() {

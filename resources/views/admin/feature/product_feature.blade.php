@@ -234,9 +234,10 @@
     <script>
         // Edit Feature Products
         $(document).ready(function() {
-            $('.productFeaturedUpdate').click(function(e) {
+            $('.productFeaturedUpdate').on('click',function(e) {
                 e.preventDefault();
                 var itemId = $(this).data('item-id');
+             
                 $.ajax({
                     url: '/dashboard/product_feature/edit',
                     method: 'GET',
@@ -244,6 +245,7 @@
                         id: itemId
                     },
                     success: function(response) {
+                        console.log(response);
                         $('#feature_id').val(response.id);
                         $('#edit_feature_products_title').val(response.feature_products_title);
                         // Check the status and set the checkbox accordingly

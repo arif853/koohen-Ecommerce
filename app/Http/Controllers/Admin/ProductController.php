@@ -60,6 +60,9 @@ class ProductController extends Controller
         return view('admin.products.index',compact('products'));
     }
 
+   
+    
+
     /**
      * Show the form for creating a new resource.
      */
@@ -653,7 +656,6 @@ class ProductController extends Controller
             return response()->json(['error' => 'Product image not found'], Response::HTTP_NOT_FOUND);
         }
     }
-
     public function ProductFilter(Request $request)
     {
         $product_name = $request->input('product_name');
@@ -692,7 +694,6 @@ class ProductController extends Controller
             }
         });
         $products = $query->get();
-
         foreach($products as $product)
         {
             $product->balance = $product->product_stocks->sum('inStock') - $product->product_stocks->sum('outStock');
