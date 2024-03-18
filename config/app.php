@@ -171,6 +171,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
         misterspelik\LaravelPdf\PdfServiceProvider::class,
+        Igoshev\Captcha\Providers\CaptchaServiceProvider::class,
 
 
     ])->toArray(),

@@ -68,6 +68,7 @@
                         <div>
                             <div class="text-center">
                                 <a href="#" wire:click.prevent="store({{$item->product->id}})" onclick="cartNotify()"><button type="button" class="adto-cart-btn">Add To Cart</button></a>
+                                
                             </div>
                         </div>
                     </div>

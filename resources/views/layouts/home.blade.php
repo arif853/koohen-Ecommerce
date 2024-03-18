@@ -562,7 +562,7 @@
             }
         });
         $.ajax({
-            url: '/home/quickview',
+            url: '{{url('/home/quickview')}}',
             method: 'GET',
             data: {
                 slug: Slug,

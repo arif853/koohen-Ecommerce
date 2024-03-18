@@ -32,7 +32,21 @@ class CampaignController extends Controller
      */
     public function create()
     {
-        $products = Products::all();
+        $items = Products::all();
+
+        // Filter products based on stock balance greater than zero
+        $products = $items->filter(function ($product) {
+
+                // Calculate total stock balance for the product
+            $totalStock = $product->product_stocks->sum(function ($stock) {
+                return $stock->inStock - $stock->outStock;
+            });
+            // Add a property to the product object with the total stock balance
+            $product->totalStock = $totalStock;
+
+            // Return true if total stock balance is greater than zero
+            return $totalStock > 0;
+        });
 
         return view('admin.campaign.create',compact('products'));
     }

@@ -53,7 +53,7 @@ class FeatureCategoryComponent extends Component
     {
         $cat_features = Feature_category::where('status', 'Active')->first();
 
-        $products = Products::with([
+        $items = Products::with([
             'overviews',
             'product_infos',
             'product_images',
@@ -68,6 +68,18 @@ class FeatureCategoryComponent extends Component
 
         ])->where('category_id', $cat_features->category_id)->get();
 
+        $products = $items->filter(function ($product) {
+
+            // Calculate total stock balance for the product
+            $totalStock = $product->product_stocks->sum(function ($stock) {
+                return $stock->inStock - $stock->outStock;
+            });
+            // Add a property to the product object with the total stock balance
+            $product->totalStock = $totalStock;
+
+            // Return true if total stock balance is greater than zero
+            return $totalStock > 0;
+        });
 
         return view('livewire.feature-category-component',['products' =>$products]);
     }

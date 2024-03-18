@@ -4366,6 +4366,8 @@ table .product-thumbnail img {
 
 .list-filter li {
   display: inline-block;
+  margin-left: 5px;
+  margin-bottom: 5px;
 }
 
 .list-filter li a {
@@ -8610,4 +8612,22 @@ ul li a.customer_info:hover{
 }
 .header-style-4 .stick .item_tile p{
     color: #636363 !important;
+}
+
+.ui-widget.ui-widget-content {
+	/* border: none; */
+	background-color: #FF8B13;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
+	border: 1px solid #FF8B13;
+	background: #FF8B13;
+	font-weight: normal;
+	color: #FF8B13;
+    border-radius: 50%;
+}
+.text-price
+{
+    font-size: 18px;
+    font-weight: bold;
+    color: #FF8B13;
 }

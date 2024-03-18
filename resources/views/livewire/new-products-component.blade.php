@@ -7,16 +7,16 @@
                 <div class="product-img product-img-zoom">
                     <a href="{{route('product.detail',['slug'=>$newproduct->slug])}}">
                         @foreach ($newproduct->product_thumbnail as $index => $image)
-                            @if($index == 0)
-                            <img class="default-img"
-                            src="{{asset('storage/product_images/thumbnail/'.$newproduct->product_thumbnail[0]->product_thumbnail)}}" alt="{{$newproduct->slug}}">
-                            @endif
+                        @if($index == 0)
+                        <img class="default-img"
+                        src="{{asset('storage/product_images/thumbnail/'.$newproduct->product_thumbnail[0]->product_thumbnail)}}" alt="{{$newproduct->slug}}">
+                        @endif
 
-                            @if($index == 1)
-                            <img class="hover-img"
-                            src="{{asset('storage/product_images/thumbnail/'.$newproduct->product_thumbnail[1]->product_thumbnail)}}" alt="{{$newproduct->slug}}">
-                            @endif
-                            @endforeach
+                        @if($index == 1)
+                        <img class="hover-img"
+                        src="{{asset('storage/product_images/thumbnail/'.$newproduct->product_thumbnail[1]->product_thumbnail)}}" alt="{{$newproduct->slug}}">
+                        @endif
+                        @endforeach
 
                     </a>
                 </div>
@@ -59,12 +59,12 @@
                     @if($flag == 1)
                     <span>৳{{$camp_price}} </span>
                     <span class="old-price">৳{{$newproduct->regular_price}}</span>
-                    {{$flag}}
+                    {{-- {{$flag}} --}}
 
                     @elseif ($newproduct->product_price->offer_price > 0)
                     <span>৳{{$newproduct->product_price->offer_price}} </span>
                     <span class="old-price">৳{{$newproduct->regular_price}}</span>
-                    {{$flag}}
+                    {{-- {{$flag}} --}}
 
                     @else
                     <span>৳{{$newproduct->regular_price}} </span>
@@ -73,9 +73,17 @@
                 </div>
 
                 <div>
+                    @if($newproduct->product_stocks)
+                        @php
+                            $balance = $newproduct->product_stocks->sum('inStock') - $newproduct->product_stocks->sum('outStock')
+                        @endphp
+                    @endif
                     <div class="text-center">
+                        @if($balance>0)
                         <a href="#" wire:click.prevent="store({{$newproduct->id}})" onclick="cartNotify()"><button type="button" class="adto-cart-btn">Add To Cart</button></a>
-
+                        @else
+                        <p class="text-danger">Out of stock</p>
+                        @endif
                         {{-- <a href="#"><button type="button" class="adto-cart-btn">Add To Cart</button></a> --}}
                     </div>
                 </div>
