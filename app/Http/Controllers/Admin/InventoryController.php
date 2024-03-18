@@ -70,7 +70,7 @@ class InventoryController extends Controller
                 ],
                 [
                     'inStock' => \DB::raw("inStock + $quantity"), // Increment the inStock column
-                    'outStock' => 0, // Assuming outStock starts at 0
+                    // 'outStock' => 0, // Assuming outStock starts at 0
                     'price' => null, // Set the price value as needed
                     'purchase_date' => $request->purchase_date,
                 ]

@@ -37,7 +37,6 @@ class AdminMail extends Mailable
 
     public function build(){
         $pdf = $this->generateInvoicePDF($this->data->id);
-
         return $this->view('admin.email.adminmail',['order' => $this->data])
         ->attachData($pdf, 'invoice.pdf', [
             'mime' => 'application/pdf',
@@ -61,6 +60,7 @@ class AdminMail extends Mailable
 
         return $mpdf;
     }
+
 
     /**
      * Get the message content definition.

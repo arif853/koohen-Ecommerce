@@ -110,6 +110,39 @@ class OrderController extends Controller
         // $customer = $order->customer;
         return view('admin.order.order_details', compact('order', 'orderProducts', 'district', 'postOffice'));
     }
+    public function OrderFilter(Request $request)
+    {
+        if($request->ajax()) {
+            $orderId = $request->orderId;
+            $customerName = $request->customerName;
+            $status = $request->status;
+            $orderDate = $request->orderDate;
+
+            $query = Order::with('customer');
+
+            if ($orderId) {
+                $query->where('id', $orderId);
+            }
+            if ($customerName) {
+                $query->whereHas('customer', function ($query) use ($customerName) {
+                    $query->where('firstName', 'LIKE', '%' . $customerName . '%')
+                          ->orWhere('lastName', 'LIKE', '%' . $customerName . '%');
+                });
+            }
+            if ($status) {
+                $query->where('status', $status);
+            }
+            if ($orderDate) {
+                $query->whereDate('created_at', $orderDate);
+            }
+            $orders = $query->get();
+            return response()->json($orders);
+        }
+    }
+
+
+
+
 
     public function order_return()
     {
@@ -201,35 +234,33 @@ class OrderController extends Controller
         $statusColumn = $newStatus . '_date_time';
         Orderstatus::updateOrCreate(['order_id' => $orderId], ['status' => $newStatus, $statusColumn => Carbon::now()]);
 
-        if($newStatus == 'confirmed')
-        {
-            foreach ($order->order_item as $item) {
 
-                if($item && $item->size_id){
-                    Product_stock::updateOrCreate(
-                        [
-                            'product_id' => $item->product_id,
-                            'size_id' => $item->size_id,
-                        ],
-                        [
-                            // 'inStock' => \DB::raw("inStock"), // Increment the inStock column
-                            'outStock' => \DB::raw("outStock + $item->quantity"), // Assuming outStock starts at 0
-                        ]
-                    );
+        if($newStatus == 'completed')
+            {
+                $transaction = transactions::where('order', $order->id);
+                $transaction->status = 'paid';
+                $transaction->save();
+            }
 
+            if($newStatus == 'confirmed')
+            {
+                foreach ($order->order_item as $item) {
+
+                    if($item && $item->size_id){
+                        Product_stock::updateOrCreate(
+                            [
+                                'product_id' => $item->product_id,
+                                'size_id' => $item->size_id,
+                            ],
+                            [
+                                // 'inStock' => \DB::raw("inStock"), // Increment the inStock column
+                                'outStock' => \DB::raw("outStock + $item->quantity"), // Assuming outStock starts at 0
+                            ]
+                        );
+                        Session::flash('warning','Product count on inventory.');
+                    }
                 }
             }
-        }
-
-        if($order->status == 'completed')
-        {
-            $transaction = transactions::where('order_id', $order->id);
-            // $transaction->status = 'paid';
-            $transaction->update([
-                'status' => 'paid',
-            ]);
-            Session::flash('success', 'Transaction Status updated.');
-        }
 
         return response()->json([
             'success' => true,
@@ -247,193 +278,6 @@ class OrderController extends Controller
         return view('admin.order.pending_list', compact('pendingOrders'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(Request $request)
-    // {
-    //     $rules = [
-    //         'fname' => 'required|string',
-    //         'lname' => 'required|string',
-    //         'phone' => 'required|string',
-    //         'email' => 'required|email',
-    //         'billing_address' => 'required|string',
-
-    //         'billing_division' => 'required',
-    //         'billing_district' => 'required',
-    //         'billing_area' => 'required',
-    //         // 'password' => 'required|min:6',
-
-    //         // Add any additional rules for other fields as needed
-
-    //         // Example validation for the division, district, and area/postoffice relationship
-    //         // 'billing_district' => [
-    //         //     'required',
-    //         //     'exists:districts,id',
-    //         //     Rule::exists('districts', 'id')->where(function ($query) {
-    //         //         $query->where('division_id', request('billing_division'));
-    //         //     }),
-    //         // ],
-    //         // 'billing_area' => [
-    //         //     'required',
-    //         //     'exists:post_offices,id',
-    //         //     Rule::exists('post_offices', 'id')->where(function ($query) {
-    //         //         $query->where('district_id', request('billing_district'));
-    //         //     }),
-    //         // ],
-    //     ];
-
-    //     $validator = Validator::make($request->all(),$rules);
-
-    //     // Validate the request
-    //     if ($validator->fails()) {
-    //         Session::flash('danger',' Validation Error.');
-    //         return redirect()->back()->withErrors($validator)->withInput();
-    //     }
-    //     else{
-
-    //         // save new customer.
-    //          // Check if customer with the given email or phone already exists
-    //         $existingCustomer = Customer::where('email', $request->email)
-    //         ->orWhere('phone', $request->phone)
-    //         ->first();
-
-    //         if ($existingCustomer) {
-    //             // Customer with the same email or phone already exists
-    //             // You can show a session message or take any other action
-    //             return redirect()->back()->with('warning', 'The same email or phone already exists. Please login first.');
-    //         } else {
-    //             // Customer does not exist, create a new one
-    //             $customer = new Customer;
-    //             $customer->firstName  = $request->fname;
-    //             $customer->lastName = $request->lname;
-    //             $customer->phone = $request->phone;
-    //             $customer->email = $request->email;
-    //             $customer->billing_address = $request->billing_address;
-    //             $customer->division = $request->billing_division;
-    //             $customer->district = $request->billing_district;
-    //             $customer->area = $request->billing_area;
-    //             // $customer->loyalty_point = $request->point;
-    //             $customer->save();
-
-    //         // You can show a success session message or take any other action
-    //         // return redirect()->back()->with('success', 'Customer created successfully.');
-    //         // Session::flash('warning',)
-    //         }
-
-    //         $customer_id = $customer->id;
-    //         $customerEmail = $customer->email;
-    //         $customerPhone = $customer->phone;
-
-    //         // if new customer registration store.
-    //         if($request->is_createaccount){
-    //             $customer_reg = new Register_customer;
-    //             $customer_reg->customer_id = $customer_id;
-    //             $customer_reg->email = $customerEmail;
-    //             $customer_reg->phone = $customerPhone;
-    //             $customer_reg->password = Hash::make($request->password);
-    //             $customer_reg->status = 'registerd';
-    //             $customer_reg->save();
-
-    //             $registration_status = $customer_reg->status;
-    //             $register_customer = Customer::find($customer_reg->customer_id);
-    //             $register_customer->update([
-    //                'status' => $registration_status,
-    //             ]);
-
-    //             Session::flash('warning','Your registration successfully complete, Please login to user dashboard.');
-    //         }
-
-    //         // $product = Cart::get();
-
-    //         // order details store to order
-    //         $order = new Order;
-    //         $order->customer_id = $customer_id;
-    //         $order->subtotal = $request->subtotal;
-    //         $order->discount = 0;
-    //         $order->tax = $request->tax;
-    //         $order->total = $request->total_amount;
-    //         $order->total = $request->is_shipping ? 1 : 0;
-    //         $order->save();
-
-    //         $cartItems = Cart::content();
-
-    //         // Loop through the cart items and save them to the order item table
-    //         foreach ($cartItems as $cartItem) {
-
-    //             // Save $cartItem to your order item table
-    //             //order item store in order item item table.
-    //             order_items::create([
-    //                 'product_id' => $cartItem->id,
-    //                 'order_id' => $order->id,
-    //                 'color_id' => $request->color_id,
-    //                 'size_id' => $request->size_id,
-    //                 'price' => $cartItem->price,
-    //                 'quantity' => $cartItem->qty,
-    //                 'comment' => $request->comment,
-    //             ]);
-    //         }
-
-    //         if($request->is_shipping){
-    //             // shipping addres different from billing address. get shipping data.
-    //             $existingCustomer_shipping = shipping::where('customer_id', $customer_id);
-
-    //             if($existingCustomer_shipping->shipping_add != $request->shipper_address)
-    //             {
-    //                 $shipping_info = new shipping;
-    //                 $shipping_info->customer_id = $customer_id;
-    //                 $shipping_info->order_id = $order->id;
-    //                 $shipping_info->first_name = $request->shipper_fname;
-    //                 $shipping_info->last_name = $request->shipper_lname;
-    //                 $shipping_info->s_phone = $request->shipper_phone;
-    //                 $shipping_info->s_email = $request->shipper_email;
-    //                 $shipping_info->shipping_add = $request->shipper_address;
-    //                 $shipping_info->division = $request->shipping_division;
-    //                 $shipping_info->district = $request->shipping_district;
-    //                 $shipping_info->area = $request->shipping_area;
-    //                 $shipping_info->save();
-    //             }
-    //             else{
-    //                 Session::flash('warning','You have same shipping address with your profile.');
-    //             }
-
-    //          }
-    //          else{
-    //             // shipping address and billing address same. billing address save to shipping table.
-
-    //             // $existingCustomer_shipping = shipping::where('customer_id', $customer_id);
-
-    //             // if($existingCustomer_shipping->shipping_add != $request->billing_address)
-    //             // {
-    //                 $shipping_info = new shipping;
-    //                 $shipping_info->customer_id = $customer_id;
-    //                 $shipping_info->order_id = $order->id;
-    //                 $shipping_info->first_name = $request->fname;
-    //                 $shipping_info->last_name = $request->lname;
-    //                 $shipping_info->s_phone = $request->phone;
-    //                 $shipping_info->s_email = $request->email;
-    //                 $shipping_info->shipping_add = $request->billing_address;
-    //                 $shipping_info->division = $request->billing_division;
-    //                 $shipping_info->district = $request->billing_district;
-    //                 $shipping_info->area = $request->billing_area;
-    //                 $shipping_info->save();
-    //             // }
-    //          }
-
-    //          $transaction = transactions::create([
-    //             'customer_id' => $customer_id,
-    //             'order_id' => $order->id,
-    //             'mode' => $request->payment_mode,
-    //          ]);
-
-    //         // Clear the cart after saving to the order item table
-    //         Cart::destroy();
-    //         // Session::flash('success', 'Your order has been placed');
-    //         // return redirect()->route('shop')->with('success', 'Your order has been placed');
-
-    //     }
-
-    // }
 
     /**
      * Display the specified resource.
@@ -461,53 +305,6 @@ class OrderController extends Controller
 
         Session::flash('success', ' Order return confirmation done.');
         return redirect()->back();
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-        //$filename = 'Invoice_Sheet';
-
-        // $pdf= PDF::loadView('admin.order.invoice',['order'=>$order],[],
-        //     [
-        //         'mode'                 => '',
-        //         'format'               => 'A5',
-        //         'default_font_size'    => '12',
-        //         'default_font'         => 'sans-serif',
-        //         'margin_left'          => 5,
-        //         'margin_right'         => 5,
-        //         'margin_top'           => 10,
-        //         'margin_bottom'        => 21,
-        //         'margin_header'        => 0,
-        //         'margin_footer'        => 0,
-        //         'orientation'          => 'P',
-        //         'title'                => 'Laravel mPDF',
-        //         'author'               => '',
-        //         'watermark'            => '',
-        //         'show_watermark'       => false,
-        //         'watermark_font'       => 'sans-serif',
-        //         'display_mode'         => 'fullpage',
-        //         'watermark_text_alpha' => 0.1,
-        //         'custom_font_dir'      => '',
-        //         'custom_font_data' 	   => [],
-        //         'auto_language_detection'  => false,
-        //         'temp_dir'               => rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR),
-        //         'pdfa' 			=> false,
-        //         'pdfaauto' 		=> false,
-        //     ]
-        // );
-        // return $pdf->stream($filename.'.pdf');
     }
 
     public function orderInvoice($id)

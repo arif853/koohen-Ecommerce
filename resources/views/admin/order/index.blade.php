@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','Orders list')
+@section('title', 'Orders list')
 @section('content')
 
     <div class="content-header">
@@ -7,8 +7,8 @@
             <h2 class="content-title card-title">Order List </h2>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{{'/dashborad'}}">Dashboard</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Order</li>
+                    <li class="breadcrumb-item"><a href="{{ '/dashborad' }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Order</li>
                 </ol>
             </nav>
         </div>
@@ -18,52 +18,58 @@
             <div class="card mb-4">
                 <header class="card-header">
                     <h5 class="mb-3">Filter by</h5>
-                    <form>
-                        <div class="row">
-                        <div class="col-md-3 mb-4">
-                            <label for="order_id" class="form-label">Order ID</label>
-                            <input type="text" placeholder="Type here" class="form-control" id="order_id">
+                    <form id="orderFilterForm">
+                        <div class="row order_live_search">
+                            <div class="col-md-3 mb-4">
+                                <label for="Order" class="form-label">Order ID</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="order_id">
+                            </div>
+                            <div class="col-md-3 mb-4">
+                                <label for="c_label" class="form-label">Customer</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="customer_name">
+                            </div>
+                            <div class="col-md-3 mb-4">
+                                <label for="orderStatus" class="form-label">Order Status</label>
+                                <select class="form-select" id="orderStatus">
+                                    <option value="0">Change Status</option>
+                                    <option value="pending" style="color: orange;">Pending</option>
+                                    <option value="confirmed" style="color: blue;">Confirmed</option>
+                                    <option value="shipped" style="color: green;">Shipped</option>
+                                    <option value="delivered" style="color: #00cc00;">Delivered</option>
+                                    <option value="completed" style="color: purple;">Completed</option>
+                                    <option value="returned" style="color: gray;">Returned</option>
+                                    <option value="cancelled" style="color: red;">Cancelled</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-4">
+                                <label for="order_date" class="form-label">Order Date</label>
+                                <input type="date" placeholder="Type here" class="form-control" id="order_date">
+                            </div>
                         </div>
-                        <div class="col-md-3 mb-4">
-                            <label for="order_customer" class="form-label">Customer</label>
-                            <input type="text" placeholder="Type here" class="form-control" id="order_customer">
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <label class="form-label">Order Status</label>
-                            <select class="form-select" name="orderStatus" id="orderStatus">
-                                <option>Published</option>
-                                <option>Draft</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <label for="order_created_date" class="form-label">Date Added</label>
-                            <input type="text" placeholder="Type here" class="form-control" id="order_created_date" >
-                        </div>
-                    </div>
-                </form>
+                    </form>
+
 
                 </header>
-                    <div class="row gx-3 mt-4">
-                        <div class="col-lg-4 col-md-6 me-auto">
-                            {{-- <input type="text" placeholder="Search..." class="form-control"> --}}
-                        </div>
-                        <div class="col-lg-2 col-md-3 col-6">
-                            <select class="form-select mb-lg-0 mb-15 mw-200 all_order_status"
-                            id="all_order_status" name="all_order_status"
-                            style="display: none; border-color: #088178">
-
-                                <option value="0" >Change Status</option>
-                                <option value="pending" style="color: orange;" >Pending</option>
-                                <option value="confirmed" style="color: blue;" >Confirmed</option>
-                                <option value="shipped" style="color: green;" >Shipped</option>
-                                <option value="delivered" style="color: #00cc00;" >Delivered</option>
-                                <option value="completed" style="color: purple;">Completed</option>
-                                <option value="returned" style="color: gray;" >Returned</option>
-                                <option value="cancelled" style="color: red;" >Cancelled</option>
-                            </select>
-                        </div>
-
+                <div class="row gx-3 mt-4">
+                    <div class="col-lg-4 col-md-6 me-auto">
+                        {{-- <input type="text" placeholder="Search..." class="form-control"> --}}
                     </div>
+                    <div class="col-lg-2 col-md-3 col-6">
+                        <select class="form-select mb-lg-0 mb-15 mw-200 all_order_status" id="all_order_status"
+                            name="all_order_status" style="display: none; border-color: #088178">
+
+                            <option value="0">Change Status</option>
+                            <option value="pending" style="color: orange;">Pending</option>
+                            <option value="confirmed" style="color: blue;">Confirmed</option>
+                            <option value="shipped" style="color: green;">Shipped</option>
+                            <option value="delivered" style="color: #00cc00;">Delivered</option>
+                            <option value="completed" style="color: purple;">Completed</option>
+                            <option value="returned" style="color: gray;">Returned</option>
+                            <option value="cancelled" style="color: red;">Cancelled</option>
+                        </select>
+                    </div>
+
+                </div>
                 <!-- card-header end// -->
                 <div class="card-body">
                     <div class="">
@@ -80,7 +86,7 @@
                                     <th class="text-end"> Action </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="orderTableBody">
                                 @foreach ($orders as $key => $order)
                                 <tr>
                                     <td><input type="checkbox" class="form-group order-checkbox" value="{{$order->id}}" id="order_checkbox"></td>
@@ -122,10 +128,16 @@
                                                 <a class="dropdown-item" href="#">Edit info</a>
                                                 <a class="dropdown-item text-danger" href="#">Delete</a>
                                             </div>
-                                        </div> --}}
-                                        <!-- dropdown //end -->
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td>{{ $order->created_at->format('d-m-Y') }}</td>
+                                        <td class="text-end">
+                                            <a href="{{ route('order.details', ['id' => $order->id]) }}"
+                                                class="btn btn-md rounded font-sm">Detail</a>
+                                            <a class="btn btn-md rounded font-sm"
+                                                href="{{ route('order.track', ['id' => $order->id]) }}">Track me</a>
+
+                                        </td> --}}
+                                    </tr>
                                 @endforeach
 
                             </tbody>
@@ -139,116 +151,244 @@
 
 @endsection
 @push('order_status')
-<script>
-    $(document).ready(function() {
-        // Get references to the global and individual checkboxes
-        const selectAllCheckbox = document.getElementById('select-all-checkbox');
-        const individualCheckboxes = document.querySelectorAll('.order-checkbox');
-        const statusSelect = $('#all_order_status');
+    <script>
+        $(document).ready(function() {
+            // Get references to the global and individual checkboxes
+            const selectAllCheckbox = document.getElementById('select-all-checkbox');
+            const individualCheckboxes = document.querySelectorAll('.order-checkbox');
+            const statusSelect = $('#all_order_status');
 
-        // Add an event listener to the global checkbox
-        selectAllCheckbox.addEventListener('change', function () {
-            // Update the state of all individual checkboxes based on the state of the global checkbox
+            // Add an event listener to the global checkbox
+            selectAllCheckbox.addEventListener('change', function() {
+                // Update the state of all individual checkboxes based on the state of the global checkbox
+                individualCheckboxes.forEach(checkbox => {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
+
+                // Show/hide the statusSelect based on the state of the global checkbox
+                statusSelect.toggle(selectAllCheckbox.checked);
+            });
+
+            // Add an event listener to each individual checkbox
             individualCheckboxes.forEach(checkbox => {
-                checkbox.checked = selectAllCheckbox.checked;
+                checkbox.addEventListener('change', function() {
+                    // Update the state of the global checkbox based on the state of individual checkboxes
+                    selectAllCheckbox.checked = [...individualCheckboxes].every(checkbox => checkbox
+                        .checked);
+
+                    // Show/hide the statusSelect based on the state of the individual checkboxes
+                    statusSelect.toggle([...individualCheckboxes].some(checkbox => checkbox
+                        .checked));
+                });
             });
 
-            // Show/hide the statusSelect based on the state of the global checkbox
-            statusSelect.toggle(selectAllCheckbox.checked);
-        });
+            $('.order-checkbox').change(function() {
+                var orderId = $(this).val();
+                var statusSelect = $('#all_order_status');
 
-        // Add an event listener to each individual checkbox
-        individualCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function () {
-                // Update the state of the global checkbox based on the state of individual checkboxes
-                selectAllCheckbox.checked = [...individualCheckboxes].every(checkbox => checkbox.checked);
-
-                // Show/hide the statusSelect based on the state of the individual checkboxes
-                statusSelect.toggle([...individualCheckboxes].some(checkbox => checkbox.checked));
-            });
-        });
-
-        $('.order-checkbox').change(function() {
-            var orderId = $(this).val();
-            var statusSelect = $('#all_order_status');
-
-            if ($(this).prop('checked')) {
-                statusSelect.show();
-            } else {
-                statusSelect.hide();
-            }
-        });
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $('.all_order_status').change(function() {
-            var selectedStatus = $(this).val();
-            var selectedOrders = $('.order-checkbox:checked').map(function() {
-                return $(this).val();
-            }).get();
-            // console.log(selectedOrders);
-            // Perform an AJAX request to update the status of selected orders
-            $.ajax({
-                type: 'POST',
-                url: '/update-order-status',
-                data: {
-                    status: selectedStatus,
-                    orders: selectedOrders
-                },
-                success: function(response) {
-                    // Handle success, if needed
-                    location.reload();
-                    if (response.success) {
-                        $.Notification.autoHideNotify('success', 'top right', 'Success', response.message);
-                    }
-                    console.log(response);
-                },
-                error: function(error) {
-                    // Handle error, if needed
-                    location.reload();
-                    console.error(error);
+                if ($(this).prop('checked')) {
+                    statusSelect.show();
+                } else {
+                    statusSelect.hide();
                 }
             });
-        });
 
-        $('.order_status').change(function() {
-            var orderId = $(this).data('order-id');
-            var newStatus = $(this).val();
-
-            console.log(newStatus);
-            console.log(orderId);
-            // Perform an AJAX request to update the status of selected orders
-            $.ajax({
-                type: 'POST',
-                url: '/update-one-order-status', // Update with your route
-                data: {
-                    orderId: orderId,
-                    newStatus: newStatus,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function (response) {
-                    // Handle success, if needed
-                    location.reload();
-                    if (response.success) {
-                        $.Notification.autoHideNotify('success', 'top right', 'Success', response.message);
-                    }
-                    console.log(response);
-                },
-                error: function (error) {
-                    // Handle error, if needed
-                    console.error(error);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-        });
 
-        // // $('.order_status').change(function () {
-        //     var selectedColor = $('option:selected', '.order_status').css('color');
-        //     $('.order_status').css('background-color', selectedColor);
-        // // });
-    });
-</script>
+            $('.all_order_status').change(function() {
+                var selectedStatus = $(this).val();
+                var selectedOrders = $('.order-checkbox:checked').map(function() {
+                    return $(this).val();
+                }).get();
+                // console.log(selectedOrders);
+                // Perform an AJAX request to update the status of selected orders
+                $.ajax({
+                    type: 'POST',
+                    url: '/update-order-status',
+                    data: {
+                        status: selectedStatus,
+                        orders: selectedOrders
+                    },
+                    success: function(response) {
+                        // Handle success, if needed
+                        location.reload();
+                        if (response.success) {
+                            $.Notification.autoHideNotify('success', 'top right', 'Success',
+                                response.message);
+                        }
+                        // console.log(response);
+                    },
+                    error: function(error) {
+                        // Handle error, if needed
+                        location.reload();
+                        console.error(error);
+                    }
+                });
+            });
+
+            $('.order_status').change(function() {
+                var orderId = $(this).data('order-id');
+                var newStatus = $(this).val();
+                console.log(newStatus);
+                console.log(orderId);
+                // Perform an AJAX request to update the status of selected orders
+                $.ajax({
+                    type: 'POST',
+                    url: '/update-one-order-status', // Update with your route
+                    data: {
+                        orderId: orderId,
+                        newStatus: newStatus,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        // Handle success, if needed
+                        location.reload();
+                        if (response.success) {
+                            $.Notification.autoHideNotify('success', 'top right', 'Success',
+                                response.message);
+                        }
+                        // console.log(response);
+                    },
+                    error: function(error) {
+                        // Handle error, if needed
+                        console.error(error);
+                    }
+                });
+            });
+
+            $('#orderFilterForm input, #orderFilterForm select').on('keyup change', function() {
+                // Capture form input values
+                var orderId = $('#order_id').val();
+                console.log(orderId);
+                var customerName = $('#customer_name').val();
+                console.log(customerName);
+                var status = $('#orderStatus').val();
+                console.log(status);
+                var orderDate = $('#order_date').val();
+                console.log(orderDate);
+                $.ajax({
+                    url: "{{ route('order.filters') }}",
+                    method: "GET",
+                    data: {
+                        orderId: orderId,
+                        customerName: customerName,
+                        status: status,
+                        orderDate: orderDate,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        // Handle success, if needed
+                        // console.log(response);
+
+                        var tableBody = $('#orderTableBody');
+                        tableBody.empty(); // Clear existing table rows
+                        response.forEach(function(order, index) {
+                            var createdAtDate = new Date(order.created_at);
+                            var orderDetailUrl =
+                                "{{ route('order.details', ['id' => '']) }}" +
+                                order.id;
+                            var orderTrackUrl =
+                                "{{ route('order.track', ['id' => '']) }}" + order
+                                .id;
+                            var orderInvoiceUrl =
+                                "{{ route('invoice', ['id' => ':id']) }}".replace(
+                                    ':id', order.id);
+                            //   var customerProfileUrl = "{{ route('customer.profile', ['id' => ':id']) }}".replace(':id', order.customer_id);
+                            var customerProfileUrl =
+                                "{{ route('customer.profile', ['id' => '']) }}" +
+                                order.customer_id;
+                            // Define options for date formatting
+                            var options = {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit'
+                            };
+
+                            // Format the date using toLocaleDateString() method
+                            var formattedDate = createdAtDate.toLocaleDateString(
+                                'en-GB', options)
+                            var row = $('<tr>');
+
+
+                            row.append($('<td>').html(
+                                '<input type="checkbox" class="form-group order-checkbox" value="' +
+                                order.id + '" id="order_checkbox">'));
+                            row.append($('<td>').text(index + 1));
+                            row.append($('<td>').html('<a href="' +
+                                customerProfileUrl + '" class="itemside">' +
+                                '<div class="info pl-3">' +
+                                '<h6 class="mb-0 title">' + order.customer
+                                .firstName + ' ' + order.customer.lastName +
+                                '</h6>' +
+                                '<small class="text-muted">Order ID: #' +
+                                order
+                                .id + '</small>' +
+                                '</div>' +
+                                '</a>'));
+                            row.append($('<td>').html('<a href="tel:' + order
+                                .customer
+                                .phone + '">' + order.customer.phone +
+                                '</a>'));
+                            row.append($('<td>').text('৳' + order.total));
+                            row.append($('<td>').html(
+                                '<div class="status-container">' +
+                                '<select class="form-select d-inline-block mb-lg-0 mb-15 mw-200 order_status" id="order_status_' +
+                                order.id + '" ' +
+                                'data-order-id="' + order.id +
+                                '" name="order_status">' +
+                                '<option value="pending" style="color: orange;"' +
+                                (order.status == 'pending' ? ' selected' :
+                                    '') +
+                                '>Pending</option>' +
+                                '<option value="confirmed" style="color: blue;"' +
+                                (order.status == 'confirmed' ? ' selected' :
+                                    '') + '>Confirmed</option>' +
+                                '<option value="shipped" style="color: green;"' +
+                                (order.status == 'shipped' ? ' selected' :
+                                    '') +
+                                '>Shipped</option>' +
+                                '<option value="delivered" style="color: #00cc00;"' +
+                                (order.status == 'delivered' ? ' selected' :
+                                    '') + '>Delivered</option>' +
+                                '<option value="completed" style="color: purple;"' +
+                                (order.status == 'completed' ? ' selected' :
+                                    '') + '>Completed</option>' +
+                                '<option value="returned" style="color: gray;"' +
+                                (order.status == 'returned' ? ' selected' :
+                                    '') + '>Returned</option>' +
+                                '<option value="cancelled" style="color: red;"' +
+                                (order.status == 'cancelled' ? ' selected' :
+                                    '') + '>Cancelled</option>' +
+                                '</select>' +
+                                '</div>'));
+
+                            row.append($('<td>').text(formattedDate));
+                            row.append($('<td>').addClass('text-end').html(
+                                '<a href="' + orderDetailUrl +
+                                '" class="btn btn-md rounded font-sm me-2">Detail</a>' +
+                                '<a href="' + orderTrackUrl +
+                                '" class="btn btn-md rounded font-sm me-2">Track me</a>' +
+                                '<a href="' + orderInvoiceUrl +
+                                '" target="__blank" class="btn btn-facebook rounded font-sm">Invoice</a>'
+                            ));
+                            // Append more columns as needed
+
+                            tableBody.append(row);
+                        });
+                    },
+                    error: function(error) {
+                        // Handle error, if needed
+                        console.error(error);
+                    }
+                })
+            });
+
+
+
+        });
+    </script>
 @endpush

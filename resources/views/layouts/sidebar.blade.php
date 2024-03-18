@@ -9,12 +9,12 @@
     </div>
     <nav>
         <ul class="menu-aside">
-            <li class="menu-item active">
+            <li class="menu-item {{ request()->is('dashboard') ? 'active' : '' }}">
                 <a class="menu-link" href="{{('/dashboard')}}"> <i class="icon material-icons md-home"></i>
                     <span class="text">Dashboard</span>
                 </a>
             </li>
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/products') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_bag"></i>
                     <span class="text">Products</span>
                 </a>
@@ -27,7 +27,7 @@
                     <a href="{{route('varient.index')}}">Varient</a>
                 </div>
             </li>
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/orders/*') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_cart"></i>
                     <span class="text">Orders</span>
                 </a>
@@ -38,7 +38,7 @@
                     <a href="{{route('order.return')}}">Order return</a>
                 </div>
             </li>
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/customers') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-supervisor_account"></i>
                     <span class="text">Customers</span>
                 </a>
@@ -48,7 +48,7 @@
                 </div>
             </li>
 
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/suppliers') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-supervised_user_circle"></i>
                     <span class="text">Suppliers</span>
                 </a>
@@ -57,18 +57,16 @@
                     {{-- <a href="{{route('customer.profile')}}">Customer profile</a> --}}
                 </div>
             </li>
-
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/transaction') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-monetization_on"></i>
                     <span class="text">Transactions</span>
                 </a>
-                {{-- <div class="submenu">
-                    <a href="page-transactions-1.html">Transaction 1</a>
-                    <a href="page-transactions-2.html">Transaction 2</a>
-                    <a href="page-transactions-details.html">Transaction Details</a>
-                </div> --}}
+                <div class="submenu">
+                    <a href="{{route('transaction.index')}}">Transactions list</a>
+                    {{-- <a href="{{route('customer.profile')}}">Customer profile</a> --}}
+                </div>
             </li>
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/promotion/*') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-trending_up"></i>
                     <span class="text">Promotions</span>
                 </a>
@@ -77,13 +75,13 @@
                     <a href="{{route('coupon.index')}}">Coupons</a>
                 </div>
             </li>
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/feature/*') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-card_membership"></i>
                     <span class="text">Feature item</span>
                 </a>
                <div class="submenu">
                     <a href="{{route('category_feature')}}">Category</a>
-                    <a href="page-account-register.html">Products</a>
+                    <a href="{{ route('product_feature') }}">Products</a>
                 </div>
             </li>
             <li class="menu-item has-submenu">
@@ -100,7 +98,6 @@
                 <a class="menu-link" href="{{route('inventory')}}"> <i class="icon material-icons md-store"></i>
                     <span class="text">Inventory</span> </a>
             </li>
-
             <li class="menu-item">
                 <a class="menu-link" href="{{route('campaign')}}"> <i class="icon material-icons md-analytics"></i>
                     <span class="text">Campaign</span> </a>
@@ -130,7 +127,7 @@
                     <span class="text">Settings</span>
                 </a>
                 <div class="submenu">
-                    <a href="{{ route('settings.index') }}">Contact Info</a>
+                    <a href="{{ route('settings.index') }}">Website Settings</a>
                     {{-- <a href="#">Contact Info</a> --}}
                 </div>
             </li>
