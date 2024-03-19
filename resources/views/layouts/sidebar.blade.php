@@ -84,22 +84,13 @@
                     <a href="{{ route('product_feature') }}">Products</a>
                 </div>
             </li>
-            <li class="menu-item has-submenu">
-                <a class="menu-link" href="#"> <i class="icon material-icons md-assessment"></i>
-                    <span class="text">Reports</span>
-                </a>
-                <div class="submenu">
-                    <a href="{{route('sale.report')}}">Sales Report</a>
-
-                </div>
-            </li>
 
             <li class="menu-item">
                 <a class="menu-link" href="{{route('inventory')}}"> <i class="icon material-icons md-store"></i>
                     <span class="text">Inventory</span> </a>
             </li>
             <li class="menu-item">
-                <a class="menu-link" href="{{route('campaign')}}"> <i class="icon material-icons md-analytics"></i>
+                <a class="menu-link" href="{{route('campaign')}}"> <i class="icon material-icons md-campaign"></i>
                     <span class="text">Campaign</span> </a>
             </li>
 
@@ -112,14 +103,23 @@
         </ul>
         <hr>
         <ul class="menu-aside">
+            <li class="menu-item has-submenu">
+                <a class="menu-link" href="#"> <i class="icon material-icons md-assessment"></i>
+                    <span class="text">Reports</span>
+                </a>
+                <div class="submenu">
+                    <a href="{{route('sale.report')}}">Sales Report</a>
+
+                </div>
+            </li>
             <li class="menu-item">
                 <a class="menu-link" href="{{route('slider')}}">
-                    <span class="text">Manage Slider</span>
+                    <i class="icon material-icons md-slideshow"></i><span class="text">Manage Slider</span>
                 </a>
             </li>
             <li class="menu-item">
                 <a class="menu-link" href="{{route('ads')}}">
-                    <span class="text">Manage Ads</span>
+                    <i class="icon material-icons md-beenhere"></i><span class="text">Manage Ads</span>
                 </a>
             </li>
             <li class="menu-item has-submenu">
@@ -133,7 +133,6 @@
             </li>
 
         </ul>
-        <br>
         <br>
          {{-- <li class="menu-item has-submenu">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-person"></i>

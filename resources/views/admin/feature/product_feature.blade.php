@@ -49,7 +49,7 @@
                                         alt="{{ $item->feature_products_title }}" width="70">
                                 </td>
                                 {{-- <td>{{$item->text}}</td> --}}
-                                <td>{{ $item->products->count() }}</td>
+                                <td></td>
                                 <td>
                                     @if ($item->status == 'Active')
                                         <a href="{{ route('zonestatus.update', ['id' => $item->id]) }}">
@@ -254,6 +254,10 @@
                         } else {
                             $('#status').prop('checked', false);
                         }
+                        response.products.forEach(function(product) {
+                            $('#products_id_s option[value="' + product.product_id + '"]').prop('selected', true);
+                        });
+                        $('#products_id_s').trigger('change');
                         // Populate other fields as needed
                     },
                     error: function(xhr, status, error) {

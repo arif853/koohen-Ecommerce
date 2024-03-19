@@ -131,4 +131,9 @@ class Products extends Model
         return $this->hasMany(Product_stock::class, 'product_id');
     }
 
+    // public function featureItem()
+    // {
+    //     return $this->belongsTo(FeatureProducts::class, 'feature_products_id', 'feature_products_with_pivot' );
+    // }
+
 }
