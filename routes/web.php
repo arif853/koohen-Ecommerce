@@ -130,6 +130,7 @@ Route::post('/customer/login', [CustomerAuthController::class, 'login'])->name('
 //store checkout orders.
 Route::post('/customer/shop/checkout/store', [CheckoutController::class, 'store'])->name('order.store');
 Route::post('/customer/shop/checkout/login', [CheckoutController::class, 'login'])->name('checkout.login');
+Route::post('/customer/shop/checkout/coupone', [CheckoutController::class, 'appliedCoupone'])->name('applied.coupone');
 
 // Customer authentication routes
 Route::group(['prefix' => 'customer', 'middleware' => ['auth:customer']], function () {

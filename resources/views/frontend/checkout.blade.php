@@ -90,9 +90,10 @@
                     <div class="panel-collapse collapse coupon_form " id="coupon">
                         <div class="panel-body">
                             <p class="mb-30 font-sm">If you have a coupon code, please apply it below.</p>
-                            <form method="post" id="coupne_form">
+                            <form id="coupne_form">
+
                                 <div class="form-group">
-                                    <input type="text" placeholder="Enter Coupon Code..." id="coupne">
+                                    <input type="text" placeholder="Enter Coupon Code..." id="coupne" name="coupne">
                                 </div>
                                 <div class="form-group">
                                     <button class="btn  btn-md" name="login" type="submit">Apply Coupon</button>
@@ -340,21 +341,21 @@
                                     <div class="custome-radio">
                                         <input class="form-check-input" type="radio" name="payment_mode"
                                             id="payment_cod" checked value="cod">
-                                        <label class="form-check-label" for="exampleRadios3" data-bs-toggle="collapse"
+                                        <label class="form-check-label" for="payment_cod" data-bs-toggle="collapse"
                                             data-target="#bankTranfer" aria-controls="bankTranfer">Cash On
                                             Delivery</label>
-                                        <div class="form-group collapse in" id="bankTranfer">
-                                            <p class="text-muted mt-5">There are many variations of passages of Lorem
+                                        {{-- <div class="form-group collapse in" id="bankTranfer">
+                                            <p class=" mt-5">There are many variations of passages of Lorem
                                                 Ipsum available, but the majority have suffered alteration. </p>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     {{-- <div class="custome-radio">
                                         <input class="form-check-input" required type="radio" name="payment_option"
-                                            id="exampleRadios4" checked="">
+                                            id="exampleRadios4" >
                                         <label class="form-check-label" for="exampleRadios4" data-bs-toggle="collapse"
                                             data-target="#checkPayment" aria-controls="checkPayment">Online
                                             Payment</label>
-                                        <div class="form-group collapse in" id="checkPayment">
+                                        <div class="form-group " id="checkPayment">
                                             <p class="text-muted mt-5">Please send your cheque to Store Name, Store
                                                 Street, Store Town, Store State / County, Store Postcode. </p>
                                         </div>
@@ -380,5 +381,72 @@
 @push('checkout')
     <script>
 
+    $("#coupne_form").submit(function(event) {
+        event.preventDefault(); // Prevent form submission
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        var couponCode = $('#coupne').val(); // Get coupon code from input
+        // console.log(couponCode);
+        // Send AJAX request to apply coupon
+        $.ajax({
+            url: '{{route('applied.coupone')}}',
+            method: 'post',
+            data: { coupne: couponCode },
+            success: function(response) {
+                // Handle successful response
+                if(response.status == 200){
+                    // console.log(response.status);
+                    // console.log(response.coupon);
+
+                    if (response.coupon !== undefined) {
+
+                        if (response.coupon.discounts_type == 'percent') {
+                            // If discount is less than 0, it's a percentage value
+                            var discountValue = parseFloat(response.coupon.percent_value);
+                            var subtotal = parseFloat($("input[name='subtotal']").val());
+                            var deliveryCharge = parseFloat($("#shipping_cost").val());
+                            var discount = subtotal * (discountValue/100); // Calculate discount amount
+                            var totalAmount = subtotal + deliveryCharge - discount; // Subtract discount amount from total
+                            // console.log(discount);
+                        } else {
+                            // If discount is greater than or equal to 0, it's a fixed value
+                            var discount = parseFloat(response.coupon.fixed);
+                            var subtotal = parseFloat($("input[name='subtotal']").val());
+                            var deliveryCharge = parseFloat($("#shipping_cost").val());
+                            var totalAmount = subtotal + deliveryCharge - discount; // Subtract fixed discount from total
+                            // console.log(discount);
+
+                        }
+                        // Update discount value display
+                        $("#discountValue").text("৳" + discount);
+                        $("#discount").val(discount); // Update hidden discount input value
+                        $("#coupon_code").val(response.coupon.coupons_code)
+                        // Update total amount display
+                        $("#totalAmount").text("৳" + totalAmount);
+                        $("#t_amount").val(totalAmount); // Update hidden total amount input value
+
+                        $.Notification.autoHideNotify('success', 'top right', 'Success', response.message);
+
+                    } else {
+                        $.Notification.autoHideNotify('danger', 'top right', 'Error', response.message);
+                        // console.log(response.error);
+                    }
+                }
+                else{
+                    $.Notification.autoHideNotify('danger', 'top right', 'Error', response.message);
+                    // console.log(response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                // alert('Failed to apply coupon. Please try again.');
+                $.Notification.autoHideNotify('danger', 'top right', 'Error', response.message);
+                // location.reload();
+            }
+        });
+    });
     </script>
 @endpush

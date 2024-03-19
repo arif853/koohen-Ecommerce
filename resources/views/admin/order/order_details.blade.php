@@ -164,7 +164,7 @@
                                             </dl>
                                             <dl class="dlist">
                                                 <dt>Discount :</dt>
-                                                <dd>৳0</dd>
+                                                <dd>৳{{$order->discount}}</dd>
                                             </dl>
                                             <dl class="dlist">
                                                 <dt>Grand total:</dt>

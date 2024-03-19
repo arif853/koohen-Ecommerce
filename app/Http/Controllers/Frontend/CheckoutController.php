@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use DB;
 use App\Models\Order;
+use App\Models\Coupon;
 use App\Mail\AdminMail;
 use App\Models\Customer;
 use App\Models\shipping;
@@ -13,6 +14,8 @@ use App\Models\Orderstatus;
 use App\Models\transactions;
 use Illuminate\Http\Request;
 use App\Models\Product_stock;
+use App\Models\AppliedCoupone;
+use Illuminate\Support\Carbon;
 use App\Models\Register_customer;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -82,6 +85,8 @@ class CheckoutController extends Controller
 
             $user = Auth::guard('customer')->user();
             $customer_id = $user->customer->id;
+            $couponCode = $request->input('coupon_code');
+
 
             // order details store to order
             $order = new Order;
@@ -89,7 +94,7 @@ class CheckoutController extends Controller
             $order->invoice_no = $invoiceNo;
             $order->order_track_id = $track_id;
             $order->subtotal = $request->subtotal;
-            $order->discount = 0;
+            $order->discount = $request->discount;
             $order->tax = $request->tax;
             $order->total = $request->total_amount;
             $order->delivery_charge = $request->shipping_cost;
@@ -124,6 +129,22 @@ class CheckoutController extends Controller
                 'order_id' => $order->id,
                 'mode' => $request->payment_mode,
             ]);
+
+            if($couponCode){
+                // Check if the customer has previously used the coupon
+                $appliedCoupon = AppliedCoupone::where('customer_id', $customer_id)
+                                                ->where('coupone_code', $couponCode)
+                                                ->first();
+                    if ($appliedCoupon) {
+                    // Show error message if coupon has already been used by this customer
+                    $appliedCoupon->update([
+                        'order_id' => $order->id,
+                        'is_ordered' => 1,
+                    ]);
+                    // Session::flash('success', 'You have already used this coupon.');
+                }
+            }
+
             $customer = Customer::find($customer_id);
 
             Session::flash('warning','Check your order in dashboard.');
@@ -336,4 +357,66 @@ class CheckoutController extends Controller
             'login_identifier' => [trans('auth.failed')],
         ]);
     }
+
+
+    public function appliedCoupone(Request $request)
+    {
+        $couponCode = $request->input('coupne');
+
+        $timeZone = 'Asia/Dhaka'; // For example, 'Asia/Kolkata'
+
+        // Check if the user is logged in
+        if (Auth::guard('customer')->check()) {
+            $user = Auth::guard('customer')->user();
+            $customerId = $user->customer->id;
+
+            // Check if the customer has previously used the coupon
+            $appliedCoupon = AppliedCoupone::where('customer_id', $customerId)
+                                            ->where('coupone_code', $couponCode)
+                                            ->first();
+
+            if ($appliedCoupon) {
+                // Show error message if coupon has already been used by this customer
+                Session::flash('success', 'You have already used this coupon.');
+                // return redirect()->route('checkout');
+                return response()->json(['status' => 402, 'message' => 'You have already used this coupon.']);
+            }
+            else{
+                // Find the coupon with the provided code
+                $coupon = Coupon::where('coupons_code', $couponCode)
+                                ->where('status', 1) // Check if the coupon is active
+                                ->where('quantity', '>', 0) // Check if there are available coupons
+                                ->whereDate('end_date', '>=', now()) // Check if the coupon is not expired
+                                ->first();
+                if ($coupon) {
+                    // Reduce coupon quantity
+                    $coupon->decrement('quantity');
+                    // Store applied coupon in the database
+                    AppliedCoupone::create([
+                        'customer_id' => $customerId,
+                        'coupone_id' => $coupon->id,
+                        'coupone_code' => $coupon->coupons_code
+                ]);
+
+                    // Show success message
+                    // Session::flash('success', 'Coupon applied successfully!');
+                    return response()->json(['status' => 200, 'coupon' => $coupon, 'message' => 'Coupon applied successfully!']);
+                }
+                else {
+                    // Show error message if coupon not found or invalid
+                    // Session::flash('danger', 'Invalid coupon code or expired!');
+                    return response()->json(['status' => 402, 'message' => 'Invalid coupon code or expired.']);
+                }
+            }
+
+        } else {
+            // Show error message if user is not logged in
+            // Session::flash('danger', 'Please log in to apply the coupon.');
+            // Redirect back to the previous page
+            return response()->json(['status' => 402,'message' => 'Please log in to apply the coupon.']);
+        }
+
+
+    }
+
 }
