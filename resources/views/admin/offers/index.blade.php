@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+@section('title','Offers')
 @section('content')
     <div class="content-header">
         <div>
@@ -120,7 +121,7 @@
                     $('#EditvariantFields').hide();
                 }
             });
-           
+
             $('#OfferProductForm').on('submit', function(event) {
                 event.preventDefault();
                 let formData = new FormData(this); // Use 'FormData', capitalize the 'D'
@@ -155,7 +156,7 @@
                 var offerId = $(this).data('offer-id');
 
                 $.ajax({
-                    url: '/dashboard/promotion/edit_offers_data',
+                    url: '{{url('/dashboard/promotion/edit_offers_data')}}',
                     method: 'GET',
                     data: {
                         id: offerId,
@@ -179,11 +180,8 @@
                                 $(this).prop('selected', false);
                             }
                         });
-
                     }
                 });
-
-             
             });
 
             //Update Brand
@@ -191,7 +189,7 @@
                 e.preventDefault();
                 const data = new FormData(this);
                 $.ajax({
-                    url: '/dashboard/promotion/update_offers_data',
+                    url: '{{url('/dashboard/promotion/update_offers_data')}}',
                     method: 'post',
                     data: data,
                     cache: false,

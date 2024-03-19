@@ -278,7 +278,6 @@ class OrderController extends Controller
         return view('admin.order.pending_list', compact('pendingOrders'));
     }
 
-
     /**
      * Display the specified resource.
      */
