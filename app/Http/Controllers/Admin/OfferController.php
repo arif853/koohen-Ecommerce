@@ -21,6 +21,7 @@ class OfferController extends Controller
     {
         $offers = Offer::latest('id')->with('products','OfferType')->get();
         $offerType = OfferType::latest('id')->get();
+     
         $products = Products::latest('id')->get();
         return view('admin.offers.index', ['offerType' => $offerType, 'products' => $products,'offers' => $offers]);
     }
@@ -122,23 +123,24 @@ class OfferController extends Controller
     /**
      * Display the specified resource.
      */
-    public function EditOfferData(Request $request)
-    {
-        // Get the offer ID from the request
-        $offerId = $request->id;
-
-        // Fetch offer data from the database
-        $offer = Offer::find($offerId);
-
-        // Check if offer exists
-        if (!$offer) {
-            return response()->json(['error' => 'Offer not found'], 404);
-        }
-
-      
-        return response()->json($offer);
-    }
-    
+  
+     public function editOfferData(Request $request)
+     {
+         $offerId = $request->id;
+     
+         $offer = Offer::findOrFail($offerId);
+     
+         $relatedProducts = DB::table('product_offer_types')
+             ->where('offer_id', $offerId)
+             ->join('products', 'products.id', '=', 'product_offer_types.offer_product_id')
+             ->select('product_offer_types.offer_product_id AS product_id', 'products.product_name AS ProductName')
+             ->get();
+     
+         return response()->json([
+             'offer' => $offer,
+             'relatedProducts' => $relatedProducts,
+         ]);
+     }
     /**
      * Show the form for editing the specified resource.
      */

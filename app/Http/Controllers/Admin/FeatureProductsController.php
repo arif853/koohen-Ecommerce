@@ -115,7 +115,11 @@ class FeatureProductsController extends Controller
     {
         $id = $request->id;
         $feature_products = FeatureProducts::findOrFail($id);
-        return response()->json($feature_products);
+        $productEdit = DB::table('feature_products_with_pivot')->where('feature_products_id',$feature_products->id)->select('products_id')->get();
+        return response()->json([
+            'product_id' => $productEdit,
+            'feature_products' => $feature_products,
+        ]);
     }
     /**
      * Update the specified resource in storage.
