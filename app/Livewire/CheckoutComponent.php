@@ -23,6 +23,7 @@ class CheckoutComponent extends Component
     {
         $this->delivery_charge = $delivery_charge;
     }
+
     #[On('postOfficeChanged')]
 
     public function postOfficeChanged($selectedPostOffice)
@@ -38,7 +39,7 @@ class CheckoutComponent extends Component
         $qty = $item->qty + 1;
         Cart::instance('cart')->update($rowId, $qty);
         $this->dispatch('cartRefresh')->to('cart-icon-component');
-        // $this->dispatch('refresh')->to('checkout-component');
+        $this->dispatch('refresh')->to('checkout-component');
     }
 
     public function decreaseQuantity($rowId)
@@ -58,9 +59,9 @@ class CheckoutComponent extends Component
     }
 
     // #[On('refresh')]
+
     public function render()
     {
-
         return view('livewire.checkout-component');
     }
 

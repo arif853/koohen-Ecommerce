@@ -1,6 +1,6 @@
 
 @extends('layouts.home')
-@section('title','Contact us')
+@section('title','Thank You')
 @section('main')
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');

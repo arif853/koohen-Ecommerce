@@ -19,8 +19,10 @@
             </thead>
             <tbody>
                 @php
-                $total = 0
+                $total = 0;
+                $discount = 0;
                 @endphp
+
                 {{-- cart item --}}
                 @foreach (Cart::instance('cart')->content() as $item)
 
@@ -85,33 +87,34 @@
                     <td>
                         <h5><a href="{{route('product.detail',['slug'=>$item->options->slug])}}">{{$item->name}}</a></h5>
                         <span class="product-qty mt-4">
-                            <a href="#"
-                            wire:click.prevent="decreaseQuantity('{{$item->rowId}}')"
-                            class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
+                            <a href="#" wire:click.prevent="decreaseQuantity('{{$item->rowId}}')" class="qty-down">
+                                <i class="fi-rs-angle-small-down"></i>
+                            </a>
                             <span class="qty-val">{{$item->qty}}</span>
-                            <a href="#"
-                            wire:click.prevent="increaseQuantity('{{$item->rowId}}')"
-                            class="qty-up"><i class="fi-rs-angle-small-up"></i>
-                        </a>
+
+                            <a href="#" wire:click.prevent="increaseQuantity('{{$item->rowId}}')" class="qty-up">
+                                <i class="fi-rs-angle-small-up"></i>
+                            </a>
                         </span>
                     </td>
                     <td>৳{{$item->subtotal}}</td>
                 </tr>
 
-                    @php
-                    $subtotal = $item->subtotal;
-                    $total += $subtotal;
-                    $discount = 0;
-                    @endphp
+                @php
+                // Increment total for each item
+                $total += $item->subtotal;
+                @endphp
                 @endforeach
                 {{-- cart loop end --}}
 
+                <!-- Subtotal row -->
                 <tr>
                     <th class="text-end">SubTotal</th>
                     <td class="product-subtotal">{{Cart::instance('cart')->count()}}</td>
                     <td class="product-subtotal" colspan="1">৳{{$total}}</td>
                     <input type="hidden" name="subtotal" value="{{$total}}">
                 </tr>
+                <!-- Delivery charge row -->
                 <tr>
                     <th class="text-end">Delivery Charge</th>
                     @if( $deliveryCharge)
@@ -123,11 +126,14 @@
                     @endif
 
                 </tr>
+                 <!-- Discount row -->
                 <tr>
                     <th class="text-end">Discount</th>
-                    <td colspan="3"><em>৳{{$discount}}</em></td>
-                    <input type="hidden" name="tax" id="tax" value="{{$discount}}">
+                    <td colspan="3"><em id="discountValue">৳{{$discount}}</em></td>
+                    <input type="hidden" name="discount" id="discount" value="{{$discount}}">
+                    <input type="hidden" name="coupon_code" id="coupon_code" >
                 </tr>
+                 <!-- Total row -->
                 <tr>
                     <th class="text-end">Total</th>
                     @if($deliveryCharge)
@@ -139,17 +145,15 @@
                         <input type="hidden" name="total_amount" id="t_amount" value="{{$total }}">
                     </td>
                     @else
-                    <td colspan="3" class="product-subtotal"><span
+                    <td colspan="3" class="product-subtotal">
                         @php
-                            $total =  $total - $discount + $delivery_charge ;
-                        @endphp
-                            class="font-xl text-brand fw-900">৳{{$total}}</span>
+                        $total =  $total - $discount + $delivery_charge ;
+                    @endphp
+                        <span id="totalAmount" class="font-xl text-brand fw-900">৳{{$total}}</span>
                             <input type="hidden" name="total_amount" id="t_amount" value="{{$total}}">
                     </td>
                     @endif
-
                 </tr>
-
             </tbody>
         </table>
     </div>

@@ -40,6 +40,7 @@ use App\Http\Controllers\Admin\WebmessageController;
 use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\SslCommerzPaymentController;
 use App\Http\Controllers\Frontend\TrackorderController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
 use App\Http\Controllers\Admin\FeatureProductsController;
@@ -130,6 +131,7 @@ Route::post('/customer/login', [CustomerAuthController::class, 'login'])->name('
 //store checkout orders.
 Route::post('/customer/shop/checkout/store', [CheckoutController::class, 'store'])->name('order.store');
 Route::post('/customer/shop/checkout/login', [CheckoutController::class, 'login'])->name('checkout.login');
+Route::post('/customer/shop/checkout/coupone', [CheckoutController::class, 'appliedCoupone'])->name('applied.coupone');
 
 // Customer authentication routes
 Route::group(['prefix' => 'customer', 'middleware' => ['auth:customer']], function () {
@@ -451,5 +453,23 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/order/checkout/payment',function(){
+    return view('frontend.mypayment');
+})->name('mypayment');
+
+// SSLCOMMERZ Start
+Route::get('/order/payment/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout']);
+Route::get('/order/payment/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
+
+Route::post('/order/payment/pay', [SslCommerzPaymentController::class, 'index'])->name('payment');
+Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
+
+Route::post('/success', [SslCommerzPaymentController::class, 'success']);
+Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
+Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
+
+Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
+//SSLCOMMERZ END
 
 require __DIR__.'/auth.php';
