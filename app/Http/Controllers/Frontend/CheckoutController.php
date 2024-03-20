@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use DB;
 use App\Models\Order;
 use App\Models\Coupon;
 use App\Mail\AdminMail;
@@ -17,6 +16,7 @@ use App\Models\Product_stock;
 use App\Models\AppliedCoupone;
 use Illuminate\Support\Carbon;
 use App\Models\Register_customer;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -148,7 +148,7 @@ class CheckoutController extends Controller
             $customer = Customer::find($customer_id);
 
             Session::flash('warning','Check your order in dashboard.');
-            Mail::to($customer->email)->send( new customerMail($order));
+            // Mail::to($customer->email)->send( new customerMail($order));
 
         }
         else{
@@ -321,14 +321,23 @@ class CheckoutController extends Controller
                     'mode' => $request->payment_mode,
                 ]);
             }
-            Mail::to( $customer->email)->send( new customerMail($order));
+            // Mail::to( $customer->email)->send( new customerMail($order));
 
         }
         // Clear the cart after saving to the order item table
-        Mail::to('qbittech.dev1@gmail.com')->send( new AdminMail($order));
+        // Mail::to('qbittech.dev1@gmail.com')->send( new AdminMail($order));
 
-        Cart::instance('cart')->destroy();
-        return redirect()->route('thankyou')->with('success', 'Your order has been placed');
+        // if($request->payment_mode == 'online')
+        // {
+        //     Cart::instance('cart')->destroy();
+        //     // $order = $order->id;
+        //     return view('frontend.mypayment',compact('order'))->with('success', 'Your order has been placed, Please make your payment here.');
+        // }
+        // else
+        // {
+            Cart::instance('cart')->destroy();
+            return redirect()->route('thankyou')->with('success', 'Your order has been placed');
+        // }
     }
 
 

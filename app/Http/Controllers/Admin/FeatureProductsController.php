@@ -23,11 +23,11 @@ class FeatureProductsController extends Controller
     public function index()
     {
         $products = Products::latest('id')->get();
-        $fproducts = FeatureProducts::latest('id')
-        ->leftJoin('feature_products_with_pivot', 'feature_products.id', '=', 'feature_products_with_pivot.feature_products_id')
-        ->leftJoin('products', 'feature_products_with_pivot.products_id', '=', 'products.id')
-        ->select('feature_products.*', 'products.id as product_id', 'products.product_name as product_name')
-        ->get();
+        $fproducts = FeatureProducts::latest('id')->get();
+        // $fproducts->products=->leftJoin('feature_products_with_pivot', 'feature_products.id', '=', 'feature_products_with_pivot.feature_products_id')
+        // ->leftJoin('products', 'feature_products_with_pivot.products_id', '=', 'products.id')
+        // ->select('feature_products.*', 'products.id as product_id', 'products.product_name as product_name')
+
 
         return view('admin.feature.product_feature', ['products'=> $products,'fproducts' => $fproducts]);
     }

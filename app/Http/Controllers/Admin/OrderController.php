@@ -33,7 +33,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with('customer', 'order_item', 'shipping', 'transaction')->get();
+        $orders = Order::with('customer', 'order_item', 'shipping', 'transaction')->latest('created_at')->get();
         return view('admin.order.index', compact('orders'));
     }
 
@@ -146,7 +146,7 @@ class OrderController extends Controller
 
     public function order_return()
     {
-        $order_return = Order::with('customer')->where('status','returned')->get();
+        $order_return = Order::with('customer')->where('status','returned')->latest('created_at')->get();
         return view('admin.order.order_return.index',compact('order_return'));
     }
 
@@ -274,7 +274,7 @@ class OrderController extends Controller
      */
     public function pending_order()
     {
-        $pendingOrders = Order::with('customer', 'order_item', 'shipping', 'transaction')->where('status', 'pending')->get();
+        $pendingOrders = Order::with('customer', 'order_item', 'shipping', 'transaction')->where('status', 'pending')->latest('created_at')->get();
         return view('admin.order.pending_list', compact('pendingOrders'));
     }
 
@@ -283,7 +283,7 @@ class OrderController extends Controller
      */
     public function completed_order()
     {
-        $completedOrders = Order::with('customer', 'order_item', 'shipping', 'transaction')->where('status', 'completed')->get();
+        $completedOrders = Order::with('customer', 'order_item', 'shipping', 'transaction')->where('status', 'completed')->latest('created_at')->get();
         return view('admin.order.completed_order', compact('completedOrders'));
     }
 
