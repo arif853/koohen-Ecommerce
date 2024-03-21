@@ -171,7 +171,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
         misterspelik\LaravelPdf\PdfServiceProvider::class,
-
+        Spatie\Permission\PermissionServiceProvider::class,
 
     ])->toArray(),
 
@@ -196,4 +196,3 @@ return [
     ])->toArray(),
 
 ];
-
