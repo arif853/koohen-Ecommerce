@@ -14,7 +14,8 @@
                     <span class="text">Dashboard</span>
                 </a>
             </li>
-            <li class="menu-item has-submenu {{ request()->is('dashboard/products') ? 'active' : '' }}">
+            
+            <li class="menu-item has-submenu {{ request()->is('dashboard/products/*') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_bag"></i>
                     <span class="text">Products</span>
                 </a>
@@ -85,17 +86,17 @@
                 </div>
             </li>
 
-            <li class="menu-item">
-                <a class="menu-link" href="{{route('inventory')}}"> <i class="icon material-icons md-store"></i>
+            <li class="menu-item {{ request()->is('dashboard/inventory') ? 'active' : '' }}">
+                <a class="menu-link" href="{{route('inventory')}}">
+                    <i class="icon material-icons md-store"></i>
                     <span class="text">Inventory</span> </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item {{ request()->is('dashboard/campaign') ? 'active' : '' }}">
                 <a class="menu-link" href="{{route('campaign')}}"> <i class="icon material-icons md-campaign"></i>
                     <span class="text">Campaign</span> </a>
             </li>
 
-
-            <li class="menu-item">
+            <li class="menu-item {{ request()->is('dashboard/zone') ? 'active' : '' }}">
                 <a class="menu-link"  href="{{route('zone.index')}}"> <i class="icon material-icons md-pie_chart"></i>
                     <span class="text">Zone</span>
                 </a>
@@ -111,6 +112,11 @@
                     <a href="{{route('sale.report')}}">Sales Report</a>
 
                 </div>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="{{url('/dashboard/users/index')}}">
+                    <i class="icon material-icons md-people"></i><span class="text">Manage Users</span>
+                </a>
             </li>
             <li class="menu-item">
                 <a class="menu-link" href="{{route('slider')}}">

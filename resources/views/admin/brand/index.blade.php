@@ -82,7 +82,7 @@
                 }
             });
             $.ajax({
-                url: '/dashboard/brands/edit',
+                url: '{{route('brands.edit')}}',
                 method: 'GET',
                 data: {
                     id: brandId,
@@ -107,7 +107,7 @@
             const data = new FormData(this);
             // console.log(data);
             $.ajax({
-                url: '/dashboard/brands/update',
+                url: '{{route('brands.update')}}',
                 method: 'post',
                 data: data,
                 cache: false,
