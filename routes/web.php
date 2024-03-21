@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\VarientController;
@@ -30,16 +31,17 @@ use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\SubcategoryController;
+use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\TrackorderController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
-use App\Http\Controllers\Admin\PurchaseController;
-use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\FeatureProductsController;
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\ForgotPasswordController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
@@ -332,7 +334,24 @@ Route::controller(FeatureCategoryController::class)->middleware('auth')->group(f
     // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
     Route::get('/dashboard/category_feature/destroy', 'destroy')->name('category_feature.destroy');
 });
-
+//product Feature
+Route::controller(FeatureProductsController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/feature/product_feature', 'index')->name('product_feature');
+    Route::post('/dashboard/feature/product_feature/store', 'store')->name('product_feature.store');
+    Route::get('/dashboard/feature/product_feature/edit', 'edit')->name('product_feature.edit');
+    Route::post('/dashboard/feature/product_feature/update', 'update')->name('product_feature.update');
+    // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
+    Route::delete('/dashboard/feature/product_feature/destroy', 'destroy')->name('product_feature.destroy');
+});
+// transaction controller
+Route::controller(TransactionController::class)->middleware('auth')->group(function () {
+    Route::get('/dashboard/transaction', 'index')->name('transaction.index');
+  //  Route::post('/dashboard/product_feature/store', 'store')->name('product_feature.store');
+  //  Route::get('/dashboard/product_feature/edit', 'edit')->name('product_feature.edit');
+  //  Route::post('/dashboard/product_feature/update', 'update')->name('product_feature.update');
+  //  // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
+  //  Route::delete('/dashboard/product_feature/destroy', 'destroy')->name('product_feature.destroy');
+});
 //Slider
 Route::controller(SliderController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard/slider', 'index')->name('slider');
