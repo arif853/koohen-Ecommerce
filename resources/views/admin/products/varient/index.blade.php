@@ -158,7 +158,7 @@
                 }
             });
             $.ajax({
-                url: '/dashboard/varient/color_edit',
+                url: '{{route('color.edit')}}',
                 method: 'GET',
                 data: {
                     id: colorId,
@@ -180,7 +180,7 @@
             const data = new FormData(this);
             // console.log(data);
             $.ajax({
-                url: '/dashboard/varient/color_update',
+                url: '{{route('color.update')}}',
                 method: 'post',
                 data: data,
                 cache: false,
@@ -213,7 +213,7 @@
                 }
             });
             $.ajax({
-                url: '/dashboard/varient/size_edit',
+                url: '{{route('size.edit')}}',
                 method: 'GET',
                 data: {
                     id: sizeId,
@@ -235,7 +235,7 @@
             const data = new FormData(this);
             console.log(data);
             $.ajax({
-                url: '/dashboard/varient/size_update',
+                url: '{{route('size.update')}}',
                 method: 'post',
                 data: data,
                 cache: false,

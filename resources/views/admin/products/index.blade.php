@@ -2,17 +2,17 @@
 @section('title','Prodcuts')
 @section('content')
 
-<div class="content-header">
-    <div>
-        <h2 class="content-title card-title">Products List</h2>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="{{'/dashborad'}}">Dashborad</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Product</li>
-            </ol>
-        </nav>
-    </div>
-    <div>
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Products List</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{'/dashborad'}}">Dashborad</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Product</li>
+                </ol>
+            </nav>
+        </div>
+        <div>
 
             <a href="{{ route('products.create') }}" class="btn btn-primary btn-sm rounded">Create new</a>
         </div>
@@ -137,7 +137,7 @@
         $(document).ready(function() {
             $('#productSearchForm').on('submit', function(event) {
                 event.preventDefault();
-             
+
              var formData = $(this).serialize();
            console.log(formData);
                 $.ajaxSetup({
