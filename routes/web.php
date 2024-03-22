@@ -39,6 +39,7 @@ use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InventoryController;
+use App\Http\Controllers\Admin\WebmessageController;
 use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Frontend\CheckoutController;
@@ -337,24 +338,45 @@ Route::middleware(['role:Super Admin|Admin|Manager|User'])->group(function(){
     });
 
 
-//Feature category
-Route::controller(FeatureCategoryController::class)->middleware('auth')->group(function () {
-    Route::get('/dashboard/category_feature', 'index')->name('category_feature');
-    Route::post('/dashboard/category_feature/store', 'store')->name('category_feature.store');
-    Route::get('/dashboard/category_feature/edit', 'edit')->name('category_feature.edit');
-    Route::post('/dashboard/category_feature/update', 'update')->name('category_feature.update');
-    // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
-    Route::get('/dashboard/category_feature/destroy', 'destroy')->name('category_feature.destroy');
-});
+    //category Feature
+    Route::controller(FeatureCategoryController::class)->group(function () {
+        Route::get('/dashboard/feature/category_feature', 'index')->name('category_feature');
+        Route::post('/dashboard/feature/category_feature/store', 'store')->name('category_feature.store');
+        Route::get('/dashboard/feature/category_feature/edit', 'edit')->name('category_feature.edit');
+        Route::post('/dashboard/feature/category_feature/update', 'update')->name('category_feature.update');
+        // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
+        Route::delete('/dashboard/feature/category_feature/destroy', 'destroy')->name('category_feature.destroy');
+    });
 
-//Slider
-Route::controller(SliderController::class)->middleware('auth')->group(function () {
-    Route::get('/dashboard/slider', 'index')->name('slider');
-    Route::post('/dashboard/slider/store', 'store')->name('slider.store');
-    Route::get('/dashboard/slider/edit', 'edit')->name('slider.edit');
-    Route::post('/dashboard/slider/update', 'update')->name('slider.update');
-    Route::delete('/dashboard/slider/destroy/{id}', 'destroy')->name('slider.destroy');
-});
+    //product Feature
+    Route::controller(FeatureProductsController::class)->group(function () {
+        Route::get('/dashboard/feature/product_feature', 'index')->name('product_feature');
+        Route::post('/dashboard/feature/product_feature/store', 'store')->name('product_feature.store');
+        Route::get('/dashboard/feature/product_feature/edit', 'edit')->name('product_feature.edit');
+        Route::post('/dashboard/feature/product_feature/update', 'update')->name('product_feature.update');
+        // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
+        Route::delete('/dashboard/feature/product_feature/destroy', 'destroy')->name('product_feature.destroy');
+    });
+
+
+    // transaction controller
+    Route::controller(TransactionController::class)->group(function () {
+        Route::get('/dashboard/transaction', 'index')->name('transaction.index');
+    //  Route::post('/dashboard/product_feature/store', 'store')->name('product_feature.store');
+    //  Route::get('/dashboard/product_feature/edit', 'edit')->name('product_feature.edit');
+    //  Route::post('/dashboard/product_feature/update', 'update')->name('product_feature.update');
+    //  // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
+    //  Route::delete('/dashboard/product_feature/destroy', 'destroy')->name('product_feature.destroy');
+    });
+
+    //Slider
+    Route::controller(SliderController::class)->group(function () {
+        Route::get('/dashboard/slider', 'index')->name('slider');
+        Route::post('/dashboard/slider/store', 'store')->name('slider.store');
+        Route::get('/dashboard/slider/edit', 'edit')->name('slider.edit');
+        Route::post('/dashboard/slider/update', 'update')->name('slider.update');
+        Route::delete('/dashboard/slider/destroy/{id}', 'destroy')->name('slider.destroy');
+    });
 
     //ads route
     Route::controller(AdsController::class)->group(function () {
@@ -407,11 +429,41 @@ Route::controller(SliderController::class)->middleware('auth')->group(function (
         Route::get('/dashboard/pos_cart/remove/{rowId}','decreaseQuantity');
     });
 
-//reports
-Route::controller(ReportController::class)->middleware('auth')->group(function(){
-    Route::get('/dashboard/reports/sale', 'saleReport')->name('sale.report');
-    Route::get('/dashboard/report/sale_search', 'searchSale')->name('search.sale');
+    //reports
+    Route::controller(ReportController::class)->group(function(){
+        Route::get('/dashboard/reports/sale', 'saleReport')->name('sale.report');
+        Route::get('/dashboard/report/sale_search', 'searchSale')->name('search.sale');
+    });
+
+    // User Managment
+    Route::controller(UserController::class)->group(function(){
+        Route::get('/dashboard/users/index', 'index')->name('users.index');
+        Route::post('/dashboard/users/store', 'store')->name('users.store');
+        Route::get('/dashboard/users/edit', 'edit')->name('users.edit');
+        Route::post('/dashboard/users/update', 'update')->name('users.update');
+        Route::delete('/dashboard/users/{userId}/delete', 'destroy');
+
+    });
+
+    Route::resource('/dashboard/roles', RoleController::class);
+    Route::post('/dashboard/roles/{role}', [RoleController::class, 'update']);
+    Route::delete('/dashboard/roles/{userId}/delete', [RoleController::class, 'destroy']);
+
 });
+
+// <========================= Backend Route End ========================>
+
+
+Route::controller(WebmessageController::class)->middleware('auth')->group(function(){
+
+});
+
+Route::post('/contact/webmessage/store' , [WebmessageController::class,'store'])->name('webmessage.store');
+Route::get('/contact/webmessage/destroy' ,  [WebmessageController::class,'destroy'])->name('webmessage.destroy');
+
+Route::get('/thankyou',function(){
+    return view('frontend.thankyou');
+})->name('thankyou');
 
 // reviews
 Route::get('/dashboard/reviews', function () {
