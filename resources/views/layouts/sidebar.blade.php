@@ -8,13 +8,14 @@
         </div>
     </div>
     <nav>
+        @if(auth()->user()->hasRole(['Super Admin','Admin']))
         <ul class="menu-aside">
             <li class="menu-item {{ request()->is('dashboard') ? 'active' : '' }}">
                 <a class="menu-link" href="{{('/dashboard')}}"> <i class="icon material-icons md-home"></i>
                     <span class="text">Dashboard</span>
                 </a>
             </li>
-            
+
             <li class="menu-item has-submenu {{ request()->is('dashboard/products/*') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_bag"></i>
                     <span class="text">Products</span>
@@ -28,6 +29,7 @@
                     <a href="{{route('varient.index')}}">Varient</a>
                 </div>
             </li>
+
             <li class="menu-item has-submenu {{ request()->is('dashboard/orders/*') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_cart"></i>
                     <span class="text">Orders</span>
@@ -139,6 +141,69 @@
             </li>
 
         </ul>
+        @elseif(auth()->user()->hasRole(['Manager']))
+        <ul class="menu-aside">
+            <li class="menu-item {{ request()->is('dashboard') ? 'active' : '' }}">
+                <a class="menu-link" href="{{('/dashboard')}}"> <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="menu-item has-submenu {{ request()->is('dashboard/products/*') ? 'active' : '' }}">
+                <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Products</span>
+                </a>
+                <div class="submenu">
+                    <a href="{{route('products.create')}}">Add Product</a>
+                    <a href="{{route('products.index')}}">Product List</a>
+                    <a href="{{route('brands.index')}}">Brands</a>
+                    <a href="{{route('category.index')}}">Categories</a>
+                    {{-- <a href="{{route('subcategory.index')}}">Subcategories</a> --}}
+                    <a href="{{route('varient.index')}}">Varient</a>
+                </div>
+            </li>
+
+            <li class="menu-item {{ request()->is('dashboard/inventory') ? 'active' : '' }}">
+                <a class="menu-link" href="{{route('inventory')}}">
+                    <i class="icon material-icons md-store"></i>
+                    <span class="text">Inventory</span> </a>
+            </li>
+        </ul>
+        <hr>
+        <ul class="menu-aside">
+            <li class="menu-item">
+                <a class="menu-link" href="{{route('slider')}}">
+                    <i class="icon material-icons md-slideshow"></i><span class="text">Manage Slider</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="{{route('ads')}}">
+                    <i class="icon material-icons md-beenhere"></i><span class="text">Manage Ads</span>
+                </a>
+            </li>
+
+        </ul>
+        @elseif(auth()->user()->hasRole(['User']))
+        <ul class="menu-aside">
+            <li class="menu-item {{ request()->is('dashboard') ? 'active' : '' }}">
+                <a class="menu-link" href="{{('/dashboard')}}"> <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="menu-item has-submenu {{ request()->is('dashboard/orders/*') ? 'active' : '' }}">
+                <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_cart"></i>
+                    <span class="text">Orders</span>
+                </a>
+                <div class="submenu">
+                    <a href="{{route('order.index')}}">All Order list</a>
+                    <a href="{{route('order.pending')}}">Pending Order list</a>
+                    <a href="{{route('order.completed')}}">Completed Order</a>
+                    <a href="{{route('order.return')}}">Order return</a>
+                </div>
+            </li>
+        </ul>
+        @endif
         <br>
          {{-- <li class="menu-item has-submenu">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-person"></i>
