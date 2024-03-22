@@ -34,4 +34,9 @@ class Order extends Model
     {
         return $this->hasOne(Orderstatus::class);
     }
+
+    public function appliedCoupone()
+    {
+        return $this->belongsTo(AppliedCoupone::class, 'order_id');
+    }
 }

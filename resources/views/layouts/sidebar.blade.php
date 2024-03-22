@@ -8,13 +8,15 @@
         </div>
     </div>
     <nav>
+        @if(auth()->user()->hasRole(['Super Admin','Admin']))
         <ul class="menu-aside">
-            <li class="menu-item active">
+            <li class="menu-item {{ request()->is('dashboard') ? 'active' : '' }}">
                 <a class="menu-link" href="{{('/dashboard')}}"> <i class="icon material-icons md-home"></i>
                     <span class="text">Dashboard</span>
                 </a>
             </li>
-            <li class="menu-item has-submenu">
+
+            <li class="menu-item has-submenu {{ request()->is('dashboard/products/*') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_bag"></i>
                     <span class="text">Products</span>
                 </a>
@@ -27,7 +29,8 @@
                     <a href="{{route('varient.index')}}">Varient</a>
                 </div>
             </li>
-            <li class="menu-item has-submenu">
+
+            <li class="menu-item has-submenu {{ request()->is('dashboard/orders/*') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_cart"></i>
                     <span class="text">Orders</span>
                 </a>
@@ -38,7 +41,7 @@
                     <a href="{{route('order.return')}}">Order return</a>
                 </div>
             </li>
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/customers') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-supervisor_account"></i>
                     <span class="text">Customers</span>
                 </a>
@@ -48,7 +51,7 @@
                 </div>
             </li>
 
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/suppliers') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-supervised_user_circle"></i>
                     <span class="text">Suppliers</span>
                 </a>
@@ -57,7 +60,7 @@
                     {{-- <a href="{{route('customer.profile')}}">Customer profile</a> --}}
                 </div>
             </li>
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/transaction') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-monetization_on"></i>
                     <span class="text">Transactions</span>
                 </a>
@@ -66,8 +69,7 @@
                     {{-- <a href="{{route('customer.profile')}}">Customer profile</a> --}}
                 </div>
             </li>
-          
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/promotion/*') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-trending_up"></i>
                     <span class="text">Promotions</span>
                 </a>
@@ -76,7 +78,7 @@
                     <a href="{{route('coupon.index')}}">Coupons</a>
                 </div>
             </li>
-            <li class="menu-item has-submenu">
+            <li class="menu-item has-submenu {{ request()->is('dashboard/feature/*') ? 'active' : '' }}">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-card_membership"></i>
                     <span class="text">Feature item</span>
                 </a>
@@ -85,6 +87,25 @@
                     <a href="{{ route('product_feature') }}">Products</a>
                 </div>
             </li>
+
+            <li class="menu-item {{ request()->is('dashboard/inventory') ? 'active' : '' }}">
+                <a class="menu-link" href="{{route('inventory')}}">
+                    <i class="icon material-icons md-store"></i>
+                    <span class="text">Inventory</span> </a>
+            </li>
+            <li class="menu-item {{ request()->is('dashboard/campaign') ? 'active' : '' }}">
+                <a class="menu-link" href="{{route('campaign')}}"> <i class="icon material-icons md-campaign"></i>
+                    <span class="text">Campaign</span> </a>
+            </li>
+
+            <li class="menu-item {{ request()->is('dashboard/zone') ? 'active' : '' }}">
+                <a class="menu-link"  href="{{route('zone.index')}}"> <i class="icon material-icons md-pie_chart"></i>
+                    <span class="text">Zone</span>
+                </a>
+            </li>
+        </ul>
+        <hr>
+        <ul class="menu-aside">
             <li class="menu-item has-submenu">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-assessment"></i>
                     <span class="text">Reports</span>
@@ -94,34 +115,19 @@
 
                 </div>
             </li>
-
             <li class="menu-item">
-                <a class="menu-link" href="{{route('inventory')}}"> <i class="icon material-icons md-store"></i>
-                    <span class="text">Inventory</span> </a>
-            </li>
-
-            <li class="menu-item">
-                <a class="menu-link" href="{{route('campaign')}}"> <i class="icon material-icons md-analytics"></i>
-                    <span class="text">Campaign</span> </a>
-            </li>
-
-
-            <li class="menu-item">
-                <a class="menu-link"  href="{{route('zone.index')}}"> <i class="icon material-icons md-pie_chart"></i>
-                    <span class="text">Zone</span>
+                <a class="menu-link" href="{{url('/dashboard/users/index')}}">
+                    <i class="icon material-icons md-people"></i><span class="text">Manage Users</span>
                 </a>
             </li>
-        </ul>
-        <hr>
-        <ul class="menu-aside">
             <li class="menu-item">
                 <a class="menu-link" href="{{route('slider')}}">
-                    <span class="text">Manage Slider</span>
+                    <i class="icon material-icons md-slideshow"></i><span class="text">Manage Slider</span>
                 </a>
             </li>
             <li class="menu-item">
                 <a class="menu-link" href="{{route('ads')}}">
-                    <span class="text">Manage Ads</span>
+                    <i class="icon material-icons md-beenhere"></i><span class="text">Manage Ads</span>
                 </a>
             </li>
             <li class="menu-item has-submenu">
@@ -135,7 +141,69 @@
             </li>
 
         </ul>
-        <br>
+        @elseif(auth()->user()->hasRole(['Manager']))
+        <ul class="menu-aside">
+            <li class="menu-item {{ request()->is('dashboard') ? 'active' : '' }}">
+                <a class="menu-link" href="{{('/dashboard')}}"> <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="menu-item has-submenu {{ request()->is('dashboard/products/*') ? 'active' : '' }}">
+                <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Products</span>
+                </a>
+                <div class="submenu">
+                    <a href="{{route('products.create')}}">Add Product</a>
+                    <a href="{{route('products.index')}}">Product List</a>
+                    <a href="{{route('brands.index')}}">Brands</a>
+                    <a href="{{route('category.index')}}">Categories</a>
+                    {{-- <a href="{{route('subcategory.index')}}">Subcategories</a> --}}
+                    <a href="{{route('varient.index')}}">Varient</a>
+                </div>
+            </li>
+
+            <li class="menu-item {{ request()->is('dashboard/inventory') ? 'active' : '' }}">
+                <a class="menu-link" href="{{route('inventory')}}">
+                    <i class="icon material-icons md-store"></i>
+                    <span class="text">Inventory</span> </a>
+            </li>
+        </ul>
+        <hr>
+        <ul class="menu-aside">
+            <li class="menu-item">
+                <a class="menu-link" href="{{route('slider')}}">
+                    <i class="icon material-icons md-slideshow"></i><span class="text">Manage Slider</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="{{route('ads')}}">
+                    <i class="icon material-icons md-beenhere"></i><span class="text">Manage Ads</span>
+                </a>
+            </li>
+
+        </ul>
+        @elseif(auth()->user()->hasRole(['User']))
+        <ul class="menu-aside">
+            <li class="menu-item {{ request()->is('dashboard') ? 'active' : '' }}">
+                <a class="menu-link" href="{{('/dashboard')}}"> <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="menu-item has-submenu {{ request()->is('dashboard/orders/*') ? 'active' : '' }}">
+                <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_cart"></i>
+                    <span class="text">Orders</span>
+                </a>
+                <div class="submenu">
+                    <a href="{{route('order.index')}}">All Order list</a>
+                    <a href="{{route('order.pending')}}">Pending Order list</a>
+                    <a href="{{route('order.completed')}}">Completed Order</a>
+                    <a href="{{route('order.return')}}">Order return</a>
+                </div>
+            </li>
+        </ul>
+        @endif
         <br>
          {{-- <li class="menu-item has-submenu">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-person"></i>

@@ -26,7 +26,6 @@
 
     {{-- sweet alert --}}
     <link rel="stylesheet" href="{{asset('admin/assets/css/vendors/sweetalert2.min.css')}}">
-
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{asset('/')}}frontend/assets/css/main.css?v=3.4">
     <link rel="stylesheet" href="{{asset('frontend/assets/css/responsive.css')}}">
@@ -562,7 +561,7 @@
             }
         });
         $.ajax({
-            url: '/home/quickview',
+            url: '{{url('/home/quickview')}}',
             method: 'GET',
             data: {
                 slug: Slug,
@@ -689,7 +688,7 @@
 
 
         function searchHandel(searchInput, showProductDiv) {
-            
+
             var loadingIndicator = $('#loading-indicator');
             var searchTerm = searchInput.val().trim();
             console.log(searchTerm);

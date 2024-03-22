@@ -25,8 +25,6 @@ class ProductComponent extends Component
     {
         $product = Products::find($id);
         $item_name = $product->product_name;
-        $item_size = session()->get('product_size');
-        $item_color = session()->get('product_color');
         $offer_price = $product->product_price->offer_price;
 
         $campaign = Campaign::where('status','Published')->first();
@@ -57,11 +55,7 @@ class ProductComponent extends Component
         // $item_price = $product->regular_price;
         $item_slug = $product->slug;
         $item_image = Product_image::where('product_id',$id)->select('product_image')->first();
-        Cart::instance('cart')->add($id,$item_name,1,$item_price, [
-            'image' => $item_image,
-            'slug' => $item_slug,
-            'size' => $item_size,
-            'color' =>$item_color]);
+        Cart::instance('cart')->add($id,$item_name,1,$item_price, ['image' => $item_image,'slug' => $item_slug]);
 
         Session::flash('success','Product added To cart.');
         $this->dispatch('cartRefresh')->to('cart-icon-component');

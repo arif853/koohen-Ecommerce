@@ -57,6 +57,13 @@ class CustomerDashboardController extends Controller
      */
     public function customerBillingUpdate(Request $request, string $id)
     {
+        $request->validate([
+            'b_division' => 'required|exists:divisions,id',
+            'b_district' => 'required|exists:districts,id',
+            'b_area' => 'required|exists:postcodes,id',
+            'billing_address' => 'required|string',
+        ]);
+
         $customer = Customer::find($id);
 
         $customer->update([
@@ -74,6 +81,18 @@ class CustomerDashboardController extends Controller
      */
     public function newShipping(Request $request)
     {
+
+        $request->validate([
+            'customer_id' => 'exists:customers,id',
+            'shipper_fname' => 'required|string',
+            'shipper_lname' => 'required|string',
+            'shipper_phone' => 'required|string',
+            'shipper_email' => 'required|email',
+            'shipper_address' => 'required|string',
+            's_division' => 'required|exists:divisions,id',
+            's_district' => 'required|exists:districts,id',
+            's_area' => 'required|exists:postcodes,id',
+        ]);
 
         shipping::create([
             'customer_id' => $request->customer_id,
@@ -93,6 +112,18 @@ class CustomerDashboardController extends Controller
     public function shipping_update(Request $request, string $id)
     {
         $shipping = shipping::find($id);
+
+        $request->validate([
+            'customer_id' => 'exists:customers,id',
+            'shipper_fname' => 'required|string',
+            'shipper_lname' => 'required|string',
+            'shipper_phone' => 'required|string',
+            'shipper_email' => 'required|email',
+            'shipper_address' => 'required|string',
+            's_division' => 'required|exists:divisions,id',
+            's_district' => 'required|exists:districts,id',
+            's_area' => 'required|exists:postcodes,id',
+        ]);
 
         $shipping->update([
             'first_name' => $request->shipper_fname,

@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Termwind\Components\Raw;
 use App\Models\Feature_category;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -82,7 +83,17 @@ class HomeController extends Controller
     public function checkout()
     {
         $divisions = Division::all();
-        return view('frontend.checkout');
+        if (Auth::guard('customer')->check()) {
+            $user = Auth::guard('customer')->user();
+
+            if ($user->customer->billing_address != null && $user->customer->shipping()->exists()) {
+                return view('frontend.checkout');
+            } else {
+                return redirect()->back()->with('warning', 'Update your profile with necessary information.')->with('success','Your product already saved in store.');
+            }
+        } else {
+            return view('frontend.checkout');
+        }
     }
 
 

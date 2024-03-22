@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+@section('title','Offers')
 @section('content')
     <div class="content-header">
         <div>
@@ -154,7 +155,7 @@
                 e.preventDefault();
                 var offerId = $(this).data('offer-id');
                 $.ajax({
-                    url: '/dashboard/promotion/edit_offers_data',
+                    url: '{{url('/dashboard/promotion/edit_offers_data')}}',
                     method: 'GET',
                     data: {
                         id: offerId,
@@ -175,6 +176,7 @@
                             .prop('selected', true);
                         // Add the selected products to the multi-select menu
                         // Reset selected options in the multi-select menu
+                          
                         $('#offer_product_id_s option').prop('selected', false);
                             response.relatedProducts.forEach(function(product) {
                                 //console.log(product);
@@ -194,7 +196,7 @@
                 e.preventDefault();
                 const data = new FormData(this);
                 $.ajax({
-                    url: '/dashboard/promotion/update_offers_data',
+                    url: '{{url('/dashboard/promotion/update_offers_data')}}',
                     method: 'post',
                     data: data,
                     cache: false,

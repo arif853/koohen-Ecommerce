@@ -68,7 +68,6 @@
                                                     @foreach ($brands as $brand)
                                                     <option value="{{$brand->id}}">{{$brand->brand_name}}</option>
                                                     @endforeach
-
                                                 </select>
                                             </div>
                                             <div class="col-md-4 mb-4">
@@ -76,9 +75,8 @@
                                                 <select class="select-nice" id="product_category" name="product_category"  required>
                                                     <option value="0">Select a Category....</option>
                                                     @foreach ($categories as $category)
-                                                    <option value="{{$category->id}}">{{$category->category_name}}</option>
+                                                        <option value="{{$category->id}}">{{$category->category_name}}</option>
                                                     @endforeach
-
                                                 </select>
                                             </div>
                                             <div class="col-md-4  mb-3">
@@ -88,7 +86,7 @@
                                                     <input type="text" placeholder="Type here" class="form-control tag-input" spellcheck="false">
                                                     <div class="tag-details d-flex justify-content-between">
                                                         <p><span>10</span> tags are remaining</p>
-                                                        <button><i class="fa-solid fa-times"></i></button>
+                                                        <button><i class="fa fa-times"></i></button>
                                                     </div>
                                                     <ul class="tag-content">
                                                     </ul>

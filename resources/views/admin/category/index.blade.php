@@ -130,7 +130,7 @@
             }
         });
         $.ajax({
-            url: '/dashboard/category/edit',
+            url: '{{route('category.edit')}}',
             method: 'GET',
             data: {
                 id: categoryId,
@@ -139,6 +139,7 @@
                 $('#category_id').val(response.id);
                 $('#category_name').val(response.category_name);
                 $('#parent_category_id').val(response.parent_category);
+                // .prop('selected',response.parent_category);
                 $('#status').prop('checked', response.status == 1);
 
                 const outputImage = document.getElementById('output-image2');
@@ -146,6 +147,7 @@
 
                 const outputImage2 = document.getElementById('icon-image2');
                 outputImage2.src = "{{asset('storage')}}"+'/'+response.category_icon
+
                 // $('#output-image2').val(response.brand_image);
                 // $("#edit_modal_form").modal('show');
                 // console.log(response)
@@ -159,7 +161,7 @@
         const data = new FormData(this);
         console.log(data);
         $.ajax({
-            url: '/dashboard/category/update',
+            url: '{{route('category.update')}}',
             method: 'post',
             data: data,
             cache: false,

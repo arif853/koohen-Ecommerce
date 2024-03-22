@@ -106,7 +106,8 @@ class NewProductsComponent extends Component
             'brand',
             'category',
             'subcategory',
-            'product_price'
+            'product_price',
+            'product_stocks',
         ])->latest('created_at')->take(8)->get();
 
         if(Auth::guard('customer')->check()){

@@ -120,6 +120,9 @@
                                       <label for="" class="form-label text-dark">Address <span>*</span></label>
                                       <input type="text" class="form-control mb-2" name="billing_address" required
                                           placeholder="Address *" value="{{$user->customer->billing_address}}">
+                                        @error('billing_address')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                   </div>
                               </div>
                               <div class="col-lg-6">
@@ -131,6 +134,9 @@
                                               <option value="{{ $division->id }}" {{ $division->id == $user->customer->division ? 'selected' : '' }}>{{ $division->name }}</option>
                                           @endforeach
                                       </select>
+                                        @error('b_division')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                   </div>
                               </div>
                               <div class="col-lg-6">
@@ -142,6 +148,9 @@
                                           <option value="{{$district->id}}" {{$district->id == $user->customer->district ? 'selected' : ''}}>{{$district->name}}</option>
                                           @endforeach
                                       </select>
+                                    @error('b_district')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                   </div>
                               </div>
                               <div class="col-lg-6">
@@ -153,6 +162,9 @@
                                           <option value="{{$postOffice->id}}" {{$postOffice->id == $user->customer->area ? 'selected' : ''}}>{{$postOffice->postOffice}}</option>
                                           @endforeach
                                       </select>
+                                    @error('b_area')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                   </div>
                               </div>
 

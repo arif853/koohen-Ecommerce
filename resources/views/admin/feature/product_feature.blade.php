@@ -4,10 +4,10 @@
 @section('content')
     <div class="content-header">
         <div>
-            <h2 class="content-title card-title">Feature Items</h2>
+            <h2 class="content-title card-title">Feature Products</h2>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ '/dashborad' }}">Dashborad</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url('/dashborad') }}">Dashborad</a></li>
                     <li class="breadcrumb-item active" aria-current="page"> Feature Items</li>
                 </ol>
             </nav>
@@ -49,7 +49,7 @@
                                         alt="{{ $item->feature_products_title }}" width="70">
                                 </td>
                                 {{-- <td>{{$item->text}}</td> --}}
-                                <td>{{ $item->products->count() }}</td>
+                                <td></td>
                                 <td>
                                     @if ($item->status == 'Active')
                                         <a href="{{ route('zonestatus.update', ['id' => $item->id]) }}">
@@ -232,14 +232,49 @@
 
 @push('product_features')
     <script>
+
+document.getElementById('image').addEventListener('change', function (event) {
+        const input = event.target;
+        const preview = document.getElementById('image-preview');
+        const outputImage = document.getElementById('output-image');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                outputImage.src = e.target.result;
+                preview.style.display = 'block';
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    });
+
+    document.getElementById('products_feature_image').addEventListener('change', function (event) {
+        const input = event.target;
+        const preview = document.getElementById('image-preview2');
+        const outputImage = document.getElementById('output-image2');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                outputImage.src = e.target.result;
+                preview.style.display = 'block';
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    });
+
         // Edit Feature Products
         $(document).ready(function() {
             $('.productFeaturedUpdate').on('click',function(e) {
                 e.preventDefault();
                 var itemId = $(this).data('item-id');
-             
+
                 $.ajax({
-                    url: '/dashboard/product_feature/edit',
+                    url: '{{url('/dashboard/feature/product_feature/edit')}}',
                     method: 'GET',
                     data: {
                         id: itemId
@@ -254,8 +289,15 @@
                         } else {
                             $('#status').prop('checked', false);
                         }
-                        
+                        response.products.forEach(function(product) {
+                            $('#products_id_s option[value="' + product.product_id + '"]').prop('selected', true);
+                        });
+
+                        $('#products_id_s').trigger('change');
+
                         // Populate other fields as needed
+                        const outputImage = document.getElementById('output-image2');
+                            outputImage.src = "{{asset('storage')}}"+'/'+response.image
                     },
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText);
@@ -269,7 +311,7 @@
                 const data = new FormData(this);
 
                 $.ajax({
-                    url: '/dashboard/product_feature/update',
+                    url: '{{url('/dashboard/feature/product_feature/update')}}',
                     method: 'post',
                     data: data,
                     cache: false,

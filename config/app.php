@@ -171,7 +171,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
         misterspelik\LaravelPdf\PdfServiceProvider::class,
-        Spatie\Permission\PermissionServiceProvider::class,
+        Igoshev\Captcha\Providers\CaptchaServiceProvider::class,
+
 
     ])->toArray(),
 
@@ -191,8 +192,9 @@ return [
         // 'Image' => Intervention\Image\Facades\Image::class,
         // 'Example' => App\Facades\Example::class,
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
-        'PDF' => misterspelik\LaravelPdf\Facades\Pdf::class
+        'PDF' => misterspelik\LaravelPdf\Facades\Pdf::class,
         // 'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+        Spatie\Permission\PermissionServiceProvider::class,
     ])->toArray(),
 
 ];

@@ -134,7 +134,14 @@
     @stack('offers')
 
     <script>
+         $(document).ready(function() {
+                $('.menu-item.has-submenu').click(function() {
+                    $(this).toggleClass('active');
+                });
+            });
+            
         $(document).ready(function() {
+
 
             $('.delete_all').on('click', function (e) {
                 var allVals = [];

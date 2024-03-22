@@ -122,7 +122,8 @@ class HomeComponent extends Component
             'brand',
             'category',
             'subcategory',
-            'product_price'
+            'product_price',
+            'product_stocks'
         ])->paginate(8);
 
         if(Auth::guard('customer')->check()){

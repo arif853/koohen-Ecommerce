@@ -24,7 +24,12 @@ class FeatureProductsController extends Controller
     {
         $products = Products::latest('id')->get();
         $fproducts = FeatureProducts::latest('id')->get();
-        return view('admin.feature.product_feature', ['products' => $products, 'fproducts' => $fproducts]);
+        // $fproducts->products=->leftJoin('feature_products_with_pivot', 'feature_products.id', '=', 'feature_products_with_pivot.feature_products_id')
+        // ->leftJoin('products', 'feature_products_with_pivot.products_id', '=', 'products.id')
+        // ->select('feature_products.*', 'products.id as product_id', 'products.product_name as product_name')
+
+
+        return view('admin.feature.product_feature', ['products'=> $products,'fproducts' => $fproducts]);
     }
 
     /**
@@ -115,11 +120,13 @@ class FeatureProductsController extends Controller
     {
         $id = $request->id;
         $feature_products = FeatureProducts::findOrFail($id);
-        $productEdit = DB::table('feature_products_with_pivot')->where('feature_products_id',$feature_products->id)->select('products_id')->get();
-        return response()->json([
-            'product_id' => $productEdit,
-            'feature_products' => $feature_products,
-        ]);
+
+        $feature_products->products = $feature_products->leftJoin('feature_products_with_pivot', 'feature_products.id', '=', 'feature_products_with_pivot.feature_products_id')
+                ->leftJoin('products','feature_products_with_pivot.products_id','=','products.id')
+                ->select('products.id as product_id','products.product_name as product_name') // Select columns you need from both tables
+                ->get();
+
+        return response()->json($feature_products);
     }
     /**
      * Update the specified resource in storage.
@@ -128,36 +135,36 @@ class FeatureProductsController extends Controller
     {
         $id = $request->feature_id;
         $featureItem = FeatureProducts::find($id);
-    
-    
+
+
         // Check if there's a new image uploaded
         if ($request->hasFile('image')) {
             $featureImage = $request->file('image');
             $featurePath = 'feature/products/' . time() . '.' . $featureImage->getClientOriginalExtension();
-    
+
             // Save the image
             Storage::disk('public')->put($featurePath, file_get_contents($featureImage));
-    
+
             // Delete the old image
             Storage::delete('public/' . $featureItem->image);
             $featureItem->image = $featurePath;
         }
-    
+
         // Update feature product details
         $featureItem->feature_products_title = $request->feature_products_title;
         $featureItem->status = $request->status ? 'Active' : 'Inactive';
         $featureItem->save();
-    
+
         // Sync the products in the pivot table
         $featureItem->products()->sync($request->input('products_id'));
-    
+
         return response()->json([
             'status' => 'success',
             'message' => 'Feature Products Updated Successfully!',
         ]);
     }
-    
-    
+
+
 
     /**
      * Remove the specified resource from storage.

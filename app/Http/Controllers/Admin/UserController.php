@@ -2,27 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('permission:view user', ['only' => ['index']]);
-        $this->middleware('permission:create user', ['only' => ['create','store']]);
-        $this->middleware('permission:update user', ['only' => ['update','edit']]);
-        $this->middleware('permission:delete user', ['only' => ['destroy']]);
-    }
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-         $users = User::get();
-         return view('admin.users.index',['users' => $users]);
+        $users = User::all();
+        $roles = Role::all();
+        return view('admin.user-role.user.index',['users' => $users, 'roles' =>$roles]);
     }
 
     /**
@@ -30,8 +27,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
-        return view('admin.users.create',['roles' => $roles]);
+        //
     }
 
     /**
@@ -39,34 +35,24 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $rules = [
+        $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email',
-            'password' => 'required|string|min:8|max:20',
-            'roles' => 'required'
-        ];
-        $customMessages = [
-            'name.required' => 'Need a user name.',
-            'email.required' => 'Need a email .',
-            'password.required' => 'Need a password .',
-            'roles.required' => 'Need a roles .',
-        ];
-        $validator = Validator::make($request->all(), $rules, $customMessages);
-        // Validate the request
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        } else {
-            $user = User::create([
-                        'name' => $request->name,
-                        'email' => $request->email,
-                        'password' => Hash::make($request->password),
-                    ]);
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6|max:20',
+            'user_role' => 'required'
+        ]);
 
-            $user->syncRoles($request->roles);
-        }
-        Session::flash('success', 'User created successfully with roles.');
-        return redirect('/users');
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
+
+        $user->syncRoles($request->user_role);
+
+        Session::flash('success', 'New user add successfully.');
+
+        return response()->json(['status'=>200]);
     }
 
     /**
@@ -80,56 +66,58 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(Request $request)
     {
-        $roles = Role::pluck('name','name')->all();
-        $userRoles = $user->roles->pluck('name','name')->all();
-        return view('admin.users.edit',[
-            'user' => $user,
-            'roles' => $roles,
-            'userRoles' => $userRoles
-        ]);
+        $user = User::find($request->id);
+        $user->roles = $user->getRoleNames();
+
+        // dd($user);
+        return response()->json(['status' => 200, 'user' => $user]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,User $user)
+    public function update(Request $request)
     {
-        $rules = [
+        $user = User::find($request->user_id);
+
+        $request->validate([
             'name' => 'required|string|max:255',
-            'password' => 'required|string|min:8|max:20',
-            'roles' => 'required'
+            'email' => 'required|email',
+            // 'password' => 'min:6|max:12',
+            // 'user_role' => 'required'
+        ]);
+
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
         ];
-        $customMessages = [
-            'name.required' => 'Need a user name.',
-            'password.required' => 'Need a password.',
-            'roles.required' => 'Need a roles .'
-        ];
-        $validator = Validator::make($request->all(), $rules, $customMessages);
-        // Validate the request
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        } else {
-            $user->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password)
-            ]);
-            $user->syncRoles($request->roles);
-            Session::flash('success', 'User updated successfully with roles.');
-            return redirect('/users');
+
+        if(!empty($request->password))
+        {
+            $data += [
+                'password' => $request->password,
+            ];
         }
+        $user->update($data);
+        $user->syncRoles($request->user_role);
+
+        Session::flash('success', 'User Updated successfully.');
+
+        return response()->json(['status'=>200]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($userId)
+    public function destroy($id)
     {
-        $user = User::findOrFail($userId);
+        $user = User::findOrfail($id);
+
         $user->delete();
-        Session::flash('success', 'User deleted successfully.');
-        return redirect('/users');
+        Session::flash('success','User Deleted successfully!!');
+
+        return redirect()->back();
     }
 }
