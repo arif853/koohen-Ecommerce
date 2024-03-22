@@ -9,12 +9,14 @@ use App\Models\Feature_category;
 use App\Livewire\ProductComponent;
 use App\Livewire\CheckoutComponent;
 use App\Livewire\PostOfficeSelector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdsController;
 use App\Http\Controllers\Admin\POSController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Controllers\Admin\BrandController;
@@ -45,7 +47,6 @@ use App\Http\Controllers\SslCommerzPaymentController;
 use App\Http\Controllers\Frontend\TrackorderController;
 use App\Http\Controllers\Admin\FeatureCategoryController;
 use App\Http\Controllers\Admin\FeatureProductsController;
-use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Frontend\CustomerAuthController;
 use App\Http\Controllers\Frontend\ForgotPasswordController;
 use App\Http\Controllers\Frontend\CustomerDashboardController;
@@ -60,6 +61,8 @@ use App\Http\Controllers\Frontend\CustomerDashboardController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Auth::routes(['register' => false]);
+
 Route::get('/cache_clear',function(){
 
     Artisan::call('route:clear');
@@ -178,10 +181,10 @@ Route::controller(TrackorderController::class)->group(function () {
 //dashboard
 Route::get('/dashboard', [DashboardController::class,'index'])->middleware(['role:Super Admin|Admin|Manager|User'])->name('dashboard');
 
-Route::middleware(['role:Super Admin|Admin'])->group(function(){
+Route::middleware(['role:Super Admin|Admin|Manager|User'])->group(function(){
 
     //Brands
-    Route::controller(BrandController::class)->group(function () {
+    Route::controller(BrandController::class)->middleware(['role:Manager'])->group(function () {
         Route::get('/dashboard/products/brands', 'index')->name('brands.index');
         Route::get('/dashboard/products/brands/create', 'create')->name('brands.create');
         Route::post('/dashboard/products/brands/store', 'store')->name('brands.store');
@@ -191,7 +194,7 @@ Route::middleware(['role:Super Admin|Admin'])->group(function(){
     });
 
     //Category
-    Route::controller(CategoryController::class)->group(function () {
+    Route::controller(CategoryController::class)->middleware(['role:Manager'])->group(function () {
         Route::get('/dashboard/products/category', 'index')->name('category.index');
         Route::get('/dashboard/products/category/create', 'create')->name('category.create');
         Route::post('/dashboard/products/category/store', 'store')->name('category.store');
@@ -216,7 +219,7 @@ Route::middleware(['role:Super Admin|Admin'])->group(function(){
 
 
     //Varient
-    Route::controller(VarientController::class)->group(function () {
+    Route::controller(VarientController::class)->middleware(['role:Manager'])->group(function () {
         Route::get('/dashboard/products/varient', 'index')->name('varient.index');
         //color
         Route::post('/dashboard/products/varient/color_store', 'color_store')->name('color.store');
@@ -232,7 +235,7 @@ Route::middleware(['role:Super Admin|Admin'])->group(function(){
     });
 
     // Products
-    Route::controller(ProductController::class)->group(function () {
+    Route::controller(ProductController::class)->middleware(['role:Manager'])->group(function () {
         Route::get('/dashboard/products/index', 'index')->name('products.index');
         Route::get('/dashboard/products/create', 'create')->name('products.create');
         Route::post('/dashboard/products/store', 'store')->name('products.store');
@@ -251,7 +254,7 @@ Route::middleware(['role:Super Admin|Admin'])->group(function(){
     });
 
     //Order
-    Route::controller(OrderController::class)->group(function () {
+    Route::controller(OrderController::class)->middleware(['role:User'])->group(function () {
         Route::get('/dashboard/orders', 'index')->name('order.index');
         Route::get('/dashboard/orders/filter', 'OrderFilter')->name('order.filters');
         Route::get('/dashboard/orders/pending_order', 'pending_order')->name('order.pending');
@@ -397,7 +400,7 @@ Route::middleware(['role:Super Admin|Admin'])->group(function(){
     });
 
     //Inventory route
-    Route::controller(InventoryController::class)->group(function () {
+    Route::controller(InventoryController::class)->middleware(['role:Manager'])->group(function () {
         Route::get('/dashboard/inventory', 'index')->name('inventory');
         Route::get('/dashboard/inventory/create', 'create')->name('inventory.create');
 

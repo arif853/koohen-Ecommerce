@@ -32,22 +32,23 @@
                    Cache
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link btn-icon" href="#">
                     <i class="material-icons md-notifications animation-shake"></i>
                     <span class="badge rounded-pill">3</span>
                 </a>
-            </li>
-
+            </li> --}}
+            @if(auth()->user()->hasRole(['Super Admin','Admin','User']))
             <li class="nav-item">
                 <a class="nav-link btn-icon pos" href="{{route('pos')}}">
                     POS
                 </a>
             </li>
-
+            @endif
 
             <li class="dropdown nav-item">
                 <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="{{ asset('/') }}admin/assets/imgs/customer_avatar.png" alt="User"></a>
+                <span>{{auth()->user()->name}}</span>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
                     <a class="dropdown-item" href="{{route('profile.edit')}}"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
                     <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
