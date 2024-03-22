@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdsController;
 use App\Http\Controllers\Admin\POSController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\MediaController;
@@ -36,6 +38,7 @@ use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InventoryController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Frontend\CheckoutController;
@@ -418,6 +421,18 @@ Route::controller(POSController::class)->middleware('auth')->group(function () {
 Route::controller(ReportController::class)->middleware('auth')->group(function(){
     Route::get('/dashboard/reports/sale', 'saleReport')->name('sale.report');
     Route::get('/dashboard/report/sale_search', 'searchSale')->name('search.sale');
+});
+
+// role and permission 
+Route::group(['middleware' => ['role:admin']], function() {
+    Route::resource('permissions', PermissionController::class);
+    Route::get('permissions/{permissionId}/delete', [PermissionController::class, 'destroy']);
+    Route::resource('roles', RoleController::class);
+    Route::get('roles/{roleId}/delete', [RoleController::class, 'destroy']);
+    Route::get('roles/{roleId}/give-permissions', [RoleController::class, 'addPermissionToRole']);
+    Route::put('roles/{roleId}/give-permissions', [RoleController::class, 'givePermissionToRole']);
+    Route::resource('users', UserController::class);
+    Route::get('users/{userId}/delete', [UserController::class, 'destroy']);
 });
 
 // reviews
