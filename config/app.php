@@ -195,6 +195,7 @@ return [
         'PDF' => misterspelik\LaravelPdf\Facades\Pdf::class,
         // 'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
         Spatie\Permission\PermissionServiceProvider::class,
+         'Captcha' => Igoshev\Captcha\Facades\Captcha::class,
     ])->toArray(),
 
 ];
