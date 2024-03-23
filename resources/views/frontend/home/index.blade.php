@@ -51,7 +51,9 @@
 
                     @foreach ($categories as $category)
                     <div class="card-1">
-                        <figure class=" img-hover-scale overflow-hidden">
+                        <figure class=" img-hover-scale overflow-hidden" style="height: 170px;
+                        width: 100%;
+                        margin: revert-layer;">
                             <a href="#"><img src="{{asset('storage/category_image/'.$category->category_image)}}" alt="{{$category->slug}}"></a>
                         </figure>
                         <h5><a href="#">{{$category->category_name}}</a></h5>

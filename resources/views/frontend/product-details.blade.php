@@ -4,15 +4,18 @@
 @section('main')
 
 <main class="main">
+
     <div class="page-header breadcrumb-wrap">
        <div class="container">
           <div class="breadcrumb">
-             <a href="index.html" rel="nofollow">Home</a>
-             <span></span> Fashion
-             <span></span> Abstract Print Patchwork Dress
+             <a href="{{('/')}}" rel="nofollow">Home</a>
+             <span></span>
+             <a href="{{('/shop')}}" rel="nofollow">Shop</a>
+             <span></span> {{$product->slug}}
           </div>
        </div>
     </div>
+
     <section class="mt-50 mb-50">
        <div class="container">
           <div class="row flex-row-reverse">
@@ -20,7 +23,6 @@
                 <div class="product-detail accordion-detail">
 
                     {{-- Product Component --}}
-
                     @livewire('product-component', ['slug' => $product->slug], key($product->slug))
 
                    <!--Related Product-->

@@ -162,7 +162,7 @@
                         id: offerId,
                     },
                     success: function(response) {
-                        console.log(response);
+                        console.log(response.products);
                         $('#offer_name').val
                         $('#offer_id').val(response.id);
                         $('#OffersName').val(response.offer_name);
@@ -179,6 +179,13 @@
                                 // Remove the selected attribute for other options
                                 $(this).prop('selected', false);
                             }
+                        });
+                        response.products.forEach(function(product){
+                            // console.log(product.id);
+                            // console.log(product.product_name);
+                            $('#offer_product_id option[value="' + product.id + '"]').prop('selected', true);
+
+                            $('#offer_product_id').trigger('change');
                         });
                     }
                 });
