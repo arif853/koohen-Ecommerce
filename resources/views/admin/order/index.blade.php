@@ -96,6 +96,7 @@
                                         <div class="info pl-3">
                                             <h6 class="mb-0 title">{{$order->customer->firstName}} {{$order->customer->lastName}}</h6>
                                             <small class="text-muted">Order ID: #{{$order->id}}</small>
+                                            <small class="text-muted">Track ID: #{{$order->order_track_id}}</small>
                                         </div>
                                         </a>
                                     </td>
@@ -104,6 +105,7 @@
                                     </td>
                                     <td>৳{{$order->total}}</td>
                                     <td>
+                                        @if($order->is_pos !=1 )
                                         <div class="status-container">
                                             <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200 order_status" id="order_status" data-order-id="{{ $order->id }}" name="order_status">
                                                 <option value="pending" style="color: orange;" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
@@ -115,11 +117,26 @@
                                                 <option value="cancelled" style="color: red;" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                                             </select>
                                         </div>
+                                        @else
+                                        <div class="status-container">
+                                            <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200 order_status" id="order_status" data-order-id="{{ $order->id }}" name="order_status" disabled>
+                                                <option value="pending" style="color: orange;" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                <option value="confirmed" style="color: blue;" {{ $order->status == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
+                                                <option value="shipped" style="color: green;" {{ $order->status == 'shipped' ? 'selected' : '' }}>Shipped</option>
+                                                <option value="delivered" style="color: #00cc00;" {{ $order->status == 'delivered' ? 'selected' : '' }}>Delivered</option>
+                                                <option value="completed" style="color: purple;" {{ $order->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                                <option value="returned" style="color: gray;" {{ $order->status == 'returned' ? 'selected' : '' }}>Returned</option>
+                                                <option value="cancelled" style="color: red;" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                            </select>
+                                        </div>
+                                        @endif
                                     </td>
                                     <td>{{ $order->created_at->format('d-m-Y') }}</td>
                                     <td class="text-end">
                                         <a href="{{route('order.details', ['id' => $order->id])}}" class="btn btn-md rounded font-sm">Detail</a>
+                                        @if($order->is_pos == 0 )
                                         <a class="btn btn-md rounded font-sm" href="{{route('order.track', ['id' => $order->id])}}">Track me</a>
+                                        @endif
                                         <a href="{{ url('/orders/invoice/'.$order->id) }}" target="__blank" class="btn btn-facebook rounded font-sm">Invoice</a>
                                         {{-- <div class="dropdown">
                                             <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
