@@ -60,11 +60,11 @@
                 <div class="col-sm-6">
                     <script>
                     document.write(new Date().getFullYear())
-                    </script> ©, Koohen  - Admin Dashboard  .
+                    </script> © Koohen  - Admin Dashboard  .
                 </div>
                 <div class="col-sm-6">
                     <div class="text-sm-end">
-                        All rights reserved
+                        All rights reserved by Qbit E-Store.
                     </div>
                 </div>
             </div>
@@ -139,7 +139,7 @@
                     $(this).toggleClass('active');
                 });
             });
-            
+
         $(document).ready(function() {
 
 

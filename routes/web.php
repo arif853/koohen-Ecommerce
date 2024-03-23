@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\OfferComponent;
 use App\Models\Products;
 use Illuminate\Routing\Router;
 use App\Livewire\CartComponent;
@@ -100,6 +101,7 @@ Route::get('/terms-and-condition', function () {
 Route::get('/cancellation_and_return', function () {
     return view('frontend.cancellation_and_return');
 });
+
 Route::get('/delivery_information', function () {
     return view('frontend.delivery_information');
 });
@@ -108,6 +110,8 @@ Route::get('/delivery_information', function () {
 // Route::get('/product/{slug}', ProductComponent::class)->name('product.detail');
 
 Route::get('/shop', ShopComponent::class )->name('shop');
+Route::get('/offer/{id}', OfferComponent::class )->name('offer');
+
 // Route::get('/cart', CartComponent::class )->name('shop.cart');
 
 // Route::get('/checkout', CheckoutComponent::class )->name('checkout');
@@ -125,6 +129,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/home/product_search', 'searchBar')->name('search');
 
 });
+
 Route::get('forget-password-get', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
 Route::post('forget-password-post', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
 Route::get('reset-password/{token}', [ForgotPasswordController::class, 'resetPasswordSubmit'])->name('reset.password.get');
@@ -179,12 +184,12 @@ Route::controller(TrackorderController::class)->group(function () {
 // Backend Route Start
 
 //dashboard
-Route::get('/dashboard', [DashboardController::class,'index'])->middleware(['role:Super Admin|Admin|Manager|User'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class,'index'])->middleware(['auth','role:Super Admin|Admin|Manager|User'])->name('dashboard');
 
-Route::middleware(['role:Super Admin|Admin|Manager|User'])->group(function(){
+Route::middleware(['auth','role:Super Admin|Admin|Manager|User'])->group(function(){
 
     //Brands
-    Route::controller(BrandController::class)->middleware(['role:Manager'])->group(function () {
+    Route::controller(BrandController::class)->middleware(['role:Super Admin|Admin|Manager'])->group(function () {
         Route::get('/dashboard/products/brands', 'index')->name('brands.index');
         Route::get('/dashboard/products/brands/create', 'create')->name('brands.create');
         Route::post('/dashboard/products/brands/store', 'store')->name('brands.store');
@@ -194,7 +199,7 @@ Route::middleware(['role:Super Admin|Admin|Manager|User'])->group(function(){
     });
 
     //Category
-    Route::controller(CategoryController::class)->middleware(['role:Manager'])->group(function () {
+    Route::controller(CategoryController::class)->middleware(['role:Super Admin|Admin|Manager'])->group(function () {
         Route::get('/dashboard/products/category', 'index')->name('category.index');
         Route::get('/dashboard/products/category/create', 'create')->name('category.create');
         Route::post('/dashboard/products/category/store', 'store')->name('category.store');
@@ -214,12 +219,11 @@ Route::middleware(['role:Super Admin|Admin|Manager|User'])->group(function(){
     //     Route::delete('/dashboard/subcategory/destroy/{id}', 'destroy')->name('subcategory.destroy');
 
     //     Route::get('/dashboard/subcategory/get_subcategory/{id}', 'get_subcategory')->name('category.subcategory');
-
     // });
 
 
     //Varient
-    Route::controller(VarientController::class)->middleware(['role:Manager'])->group(function () {
+    Route::controller(VarientController::class)->middleware(['role:Super Admin|Admin|Manager'])->group(function () {
         Route::get('/dashboard/products/varient', 'index')->name('varient.index');
         //color
         Route::post('/dashboard/products/varient/color_store', 'color_store')->name('color.store');
@@ -235,7 +239,7 @@ Route::middleware(['role:Super Admin|Admin|Manager|User'])->group(function(){
     });
 
     // Products
-    Route::controller(ProductController::class)->middleware(['role:Manager'])->group(function () {
+    Route::controller(ProductController::class)->middleware(['role:Super Admin|Admin|Manager'])->group(function () {
         Route::get('/dashboard/products/index', 'index')->name('products.index');
         Route::get('/dashboard/products/create', 'create')->name('products.create');
         Route::post('/dashboard/products/store', 'store')->name('products.store');
@@ -254,7 +258,7 @@ Route::middleware(['role:Super Admin|Admin|Manager|User'])->group(function(){
     });
 
     //Order
-    Route::controller(OrderController::class)->middleware(['role:User'])->group(function () {
+    Route::controller(OrderController::class)->middleware(['role:Super Admin|Admin|User'])->group(function () {
         Route::get('/dashboard/orders', 'index')->name('order.index');
         Route::get('/dashboard/orders/filter', 'OrderFilter')->name('order.filters');
         Route::get('/dashboard/orders/pending_order', 'pending_order')->name('order.pending');
@@ -286,6 +290,8 @@ Route::middleware(['role:Super Admin|Admin|Manager|User'])->group(function(){
         Route::get('/dashboard/promotion/edit_offers_data', 'EditOfferData')->name('offer.edit');
         Route::post('/dashboard/promotion/update_offers_data', 'UpdateOfferData')->name('offer.update');
         Route::delete('/dashboard/promotion/offers_data', 'delteOfferData')->name('offer.destroy');
+
+        Route::post('/dashboard/promotion/update-offertype/{id}','updateOfferType')->name('updateoffer.type');
     });
 
     //Coupons
@@ -400,7 +406,7 @@ Route::middleware(['role:Super Admin|Admin|Manager|User'])->group(function(){
     });
 
     //Inventory route
-    Route::controller(InventoryController::class)->middleware(['role:Manager'])->group(function () {
+    Route::controller(InventoryController::class)->middleware(['role:Super Admin|Admin|Manager'])->group(function () {
         Route::get('/dashboard/inventory', 'index')->name('inventory');
         Route::get('/dashboard/inventory/create', 'create')->name('inventory.create');
 

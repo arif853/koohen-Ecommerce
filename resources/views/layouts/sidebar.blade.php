@@ -1,6 +1,6 @@
 <aside class="navbar-aside" id="offcanvas_aside">
     <div class="aside-top">
-        <a href="index.html" class="brand-wrap">
+        <a href="{{url('/dashboard')}}" class="brand-wrap">
             <img src="{{asset('admin/assets/imgs/Kohen_Logo_Main.png')}}" class="logo" alt="Koohen">
         </a>
         <div>

@@ -3,15 +3,40 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Koohen - @yield('title')</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="">
+
+    @php
+        $tags = DB::table('product_tags')->distinct()->pluck('tag')->implode(', ');
+        $description = DB::table('settings')->pluck('company_short_details')->first();
+        // echo $description;
+    @endphp
+    <meta name="description" content="{{$description}}">
+    <meta name="keywords" content="{{$tags}}">
+    <meta name=”robots” content="index, follow">
+    <meta name="author" content="{{ config('app.name') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="">
-    <meta property="og:type" content="">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
+
+    <!-- Google / Search Engine Tags -->
+    <meta itemprop="name" content="{{ config('app.name') }}">
+    <meta itemprop="description" content="{{$description}}">
+    <meta itemprop="image" content="{{asset('frontend/assets/imgs/favicon_128x128.ico')}}">
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="{{ url('/') }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ config('app.name') }}">
+    <meta property="og:description" content="{{$description}}">
+    <meta property="og:image" content="{{asset('frontend/assets/imgs/favicon_128x128.ico')}}">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="">
+    <meta name="twitter:title" content="{{ config('app.name') }}">
+    <meta name="twitter:description" content="{{$description}}">
+    <meta name="twitter:image" content="{{asset('frontend/assets/imgs/favicon_128x128.ico')}}">
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>@yield('title') - Koohen | YOUR ULTIMATE LIFESTYLE</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend/assets/imgs/favicon_128x128.ico')}}">
@@ -57,10 +82,15 @@
                     <div class="col-xl-6 col-lg-4">
                         <div class="text-center">
                             <div id="news-flash" class="d-inline-block">
+                                @php
+                                    $offers = DB::table('offers')->get();
+                                @endphp
                                 <ul>
-                                    <li>Get great devices up to 50% off <a href="shop-grid-right.html">View details</a></li>
-                                    <li>Supper Value Deals - Save more with coupons</li>
-                                    <li>Trendy 25silver jewelry, save up 35% off today <a href="shop-grid-right.html">Shop now</a></li>
+                                    @foreach ($offers as $offer)
+                                    <li>{{$offer->offer_name}}<a href="{{route('offer',['id'=>$offer->id])}}" class="ml-5">View details</a></li>
+                                    @endforeach
+                                    {{-- <li>Supper Value Deals - Save more with coupons</li>
+                                    <li>Trendy 25silver jewelry, save up 35% off today <a href="shop-grid-right.html">Shop now</a></li> --}}
                                 </ul>
                             </div>
                         </div>
