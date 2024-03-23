@@ -31,7 +31,7 @@
 
                     <div class="col-md-12 mb-2">
                         <label for="password" class="form-label">Password</label>
-                        <input type="text" class="form-control" id="password" name="password" placeholder="Set user password">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Set user password">
                         @error('password')
                             <span class="text-danger">{{$message}}</span>
                         @enderror
@@ -39,12 +39,13 @@
 
                     <div class="col-md-12 mb-2">
                       <label for="user_role" class="form-label">Roles<span class="text-danger">*</span></label>
-                      <select name="user_role[]" id="user_role" class="form-select" multiple>
-                        <option value="null">-- Selecte Use Role --</option>
-                        @foreach ($roles as $role)
-                        <option value="{{$role->name}}">{{$role->name}}</option>
-                        @endforeach
-                      </select>
+                      <select id="edit_user_roles_id" class="form-control select-nice user_roles" multiple="multiple"
+                                name="user_role[]">
+                                <option value="">--Select Use Role --</option>
+                            @foreach ($roles as $role)
+                                <option value="{{ $role->name }}">{{ $role->name }}</option>
+                            @endforeach
+                        </select>
                       @error('user_role')
                             <span class="text-danger">{{$message}}</span>
                         @enderror

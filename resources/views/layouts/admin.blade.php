@@ -56,7 +56,7 @@
         </section> <!-- content-main end// -->
 
         <footer class="main-footer font-xs">
-            <div class="row pb-30 pt-15">
+            <div class="row pb-30 mt-55">
                 <div class="col-sm-6">
                     <script>
                     document.write(new Date().getFullYear())

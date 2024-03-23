@@ -21,15 +21,7 @@
                     <small class="text-muted">Order ID: {{$order->id}}</small>
                 </div>
                 <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                    <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
-                        <option>Change status</option>
-                        <option>Awaiting payment</option>
-                        <option>Confirmed</option>
-                        <option>Shipped</option>
-                        <option>Delivered</option>
-                    </select>
-                    <a class="btn btn-primary" href="#">Save</a>
-                    <a class="btn btn-secondary print ms-2" href="{{ url('/orders/invoice/'.$order->id) }}"><i class="icon material-icons md-print"></i></a>
+                    <a class="btn btn-secondary print ms-2" target="_blank" href="{{ url('/orders/invoice/'.$order->id) }}"><i class="icon material-icons md-print"></i></a>
                 </div>
             </div>
         </header> <!-- card-header end// -->

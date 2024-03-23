@@ -160,7 +160,7 @@ return [
          * Package Service Providers...
          */
         // Intervention\Image\ImageServiceProvider::class,
-        // niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
+     
         /*
          * Application Service Providers...
          */
@@ -172,7 +172,7 @@ return [
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
         misterspelik\LaravelPdf\PdfServiceProvider::class,
         Igoshev\Captcha\Providers\CaptchaServiceProvider::class,
-
+        Spatie\Permission\PermissionServiceProvider::class,
 
     ])->toArray(),
 
