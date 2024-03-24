@@ -300,10 +300,20 @@
                         </div>
 
                     </div> <!-- card.// -->
+            <style>
+                .table tr td{
+                    padding: 5px 0 ;
+
+                }
+                .table tr td:nth-child(2){
+                    width: 35%;
+                    font-size: 16px;
+                }
+            </style>
 
                     <div class="card">
                         <div class="card-body">
-                            <table class="table  shopping-cart-wrap text-end">
+                            <table class="table text-end">
                                 <tr >
                                     <td colspan="2">Subtotal:</td>
                                     <td >
@@ -325,9 +335,21 @@
                                     <td><input type="text" class="form-input" placeholder="Discount" name="discount" id="discount" value="0"></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">Total:</td>
+                                    <td colspan="2">Total Payable:</td>
                                     <td id="total">৳{{$total}}</td>
                                     <input type="hidden" name="total" id="g_total" value="{{$total}}">
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Paid Amount:</td>
+                                    <td>
+                                        <input type="text" class="form-input" placeholder="total_paid" name="total_paid" id="total_paid" value="0">
+                                    </td>
+                                    {{-- <input type="hidden" name="total" id="total_paid" value="{{$total}}"> --}}
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Due Amount:</td>
+                                    <td id="t_due">৳{{$total}}</td>
+                                    <input type="hidden" name="total_due" id="total_due" value="{{$total}}">
                                 </tr>
                                 <tr>
                                     <td colspan="2">Order From:</td>
@@ -410,10 +432,14 @@
         var deliveryChargeInput = $('#delivery_charge');
         var discountInput = $('#discount');
         var totalElement = $('#total');
+        var paidElement = $('#total_paid');
+        var dueElement = $('#t_due');
 
         // Attach event listeners to the input fields
         deliveryChargeInput.on('keyup', updateTotal);
         discountInput.on('keyup', updateTotal);
+        paidElement.on('keyup', updateDue);
+
 
         function updateTotal() {
             // Get the values from the input fields, default to 0 if empty
@@ -426,6 +452,18 @@
             // Update the total element
             totalElement.text('৳' + newTotal.toFixed(2));
             $('#g_total').val(newTotal.toFixed(2));
+            dueElement.text('৳' + newTotal.toFixed(2));
+            $('#total_due').val(newTotal.toFixed(2));
+        }
+
+        function updateDue(){
+            var totalPaid = parseFloat(paidElement.val()) || 0;
+            var total =  $('#g_total').val();
+            // Calculate the new total
+            var due = parseFloat(total)  - totalPaid;
+            // Update the total element
+            dueElement.text('৳' + due.toFixed(2));
+            $('#total_due').val(due.toFixed(2));
         }
 
         // Show/hide search box based on button click
@@ -899,6 +937,8 @@
             var discount = $('#discount').val();
             var total = $('#g_total').val();
             var order_from = $('#orderFrom').val();
+            var totalDue = $('#total_due').val();
+            var totalPaid = $('#total_paid').val();
 
             console.log(psubtotal);
             console.log(delivery_cost);
@@ -907,7 +947,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/dashboard/pos/store', // Update with your route
+                url: '{{url('/dashboard/pos/store')}}', // Update with your route
                 data: {
                     _token: '{{ csrf_token() }}',
                     customer: customer,
@@ -917,6 +957,8 @@
                     total: total,
                     newCustomer: newCustomers,
                     orderFrom : order_from,
+                    totalDue: totalDue,
+                    totalPaid: totalPaid
                 },
                 success: function (response) {
                     // Handle success response

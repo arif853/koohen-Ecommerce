@@ -43,10 +43,11 @@
                             <th>Customer Name</th>
                             <th>Order Date</th>
                             <th>Total</th>
+                            <th>Paid</th>
+                            <th>Due</th>
                             <th>Payment Method</th>
                             <th>Payment Status</th>
                             <th>Transaction Date</th>
-                          
                         </tr>
                     </thead>
                     <tbody id="CustomerTable">
@@ -63,22 +64,25 @@
                                 </td>
                                 <td>{{ date('j F y',strtotime($list->order->created_at)) }}</td>
                                 <td>{{ $list->order->total }}</td>
+                                <td>{{ $list->order->total_paid }}</td>
+                                <td>{{ $list->order->total_due }}</td>
                                 <td>
                                     @if ($list->mode =='online')
                                         <span class="badge rounded-pill alert-success">Online</span>
-                                    @elseif($list->mode =='card')
-                                        <span class="badge rounded-pill alert-info">Bank Card</span>
+                                    @elseif($list->mode =='cash')
+                                        <span class="badge rounded-pill alert-info">Cash</span>
                                     @elseif($list->mode =='cod')
-                                        <span class="badge rounded-pill alert-warning">Cash On Delivery</span>
+                                        <span class="badge rounded-pill alert-success">Cash On Delivery</span>
                                     @else
-                                       <span class="badge rounded-pill alert-danger">Not Found</span>
+                                       <span class="badge rounded-pill alert-success">Other</span>
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($list->status == 'approved')
-                                        <span class="badge rounded-pill alert-success">Approved</span>
-                                    @elseif($list->status == 'declined')
-                                        <span class="badge rounded-pill alert-info">Declined</span>
+                                    @if ($list->status == 'paid')
+                                        <span class="badge rounded-pill alert-success">Paid</span>
+                                    @elseif($list->status == 'unpaid')
+                                        <span class="badge rounded-pill alert-danger">Unpaid</span>
+                                        <a class="badge rounded-pill bg-success ml-2 pay" data-bs-toggle="modal" data-bs-target="#makepament" data-trans_id="{{$list->id}}"> Pay Now</a>
                                     @elseif($list->status == 'refunded')
                                         <span class="badge rounded-pill alert-danger">Refunded</span>
                                     @elseif($list->status == 'pending')
@@ -90,7 +94,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $list->created_at->format('d-m-Y') }}</td>
-                               
+
                             </tr>
                         @endforeach
 
@@ -101,4 +105,129 @@
         </div> <!-- card-body end// -->
     </div> <!-- card end// -->
 
+ <!-- Modal -->
+    <div class="modal fade" id="makepament" tabindex="-1" aria-labelledby="makepamentLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="makepamentLabel">Payment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="paymentForm">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="orderNo" class="form-label">Order No</label>
+                            <input type="text" class="form-control" id="orderNo" name="orderNo" readonly>
+                        </div>
+                         <div class="col-md-4">
+                            <label for="trans_id" class="form-label">Transaction Id</label>
+                            <input type="text" class="form-control" id="trans_id" name="trans_id" readonly>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="customerName" class="form-label">Customer Name</label>
+                            <input type="text" class="form-control" id="customerName" name="customerName" readonly>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="total" class="form-label">Total</label>
+                            <input type="text" class="form-control" id="total" name="total" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="paid" class="form-label">Paid</label>
+                            <input type="text" class="form-control" id="paid" name="paid" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="due" class="form-label">Due</label>
+                            <input type="text" class="form-control" id="due" name="due" readonly>
+                        </div>
+
+                          <div class="col-md-4">
+                            {{-- <label for="total" class="form-label">Total</label>
+                            <input type="text" class="form-control" id="total" name="total" readonly> --}}
+                        </div>
+                        <div class="col-md-4">
+                            {{-- <label for="paid" class="form-label">Paid</label>
+                            <input type="text" class="form-control" id="paid" name="paid" readonly> --}}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="payment" class="form-label">
+                            Payment:
+                            <input type="text" class="form-control" id="payment" name="payment">
+                            </label>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Pay</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection
+@push('transaction')
+    <script>
+        // Edit customer
+        $(document).on('click', '.pay', function(e) {
+            e.preventDefault();
+            var transId = $(this).data('trans_id');
+            console.log(transId);
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '{{url('/dashboard/transaction/payment-info')}}',
+                method: 'GET',
+                data: {
+                    id: transId,
+                },
+                success: function(response) {
+
+                    // console.log(response);
+                    var fullname = response.customer.firstName +' ' +response.customer.lastName;
+                    $('#orderNo').val(response.order_id);
+                    $('#trans_id').val(response.id);
+                    $('#customerName').val(fullname);
+                    $('#total').val(response.order.total);
+                    $('#paid').val(response.order.total_paid);
+                    $('#due').val(response.order.total_due);
+                }
+            });
+        });
+
+        //Update customer
+        $("#paymentForm").submit(function(e) {
+            e.preventDefault();
+            const data = new FormData(this);
+                console.log(data);
+            $.ajax({
+                url: '{{url('/dashboard/transaction/payment-update')}}',
+                method: 'post',
+                data: data,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    console.log(res);
+                    if (res.status == 200) {
+                        // $("#brandEditForm").modal('hide');
+                        location.reload();
+                        // $.Notification.autoHideNotify('success', 'top right', 'Success', res.message);
+                    } else {
+                        $.Notification.autoHideNotify('danger', 'top right', 'Danger', res.message);
+
+                    }
+                }
+            })
+        });
+    </script>
+@endpush

@@ -208,13 +208,15 @@ class POSController extends Controller
         }
 
         $order = new Order();
-        $order->customer_id = $request->input('customer');
+        $order->customer_id = $customer_id;
         $order->invoice_no = $invoiceNo;
         $order->order_track_id = null;
         $order->subtotal = $request->input('subtotal');
         $order->delivery_charge = $request->input('delivery_charge');
         $order->discount = $request->input('discount');
         $order->total = $request->input('total');
+        $order->total_paid = $request->input('totalPaid') ;
+        $order->total_due = $request->input('totalDue');
         $order->is_shipping_different =  0;
         $order->order_from  = $request->input('orderFrom');
         $order->comment = "Pos order";
@@ -247,12 +249,24 @@ class POSController extends Controller
             );
         }
 
-        $transaction = transactions::create([
+        $transaction_data = [
             'customer_id' => $customer_id,
             'order_id' => $order->id,
             'mode' => 'cash',
-            'status' => 'paid',
-        ]);
+        ];
+
+        if($order->total_due == 0){
+            $transaction_data += [
+                'status' => 'paid'
+            ];
+
+        }else{
+            $transaction_data += [
+                'status' => 'unpaid'
+            ];
+        }
+
+        transactions::create($transaction_data);
 
         Cart::instance('pos_cart')->destroy();
         Session::flash('success','Order has been created.');

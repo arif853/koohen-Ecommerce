@@ -198,22 +198,30 @@ footer{
 
         <div class="row payment_table" style="width:100%; margin-top: -5px; ">
             <div class="noBorder" style="width:30%; float:right;">
-                <div style="background: #99ddff; padding: 5px 8px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="background: #99ddff; font-size:10px; padding: 4px 8px; display: flex; justify-content: space-between; align-items: center;">
                     <div style="flex-basis: 50%"><strong>Sub total:</strong></div>
                     <div style="flex-basis: 50%; text-align: right; padding-top: -13px;">{{ $order->subtotal }}</div>
                 </div>
-                <div style="background: #e6e6e6;  padding: 5px 8px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="background: #e6e6e6;  font-size:10px; padding: 4px 8px; display: flex; justify-content: space-between; align-items: center;">
                     <div style="flex-basis: 50%"><strong>Shipping Charge:</strong></div>
                     <div style="flex-basis: 50%; text-align: right; padding-top: -13px;">{{  $order->delivery_charge }}</div>
                 </div>
 
-                <div style="background: #e6e6e6; padding: 5px 8px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="background: #80d190; font-size:10px; padding: 4px 8px; display: flex; justify-content: space-between; align-items: center;">
                     <div style="flex-basis: 50%"><strong>Discount:</strong></div>
                     <div style="flex-basis: 50%; text-align: right; padding-top: -13px;">{{  $order->discount }}</div>
                 </div>
-                <div style="background: #99ddff; padding: 5px 8px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="background: #99ddff; font-size:10px; padding: 4px 8px; display: flex; justify-content: space-between; align-items: center;">
                     <div style="flex-basis: 50%"><strong>Total:</strong></div>
                     <div style="flex-basis: 50%; text-align: right; padding-top: -13px;">{{  $order->total }}</div>
+                </div>
+                <div style="background: #dde2a3; font-size:10px; padding: 4px 8px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="flex-basis: 50%"><strong>Advance Payment:</strong></div>
+                    <div style="flex-basis: 50%; text-align: right; padding-top: -13px;">{{  $order->total_paid }}</div>
+                </div>
+                <div style="background: #ee9c55; font-size:10px; padding: 4px 8px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="flex-basis: 50%"><strong>Total Due:</strong></div>
+                    <div style="flex-basis: 50%; text-align: right; padding-top: -13px;">{{  $order->total_due }}</div>
                 </div>
             </div>
         </div>
