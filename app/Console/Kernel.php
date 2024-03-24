@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('app:update-campaign-status')->everyMinute();
         $schedule->command('camp:campaign-status-update')->everyMinute();
+        $schedule->command('sitemap:generate')->daily();
     }
 
     /**
@@ -26,6 +27,7 @@ class Kernel extends ConsoleKernel
             __DIR__.'/Commands',
             __DIR__.'/Commands/UpdateCampaignStatus.php',
             __DIR__.'/Commands/CampaingStatusUpdate.php',
+            __DIR__.'/Commands/GenerateSitemap.php',
         ]);
 
         require base_path('routes/console.php');

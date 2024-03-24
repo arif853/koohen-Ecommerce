@@ -123,12 +123,7 @@
                 <table class="table align-middle table-nowrap mb-0">
                     <thead class="table-light">
                         <tr>
-                            <th scope="col" class="text-center">
-                                <div class="form-check align-middle">
-                                    <input class="form-check-input" type="checkbox" id="transactionCheck01">
-                                    <label class="form-check-label" for="transactionCheck01"></label>
-                                </div>
-                            </th>
+                           
                             <th class="align-middle" scope="col">Order ID</th>
                             <th class="align-middle" scope="col">Billing Name</th>
                             <th class="align-middle" scope="col">Date</th>
@@ -141,12 +136,7 @@
                     <tbody>
                         @foreach ($orders as $order)
                         <tr>
-                            <td class="text-center">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="transactionCheck02">
-                                    <label class="form-check-label" for="transactionCheck02"></label>
-                                </div>
-                            </td>
+                            
                             <td><a href="{{route('order.details', ['id' => $order->id])}}" class="fw-bold">#{{$order->id}}</a> </td>
                             <td>{{$order->customer->firstName}} {{$order->customer->lastName}}</td>
                             <td>
