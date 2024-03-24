@@ -220,6 +220,7 @@ class POSController extends Controller
         $order->is_shipping_different =  0;
         $order->order_from  = $request->input('orderFrom');
         $order->comment = "Pos order";
+        $order->is_post = 1;
         $order->status = 'completed';
         $order->save();
 

@@ -61,7 +61,7 @@ p{
     border-radius: 28px !important;
     margin-left: 20px;
     margin-top: 5px;
-    width: 40px;
+    width: 80px;
     text-align:center;
 }
 

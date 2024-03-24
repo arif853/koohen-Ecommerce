@@ -184,7 +184,7 @@ Route::controller(TrackorderController::class)->group(function () {
 // Backend Route Start
 
 //dashboard
-Route::get('/dashboard', [DashboardController::class,'index'])->middleware(['auth','role:Super Admin|Admin|Manager|User'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class,'index'])->middleware(['auth','verified','role:Super Admin|Admin|Manager|User'])->name('dashboard');
 
 Route::middleware(['auth','role:Super Admin|Admin|Manager|User'])->group(function(){
 
