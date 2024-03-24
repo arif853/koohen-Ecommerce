@@ -26,6 +26,7 @@ class GenerateSitemap extends Command
      * Execute the console command.
      */
     public function handle()
+    
     {
         $sitemap = Sitemap::create();
          // Static pages
