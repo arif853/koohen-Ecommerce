@@ -159,8 +159,8 @@ class CustomerController extends Controller
         try{
             $supplier = Customer::find($request->id);
             $supplier->delete();
-            Session::flash('success', 'Customer data has beed Deleted.');
-            return redirect()->back()->with('danger', 'Customer deleted successfully.');
+            // Session::flash('success', 'Customer data has beed Deleted.');
+            return redirect()->back()->with('success', 'Customer deleted successfully.');
         } catch (\Exception $e) {
             // Log the exception or handle it in a way that makes sense for your application
             return redirect()->back()->with('danger', 'This Customer can not be deleted .');

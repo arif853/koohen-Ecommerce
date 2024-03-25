@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\transactions;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class TransactionController extends Controller
 {
@@ -43,22 +44,30 @@ class TransactionController extends Controller
     public function paymentUpdate(Request $request)
     {
         $order = Order::find($request->orderNo);
-
         $transaction = transactions::find($request->trans_id);
-            
 
+        // Calculate new total_paid and total_due values
+        $newTotalPaid = $order->total_paid + $request->payment;
+        $newTotalDue = $order->total_due - $request->payment;
+
+        // Update order
         $order->update([
-            // 'inStock' => \DB::raw("inStock"), // Increment the inStock column
-            'total_paid' => \DB::raw("total_paid + $request->payment "), // Assuming outStock starts at 0
-            'total_due' => \DB::raw("total_due - $request->payment "), // Assuming outStock starts at 0
+            'total_paid' => $newTotalPaid,
+            'total_due' => $newTotalDue,
         ]);
 
-        $transaction->update([
-            'order_id' => $order->id,
-        ],
-        [
-            'status' => 'paid'
-        ]);
+        // Update transaction status
+        if ($newTotalDue == 0) {
+            $transaction->update([
+                'status' => 'paid'
+            ]);
+        } else {
+            $transaction->update([
+                'status' => 'unpaid'
+            ]);
+        }
+
+        Session::flash('success','Payment Successful');
 
         return response()->json(['status'=> 200]);
     }

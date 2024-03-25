@@ -128,7 +128,7 @@
 
                                     <td>
                                     <select name="colors" class="form-control" id="colorSelect" data-product-color>
-                                    <option value="">Select Color</option>
+                                    {{-- <option value="">Select Color</option> --}}
                                         @foreach ($product->colors as $color)
                                             <option value="{{$color->id}}">{{$color->color_name}}</option>
                                         @endforeach
@@ -137,7 +137,7 @@
 
                                     <td>
                                     <select name="sizes" class="form-control" id="sizeSelect" data-product-size>
-                                    <option value="">Select Size</option>
+                                    {{-- <option value="">Select Size</option> --}}
                                         @foreach ($product->sizes as $size )
                                             @php
                                                 $sizeStock = DB::table('product_stocks')
@@ -300,7 +300,7 @@
                         </div>
 
                     </div> <!-- card.// -->
-            <style>
+            {{-- <style>
                 .table tr td{
                     padding: 5px 0 ;
 
@@ -309,7 +309,7 @@
                     width: 35%;
                     font-size: 16px;
                 }
-            </style>
+            </style> --}}
 
                     <div class="card">
                         <div class="card-body">
@@ -644,13 +644,13 @@
                             '</td>' +
                             '<td>' +
                             '<select name="colors" class="form-control" id="colorSelect" data-product-color>' +
-                            '<option value="#">Select Color</option>' +
+                            // '<option value="#">Select Color</option>' +
                             colors +
                             '</select>' +
                             '</td>' +
                             '<td>' +
                             '<select name="sizes" class="form-control" id="sizeSelect" data-product-size>' +
-                            '<option value="#">Select Size</option>' +
+                            // '<option value="#">Select Size</option>' +
                             sizes +
                             '</select>' +
                             '</td>' +
@@ -918,60 +918,64 @@
 
             // var formData = $('#pos_order_form').serialize();
             var selectedCustomerId = $('.selected-customer').find('input').data('customer-id');
-            var customer;
             var newCustomer;
 
-            if (selectedCustomerId !== undefined && selectedCustomerId !== null && selectedCustomerId !== '') {
-                // Existing customer selected
-                customer = selectedCustomerId;
-                newCustomer = null; // Set newCustomer to null for clarity
+            if ((selectedCustomerId !== undefined && selectedCustomerId !== null && selectedCustomerId !== '') || (newCustomers !== undefined && newCustomers !== null && newCustomers.length > 0 )) {
+                // At least one customer is selected or a new customer is chosen
+                var customer = selectedCustomerId ? selectedCustomerId : null;
+                newCustomer = newCustomers ? newCustomers : null;
+
+                // Proceed with the form submission
+                // Your form submission logic goes here
+
+                var psubtotal = $('#psubtotal').val();
+                var delivery_cost = $('#delivery_charge').val();
+                var discount = $('#discount').val();
+                var total = $('#g_total').val();
+                var order_from = $('#orderFrom').val();
+                var totalDue = $('#total_due').val();
+                var totalPaid = $('#total_paid').val();
+
+                console.log(psubtotal);
+                console.log(delivery_cost);
+                console.log(discount);
+                console.log(total);
+                console.log(customer);
+                console.log(newCustomer);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{url('/dashboard/pos/store')}}', // Update with your route
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        customer: customer,
+                        subtotal: psubtotal,
+                        delivery_charge: delivery_cost,
+                        discount: discount,
+                        total: total,
+                        newCustomer: newCustomer,
+                        orderFrom : order_from,
+                        totalDue: totalDue,
+                        totalPaid: totalPaid
+                    },
+                    success: function (response) {
+                        // Handle success response
+                        window.open(response, '_blank');
+                        location.reload();
+                        // console.log(response);
+                        // Open the invoice in a new tab
+                    },
+                    error: function (error) {
+                        // Handle error
+                        console.log(error);
+                    }
+                });
             } else {
-                // New customer selected
-                customer = null;
-                newCustomer = newCustomers;
-                // console.log(newCustomer);
+                // Neither customer nor newCustomer is selected or chosen
+                alert('Please select a customer or add a new customer.');
+                // Prevent form submission
             }
-            // var customer =
-            var psubtotal = $('#psubtotal').val();
-            var delivery_cost = $('#delivery_charge').val();
-            var discount = $('#discount').val();
-            var total = $('#g_total').val();
-            var order_from = $('#orderFrom').val();
-            var totalDue = $('#total_due').val();
-            var totalPaid = $('#total_paid').val();
 
-            console.log(psubtotal);
-            console.log(delivery_cost);
-            console.log(discount);
-            console.log(total);
-
-            $.ajax({
-                type: 'POST',
-                url: '{{url('/dashboard/pos/store')}}', // Update with your route
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    customer: customer,
-                    subtotal: psubtotal,
-                    delivery_charge: delivery_cost,
-                    discount: discount,
-                    total: total,
-                    newCustomer: newCustomers,
-                    orderFrom : order_from,
-                    totalDue: totalDue,
-                    totalPaid: totalPaid
-                },
-                success: function (response) {
-                    // Handle success response
-                    window.open(response, '_blank');
-                    location.reload();
-                    // console.log(response);
-                    // Open the invoice in a new tab
-                },
-                error: function (error) {
-                    // Handle error
-                    console.log(error);
-                }
-            });
         });
 
     });

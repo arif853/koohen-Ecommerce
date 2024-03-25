@@ -220,7 +220,7 @@ class POSController extends Controller
         $order->is_shipping_different =  0;
         $order->order_from  = $request->input('orderFrom');
         $order->comment = "Pos order";
-        $order->is_post = 1;
+        $order->is_pos = 1;
         $order->status = 'completed';
         $order->save();
 
@@ -276,7 +276,24 @@ class POSController extends Controller
         // $invoice = $this->Invoice($order->id)->stream();
 
         // dd($order);
-        return response()->json(route('order.invoice', ['id' => $order->id]));
+        return response()->json(route('pos.invoice', ['id' => $order->id]));
+    }
+
+    public function orderInvoice($id)
+    {
+
+       // ini_set('max_execution_time',3600);
+        $order = Order::where('id', $id)->first();
+        if (!$order) {
+            return 'Order not found';
+        }
+        else{
+            $pdf= PDF::loadView('admin.pos.invoice',['order'=>$order]);
+            // $pdf->SetWatermarkText('DRAFT');
+            // $pdf->showWatermarkText = true;
+            return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
+        }
+
     }
 
 }

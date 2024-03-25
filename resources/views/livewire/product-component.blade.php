@@ -1,35 +1,58 @@
 <div>
     <div class="row mb-50">
+        <div class="col-md-2 col-sm-4 col-xs-4">
+            <!-- THUMBNAILS -->
+            <div class="slider-nav-thumbnails pl-15 pr-15 d-sm-none">
+                {{-- <img src="" alt="product image"> --}}
+                @if ($product->product_thumbnail->isNotEmpty())
+                    @foreach ($product->product_thumbnail as $image)
+                    <div>
+                        <img src="{{asset('storage/product_images/thumbnail/'.$image->product_thumbnail)}}"
+                                    alt="product image">
+                    </div>
+                    @endforeach
+
+                @endif
+                @if ($product->product_images->isNotEmpty())
+                     @foreach ($product->product_images as $image)
+                        <div>
+                        <img src="{{asset('storage/product_images/'.$image->product_image)}}"
+                            alt="product image">
+                        </div>
+                    @endforeach
+                @endif
+
+            </div>
+        </div>
         <!--Product View-->
-        <div class="col-md-5 col-sm-12 col-xs-12">
+        <div class="col-md-4 col-sm-8 col-xs-8">
             <div class="detail-gallery">
                 <span class="zoom-icon"><i class="fi-rs-search"></i></span>
                 <!-- MAIN SLIDES -->
                 <div class="product-image-slider">
 
-                        @if ($product->product_thumbnail->isNotEmpty())
-                            @foreach ($product->product_thumbnail as $image)
-                            <figure class="border-radius-10">
-                            <img src="{{asset('storage/product_images/thumbnail/'.$image->product_thumbnail)}}"
-                                alt="product image">
-                            </figure>
+                    @if ($product->product_thumbnail->isNotEmpty())
+                        @foreach ($product->product_thumbnail as $image)
+                        <figure class="border-radius-10">
+                        <img src="{{asset('storage/product_images/thumbnail/'.$image->product_thumbnail)}}"
+                            alt="product image">
+                        </figure>
 
-                            @endforeach
-                        @endif
+                        @endforeach
+                    @endif
 
-                        @if ($product->product_images->isNotEmpty())
-                            @foreach ($product->product_images as $image)
-                            <figure class="border-radius-10">
-                            <img src="{{asset('storage/product_images/'.$image->product_image)}}"
-                                alt="product image">
-                            </figure>
-                            @endforeach
-                        @endif
-
-
+                    @if ($product->product_images->isNotEmpty())
+                        @foreach ($product->product_images as $image)
+                        <figure class="border-radius-10">
+                        <img src="{{asset('storage/product_images/'.$image->product_image)}}"
+                            alt="product image">
+                        </figure>
+                        @endforeach
+                    @endif
                 </div>
-                <!-- THUMBNAILS -->
-                <div class="slider-nav-thumbnails pl-15 pr-15">
+
+                 <!-- THUMBNAILS -->
+                <div class="slider-nav-thumbnails-sm pl-15 pr-15 d-lg-none">
                     {{-- <img src="" alt="product image"> --}}
                     @if ($product->product_thumbnail->isNotEmpty())
                         @foreach ($product->product_thumbnail as $image)
@@ -41,7 +64,7 @@
 
                     @endif
                     @if ($product->product_images->isNotEmpty())
-                         @foreach ($product->product_images as $image)
+                        @foreach ($product->product_images as $image)
                             <div>
                             <img src="{{asset('storage/product_images/'.$image->product_image)}}"
                                 alt="product image">
@@ -56,7 +79,7 @@
         <!--Product View-->
 
         <!--Product Details Button-->
-        <div class="col-md-7 col-sm-12 col-xs-12">
+        <div class="col-md-6 col-sm-12 col-xs-12">
             <div class="detail-info">
                 <h2 class="title-detail">{{$product->product_name}}</h2>
                 <div class="product-detail-rating">
@@ -147,7 +170,7 @@
                 @endif
                 <div class="bt-1 border-color-1 mt-30 mb-30"></div>
 
-                
+
                 @if($balance > 0)
                 <div class="detail-extralink">
 
@@ -211,6 +234,7 @@
             <!-- Detail Info -->
         </div>
         <!--Product Details Button-->
+
     </div>
     <!--Description-->
     <div class="row">

@@ -440,6 +440,8 @@ Route::middleware(['auth','role:Super Admin|Admin|Manager|User'])->group(functio
 
         Route::get('/dashboard/pos_cart/add/{rowId}','increaseQuantity');
         Route::get('/dashboard/pos_cart/remove/{rowId}','decreaseQuantity');
+
+        Route::get('/dashboard/pos/invoice/{id}', 'orderInvoice')->name('pos.invoice');
     });
 
     //reports

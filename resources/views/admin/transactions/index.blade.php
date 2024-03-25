@@ -82,11 +82,13 @@
                                         <span class="badge rounded-pill alert-success">Paid</span>
                                     @elseif($list->status == 'unpaid')
                                         <span class="badge rounded-pill alert-danger">Unpaid</span>
+                                        {{-- @if ($list->order->is_pos == 1) --}}
                                         <a class="badge rounded-pill bg-success ml-2 pay" data-bs-toggle="modal" data-bs-target="#makepament" data-trans_id="{{$list->id}}"> Pay Now</a>
+                                        {{-- @endif --}}
                                     @elseif($list->status == 'refunded')
                                         <span class="badge rounded-pill alert-danger">Refunded</span>
-                                    @elseif($list->status == 'pending')
-                                        <span class="badge rounded-pill alert-warning">Pending</span>
+                                    @elseif($list->status == 'declined')
+                                        <span class="badge rounded-pill alert-warning">declined</span>
                                     @else
                                        <span class="badge rounded-pill alert-danger">Not Found
 
@@ -153,17 +155,15 @@
                         </div>
                         <div class="col-md-4">
                             <label for="payment" class="form-label">
-                            Payment:
-                            <input type="text" class="form-control" id="payment" name="payment">
+                                Payment:
+                                <input type="text" class="form-control" id="payment" name="payment" value="0">
                             </label>
-
                         </div>
-
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Pay</button>
+                    <button type="submit" class="btn btn-primary" id="payButton">Pay</button>
                 </div>
                 </form>
             </div>
@@ -200,6 +200,30 @@
                     $('#total').val(response.order.total);
                     $('#paid').val(response.order.total_paid);
                     $('#due').val(response.order.total_due);
+
+                     // Enable input field for payment
+                    $('#payment').prop('disabled', false);
+                    $('#payButton').prop('disabled', true);
+
+                    // Add change event listener to payment input field
+                    $('#payment').on('change', function() {
+                        var payment = parseFloat($(this).val());
+                        var due = parseFloat($('#due').val());
+
+                        if (isNaN(payment) || payment < 0) {
+                            $(this).val('');
+                            $('#payButton').prop('disabled', true); // Disable pay button
+                            return;
+                        }
+
+                        if (payment > due) {
+                            $('#payButton').prop('disabled', true); // Disable pay button
+                            alert('Payment amount cannot exceed due amount.');
+                            $(this).val('');
+                        } else {
+                            $('#payButton').prop('disabled', false); // Enable pay button
+                        }
+                    });
                 }
             });
         });

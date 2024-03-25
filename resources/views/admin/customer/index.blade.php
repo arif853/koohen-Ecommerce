@@ -151,6 +151,112 @@
 @push('customer_filter')
     <script type="text/javascript">
 
+
+
+        $('#customer_live_search input').on('keyup', function() {
+            let customerName = $('#customer_name').val();
+            let customerPhone = $('#customer_phone').val();
+            let customerEmail = $('#customer_email').val();
+
+            $.ajax({
+                url: "{{ route('customer.filter') }}",
+                method: "GET",
+                data: {
+                    customerName: customerName,
+                    customerPhone: customerPhone, // Corrected parameter name to match the server-side code
+                    customerEmail: customerEmail // Corrected parameter name to match the server-side code
+                },
+                success: function(response) {
+                    let customerTableBody = $('#CustomerTable');
+                    customerTableBody.empty();
+
+                    response.forEach(function(customer) {
+                        let row = $('<tr>');
+
+                        // Create the first cell with the customer name and ID link
+                        let nameCell = $('<td>').append(
+                            $('<a>').attr('href',
+                                "{{ route('customer.profile', ['id' => '']) }}" + customer
+                                .id).addClass('itemside').append(
+                                $('<div>').addClass('info pl-3').append(
+                                    $('<h6>').addClass('mb-0 title').text(customer
+                                        .firstName + ' ' + customer.lastName),
+                                    $('<small>').addClass('text-muted').text(
+                                        'Customer ID: #' + customer.id)
+                                )
+                            )
+                        );
+                        row.append(nameCell);
+
+                        // Create the phone and email cells
+                        row.append($('<td>').text(customer.phone));
+                        row.append($('<td>').text(customer.email));
+
+                        // Create the status cell
+                        let statusCell = $('<td>');
+                        if (customer.status == 'registerd') {
+                            statusCell.append($('<span>').addClass(
+                                'badge rounded-pill alert-success').text('Registered'));
+                        } else {
+                            statusCell.append($('<span>').addClass(
+                                'badge rounded-pill alert-danger').text(
+                                'Not Registered'));
+                        }
+                        row.append(statusCell);
+
+                        // Format the created_at date
+                        let createdAtDate = new Date(customer.created_at);
+                        let formattedDate = ("0" + createdAtDate.getDate()).slice(-2) + '-' + (
+                                "0" + (createdAtDate.getMonth() + 1)).slice(-2) + '-' +
+                            createdAtDate.getFullYear();
+
+                        // Create the created_at cell with formatted date
+                        row.append($('<td>').text(formattedDate));
+
+                        // Create the "View details" button cell
+                        // let detailsCell = $('<td>').addClass('text-end').append(
+                        //     $('<a>').attr('href',
+                        //         "{{ route('customer.profile', ['id' => '']) }}" + customer
+                        //         .id)
+                        //     .addClass('btn btn-sm btn-brand rounded font-sm mt-15').text(
+                        //         'View details')
+                        // );
+
+                        // Create a new <td> element
+                        let detailsCell = $('<td>').addClass('text-end');
+
+                        // Create the form element
+                        let form = $('<form>').addClass('deleteForm').attr('action', "{{ route('customer.destroy', ['id' => '']) }}"+ customer.id).attr('method', 'post');
+
+                        // Add CSRF token
+                        form.append('@csrf');
+                        form.append('@method('DELETE')');
+
+                        // Add the "View details" link
+                        let viewDetailsLink = $('<a>').attr('href', "{{ route('customer.profile', ['id' => '']) }}"+ customer.id).addClass('btn btn-sm btn-brand rounded font-sm mt-15 mr-5').text('View details');
+                        form.append(viewDetailsLink);
+
+                        // Add the "Edit" link
+                        let editLink = $('<a>').attr('href', '#').attr('data-bs-toggle', 'modal').attr('data-bs-target', '#customerEditModal').attr('data-customer-id', customer.id).addClass('btn btn-sm btn-brand rounded font-sm mt-15 mr-5 edit').text('Edit');
+                        form.append(editLink);
+
+                        // Add the "Delete" link
+                        let deleteLink = $('<a>').attr('href', '#').addClass('btn btn-sm btn-danger rounded font-sm mt-15 delete').text('Delete');
+                        form.append(deleteLink);
+
+                        // Append the form to the detailsCell
+                        detailsCell.append(form);
+
+                        row.append(detailsCell);
+
+                        // Append the row to the table body
+                        customerTableBody.append(row);
+                    });
+                }
+
+            });
+        });
+
         // Edit customer
         $(document).on('click', '.edit', function(e) {
             e.preventDefault();
@@ -229,83 +335,5 @@
             });
         });
 
-
-        $('#customer_live_search input').on('keyup', function() {
-            let customerName = $('#customer_name').val();
-            let customerPhone = $('#customer_phone').val();
-            let customerEmail = $('#customer_email').val();
-
-            $.ajax({
-                url: "{{ route('customer.filter') }}",
-                method: "GET",
-                data: {
-                    customerName: customerName,
-                    customerPhone: customerPhone, // Corrected parameter name to match the server-side code
-                    customerEmail: customerEmail // Corrected parameter name to match the server-side code
-                },
-                success: function(response) {
-                    let customerTableBody = $('#CustomerTable');
-                    customerTableBody.empty();
-
-                    response.forEach(function(customer) {
-                        let row = $('<tr>');
-
-                        // Create the first cell with the customer name and ID link
-                        let nameCell = $('<td>').append(
-                            $('<a>').attr('href',
-                                "{{ route('customer.profile', ['id' => '']) }}" + customer
-                                .id).addClass('itemside').append(
-                                $('<div>').addClass('info pl-3').append(
-                                    $('<h6>').addClass('mb-0 title').text(customer
-                                        .firstName + ' ' + customer.lastName),
-                                    $('<small>').addClass('text-muted').text(
-                                        'Customer ID: #' + customer.id)
-                                )
-                            )
-                        );
-                        row.append(nameCell);
-
-                        // Create the phone and email cells
-                        row.append($('<td>').text(customer.phone));
-                        row.append($('<td>').text(customer.email));
-
-                        // Create the status cell
-                        let statusCell = $('<td>');
-                        if (customer.status == 'registerd') {
-                            statusCell.append($('<span>').addClass(
-                                'badge rounded-pill alert-success').text('Registered'));
-                        } else {
-                            statusCell.append($('<span>').addClass(
-                                'badge rounded-pill alert-danger').text(
-                                'Not Registered'));
-                        }
-                        row.append(statusCell);
-
-                        // Format the created_at date
-                        let createdAtDate = new Date(customer.created_at);
-                        let formattedDate = ("0" + createdAtDate.getDate()).slice(-2) + '-' + (
-                                "0" + (createdAtDate.getMonth() + 1)).slice(-2) + '-' +
-                            createdAtDate.getFullYear();
-
-                        // Create the created_at cell with formatted date
-                        row.append($('<td>').text(formattedDate));
-
-                        // Create the "View details" button cell
-                        let detailsCell = $('<td>').addClass('text-end').append(
-                            $('<a>').attr('href',
-                                "{{ route('customer.profile', ['id' => '']) }}" + customer
-                                .id)
-                            .addClass('btn btn-sm btn-brand rounded font-sm mt-15').text(
-                                'View details')
-                        );
-                        row.append(detailsCell);
-
-                        // Append the row to the table body
-                        customerTableBody.append(row);
-                    });
-                }
-
-            });
-        });
     </script>
 @endpush

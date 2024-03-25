@@ -215,14 +215,14 @@ footer{
                     <div style="flex-basis: 50%"><strong>Total:</strong></div>
                     <div style="flex-basis: 50%; text-align: right; padding-top: -13px;">{{  $order->total }}</div>
                 </div>
-                {{-- <div style="background: #dde2a3; font-size:10px; padding: 4px 8px; display: flex; justify-content: space-between; align-items: center;">
-                    <div style="flex-basis: 50%"><strong>Advance Payment:</strong></div>
+                <div style="background: #dde2a3; font-size:10px; padding: 4px 8px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="flex-basis: 50%"><strong>Paid:</strong></div>
                     <div style="flex-basis: 50%; text-align: right; padding-top: -13px;">{{  $order->total_paid }}</div>
                 </div>
                 <div style="background: #ee9c55; font-size:10px; padding: 4px 8px; display: flex; justify-content: space-between; align-items: center;">
                     <div style="flex-basis: 50%"><strong>Total Due:</strong></div>
                     <div style="flex-basis: 50%; text-align: right; padding-top: -13px;">{{  $order->total_due }}</div>
-                </div> --}}
+                </div>
             </div>
         </div>
     </div>
