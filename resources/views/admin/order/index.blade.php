@@ -263,13 +263,13 @@
             $('#orderFilterForm input, #orderFilterForm select').on('keyup change', function() {
                 // Capture form input values
                 var orderId = $('#order_id').val();
-                console.log(orderId);
+              //  console.log(orderId);
                 var customerName = $('#customer_name').val();
-                console.log(customerName);
+              //  console.log(customerName);
                 var status = $('#orderStatus').val();
-                console.log(status);
+             //   console.log(status);
                 var orderDate = $('#order_date').val();
-                console.log(orderDate);
+             //   console.log(orderDate);
                 $.ajax({
                     url: "{{ route('order.filters') }}",
                     method: "GET",
@@ -282,7 +282,7 @@
                     },
                     success: function(response) {
                         // Handle success, if needed
-                        // console.log(response);
+                         console.log(response);
 
                         var tableBody = $('#orderTableBody');
                         tableBody.empty(); // Clear existing table rows

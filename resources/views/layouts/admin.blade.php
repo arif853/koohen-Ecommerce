@@ -132,7 +132,7 @@
     @stack('customer_filter')
     @stack('product_features')
     @stack('offers')
-
+    @stack('transaction_filter')
     <script>
          $(document).ready(function() {
                 $('.menu-item.has-submenu').click(function() {

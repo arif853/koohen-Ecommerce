@@ -364,6 +364,7 @@ Route::middleware(['auth'])->group(function(){
     // transaction controller
     Route::controller(TransactionController::class)->group(function () {
         Route::get('/dashboard/transaction', 'index')->name('transaction.index');
+        Route::get('/dashboard/transaction-filter', 'transactionFilter')->name('transaction.filter');
     //  Route::post('/dashboard/product_feature/store', 'store')->name('product_feature.store');
     //  Route::get('/dashboard/product_feature/edit', 'edit')->name('product_feature.edit');
     //  Route::post('/dashboard/product_feature/update', 'update')->name('product_feature.update');
