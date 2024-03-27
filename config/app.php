@@ -160,7 +160,7 @@ return [
          * Package Service Providers...
          */
         // Intervention\Image\ImageServiceProvider::class,
-        // niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
+     
         /*
          * Application Service Providers...
          */
@@ -172,7 +172,7 @@ return [
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
         misterspelik\LaravelPdf\PdfServiceProvider::class,
         Igoshev\Captcha\Providers\CaptchaServiceProvider::class,
-
+        Spatie\Permission\PermissionServiceProvider::class,
 
     ])->toArray(),
 
@@ -195,7 +195,7 @@ return [
         'PDF' => misterspelik\LaravelPdf\Facades\Pdf::class,
         // 'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
         Spatie\Permission\PermissionServiceProvider::class,
+         'Captcha' => Igoshev\Captcha\Facades\Captcha::class,
     ])->toArray(),
 
 ];
-

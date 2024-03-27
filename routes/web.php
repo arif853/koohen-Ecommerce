@@ -375,10 +375,7 @@ Route::middleware(['auth','role:Super Admin|Admin|Manager|User'])->group(functio
         Route::get('/dashboard/transaction/payment-info', 'paymentInfo')->name('payment.info');
         Route::post('/dashboard/transaction/payment-update', 'paymentUpdate')->name('payment.update');
 
-    //  Route::get('/dashboard/product_feature/edit', 'edit')->name('product_feature.edit');
-    //  Route::post('/dashboard/product_feature/update', 'update')->name('product_feature.update');
-    //  // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
-    //  Route::delete('/dashboard/product_feature/destroy', 'destroy')->name('product_feature.destroy');
+        Route::get('/dashboard/transaction-filter', 'transactionFilter')->name('transaction.filter');
 
     });
 
@@ -463,7 +460,8 @@ Route::middleware(['auth','role:Super Admin|Admin|Manager|User'])->group(functio
     Route::resource('/dashboard/roles', RoleController::class);
     Route::post('/dashboard/roles/{role}', [RoleController::class, 'update']);
     Route::delete('/dashboard/roles/{userId}/delete', [RoleController::class, 'destroy']);
-
+   // Route::get('/dashboard/roles/{roleId}/give-permissions', [RoleController::class, 'addPermissionToRole']);
+   // Route::put('/dashboard/roles/{roleId}/give-permissions', [RoleController::class, 'givePermissionToRole']);
 });
 
 // <========================= Backend Route End ========================>

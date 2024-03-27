@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','Prodcuts')
+@section('title', 'Prodcuts')
 @section('content')
 
     <div class="content-header">
@@ -7,8 +7,8 @@
             <h2 class="content-title card-title">Products List</h2>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{'/dashborad'}}">Dashborad</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Product</li>
+                    <li class="breadcrumb-item"><a href="{{ '/dashborad' }}">Dashborad</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Product</li>
                 </ol>
             </nav>
         </div>
@@ -132,19 +132,18 @@
 @endsection
 
 @push('products_search')
-
     <script type="text/javascript">
         $(document).ready(function() {
             $('#productSearchForm').on('submit', function(event) {
                 event.preventDefault();
 
-             var formData = $(this).serialize();
-           console.log(formData);
+                var formData = $(this).serialize();
+                console.log(formData);
                 $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                 $.ajax({
                     url: "{{ route('products.filter') }}",
                     type: 'POST',
@@ -209,13 +208,14 @@
                             var editLink = $('<a>').attr('href', 'products/' + 'edit/' +
                                     product.id)
                                 .addClass('dropdown-item').text('Edit info');
-                            var deleteLink = $('<a>').attr('href', 'products/' + 'destroy/' +
+                            var deleteLink = $('<a>').attr('href', 'products/' +
+                                    'destroy/' +
                                     product.id)
                                 .addClass('dropdown-item text-danger').text('Delete')
                                 .on('click', function(event) {
                                     if (!confirmDelete(event)) {
                                         event
-                                    .preventDefault(); // Prevent navigation if delete is cancelled
+                                            .preventDefault(); // Prevent navigation if delete is cancelled
                                     }
                                 });
                             dropdownMenu.append(editLink, deleteLink);
