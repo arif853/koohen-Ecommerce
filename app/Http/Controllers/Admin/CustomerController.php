@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\District;
 use App\Models\Division;
 use App\Models\Postcode;
 use App\Models\shipping;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class CustomerController extends Controller
 {
@@ -91,58 +92,78 @@ class CustomerController extends Controller
         $customerName = $request->customerName;
         $customerPhone = $request->customerPhone;
         $customerEmail = $request->customerEmail;
-    
+
         // Debugging output to see the received parameters
       //  dd($customerName, $customerPhone, $customerEmail);
-      
+
         $query = Customer::query();
-    
+
         if ($customerName) {
             $query->where(function ($q) use ($customerName) {
                 $q->where('firstName', 'like', "%$customerName%")
                   ->orWhere('lastName', 'like', "%$customerName%");
             });
         }
-      
+
         if ($customerPhone) {
             $query->where('phone', 'like', "%$customerPhone%");
         }
-    
+
         if ($customerEmail) {
             $query->where('email', 'like', "%$customerEmail%");
         }
-        
+
         // Debugging output to see the generated query
       //  dd($query->toSql(), $query->getBindings());
-    
+
         $customerFilters = $query->get();
        // dd(json_encode($customrFilters));
         return response()->json($customerFilters);
     }
-    
-    
+
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
-        //
+        $customer = Customer::findOrFail($request->id);
+        return response()->json($customer);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $customer = Customer::find($request->customer_id);
+
+            $customer->update([
+                'firstName' => $request->firstName,
+                'lastName' => $request->lastName,
+                'billing_address' => $request->customerAddress,
+                'phone' => $request->customerPhone,
+                'email' => $request->customerEmail
+            ]);
+
+        Session::flash('success', 'Customer data has beed Updated.');
+        return response()->json(['status'=> 200]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        try{
+            $supplier = Customer::find($request->id);
+            $supplier->delete();
+            // Session::flash('success', 'Customer data has beed Deleted.');
+            return redirect()->back()->with('success', 'Customer deleted successfully.');
+        } catch (\Exception $e) {
+            // Log the exception or handle it in a way that makes sense for your application
+            return redirect()->back()->with('danger', 'This Customer can not be deleted .');
+        }
     }
 }

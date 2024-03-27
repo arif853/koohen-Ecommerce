@@ -215,10 +215,12 @@ class POSController extends Controller
         $order->delivery_charge = $request->input('delivery_charge');
         $order->discount = $request->input('discount');
         $order->total = $request->input('total');
+        $order->total_paid = $request->input('totalPaid') ;
+        $order->total_due = $request->input('totalDue');
         $order->is_shipping_different =  0;
         $order->order_from  = $request->input('orderFrom');
         $order->comment = "Pos order";
-        $order->is_post = 1;
+        $order->is_pos = 1;
         $order->status = 'completed';
         $order->save();
 
@@ -248,12 +250,24 @@ class POSController extends Controller
             );
         }
 
-        transactions::create([
+        $transaction_data = [
             'customer_id' => $customer_id,
             'order_id' => $order->id,
             'mode' => 'cash',
-            'status' => 'paid'
-        ]);
+        ];
+
+        if($order->total_due == 0){
+            $transaction_data += [
+                'status' => 'paid'
+            ];
+
+        }else{
+            $transaction_data += [
+                'status' => 'unpaid'
+            ];
+        }
+
+        transactions::create($transaction_data);
 
         Cart::instance('pos_cart')->destroy();
         Session::flash('success','Order has been created.');
@@ -262,7 +276,24 @@ class POSController extends Controller
         // $invoice = $this->Invoice($order->id)->stream();
 
         // dd($order);
-        return response()->json(route('order.invoice', ['id' => $order->id]));
+        return response()->json(route('pos.invoice', ['id' => $order->id]));
+    }
+
+    public function orderInvoice($id)
+    {
+
+       // ini_set('max_execution_time',3600);
+        $order = Order::where('id', $id)->first();
+        if (!$order) {
+            return 'Order not found';
+        }
+        else{
+            $pdf= PDF::loadView('admin.pos.invoice',['order'=>$order]);
+            // $pdf->SetWatermarkText('DRAFT');
+            // $pdf->showWatermarkText = true;
+            return $pdf->stream('Koohen Invoice-'.$order->id.'.pdf');
+        }
+
     }
 
 }

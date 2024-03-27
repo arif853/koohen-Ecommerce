@@ -96,7 +96,7 @@
                                         <div class="info pl-3">
                                             <h6 class="mb-0 title">{{$order->customer->firstName}} {{$order->customer->lastName}}</h6>
                                             <small class="text-muted">Order ID: #{{$order->id}}</small>
-                                            <small class="text-muted">Track ID: #{{$order->order_track_id}}</small>
+                                            {{-- <small class="text-muted">Track ID: #{{$order->order_track_id}}</small> --}}
                                         </div>
                                         </a>
                                     </td>
@@ -137,7 +137,12 @@
                                         @if($order->is_pos == 0 )
                                         <a class="btn btn-md rounded font-sm" href="{{route('order.track', ['id' => $order->id])}}">Track me</a>
                                         @endif
+
+                                        @if($order->is_pos == 1 )
+                                        <a href="{{ url('/dashboard/pos/invoice/'.$order->id) }}" target="__blank" class="btn btn-facebook rounded font-sm">Invoice</a>
+                                        @else
                                         <a href="{{ url('/orders/invoice/'.$order->id) }}" target="__blank" class="btn btn-facebook rounded font-sm">Invoice</a>
+                                        @endif
                                         {{-- <div class="dropdown">
                                             <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
                                             <div class="dropdown-menu">

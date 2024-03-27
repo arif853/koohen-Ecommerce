@@ -280,6 +280,10 @@ Route::middleware(['auth','role:Super Admin|Admin|Manager|User'])->group(functio
         Route::get('/dashboard/customers/Customer_profile', 'customer_details')->name('customer.profile');
         // Route::get('/dashboard/category/create', 'create')->name('category.create');
         Route::get('/dashboard/customers/customer_filter', 'CustomerFilter')->name('customer.filter');
+
+        Route::get('/dashboard/customer/edit','edit')->name('customer.edit');
+        Route::post('/dashboard/customer/update','update')->name('customer.update');
+        Route::delete('/dashboard/customer/destroy', 'destroy')->name('customer.destroy');
     });
 
     //offers
@@ -368,11 +372,14 @@ Route::middleware(['auth','role:Super Admin|Admin|Manager|User'])->group(functio
     // transaction controller
     Route::controller(TransactionController::class)->group(function () {
         Route::get('/dashboard/transaction', 'index')->name('transaction.index');
-    //  Route::post('/dashboard/product_feature/store', 'store')->name('product_feature.store');
+        Route::get('/dashboard/transaction/payment-info', 'paymentInfo')->name('payment.info');
+        Route::post('/dashboard/transaction/payment-update', 'paymentUpdate')->name('payment.update');
+
     //  Route::get('/dashboard/product_feature/edit', 'edit')->name('product_feature.edit');
     //  Route::post('/dashboard/product_feature/update', 'update')->name('product_feature.update');
     //  // Route::match(['get', 'post'], '/dashboard/zone/status_update/{id}', 'status_update')->name('zonestatus.update');
     //  Route::delete('/dashboard/product_feature/destroy', 'destroy')->name('product_feature.destroy');
+
     });
 
     //Slider
@@ -433,6 +440,8 @@ Route::middleware(['auth','role:Super Admin|Admin|Manager|User'])->group(functio
 
         Route::get('/dashboard/pos_cart/add/{rowId}','increaseQuantity');
         Route::get('/dashboard/pos_cart/remove/{rowId}','decreaseQuantity');
+
+        Route::get('/dashboard/pos/invoice/{id}', 'orderInvoice')->name('pos.invoice');
     });
 
     //reports

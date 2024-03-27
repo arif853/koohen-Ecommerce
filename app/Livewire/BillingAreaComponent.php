@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\District;
 use App\Models\Division;
 use App\Models\Postcode;
+use Illuminate\Support\Facades\Session;
 
 class BillingAreaComponent extends Component
 {
@@ -45,7 +46,8 @@ class BillingAreaComponent extends Component
     }
     public function updateDeliveryCharge()
     {
-        $this->dispatch('postOfficeChanged', $this->selectedPostOffices);
+        // Session::flash('warning','checked');
+        $this->dispatch('postOfficeChanged', $this->selectedPostOffices)->to('checkout-component');
     }
 
 }

@@ -169,6 +169,9 @@ class CheckoutController extends Controller
                 'phone.required' => 'Please fill up phone field .',
                 'email.required' => 'Please fill up email field.',
                 'billing_address.required' => 'Please fill up billing address field.',
+                // 'division.required' => 'Please fill up division field.',
+                // 'district.required' => 'Please fill up district field.',
+                // 'area.required' => 'Please fill up area field.',
             ];
 
             $validator = Validator::make($request->all(), $rules, $customMessages);

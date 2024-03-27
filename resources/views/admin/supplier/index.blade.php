@@ -99,7 +99,7 @@
 
 @push('subcategory')
     <script>
-        // Edit Brand
+        // Edit Supplier
         $(document).on('click', '.edit-supplier', function(e) {
             e.preventDefault();
             var supplierId = $(this).data('supplier-id');
@@ -111,7 +111,7 @@
                 }
             });
             $.ajax({
-                url: '/dashboard/supplier/edit',
+                url: '{{url('/dashboard/supplier/edit')}}',
                 method: 'GET',
                 data: {
                     id: supplierId,
@@ -127,12 +127,12 @@
             });
         });
 
-        //Update Brand
+        //Update Supplier
         $("#updateSupplier").submit(function(e) {
             e.preventDefault();
             const data = new FormData(this);
             $.ajax({
-                url: '/dashboard/supplier/update',
+                url: '{{url('/dashboard/supplier/update')}}',
                 method: 'post',
                 data: data,
                 cache: false,
@@ -191,7 +191,7 @@
                                 '<span class="badge rounded-pill alert-danger">' +
                                 supplier.status + '</span>';
                             row.append($('<td>').html(statusBadge));
-                            // some correction this line class delete_supplier not working  
+                            // some correction this line class delete_supplier not working
                             row.append($('<td>').html(
                                 '<form class="deleteForm mr-2" action="{{ route('supplier.destroy', ['id' => $supplier->id]) }}" method="post">@csrf @method('DELETE')<a href="#" data-bs-toggle="modal" data-bs-target="#supplierModalEdit" data-supplier-id="' +
                                 supplier.id +

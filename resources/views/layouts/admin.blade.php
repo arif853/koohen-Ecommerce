@@ -132,6 +132,7 @@
     @stack('customer_filter')
     @stack('product_features')
     @stack('offers')
+    @stack('transaction')
 
     <script>
          $(document).ready(function() {
